@@ -1,0 +1,94 @@
+{
+    "dataTypes" : [
+        {
+            "name": "",
+            "alias": "",
+            "description": "",
+            "members": [
+                {
+                    "name": "",
+                    "description": "",
+                    "required": true,
+                    "defaultValue": "",
+                    "dataType": "",
+                    "collection": false,
+                    "options": [
+                        {
+                            "name": "",
+                            "value": "", 
+                            "description": ""
+                        }                          
+                    ]
+                }
+            ]
+        }
+    ],
+    "modules": [
+        { 
+            "name": "", 
+            "description": ""
+            "resources": [
+                {
+                    "name": "",
+                    "description": ""
+                    "endpoints": [
+                        {
+                            "url": "",
+                            "method": "",
+                            "description": "",
+                            "urlParameters": [
+                                { 
+                                    "name": "",
+                                    "description": "",
+                                    "dataType": "",
+                                    "options": [
+                                        {
+                                            "name": "",
+                                            "value": "", 
+                                            "description": ""
+                                        }                          
+                                    ]
+                                }
+                            ],
+                            "querystringParameters": [
+                                { 
+                                    "name": "",
+                                    "description": "",
+                                    "defaultValue": "",
+                                    "multipleAllowed": false,
+                                    "required": true,
+                                    "dataType": "",
+                                    "options": [
+                                        {
+                                            "name": "",
+                                            "value": "", 
+                                            "description": ""
+                                        }                           
+                                    ]
+                                }
+                            ],
+                            "errors": [
+                                {
+                                    "status": 0,
+                                    "description": ""
+                                }
+                            ],
+                            "request": {
+                                "name": "",
+                                "description": "",
+                                "dataType": "",
+                                "collection": false
+                            },
+                            "response": {
+                                "name": "",
+                                "description": "",
+                                "dataType": "",
+                                "collection": false
+                            }
+                        }
+                    ]
+                }
+            ]
+        } 
+    ]
+}
