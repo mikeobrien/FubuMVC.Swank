@@ -19,10 +19,10 @@ namespace Swank
             graph.AddActionFor(_configuration.SpecificationUrl, typeof(SpecificationHandler)).MakeAsymmetricJson();
         }
 
-        public static SwankConvention Create(Action<Configuration> configure)
+        public static SwankConvention Create(Action<ConfigurationDsl> configure)
         {
             var configuration = new Configuration();
-            configure(configuration);
+            configure(new ConfigurationDsl(configuration));
             return new SwankConvention(configuration);
         }
     }

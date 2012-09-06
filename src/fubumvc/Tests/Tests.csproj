@@ -72,9 +72,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BehaviorGraphDsl.cs" />
+    <Compile Include="ResourceSourceTests.cs" />
+    <Compile Include="ModuleSourceTests.cs" />
+    <Compile Include="SpecificationBuilderResourceTests.cs" />
     <Compile Include="ExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecificationBuilderTests.cs" />
+    <Compile Include="SpecificationBuilderModuleTests.cs" />
     <Compile Include="TestBehaviorGraph.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +89,10 @@
       <Project>{2142599a-9c6d-4e23-a09f-d3f7348b279d}</Project>
       <Name>Swank</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Batches\BatchesModule.html" />
+    <EmbeddedResource Include="Batches\Schedules\SchedulesModule.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

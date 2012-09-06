@@ -33,6 +33,7 @@
                     "description": ""
                     "endpoints": [
                         {
+                            "name": "",
                             "url": "",
                             "method": "",
                             "description": "",
