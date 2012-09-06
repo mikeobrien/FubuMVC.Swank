@@ -14,8 +14,11 @@ namespace Swank
             Url = "docs";
             AppliesToAssemblies = new List<Assembly>();
             Filter = x => true;
-            Modules = new ModuleSource();
-            DefaultModule = new ModuleDescription();
+            ModuleSource = new Service<IModuleSource> 
+                { Type = typeof(ModuleSource) };
+            ResourceSource = new Service<IResourceSource> 
+                { Type = typeof(ResourceSource), Config = new ResourceSourceConfig() };
+            DefaultModule = new Module();
             OrphanedActions = OrphanedActionsBehavior.AddToDefaultModule;
         }
 
@@ -23,8 +26,9 @@ namespace Swank
         public string SpecificationUrl { get; set; }
         public List<Assembly> AppliesToAssemblies { get; set; }
         public Func<ActionCall, bool> Filter { get; set; }
-        public IModuleSource Modules { get; set; }
-        public ModuleDescription DefaultModule { get; set; }
+        public Service<IModuleSource> ModuleSource { get; set; }
+        public Service<IResourceSource> ResourceSource { get; set; }
+        public Module DefaultModule { get; set; }
         public OrphanedActionsBehavior OrphanedActions { get; set; }
     }
 }

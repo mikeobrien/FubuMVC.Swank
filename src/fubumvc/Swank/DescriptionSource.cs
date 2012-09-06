@@ -2,50 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FubuMVC.Core.Registration.Nodes;
 using MarkdownSharp;
 
 namespace Swank
 {
     public class DescriptionSource<T> where T : Description
     {
-        private readonly static Func<Assembly, IList<Description>> GetDescriptions =
-            Func.Memoize<Assembly, IList<Description>>(a =>
-                a.GetTypes().Where(x => typeof(T).IsAssignableFrom(x) && x != typeof(T)).Select(CreateDescription).ToList());
+        private readonly static Func<Assembly, IList<T>> GetCachedDescriptions =
+            Func.Memoize<Assembly, IList<T>>(a =>
+                a.GetTypes().Where(x => typeof(T).IsAssignableFrom(x) && x != typeof(T)).Select(CreateDescription)
+                    .OrderByDescending(x => x.GetType().Namespace).ThenBy(x => x.Name).Cast<T>().ToList());
 
-        private readonly static Func<Assembly, string[]> GetResources =
+        private readonly static Func<Assembly, string[]> GetEmbeddedResources =
             Func.Memoize<Assembly, string[]>(a => a.GetManifestResourceNames());
 
-        public bool HasDescription(ActionCall action)
+        public IList<T> GetDescriptions(Assembly assembly)
         {
-            return GetDescription(action) != null;
-        }
-
-        public Description GetDescription(ActionCall action)
-        {
-            return GetDescriptions(action.HandlerType.Assembly)
-                .OrderByDescending(x => x.GetType().Namespace)
-                .FirstOrDefault(x => action.HandlerType.Namespace.StartsWith(x.GetType().Namespace));
-            // Need to add logic in here to match on route instead of namespace if a generic parameter for the handler is specified.
+            return GetCachedDescriptions(assembly);
         }
 
         private static Description CreateDescription(Type type)
         {
-            var module = (Description) Activator.CreateInstance(type);
-            if (string.IsNullOrEmpty(module.Comments))
+            var description = (Description) Activator.CreateInstance(type);
+            description.Namespace = type.Namespace;
+            description.AppliesTo = type.BaseType.GetGenericArguments().FirstOrDefault();
+            if (string.IsNullOrEmpty(description.Comments))
             {
-                var descriptionResourceName = GetResources(type.Assembly).FirstOrDefault(
+                var resourceName = GetEmbeddedResources(type.Assembly).FirstOrDefault(
                     x => new[] {".txt", ".html", ".md"}.Any(y => type.FullName + y == x));
-                if (descriptionResourceName != null)
+                if (resourceName != null)
                 {
-                    var description = type.Assembly.GetManifestResourceStream(descriptionResourceName).ReadToEnd();
-                    if (descriptionResourceName.EndsWith(".txt") || descriptionResourceName.EndsWith(".html"))
-                        module.Comments = description;
-                    else if (descriptionResourceName.EndsWith(".md"))
-                        module.Comments = new Markdown().Transform(description).Trim();
+                    var comments = type.Assembly.GetManifestResourceStream(resourceName).ReadToEnd();
+                    if (resourceName.EndsWith(".txt") || resourceName.EndsWith(".html"))
+                        description.Comments = comments;
+                    else if (resourceName.EndsWith(".md"))
+                        description.Comments = new Markdown().Transform(comments).Trim();
                 } 
             }
-            return module;
+            return description;
         }
     }
 }

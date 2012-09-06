@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using FubuMVC.Core.Registration;
+using FubuMVC.Core.Registration.Nodes;
 using Swank;
 using Tests.Administration.Users;
 using Tests.Batches.Cells;
@@ -8,6 +10,27 @@ using Tests.Templates;
 
 namespace Tests
 {
+    public enum HttpVerbs
+    {
+        Head, Get, Post, Put, Delete, Options, Trace, Connect, Patch
+    }
+
+    public static class Behaviors
+    {
+
+        public static BehaviorGraph BuildGraph()
+        {
+            return new BehaviorGraph();
+        }
+
+        public static BehaviorGraph AddAction<T>(this BehaviorGraph graph, string route, HttpVerbs verb)
+        {
+            var chain = graph.AddActionFor(route, typeof(T));
+            chain.Route.AddHttpMethodConstraint("POST");
+            return graph;
+        }
+    }
+
     public static class TestBehaviorGraph
     {
         public static BehaviorGraph Build()
@@ -18,6 +41,11 @@ namespace Tests
                 .AddAction<TemplateGetHandler>("/templates/{Id}", HttpVerbs.Get)
                 .AddAction<TemplatePutHandler>("/templates/{Id}", HttpVerbs.Put)
                 .AddAction<TemplateDeleteHandler>("/templates/{Id}", HttpVerbs.Delete)
+                .AddAction<AdminAccountGetAllHandler>("/admin", HttpVerbs.Get)
+                .AddAction<AdminAccountPostHandler>("/admin", HttpVerbs.Post)
+                .AddAction<AdminAccountGetHandler>("/admin/{Id}", HttpVerbs.Get)
+                .AddAction<AdminAccountPutHandler>("/admin/{Id}", HttpVerbs.Put)
+                .AddAction<AdminAccountDeleteHandler>("/admin/{Id}", HttpVerbs.Delete)
                 .AddAction<AdminUserGetAllHandler>("/admin/users", HttpVerbs.Get)
                 .AddAction<AdminUserPostHandler>("/admin/users", HttpVerbs.Post)
                 .AddAction<AdminUserGetHandler>("/admin/users/{Id}", HttpVerbs.Get)
@@ -39,6 +67,11 @@ namespace Tests
                 .AddAction<BatchSchedulePutHandler>("/batches/schedules/{Id}", HttpVerbs.Put)
                 .AddAction<BatchScheduleDeleteHandler>("/batches/schedules/{Id}", HttpVerbs.Delete);
         }
+
+        public static ActionCall CreateAction<T>()
+        {
+            return Build().Actions().First(x => x.HandlerType == typeof(T));
+        }
     }
 
     namespace Templates
@@ -52,68 +85,46 @@ namespace Tests
         public class TemplateDeleteHandler { public TemplateResponse Execute_Id(TemplateRequest request) { return null; } }
     }
 
-    namespace Administration
-    {
-        public class AdministrationModule : ModuleDescription
-        {
-            public AdministrationModule() : base("Administration", "This is admin yo!") { }
-        }
-
-        namespace Users
-        {
-            public class AdminAccountResource : ResourceDescription<AdminAccountGetAllHandler>
-            {
-                public AdminAccountResource() : base("Accounts", "These are accounts yo!") { }
-            }
-
-            public class AdminAccountRequest { public Guid Id { get; set; } public Guid UserId { get; set; } }
-            public class AdminAccountResponse { }
-            public class AdminAccountGetAllHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
-            public class AdminAccountPostHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
-            public class AdminAccountGetHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
-            public class AdminAccountPutHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
-            public class AdminAccountDeleteHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
-
-            public class AdminAddressResource : ResourceDescription<AdminAddressGetAllHandler>
-            {
-                public AdminAddressResource() : base("User addresses", "These are user addresses yo!") { }
-            }
-
-            public class AdminAddressRequest { public Guid Id { get; set; } public Guid UserId { get; set; } }
-            public class AdminAddressResponse { }
-            public class AdminAddressGetAllHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
-            public class AdminAddressPostHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
-            public class AdminAddressGetHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
-            public class AdminAddressPutHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
-            public class AdminAddressDeleteHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
-
-            public class AdminUserResource : ResourceDescription
-            {
-                public AdminUserResource() : base("Users", "These are users yo!") { }
-            }
-
-            public class AdminUserRequest { public Guid Id { get; set; } }
-            public class AdminUserResponse { }
-            public class AdminUserGetAllHandler { public AdminUserResponse Execute(AdminUserRequest request) { return null; } }
-            public class AdminUserPostHandler { public AdminUserResponse Execute(AdminUserRequest request) { return null; } }
-            public class AdminUserGetHandler { public AdminUserResponse Execute_Id(AdminUserRequest request) { return null; } }
-            public class AdminUserPutHandler { public AdminUserResponse Execute_Id(AdminUserRequest request) { return null; } }
-            public class AdminUserDeleteHandler { public AdminUserResponse Execute_Id(AdminUserRequest request) { return null; } }
-        }
-    }
-
     namespace Batches
     {
-        public class BatchesModule : ModuleDescription
+        public class BatchesModule : Module
         {
-            public BatchesModule() : base("Batches") { }
+            public const string ExpectedComments = "<b>These are batches yo!</b>";
+            public BatchesModule()
+            {
+                Name = "Batches";
+            }
+        }
+
+        namespace Schedules
+        {
+            public class SchedulesModule : Module
+            {
+                public const string ExpectedComments = "<p><strong>These are schedules yo!</strong></p>";
+                public SchedulesModule()
+                {
+                   Name = "Schedules";
+                }
+            }
+
+            public class BatchScheduleRequest { public Guid Id { get; set; } }
+            public class BatchScheduleResponse { }
+            public class BatchScheduleGetAllHandler { public BatchScheduleResponse Execute(BatchScheduleRequest request) { return null; } }
+            public class BatchSchedulePostHandler { public BatchScheduleResponse Execute(BatchScheduleRequest request) { return null; } }
+            public class BatchScheduleGetHandler { public BatchScheduleResponse Execute_Id(BatchScheduleRequest request) { return null; } }
+            public class BatchSchedulePutHandler { public BatchScheduleResponse Execute_Id(BatchScheduleRequest request) { return null; } }
+            public class BatchScheduleDeleteHandler { public BatchScheduleResponse Execute_Id(BatchScheduleRequest request) { return null; } }
         }
 
         namespace Cells
         {
-            public class BatchCellResource : ResourceDescription
+            public class BatchCellResource : Resource
             {
-                public BatchCellResource() : base("Batch cells", "These are batch cells yo!") { }
+                public BatchCellResource()
+                {
+                    Name = "Batch cells";
+                    Comments = "These are batch cells yo!";
+                }
             }
 
             public class BatchCellRequest { public Guid Id { get; set; } }
@@ -124,21 +135,74 @@ namespace Tests
             public class BatchCellPutHandler { public BatchCellResponse Execute_Id(BatchCellRequest request) { return null; } }
             public class BatchCellDeleteHandler { public BatchCellResponse Execute_Id(BatchCellRequest request) { return null; } }
         }
+    }
 
-        namespace Schedules
+    namespace Administration
+    {
+        public class AdministrationModule : Module
         {
-            public class SchedulesModule : ModuleDescription
+            public AdministrationModule()
             {
-                public SchedulesModule() : base("Schedules") { }
+                Name = "Administration";
+                Comments = "This is admin yo!";
+            }
+        }
+
+        namespace Users
+        {
+            // The following resource markers are named so that they are alpha ordered in
+            // a particular way. This is important to a couple of tests so don't change that.
+
+            public class AdminAccountResource : Resource<AdminAccountGetAllHandler>
+            {
+                public AdminAccountResource()
+                {
+                    Name = "Accounts";
+                    Comments = "These are accounts yo!";
+                }
             }
 
-            public class BatchScheduleRequest { public Guid Id { get; set; } }
-            public class BatchScheduleResponse { }
-            public class BatchScheduleGetAllHandler { public BatchScheduleResponse Execute(BatchScheduleRequest request) { return null; } }
-            public class BatchSchedulePostHandler { public BatchScheduleResponse Execute(BatchScheduleRequest request) { return null; } }
-            public class BatchScheduleGetHandler { public BatchScheduleResponse Execute_Id(BatchScheduleRequest request) { return null; } }
-            public class BatchSchedulePutHandler { public BatchScheduleResponse Execute_Id(BatchScheduleRequest request) { return null; } }
-            public class BatchScheduleDeleteHandler { public BatchScheduleResponse Execute_Id(BatchScheduleRequest request) { return null; } }
+            public class AdminAccountRequest { public Guid Id { get; set; } public Guid UserId { get; set; } }
+            public class AdminAccountResponse { }
+            public class AdminAccountGetAllHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
+            public class AdminAccountPostHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
+            public class AdminAccountGetHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
+            public class AdminAccountPutHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
+            public class AdminAccountDeleteHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
+
+            public class AdminAddressResource : Resource
+            {
+                public AdminAddressResource()
+                {
+                    Name = "User addresses";
+                    Comments = "These are user addresses yo!";
+                }
+            }
+
+            public class AdminAddressRequest { public Guid Id { get; set; } public Guid UserId { get; set; } }
+            public class AdminAddressResponse { }
+            public class AdminAddressGetAllHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
+            public class AdminAddressPostHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
+            public class AdminAddressGetHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
+            public class AdminAddressPutHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
+            public class AdminAddressDeleteHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
+
+            public class AdminUserResource : Resource<AdminUserGetAllHandler>
+            {
+                public AdminUserResource()
+                {
+                    Name = "Users";
+                    Comments = "These are users yo!";
+                }
+            }
+
+            public class AdminUserRequest { public Guid Id { get; set; } }
+            public class AdminUserResponse { }
+            public class AdminUserGetAllHandler { public AdminUserResponse Execute(AdminUserRequest request) { return null; } }
+            public class AdminUserPostHandler { public AdminUserResponse Execute(AdminUserRequest request) { return null; } }
+            public class AdminUserGetHandler { public AdminUserResponse Execute_Id(AdminUserRequest request) { return null; } }
+            public class AdminUserPutHandler { public AdminUserResponse Execute_Id(AdminUserRequest request) { return null; } }
+            public class AdminUserDeleteHandler { public AdminUserResponse Execute_Id(AdminUserRequest request) { return null; } }
         }
     }
 }

@@ -1,29 +1,37 @@
-﻿using FubuMVC.Core.Registration.Nodes;
+﻿using System.Linq;
+using FubuMVC.Core.Registration.Nodes;
 
 namespace Swank
 {
-    public class ResourceDescription<THandler> : ResourceDescription
+    public class ResourceSource : IResourceSource
     {
-        public ResourceDescription() { }
-        public ResourceDescription(string name, string description) : base(name, description) { }
-    }
+        private readonly DescriptionSource<Resource> _descriptions;
+        private readonly ActionSource _actions;
+        private readonly ResourceSourceConfig _config;
 
-    public class ResourceDescription : Description
-    {
-        public ResourceDescription() { }
-
-        public ResourceDescription(string name, string description)
+        public ResourceSource(DescriptionSource<Resource> descriptions, ActionSource actions, ResourceSourceConfig config)
         {
-            Name = name;
-            Comments = description;
+            _descriptions = descriptions;
+            _actions = actions;
+            _config = config;
+        }
+
+        public bool HasResource(ActionCall action)
+        {
+            return GetResource(action) != null;
+        }
+
+        public Resource GetResource(ActionCall action)
+        {
+            return _descriptions.GetDescriptions(action.HandlerType.Assembly)
+                .GroupJoin(_actions.GetActions(), x => x.AppliesTo, x => x.HandlerType,
+                           (r, a) => new { Resource = r, Group = a.Any() ? _config.Grouping(a.First()) : null })
+                .OrderByDescending(x => x.Group)
+                .ThenByDescending(x => x.Resource.Namespace)
+                .Where(x => (x.Resource.AppliesTo != null && _config.Grouping(action).Equals(x.Group)) ||
+                            (x.Resource.AppliesTo == null && action.HandlerType.Namespace.StartsWith(x.Resource.Namespace)))
+                .Select(x => x.Resource)
+                .FirstOrDefault();
         }
     }
-
-    public interface IResourceSource
-    {
-        bool HasDescription(ActionCall action);
-        Description GetDescription(ActionCall action);
-    }
-
-    public class ResourceSource : DescriptionSource<ResourceDescription>, IResourceSource { }
 }

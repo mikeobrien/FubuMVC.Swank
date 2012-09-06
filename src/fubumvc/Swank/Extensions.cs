@@ -2,6 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using FubuMVC.Core.Registration;
+using FubuMVC.Core.Registration.ObjectGraph;
 using FubuMVC.Core.Registration.Routes;
 
 namespace Swank
@@ -25,6 +27,13 @@ namespace Swank
             {
                 return reader.ReadToEnd();
             }
+        }
+
+        public static void AddService<T>(this ServiceGraph services, Type concreteType, params object[] dependencies)
+        {
+            var objectDef = new ObjectDef(concreteType);
+            dependencies.Where(x => x != null).ToList().ForEach(objectDef.DependencyByValue);
+            services.AddService(typeof(T), objectDef);
         }
     }
 }

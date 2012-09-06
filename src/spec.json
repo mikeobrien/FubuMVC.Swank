@@ -3,11 +3,11 @@
         {
             "name": "",
             "alias": "",
-            "description": "",
+            "comments": "",
             "members": [
                 {
                     "name": "",
-                    "description": "",
+                    "comments": "",
                     "required": true,
                     "defaultValue": "",
                     "dataType": "",
@@ -16,7 +16,7 @@
                         {
                             "name": "",
                             "value": "", 
-                            "description": ""
+                            "comments": ""
                         }                          
                     ]
                 }
@@ -26,27 +26,27 @@
     "modules": [
         { 
             "name": "", 
-            "description": ""
+            "comments": ""
             "resources": [
                 {
                     "name": "",
-                    "description": ""
+                    "comments": ""
                     "endpoints": [
                         {
                             "name": "",
                             "url": "",
                             "method": "",
-                            "description": "",
+                            "comments": "",
                             "urlParameters": [
                                 { 
                                     "name": "",
-                                    "description": "",
+                                    "comments": "",
                                     "dataType": "",
                                     "options": [
                                         {
                                             "name": "",
                                             "value": "", 
-                                            "description": ""
+                                            "comments": ""
                                         }                          
                                     ]
                                 }
@@ -54,7 +54,7 @@
                             "querystringParameters": [
                                 { 
                                     "name": "",
-                                    "description": "",
+                                    "comments": "",
                                     "defaultValue": "",
                                     "multipleAllowed": false,
                                     "required": true,
@@ -63,7 +63,7 @@
                                         {
                                             "name": "",
                                             "value": "", 
-                                            "description": ""
+                                            "comments": ""
                                         }                           
                                     ]
                                 }
@@ -71,18 +71,18 @@
                             "errors": [
                                 {
                                     "status": 0,
-                                    "description": ""
+                                    "comments": ""
                                 }
                             ],
                             "request": {
                                 "name": "",
-                                "description": "",
+                                "comments": "",
                                 "dataType": "",
                                 "collection": false
                             },
                             "response": {
                                 "name": "",
-                                "description": "",
+                                "comments": "",
                                 "dataType": "",
                                 "collection": false
                             }

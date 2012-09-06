@@ -1,17 +1,13 @@
-﻿namespace Swank
+﻿using System;
+
+namespace Swank
 {
     public class Description
     {
-        protected Description() { }
-
-        protected Description(string name, string description = null)
-        {
-            Name = name;
-            Comments = description;
-        }
-
         public string Name { get; set; }
         public string Comments { get; set; }
+        public string Namespace { get; set; }
+        public Type AppliesTo { get; set; }
 
         public override bool Equals(object obj)
         {

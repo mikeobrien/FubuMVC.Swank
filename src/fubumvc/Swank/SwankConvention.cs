@@ -16,14 +16,14 @@ namespace Swank
         public void Configure(BehaviorGraph graph)
         {
             graph.Services.AddService(_configuration);
+            graph.Services.AddService<IModuleSource>(_configuration.ModuleSource.Type, _configuration.ModuleSource.Config);
+            graph.Services.AddService<IResourceSource>(_configuration.ResourceSource.Type, _configuration.ResourceSource.Config);
             graph.AddActionFor(_configuration.SpecificationUrl, typeof(SpecificationHandler)).MakeAsymmetricJson();
         }
 
         public static SwankConvention Create(Action<ConfigurationDsl> configure)
         {
-            var configuration = new Configuration();
-            configure(new ConfigurationDsl(configuration));
-            return new SwankConvention(configuration);
+            return new SwankConvention(ConfigurationDsl.CreateConfig(configure));
         }
     }
 }

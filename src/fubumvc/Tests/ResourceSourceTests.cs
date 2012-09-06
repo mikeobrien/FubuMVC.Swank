@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FubuMVC.Core.Registration;
-using FubuMVC.Core.Registration.Nodes;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Should;
 using Swank;
-using Tests.Administration;
 using Tests.Administration.Users;
-using Tests.Batches.Cells;
-using Tests.Batches.Schedules;
 using Tests.Templates;
 
 namespace Tests
@@ -17,30 +9,36 @@ namespace Tests
     [TestFixture]
     public class ResourceSourceTests
     {
-        public const string BatchesModuleDescription = "<b>These are batches yo!</b>";
-        public const string SchedulesModuleDescription = "<p><strong>These are schedules yo!</strong></p>";
+        private IResourceSource _resourceSource;
+
+        [SetUp]
+        public void Setup()
+        {
+            _resourceSource = new ResourceSource(
+                new DescriptionSource<Resource>(), 
+                new ActionSource(TestBehaviorGraph.Build(), ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly())), 
+                new ResourceSourceConfig());
+        }
 
         [Test]
-        public void should_find_resource_description_when_one_is_specified_in_the_same_namespaces()
+        public void should_find_resource_description_when_an_applies_to_type_is_not_specified()
         {
-            var resourceDescription = new AdminUserResource();
-            var action = new ActionCall(typeof(AdminUserGetAllHandler), typeof(AdminUserGetAllHandler).GetMethod("Execute"));
-            var resourceSource = new ResourceSource();
-            resourceSource.HasDescription(action).ShouldBeTrue();
-            var resource = resourceSource.GetDescription(action);
+            var resourceDescription = new AdminAddressResource();
+            var action = TestBehaviorGraph.CreateAction<AdminAddressGetAllHandler>();
+            _resourceSource.HasResource(action).ShouldBeTrue();
+            var resource = _resourceSource.GetResource(action);
             resource.ShouldNotBeNull();
             resource.Name.ShouldEqual(resourceDescription.Name);
             resource.Comments.ShouldEqual(resourceDescription.Comments);
         }
 
         [Test]
-        public void should_find_resource_description_when_a_handler_type_is_specified()
+        public void should_find_resource_description_when_an_applies_to_type_is_specified()
         {
-            var resourceDescription = new AdminAddressResource();
-            var action = new ActionCall(typeof(AdminAddressGetAllHandler), typeof(AdminAddressGetAllHandler).GetMethod("Execute"));
-            var resourceSource = new ResourceSource();
-            resourceSource.HasDescription(action).ShouldBeTrue();
-            var resource = resourceSource.GetDescription(action);
+            var resourceDescription = new AdminUserResource();
+            var action = TestBehaviorGraph.CreateAction<AdminUserGetAllHandler>();
+            _resourceSource.HasResource(action).ShouldBeTrue();
+            var resource = _resourceSource.GetResource(action);
             resource.ShouldNotBeNull();
             resource.Name.ShouldEqual(resourceDescription.Name);
             resource.Comments.ShouldEqual(resourceDescription.Comments);
@@ -49,26 +47,9 @@ namespace Tests
         [Test]
         public void should_not_find_resource_description_when_none_is_specified_in_the_same_namespaces()
         {
-            var action = new ActionCall(typeof(TemplateGetAllHandler), typeof(TemplateGetAllHandler).GetMethod("Execute"));
-            var moduleSource = new ModuleSource();
-            moduleSource.HasDescription(action).ShouldBeFalse();
-            moduleSource.GetDescription(action).ShouldBeNull();
-        }
-
-        [Test]
-        public void should_pull_description_from_embedded_text_file()
-        {
-            var action = new ActionCall(typeof(BatchCellGetAllHandler), typeof(BatchCellGetAllHandler).GetMethod("Execute"));
-            var moduleSource = new ModuleSource();
-            moduleSource.GetDescription(action).Comments.ShouldEqual(BatchesModuleDescription);
-        }
-
-        [Test]
-        public void should_pull_description_from_embedded_markdown_file()
-        {
-            var action = new ActionCall(typeof(BatchScheduleGetAllHandler), typeof(BatchScheduleGetAllHandler).GetMethod("Execute"));
-            var moduleSource = new ModuleSource();
-            moduleSource.GetDescription(action).Comments.ShouldEqual(SchedulesModuleDescription);
+            var action = TestBehaviorGraph.CreateAction<TemplateGetAllHandler>();
+            _resourceSource.HasResource(action).ShouldBeFalse();
+            _resourceSource.GetResource(action).ShouldBeNull();
         }
     }
 }

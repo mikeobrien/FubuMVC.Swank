@@ -1,23 +1,26 @@
-﻿using FubuMVC.Core.Registration.Nodes;
+﻿using System.Linq;
+using FubuMVC.Core.Registration.Nodes;
 
 namespace Swank
 {
-    public class ModuleDescription : Description
+    public class ModuleSource : IModuleSource
     {
-        public ModuleDescription() { }
+        private readonly DescriptionSource<Module> _descriptions;
 
-        public ModuleDescription(string name, string description = null)
+        public ModuleSource(DescriptionSource<Module> descriptions)
         {
-            Name = name;
-            Comments = description;
+            _descriptions = descriptions;
+        }
+
+        public bool HasModule(ActionCall action)
+        {
+            return GetModule(action) != null;
+        }
+
+        public Module GetModule(ActionCall action)
+        {
+            return _descriptions.GetDescriptions(action.HandlerType.Assembly)
+                .FirstOrDefault(x => action.HandlerType.Namespace.StartsWith(x.Namespace));
         }
     }
-
-    public interface IModuleSource
-    {
-        bool HasDescription(ActionCall action);
-        Description GetDescription(ActionCall action);
-    }
-
-    public class ModuleSource : DescriptionSource<ModuleDescription>, IModuleSource { }
 }
