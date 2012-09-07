@@ -83,8 +83,7 @@ namespace Swank
                              _resources.HasResource(x)) ||
                             _configuration.OrphanedResourceActions == OrphanedActions.Default)
                 .GroupBy(x => _resources.GetResource(x) ?? _configuration.DefaultResourceFactory(x))
-                .Select(x => new Models.Resource()
-                {
+                .Select(x => new Models.Resource {
                     name = x.Key.Name,
                     comments = x.Key.Comments,
                     endpoints = GetEndpoints(x)
@@ -93,9 +92,18 @@ namespace Swank
             return resources.ToList();
         }
 
-        private List<Models.Endpoint> GetEndpoints(IEnumerable<ActionCall> actions)
+        private List<Endpoint> GetEndpoints(IEnumerable<ActionCall> actions)
         {
-            return null;
+            return actions.Select(x => new Endpoint {
+                    url = x.ParentChain().Route.Pattern,
+                    method = x.ParentChain().Route.AllowedHttpMethods.FirstOrDefault(),
+                    comments = "",
+                    urlParameters = new List<UrlParameter>(),
+                    querystringParameters = new List<QuerystringParameter>(),
+                    errors = new List<Error>(),
+                    request = new Data(),
+                    response = new Data()
+                }).ToList();
         }
     }
 }
