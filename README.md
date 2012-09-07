@@ -1,4 +1,4 @@
-swank - doecumentation for RESTful services
+swank - describing RESTful web services
 =============
 
 oh hai

@@ -5,7 +5,7 @@ using FubuMVC.Core.Registration.Nodes;
 
 namespace Swank
 {
-    public enum OrphanedActionsBehavior { Ignore, ThrowException, AddToDefaultModule }
+    public enum OrphanedActions { Exclude, Fail, Default }
 
     public class Configuration
     {
@@ -18,8 +18,10 @@ namespace Swank
                 { Type = typeof(ModuleSource) };
             ResourceSource = new Service<IResourceSource> 
                 { Type = typeof(ResourceSource), Config = new ResourceSourceConfig() };
-            DefaultModule = new Module();
-            OrphanedActions = OrphanedActionsBehavior.AddToDefaultModule;
+            DefaultModuleFactory = x => new Module();
+            OrphanedModuleActions = OrphanedActions.Default;
+            DefaultResourceFactory = x => new Resource { Name = x.ParentChain().Route.GetRouteResource() };
+            OrphanedResourceActions = OrphanedActions.Default;
         }
 
         public string Url { get; set; }
@@ -28,7 +30,9 @@ namespace Swank
         public Func<ActionCall, bool> Filter { get; set; }
         public Service<IModuleSource> ModuleSource { get; set; }
         public Service<IResourceSource> ResourceSource { get; set; }
-        public Module DefaultModule { get; set; }
-        public OrphanedActionsBehavior OrphanedActions { get; set; }
+        public Func<ActionCall, Module> DefaultModuleFactory { get; set; }
+        public OrphanedActions OrphanedModuleActions { get; set; }
+        public OrphanedActions OrphanedResourceActions { get; set; }
+        public Func<ActionCall, Resource> DefaultResourceFactory { get; set; }
     }
 }

@@ -6,10 +6,18 @@ using Swank.Models;
 
 namespace Swank
 {
-    public class OrphanedActionException : Exception {
-        public OrphanedActionException(IEnumerable<string> actions) 
-            : base(string.Format("The following actions are not associated with a module. Either assocate them with a module or turn off orphaned action exceptions. {0}", 
-                    string.Join(", ", actions))) { } }
+    public class OrphanedModuleActionException : Exception {
+        public OrphanedModuleActionException(IEnumerable<string> actions) 
+            : base(string.Format("The following actions are not associated with a module. Either assocate them with a module or turn off orphaned action exceptions. {0}",
+                    string.Join(", ", actions))) { }
+    }
+
+    public class OrphanedResourceActionException : Exception
+    {
+        public OrphanedResourceActionException(IEnumerable<string> actions)
+            : base(string.Format("The following actions are not associated with a resource. Either assocate them with a resource or turn off orphaned action exceptions. {0}",
+                    string.Join(", ", actions))) { }
+    }
 
     public class SpecificationBuilder
     {
@@ -42,27 +50,50 @@ namespace Swank
 
         private List<Models.Module> GetModules(IList<ActionCall> actions)
         {
-            if (_configuration.OrphanedActions == OrphanedActionsBehavior.ThrowException)
+            if (_configuration.OrphanedModuleActions == OrphanedActions.Fail)
             {
                 var orphanedActions = actions.Where(x => !_modules.HasModule(x)).ToList();
-                if (orphanedActions.Any()) throw new OrphanedActionException(orphanedActions.Select(x => x.HandlerType.FullName + "." + x.Method.Name));
+                if (orphanedActions.Any()) throw new OrphanedModuleActionException(orphanedActions.Select(x => x.HandlerType.FullName + "." + x.Method.Name));
             }
 
             var modules = actions
-                .Where(x => (_configuration.OrphanedActions == OrphanedActionsBehavior.Ignore && 
+                .Where(x => (_configuration.OrphanedModuleActions == OrphanedActions.Exclude && 
                              _modules.HasModule(x)) || 
-                            _configuration.OrphanedActions == OrphanedActionsBehavior.AddToDefaultModule)
-                .GroupBy(x => _modules.GetModule(x) ?? _configuration.DefaultModule)
+                            _configuration.OrphanedModuleActions == OrphanedActions.Default)
+                .GroupBy(x => _modules.GetModule(x) ?? _configuration.DefaultModuleFactory(x))
                 .Select(x => new Models.Module {
                     name = x.Key.Name,
                     comments = x.Key.Comments,
-                    resources = GetResources(x)
+                    resources = GetResources(x.ToList())
                 })
                 .OrderBy(x => x.name);
             return modules.ToList();
         }
 
-        private List<Models.Resource> GetResources(IEnumerable<ActionCall> actions)
+        private List<Models.Resource> GetResources(IList<ActionCall> actions)
+        {
+            if (_configuration.OrphanedResourceActions == OrphanedActions.Fail)
+            {
+                var orphanedActions = actions.Where(x => !_resources.HasResource(x)).ToList();
+                if (orphanedActions.Any()) throw new OrphanedResourceActionException(orphanedActions.Select(x => x.HandlerType.FullName + "." + x.Method.Name));
+            }
+
+            var resources = actions
+                .Where(x => (_configuration.OrphanedResourceActions == OrphanedActions.Exclude &&
+                             _resources.HasResource(x)) ||
+                            _configuration.OrphanedResourceActions == OrphanedActions.Default)
+                .GroupBy(x => _resources.GetResource(x) ?? _configuration.DefaultResourceFactory(x))
+                .Select(x => new Models.Resource()
+                {
+                    name = x.Key.Name,
+                    comments = x.Key.Comments,
+                    endpoints = GetEndpoints(x)
+                })
+                .OrderBy(x => x.name);
+            return resources.ToList();
+        }
+
+        private List<Models.Endpoint> GetEndpoints(IEnumerable<ActionCall> actions)
         {
             return null;
         }

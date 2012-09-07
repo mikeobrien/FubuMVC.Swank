@@ -5,6 +5,7 @@ using Swank;
 using Tests.Administration;
 using Tests.Batches;
 using Tests.Batches.Schedules;
+using Tests.Templates;
 
 namespace Tests
 {
@@ -30,11 +31,11 @@ namespace Tests
         }
 
         [Test]
-        public void should_add_orphaned_actions_to_empty_default_module()
+        public void should_automatically_add_orphaned_actions_to_empty_default_module()
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
-                .OnOrphanedAction(OrphanedActionsBehavior.AddToDefaultModule));
+                .OnOrphanedModuleAction(OrphanedActions.Default));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
 
             var spec = specBuilder.Build();
@@ -55,12 +56,12 @@ namespace Tests
         }
 
         [Test]
-        public void should_add_orphaned_actions_to_specified_default_module()
+        public void should_automatically_add_orphaned_actions_to_specified_default_module()
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
-                .OnOrphanedAction(OrphanedActionsBehavior.AddToDefaultModule)
-                .WithDefaultModule("API", "This is the API yo!"));
+                .OnOrphanedModuleAction(OrphanedActions.Default)
+                .WithDefaultModule(y => new Module { Name = "API", Comments = "This is the API yo!" }));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
 
             var spec = specBuilder.Build();
@@ -70,8 +71,8 @@ namespace Tests
             spec.modules[0].name.ShouldEqual(AdministrationModule.Name);
             spec.modules[0].comments.ShouldEqual(AdministrationModule.Comments);
 
-            spec.modules[1].name.ShouldEqual(configuration.DefaultModule.Name);
-            spec.modules[1].comments.ShouldEqual(configuration.DefaultModule.Comments);
+            spec.modules[1].name.ShouldEqual("API");
+            spec.modules[1].comments.ShouldEqual("This is the API yo!");
 
             spec.modules[2].name.ShouldEqual(BatchesModule.Name);
             spec.modules[2].comments.ShouldEqual(BatchesModule.ExpectedComments);
@@ -85,7 +86,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
-                .OnOrphanedAction(OrphanedActionsBehavior.Ignore));
+                .OnOrphanedModuleAction(OrphanedActions.Exclude));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
 
             var spec = specBuilder.Build();
@@ -107,10 +108,22 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
-                .OnOrphanedAction(OrphanedActionsBehavior.ThrowException));
+                .OnOrphanedModuleAction(OrphanedActions.Fail));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
 
-            Assert.Throws<OrphanedActionException>(() => specBuilder.Build());
+            Assert.Throws<OrphanedModuleActionException>(() => specBuilder.Build());
+        }
+
+        [Test]
+        public void should_not_throw_an_exception_when_there_are_no_orphaned_actions()
+        {
+            var configuration = ConfigurationDsl.CreateConfig(x => x
+                .AppliesToThisAssembly()
+                .OnOrphanedModuleAction(OrphanedActions.Fail)
+                .Where(y => y.HandlerType.Namespace != typeof(TemplateRequest).Namespace));
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
+
+            Assert.DoesNotThrow(() => specBuilder.Build());
         }
     }
 }

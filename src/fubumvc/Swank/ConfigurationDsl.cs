@@ -89,15 +89,27 @@ namespace Swank
             return this;
         }
 
-        public ConfigurationDsl WithDefaultModule(string name, string comments)
+        public ConfigurationDsl WithDefaultModule(Func<ActionCall, Module> factory)
         {
-            _configuration.DefaultModule = new Module { Name = name, Comments = comments };
+            _configuration.DefaultModuleFactory = factory;
             return this;
         }
 
-        public ConfigurationDsl OnOrphanedAction(OrphanedActionsBehavior behavior)
+        public ConfigurationDsl OnOrphanedModuleAction(OrphanedActions behavior)
         {
-            _configuration.OrphanedActions = behavior;
+            _configuration.OrphanedModuleActions = behavior;
+            return this;
+        }
+
+        public ConfigurationDsl WithDefaultResource(Func<ActionCall, Resource> factory)
+        {
+            _configuration.DefaultResourceFactory = factory;
+            return this;
+        }
+
+        public ConfigurationDsl OnOrphanedResourceAction(OrphanedActions behavior)
+        {
+            _configuration.OrphanedResourceActions = behavior;
             return this;
         }
     }

@@ -41,6 +41,11 @@ namespace Tests
                 .AddAction<TemplateGetHandler>("/templates/{Id}", HttpVerbs.Get)
                 .AddAction<TemplatePutHandler>("/templates/{Id}", HttpVerbs.Put)
                 .AddAction<TemplateDeleteHandler>("/templates/{Id}", HttpVerbs.Delete)
+                .AddAction<TemplateFileGetAllHandler>("/templates/files", HttpVerbs.Get)
+                .AddAction<TemplateFilePostHandler>("/templates/files", HttpVerbs.Post)
+                .AddAction<TemplateFileGetHandler>("/templates/files/{Id}", HttpVerbs.Get)
+                .AddAction<TemplateFilePutHandler>("/templates/files/{Id}", HttpVerbs.Put)
+                .AddAction<TemplateFileDeleteHandler>("/templates/files/{Id}", HttpVerbs.Delete)
                 .AddAction<AdminAccountGetAllHandler>("/admin", HttpVerbs.Get)
                 .AddAction<AdminAccountPostHandler>("/admin", HttpVerbs.Post)
                 .AddAction<AdminAccountGetHandler>("/admin/{Id}", HttpVerbs.Get)
@@ -83,6 +88,14 @@ namespace Tests
         public class TemplateGetHandler { public TemplateResponse Execute_Id(TemplateRequest request) { return null; } }
         public class TemplatePutHandler { public TemplateResponse Execute_Id(TemplateRequest request) { return null; } }
         public class TemplateDeleteHandler { public TemplateResponse Execute_Id(TemplateRequest request) { return null; } }
+
+        public class TemplateFileRequest { public Guid Id { get; set; } }
+        public class TemplateFileResponse { }
+        public class TemplateFileGetAllHandler { public TemplateFileResponse Execute_File(TemplateFileRequest request) { return null; } }
+        public class TemplateFilePostHandler { public TemplateFileResponse Execute_File(TemplateFileRequest request) { return null; } }
+        public class TemplateFileGetHandler { public TemplateFileResponse Execute_File_Id(TemplateFileRequest request) { return null; } }
+        public class TemplateFilePutHandler { public TemplateFileResponse Execute_File_Id(TemplateFileRequest request) { return null; } }
+        public class TemplateFileDeleteHandler { public TemplateFileResponse Execute_File_Id(TemplateFileRequest request) { return null; } }
     }
 
     namespace Batches
