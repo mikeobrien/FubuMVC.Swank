@@ -1,6 +1,8 @@
 ﻿using System;
 using FubuMVC.Core.Registration;
+using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Core.Resources.Conneg;
+using Swank.Description;
 
 namespace Swank
 {
@@ -16,8 +18,9 @@ namespace Swank
         public void Configure(BehaviorGraph graph)
         {
             graph.Services.AddService(_configuration);
-            graph.Services.AddService<IModuleSource>(_configuration.ModuleSource.Type, _configuration.ModuleSource.Config);
-            graph.Services.AddService<IResourceSource>(_configuration.ResourceSource.Type, _configuration.ResourceSource.Config);
+            graph.Services.AddService<IDescriptionSource<ActionCall, ModuleDescription>>(_configuration.ModuleDescriptionSource.Type, _configuration.ModuleDescriptionSource.Config);
+            graph.Services.AddService<IDescriptionSource<ActionCall, ResourceDescription>>(_configuration.ResourceDescriptionSource.Type, _configuration.ResourceDescriptionSource.Config);
+            graph.Services.AddService<IDescriptionSource<ActionCall, EndpointDescription>>(_configuration.EndpointDescriptionSource.Type, _configuration.EndpointDescriptionSource.Config);
             graph.AddActionFor(_configuration.SpecificationUrl, typeof(SpecificationHandler)).MakeAsymmetricJson();
         }
 

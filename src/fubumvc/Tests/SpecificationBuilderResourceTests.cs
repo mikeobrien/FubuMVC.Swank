@@ -1,7 +1,9 @@
 ﻿using FubuMVC.Core.Registration;
+using FubuMVC.Core.Registration.Nodes;
 using NUnit.Framework;
 using Should;
 using Swank;
+using Swank.Description;
 using Tests.Administration.Users;
 using Tests.Batches.Cells;
 using Tests.Batches.Schedules;
@@ -18,17 +20,19 @@ namespace Tests
         private static readonly AdminUserResource AdminUserResource = new AdminUserResource();
 
         private BehaviorGraph _graph;
-        private IModuleSource _moduleSource;
-        private IResourceSource _resourceSource;
+        private IDescriptionSource<ActionCall, ModuleDescription> _moduleSource;
+        private IDescriptionSource<ActionCall, ResourceDescription> _resourceSource;
+        private IDescriptionSource<ActionCall, EndpointDescription> _endpointSource;
 
         [SetUp]
         public void Setup()
         {
             _graph = TestBehaviorGraph.Build();
-            _moduleSource = new ModuleSource(new DescriptionSource<Module>());
+            _moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
             _resourceSource = new ResourceSource(
-                new DescriptionSource<Resource>(),
+                new MarkerSource<ResourceDescription>(),
                 new Swank.ActionSource(_graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly())), new ResourceSourceConfig());
+            _endpointSource = new EndpointSource();
         }
 
         [Test]
@@ -36,9 +40,9 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
-                .OnOrphanedModuleAction(OrphanedActions.Default)
-                .OnOrphanedResourceAction(OrphanedActions.Default));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
+                .OnOrphanedModuleAction(OrphanedActions.UseDefault)
+                .OnOrphanedResourceAction(OrphanedActions.UseDefault));
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
 
             var spec = specBuilder.Build();
 
@@ -81,10 +85,10 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
-                .OnOrphanedModuleAction(OrphanedActions.Default)
-                .OnOrphanedResourceAction(OrphanedActions.Default)
-                .WithDefaultResource(y => new Resource { Name = y.ParentChain().Route.FirstPatternSegment() }));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
+                .OnOrphanedModuleAction(OrphanedActions.UseDefault)
+                .OnOrphanedResourceAction(OrphanedActions.UseDefault)
+                .WithDefaultResource(y => new ResourceDescription { Name = y.ParentChain().Route.FirstPatternSegment() }));
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
 
             var spec = specBuilder.Build();
 
@@ -124,10 +128,10 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
-                .OnOrphanedModuleAction(OrphanedActions.Default)
+                .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .OnOrphanedResourceAction(OrphanedActions.Exclude)
-                .WithDefaultResource(y => new Resource { Name = y.ParentChain().Route.FirstPatternSegment() }));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
+                .WithDefaultResource(y => new ResourceDescription { Name = y.ParentChain().Route.FirstPatternSegment() }));
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
 
             var spec = specBuilder.Build();
 
@@ -159,9 +163,9 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
-                .OnOrphanedModuleAction(OrphanedActions.Default)
+                .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .OnOrphanedResourceAction(OrphanedActions.Fail));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
 
             Assert.Throws<OrphanedResourceActionException>(() => specBuilder.Build());
         }
@@ -171,11 +175,11 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
-                .OnOrphanedModuleAction(OrphanedActions.Default)
+                .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .OnOrphanedResourceAction(OrphanedActions.Fail)
                 .Where(y => y.HandlerType.Namespace != typeof(TemplateRequest).Namespace &&
                             y.HandlerType.Namespace != typeof(BatchScheduleRequest).Namespace));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
 
             Assert.DoesNotThrow(() => specBuilder.Build());
         }

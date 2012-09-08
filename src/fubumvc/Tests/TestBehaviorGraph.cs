@@ -2,7 +2,7 @@
 using System.Linq;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
-using Swank;
+using Swank.Description;
 using Tests.Administration.Users;
 using Tests.Batches.Cells;
 using Tests.Batches.Schedules;
@@ -100,7 +100,7 @@ namespace Tests
 
     namespace Batches
     {
-        public class BatchesModule : Module
+        public class BatchesModule : ModuleDescription
         {
             public const string ExpectedComments = "<b>These are batches yo!</b>";
             public BatchesModule()
@@ -111,7 +111,7 @@ namespace Tests
 
         namespace Schedules
         {
-            public class SchedulesModule : Module
+            public class SchedulesModule : ModuleDescription
             {
                 public const string ExpectedComments = "<p><strong>These are schedules yo!</strong></p>";
                 public SchedulesModule()
@@ -131,7 +131,7 @@ namespace Tests
 
         namespace Cells
         {
-            public class BatchCellResource : Resource
+            public class BatchCellResource : ResourceDescription
             {
                 public BatchCellResource()
                 {
@@ -152,7 +152,7 @@ namespace Tests
 
     namespace Administration
     {
-        public class AdministrationModule : Module
+        public class AdministrationModule : ModuleDescription
         {
             public AdministrationModule()
             {
@@ -166,7 +166,7 @@ namespace Tests
             // The following resource markers are named so that they are alpha ordered in
             // a particular way. This is important to a couple of tests so don't change that.
 
-            public class AdminAccountResource : Resource<AdminAccountGetAllHandler>
+            public class AdminAccountResource : ResourceDescription<AdminAccountGetAllHandler>
             {
                 public AdminAccountResource()
                 {
@@ -183,7 +183,7 @@ namespace Tests
             public class AdminAccountPutHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
             public class AdminAccountDeleteHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
 
-            public class AdminAddressResource : Resource
+            public class AdminAddressResource : ResourceDescription
             {
                 public AdminAddressResource()
                 {
@@ -200,7 +200,7 @@ namespace Tests
             public class AdminAddressPutHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
             public class AdminAddressDeleteHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
 
-            public class AdminUserResource : Resource<AdminUserGetAllHandler>
+            public class AdminUserResource : ResourceDescription<AdminUserGetAllHandler>
             {
                 public AdminUserResource()
                 {

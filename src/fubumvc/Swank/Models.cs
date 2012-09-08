@@ -6,6 +6,7 @@ namespace Swank.Models
     {
         public List<DataType> dataTypes { get; set; }
         public List<Module> modules { get; set; }
+        public List<Resource> resources { get; set; }
     }
 
     public class DataType
@@ -30,8 +31,8 @@ namespace Swank.Models
     public class Option
     {
         public string name { get; set; }
-        public string value { get; set; }
         public string comments { get; set; }
+        public string value { get; set; }
     }
 
     public class Module
@@ -50,9 +51,10 @@ namespace Swank.Models
 
     public class Endpoint
     {
+        public string name { get; set; }
+        public string comments { get; set; }
         public string url { get; set; }
         public string method { get; set; }
-        public string comments { get; set; }
         public List<UrlParameter> urlParameters { get; set; }
         public List<QuerystringParameter> querystringParameters { get; set; }
         public List<Error> errors { get; set; }
@@ -80,12 +82,14 @@ namespace Swank.Models
 
     public class Error
     {
-        public int status { get; set; }
+        public string name { get; set; }
         public string comments { get; set; }
+        public int status { get; set; }
     }
 
     public class Data
     {
+        public string name { get; set; }
         public string comments { get; set; }
         public string dataType { get; set; }
         public bool collection { get; set; }

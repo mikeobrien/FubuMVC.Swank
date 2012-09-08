@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using FubuMVC.Core.Registration.Nodes;
+using Swank.Description;
 
 namespace Swank
 {
@@ -51,45 +52,57 @@ namespace Swank
             return this;
         }
 
-        public ConfigurationDsl WithModuleSource<T>() where T : IModuleSource, new()
+        public ConfigurationDsl WithModuleDescriptionSource<T>() where T : IDescriptionSource<ActionCall, ModuleDescription>, new()
         {
-            return WithModuleSource<T, object>(null);
+            return WithModuleDescriptionSource<T, object>(null);
         }
 
-        public ConfigurationDsl WithModuleSource<T, TConfig>(Action<TConfig> configure) 
-            where T : IModuleSource, new() 
+        public ConfigurationDsl WithModuleDescriptionSource<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionSource<ActionCall, ModuleDescription>, new() 
             where TConfig : class, new()
         {
-            _configuration.ModuleSource.Type = typeof(T);
-            if (configure != null)
-            {
-                var config = new TConfig();
-                configure(config);
-                _configuration.ModuleSource.Config = config;
-            }
+            _configuration.ModuleDescriptionSource.Type = typeof(T);
+            _configuration.ModuleDescriptionSource.Config = CreateConfig(configure);
             return this;
         }
 
-        public ConfigurationDsl WithResourceSource<T>() where T : IResourceSource, new()
+        public ConfigurationDsl WithResourceDescriptionSource<T>() where T : IDescriptionSource<ActionCall, ResourceDescription>, new()
         {
-            return WithResourceSource<T, object>(null);
+            return WithResourceDescriptionSource<T, object>(null);
         }
 
-        public ConfigurationDsl WithResourceSource<T, TConfig>(Action<TConfig> configure)
-            where T : IResourceSource, new()
+        public ConfigurationDsl WithResourceDescriptionSource<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionSource<ActionCall, ResourceDescription>, new()
             where TConfig : class, new()
         {
-            _configuration.ResourceSource.Type = typeof(T);
-            if (configure != null)
-            {
-                var config = new TConfig();
-                configure(config);
-                _configuration.ModuleSource.Config = config;
-            }
+            _configuration.ResourceDescriptionSource.Type = typeof(T);
+            _configuration.ModuleDescriptionSource.Config = CreateConfig(configure);
             return this;
         }
 
-        public ConfigurationDsl WithDefaultModule(Func<ActionCall, Module> factory)
+        public ConfigurationDsl WithEndpointDescriptionSource<T>() where T : IDescriptionSource<ActionCall, EndpointDescription>, new()
+        {
+            return WithEndpointDescriptionSource<T, object>(null);
+        }
+
+        public ConfigurationDsl WithEndpointDescriptionSource<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionSource<ActionCall, EndpointDescription>, new()
+            where TConfig : class, new()
+        {
+            _configuration.ResourceDescriptionSource.Type = typeof(T);
+            _configuration.EndpointDescriptionSource.Config = CreateConfig(configure);
+            return this;
+        }
+
+        private TConfig CreateConfig<TConfig>(Action<TConfig> configure) where TConfig : class, new()
+        {
+            if (configure == null) return null;
+            var config = new TConfig();
+            configure(config);
+            return config;
+        }
+
+        public ConfigurationDsl WithDefaultModule(Func<ActionCall, ModuleDescription> factory)
         {
             _configuration.DefaultModuleFactory = factory;
             return this;
@@ -101,7 +114,7 @@ namespace Swank
             return this;
         }
 
-        public ConfigurationDsl WithDefaultResource(Func<ActionCall, Resource> factory)
+        public ConfigurationDsl WithDefaultResource(Func<ActionCall, ResourceDescription> factory)
         {
             _configuration.DefaultResourceFactory = factory;
             return this;

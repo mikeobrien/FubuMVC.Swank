@@ -69,18 +69,17 @@
     <Compile Include="ActionSource.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationDsl.cs" />
-    <Compile Include="DescriptionSource.cs" />
-    <Compile Include="Description.cs" />
+    <Compile Include="Description\EndpointSource.cs" />
+    <Compile Include="Description\MarkerSource.cs" />
+    <Compile Include="Description\Description.cs" />
     <Compile Include="Func.cs" />
-    <Compile Include="IModuleSource.cs" />
-    <Compile Include="IResourceSource.cs" />
-    <Compile Include="ResourceSource.cs" />
+    <Compile Include="Description\IDescriptionSource.cs" />
+    <Compile Include="Description\Descriptions.cs" />
+    <Compile Include="Description\ResourceSource.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="ModuleSource.cs" />
+    <Compile Include="Description\ModuleSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models.cs" />
-    <Compile Include="ResourceSourceConfig.cs" />
-    <Compile Include="Service.cs" />
     <Compile Include="SpecificationBuilder.cs" />
     <Compile Include="SpecificationHandler.cs" />
     <Compile Include="SwankConvention.cs" />
@@ -88,6 +87,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

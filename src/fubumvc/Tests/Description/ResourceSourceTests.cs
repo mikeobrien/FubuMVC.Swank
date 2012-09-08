@@ -1,22 +1,24 @@
 ﻿using System.Linq;
+using FubuMVC.Core.Registration.Nodes;
 using NUnit.Framework;
 using Should;
 using Swank;
+using Swank.Description;
 using Tests.Administration.Users;
 using Tests.Templates;
 
-namespace Tests
+namespace Tests.Description
 {
     [TestFixture]
     public class ResourceSourceTests
     {
-        private IResourceSource _resourceSource;
+        private IDescriptionSource<ActionCall, ResourceDescription> _resourceSource;
 
         [SetUp]
         public void Setup()
         {
             _resourceSource = new ResourceSource(
-                new DescriptionSource<Resource>(), 
+                new MarkerSource<ResourceDescription>(), 
                 new ActionSource(TestBehaviorGraph.Build(), ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly())), 
                 new ResourceSourceConfig());
         }
@@ -26,8 +28,8 @@ namespace Tests
         {
             var resourceDescription = new AdminAddressResource();
             var action = TestBehaviorGraph.CreateAction<AdminAddressGetAllHandler>();
-            _resourceSource.HasResource(action).ShouldBeTrue();
-            var resource = _resourceSource.GetResource(action);
+            _resourceSource.HasDescription(action).ShouldBeTrue();
+            var resource = _resourceSource.GetDescription(action);
             resource.ShouldNotBeNull();
             resource.Name.ShouldEqual(resourceDescription.Name);
             resource.Comments.ShouldEqual(resourceDescription.Comments);
@@ -38,8 +40,8 @@ namespace Tests
         {
             var resourceDescription = new AdminUserResource();
             var action = TestBehaviorGraph.CreateAction<AdminUserGetAllHandler>();
-            _resourceSource.HasResource(action).ShouldBeTrue();
-            var resource = _resourceSource.GetResource(action);
+            _resourceSource.HasDescription(action).ShouldBeTrue();
+            var resource = _resourceSource.GetDescription(action);
             resource.ShouldNotBeNull();
             resource.Name.ShouldEqual(resourceDescription.Name);
             resource.Comments.ShouldEqual(resourceDescription.Comments);
@@ -49,14 +51,14 @@ namespace Tests
         public void should_not_find_resource_description_when_none_is_specified_in_the_same_namespaces()
         {
             var action = TestBehaviorGraph.CreateAction<TemplateGetAllHandler>();
-            _resourceSource.HasResource(action).ShouldBeFalse();
-            _resourceSource.GetResource(action).ShouldBeNull();
+            _resourceSource.HasDescription(action).ShouldBeFalse();
+            _resourceSource.GetDescription(action).ShouldBeNull();
         }
 
         [Test]
         public void should_enumerate_resources_using_default_grouping()
         {
-            var endpoints = TestBehaviorGraph.Build().Actions().ToDictionary(x => x.HandlerType, _resourceSource.GetResource);
+            var endpoints = TestBehaviorGraph.Build().Actions().ToDictionary(x => x.HandlerType, _resourceSource.GetDescription);
 
             endpoints[typeof(AdminAccountGetAllHandler)].ShouldBeType<AdminAccountResource>();
             endpoints[typeof(AdminAccountPostHandler)].ShouldBeType<AdminAccountResource>();
@@ -81,10 +83,10 @@ namespace Tests
         public void should_enumerate_resources_using_custom_grouping()
         {
             var resourceSource = new ResourceSource(
-                new DescriptionSource<Resource>(),
+                new MarkerSource<ResourceDescription>(),
                 new ActionSource(TestBehaviorGraph.Build(), ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly())),
                 new ResourceSourceConfig().GroupBy(x => x.ParentChain().Route.FirstPatternSegment()));
-            var endpoints = TestBehaviorGraph.Build().Actions().ToDictionary(x => x.HandlerType, resourceSource.GetResource);
+            var endpoints = TestBehaviorGraph.Build().Actions().ToDictionary(x => x.HandlerType, resourceSource.GetDescription);
 
             endpoints[typeof(AdminAccountGetAllHandler)].ShouldBeType<AdminAccountResource>();
             endpoints[typeof(AdminAccountPostHandler)].ShouldBeType<AdminAccountResource>();

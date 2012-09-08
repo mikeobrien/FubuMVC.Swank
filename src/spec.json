@@ -2,8 +2,8 @@
     "dataTypes" : [
         {
             "name": "",
-            "alias": "",
             "comments": "",
+            "alias": "",
             "members": [
                 {
                     "name": "",
@@ -27,69 +27,71 @@
         { 
             "name": "", 
             "comments": ""
-            "resources": [
+            "resources": [] // Same as root level resources
+        } 
+    ]
+    "resources": [
+        {
+            "name": "",
+            "comments": ""
+            "endpoints": [
                 {
                     "name": "",
-                    "comments": ""
-                    "endpoints": [
+                    "comments": "",
+                    "url": "",
+                    "method": "",
+                    "urlParameters": [
+                        { 
+                            "name": "",
+                            "comments": "",
+                            "dataType": "",
+                            "options": [
+                                {
+                                    "name": "",
+                                    "value": "", 
+                                    "comments": ""
+                                }                          
+                            ]
+                        }
+                    ],
+                    "querystringParameters": [
+                        { 
+                            "name": "",
+                            "comments": "",
+                            "defaultValue": "",
+                            "multipleAllowed": false,
+                            "required": true,
+                            "dataType": "",
+                            "options": [
+                                {
+                                    "name": "", 
+                                    "comments": "",
+                                    "value": ""
+                                }                           
+                            ]
+                        }
+                    ],
+                    "errors": [
                         {
                             "name": "",
-                            "url": "",
-                            "method": "",
                             "comments": "",
-                            "urlParameters": [
-                                { 
-                                    "name": "",
-                                    "comments": "",
-                                    "dataType": "",
-                                    "options": [
-                                        {
-                                            "name": "",
-                                            "value": "", 
-                                            "comments": ""
-                                        }                          
-                                    ]
-                                }
-                            ],
-                            "querystringParameters": [
-                                { 
-                                    "name": "",
-                                    "comments": "",
-                                    "defaultValue": "",
-                                    "multipleAllowed": false,
-                                    "required": true,
-                                    "dataType": "",
-                                    "options": [
-                                        {
-                                            "name": "",
-                                            "value": "", 
-                                            "comments": ""
-                                        }                           
-                                    ]
-                                }
-                            ],
-                            "errors": [
-                                {
-                                    "status": 0,
-                                    "comments": ""
-                                }
-                            ],
-                            "request": {
-                                "name": "",
-                                "comments": "",
-                                "dataType": "",
-                                "collection": false
-                            },
-                            "response": {
-                                "name": "",
-                                "comments": "",
-                                "dataType": "",
-                                "collection": false
-                            }
+                            "status": 0
                         }
-                    ]
+                    ],
+                    "request": {
+                        "name": "",
+                        "comments": "",
+                        "dataType": "",
+                        "collection": false
+                    },
+                    "response": {
+                        "name": "",
+                        "comments": "",
+                        "dataType": "",
+                        "collection": false
+                    }
                 }
             ]
-        } 
+        }
     ]
 }

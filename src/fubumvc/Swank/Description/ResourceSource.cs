@@ -1,27 +1,39 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FubuMVC.Core.Registration.Nodes;
 
-namespace Swank
+namespace Swank.Description
 {
-    public class ResourceSource : IResourceSource
+    public class ResourceSourceConfig
     {
-        private readonly DescriptionSource<Resource> _descriptions;
+        public ResourceSourceConfig()
+        {
+            Grouping = x => x.ParentChain().Route.GetRouteResource();
+        }
+
+        public Func<ActionCall, object> Grouping { get; private set; }
+
+        public ResourceSourceConfig GroupBy(Func<ActionCall, object> grouping)
+        {
+            Grouping = grouping;
+            return this;
+        }
+    }
+
+    public class ResourceSource : IDescriptionSource<ActionCall, ResourceDescription>
+    {
+        private readonly MarkerSource<ResourceDescription> _descriptions;
         private readonly ActionSource _actions;
         private readonly ResourceSourceConfig _config;
 
-        public ResourceSource(DescriptionSource<Resource> descriptions, ActionSource actions, ResourceSourceConfig config)
+        public ResourceSource(MarkerSource<ResourceDescription> descriptions, ActionSource actions, ResourceSourceConfig config)
         {
             _descriptions = descriptions;
             _actions = actions;
             _config = config;
         }
 
-        public bool HasResource(ActionCall action)
-        {
-            return GetResource(action) != null;
-        }
-
-        public Resource GetResource(ActionCall action)
+        public ResourceDescription GetDescription(ActionCall action)
         {
             return _descriptions.GetDescriptions(action.HandlerType.Assembly)
                 .GroupJoin(_actions.GetActions(), x => x.AppliesTo, x => x.HandlerType,

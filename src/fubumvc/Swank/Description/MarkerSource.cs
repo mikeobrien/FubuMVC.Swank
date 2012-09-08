@@ -4,19 +4,19 @@ using System.Linq;
 using System.Reflection;
 using MarkdownSharp;
 
-namespace Swank
+namespace Swank.Description
 {
-    public class DescriptionSource<T> where T : Description
+    public class MarkerSource<TMarker> where TMarker : Description
     {
-        private readonly static Func<Assembly, IList<T>> GetCachedDescriptions =
-            Func.Memoize<Assembly, IList<T>>(a =>
-                a.GetTypes().Where(x => typeof(T).IsAssignableFrom(x) && x != typeof(T)).Select(CreateDescription)
-                    .OrderByDescending(x => x.GetType().Namespace).ThenBy(x => x.Name).Cast<T>().ToList());
+        private readonly static Func<Assembly, IList<TMarker>> GetCachedDescriptions =
+            Func.Memoize<Assembly, IList<TMarker>>(a =>
+                a.GetTypes().Where(x => typeof(TMarker).IsAssignableFrom(x) && x != typeof(TMarker)).Select(CreateDescription)
+                    .OrderByDescending(x => x.GetType().Namespace).ThenBy(x => x.Name).Cast<TMarker>().ToList());
 
         private readonly static Func<Assembly, string[]> GetEmbeddedResources =
             Func.Memoize<Assembly, string[]>(a => a.GetManifestResourceNames());
 
-        public IList<T> GetDescriptions(Assembly assembly)
+        public IList<TMarker> GetDescriptions(Assembly assembly)
         {
             return GetCachedDescriptions(assembly);
         }

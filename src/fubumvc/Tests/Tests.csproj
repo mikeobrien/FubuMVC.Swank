@@ -73,9 +73,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionSourceTests.cs" />
-    <Compile Include="DescriptionSourceTests.cs" />
-    <Compile Include="ResourceSourceTests.cs" />
-    <Compile Include="ModuleSourceTests.cs" />
+    <Compile Include="SpecificationBuilderEndpointTests.cs" />
+    <Compile Include="Description\EndpointSourceTests.cs" />
+    <Compile Include="Description\DescriptionSourceTests.cs" />
+    <Compile Include="Description\ResourceSourceTests.cs" />
+    <Compile Include="Description\ModuleSourceTests.cs" />
     <Compile Include="SpecificationBuilderResourceTests.cs" />
     <Compile Include="ExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

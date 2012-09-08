@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.ObjectGraph;
 using FubuMVC.Core.Registration.Routes;
+using Swank.Description;
 
 namespace Swank
 {
@@ -20,6 +21,13 @@ namespace Swank
             return route.Pattern.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
         }
 
+        public static void AddService<T>(this ServiceGraph services, Type concreteType, params object[] dependencies)
+        {
+            var objectDef = new ObjectDef(concreteType);
+            dependencies.Where(x => x != null).ToList().ForEach(objectDef.DependencyByValue);
+            services.AddService(typeof(T), objectDef);
+        }
+
         public static string ReadToEnd(this Stream stream)
         {
             using (stream)
@@ -27,13 +35,6 @@ namespace Swank
             {
                 return reader.ReadToEnd();
             }
-        }
-
-        public static void AddService<T>(this ServiceGraph services, Type concreteType, params object[] dependencies)
-        {
-            var objectDef = new ObjectDef(concreteType);
-            dependencies.Where(x => x != null).ToList().ForEach(objectDef.DependencyByValue);
-            services.AddService(typeof(T), objectDef);
         }
     }
 }

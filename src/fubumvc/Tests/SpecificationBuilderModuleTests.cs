@@ -1,7 +1,9 @@
 ﻿using FubuMVC.Core.Registration;
+using FubuMVC.Core.Registration.Nodes;
 using NUnit.Framework;
 using Should;
 using Swank;
+using Swank.Description;
 using Tests.Administration;
 using Tests.Batches;
 using Tests.Batches.Schedules;
@@ -17,17 +19,34 @@ namespace Tests
         private static readonly SchedulesModule SchedulesModule = new SchedulesModule();
 
         private BehaviorGraph _graph;
-        private IModuleSource _moduleSource;
-        private IResourceSource _resourceSource;
+        private IDescriptionSource<ActionCall, ModuleDescription> _moduleSource;
+        private IDescriptionSource<ActionCall, ResourceDescription> _resourceSource;
+        private IDescriptionSource<ActionCall, EndpointDescription> _endpointSource;
 
         [SetUp]
         public void Setup()
         {
             _graph = TestBehaviorGraph.Build();
-            _moduleSource = new ModuleSource(new DescriptionSource<Module>());
+            _moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
             _resourceSource = new ResourceSource(
-                new DescriptionSource<Resource>(),
+                new MarkerSource<ResourceDescription>(),
                 new Swank.ActionSource(_graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly())), new ResourceSourceConfig());
+            _endpointSource = new EndpointSource();
+        }
+
+        [Test]
+        public void should_return_actions_at_root_when_only_one_module_with_no_name()
+        {
+            var configuration = ConfigurationDsl.CreateConfig(x => x
+                .AppliesToThisAssembly()
+                .OnOrphanedModuleAction(OrphanedActions.UseDefault)
+                .Where(y => y.HandlerType.Namespace == typeof(TemplateRequest).Namespace));
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
+
+            var spec = specBuilder.Build();
+
+            spec.modules.Count.ShouldEqual(0);
+            spec.resources.Count.ShouldEqual(2);
         }
 
         [Test]
@@ -35,12 +54,13 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
-                .OnOrphanedModuleAction(OrphanedActions.Default));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
+                .OnOrphanedModuleAction(OrphanedActions.UseDefault));
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
 
             var spec = specBuilder.Build();
 
             spec.modules.Count.ShouldEqual(4);
+            spec.resources.Count.ShouldEqual(0);
 
             spec.modules[0].name.ShouldBeNull();
             spec.modules[0].comments.ShouldBeNull();
@@ -60,13 +80,14 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
-                .OnOrphanedModuleAction(OrphanedActions.Default)
-                .WithDefaultModule(y => new Module { Name = "API", Comments = "This is the API yo!" }));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
+                .OnOrphanedModuleAction(OrphanedActions.UseDefault)
+                .WithDefaultModule(y => new ModuleDescription { Name = "API", Comments = "This is the API yo!" }));
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
 
             var spec = specBuilder.Build();
 
             spec.modules.Count.ShouldEqual(4);
+            spec.resources.Count.ShouldEqual(0);
 
             spec.modules[0].name.ShouldEqual(AdministrationModule.Name);
             spec.modules[0].comments.ShouldEqual(AdministrationModule.Comments);
@@ -87,11 +108,12 @@ namespace Tests
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
                 .OnOrphanedModuleAction(OrphanedActions.Exclude));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
 
             var spec = specBuilder.Build();
 
             spec.modules.Count.ShouldEqual(3);
+            spec.resources.Count.ShouldEqual(0);
 
             spec.modules[0].name.ShouldEqual(AdministrationModule.Name);
             spec.modules[0].comments.ShouldEqual(AdministrationModule.Comments);
@@ -109,7 +131,7 @@ namespace Tests
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
                 .OnOrphanedModuleAction(OrphanedActions.Fail));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
 
             Assert.Throws<OrphanedModuleActionException>(() => specBuilder.Build());
         }
@@ -121,7 +143,7 @@ namespace Tests
                 .AppliesToThisAssembly()
                 .OnOrphanedModuleAction(OrphanedActions.Fail)
                 .Where(y => y.HandlerType.Namespace != typeof(TemplateRequest).Namespace));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource);
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
 
             Assert.DoesNotThrow(() => specBuilder.Build());
         }

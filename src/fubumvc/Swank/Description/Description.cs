@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Swank
+namespace Swank.Description
 {
     public class Description
     {

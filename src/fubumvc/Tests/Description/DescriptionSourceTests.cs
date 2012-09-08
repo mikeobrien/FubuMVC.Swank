@@ -2,14 +2,14 @@
 using System.Reflection;
 using NUnit.Framework;
 using Should;
-using Swank;
+using Swank.Description;
 using Tests.Administration;
 using Tests.Administration.Users;
 using Tests.Batches;
 using Tests.Batches.Cells;
 using Tests.Batches.Schedules;
 
-namespace Tests
+namespace Tests.Description
 {
     [TestFixture]
     public class DescriptionSourceTests
@@ -23,14 +23,14 @@ namespace Tests
         private static readonly AdminAddressResource AdminAddressResource = new AdminAddressResource();
         private static readonly AdminUserResource AdminUserResource = new AdminUserResource();
 
-        private IList<Swank.Module> _modules;
-        private IList<Resource> _resources;
+        private IList<ModuleDescription> _modules;
+        private IList<ResourceDescription> _resources;
 
         [SetUp]
         public void Setup()
         {
-            _modules = new DescriptionSource<Swank.Module>().GetDescriptions(Assembly.GetExecutingAssembly());
-            _resources = new DescriptionSource<Resource>().GetDescriptions(Assembly.GetExecutingAssembly());
+            _modules = new MarkerSource<ModuleDescription>().GetDescriptions(Assembly.GetExecutingAssembly());
+            _resources = new MarkerSource<ResourceDescription>().GetDescriptions(Assembly.GetExecutingAssembly());
         }
 
         [Test]
