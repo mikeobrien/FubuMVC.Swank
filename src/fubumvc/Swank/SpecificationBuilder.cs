@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using FubuCore.Reflection;
 using FubuMVC.Core.Registration.Nodes;
 using Swank.Description;
 using Swank.Models;
+using Module = Swank.Models.Module;
 
 namespace Swank
 {
@@ -24,22 +27,31 @@ namespace Swank
     {
         private readonly Configuration _configuration;
         private readonly ActionSource _actions;
+        private readonly ITypeDescriptorCache _typeCache;
         private readonly IDescriptionSource<ActionCall, ModuleDescription> _modules;
         private readonly IDescriptionSource<ActionCall, ResourceDescription> _resources;
         private readonly IDescriptionSource<ActionCall, EndpointDescription> _endpoints;
+        private readonly IDescriptionSource<PropertyInfo, ParameterDescription> _parameters;
+        private readonly IDescriptionSource<FieldInfo, OptionDescription> _options;
 
         public SpecificationBuilder(
             Configuration configuration, 
             ActionSource actions,
+            ITypeDescriptorCache typeCache,
             IDescriptionSource<ActionCall, ModuleDescription> modules,
             IDescriptionSource<ActionCall, ResourceDescription> resources,
-            IDescriptionSource<ActionCall, EndpointDescription> endpoints)
+            IDescriptionSource<ActionCall, EndpointDescription> endpoints,
+            IDescriptionSource<PropertyInfo, ParameterDescription> parameters,
+            IDescriptionSource<FieldInfo, OptionDescription> options)
         {
             _configuration = configuration;
             _actions = actions;
+            _typeCache = typeCache;
             _modules = modules;
             _resources = resources;
             _endpoints = endpoints;
+            _parameters = parameters;
+            _options = options;
         }
 
         public Specification Build()
@@ -105,17 +117,63 @@ namespace Swank
                 {
                     var endpoint = _endpoints.GetDescription(x);
                     return new Endpoint {
-                        name = endpoint != null ? endpoint.Name : null,
-                        comments = endpoint != null ? endpoint.Comments : null,
+                        name = endpoint.GetNameOrDefault(),
+                        comments = endpoint.GetCommentsOrDefault(),
                         url = x.ParentChain().Route.Pattern,
                         method = x.ParentChain().Route.AllowedHttpMethods.FirstOrDefault(),
-                        urlParameters = new List<UrlParameter>(),
-                        querystringParameters = new List<QuerystringParameter>(),
-                        errors = new List<Error>(),
-                        request = new Data(),
-                        response = new Data()
+                        urlParameters = x.HasInput ? GetUrlParameters(x) : null,
+                        querystringParameters = x.HasInput ? GetQuerystringParameters(x) : null,
+                        errors = GetErrors(x),
+                        request = x.HasInput ? GetData(x.InputType()) : null,
+                        response = x.HasOutput ? GetData(x.OutputType()) : null
                     };
+                }).OrderBy(x => x.url).ThenBy(x => x.method).ToList();
+        }
+
+        private List<UrlParameter> GetUrlParameters(ActionCall action)
+        {
+            var properties = _typeCache.GetPropertiesFor(action.InputType());
+            return action.ParentChain().Route.Input.RouteParameters.Select(
+                x => {
+                    var property = properties[x.Name];
+                    var parameter = _parameters.GetDescription(property);
+                    return new UrlParameter
+                        {
+                            name = parameter.GetNameOrDefault(),
+                            comments = parameter.GetCommentsOrDefault(),
+                            dataType = property.PropertyType.ToFriendlyName(),
+                            options = GetOptions(property.PropertyType)
+                        };
                 }).ToList();
         }
+
+        private List<Option> GetOptions(Type type)
+        {
+            return !type.IsEnum ? new List<Option>() :
+                type.GetCachedEnumValues()
+                    .Select(x => {
+                        var option = _options.GetDescription(x);
+                        return new Option {
+                            name = option.GetNameOrDefault(),
+                            comments = option.GetCommentsOrDefault(), 
+                            value = x.Name
+                        };
+                    }).OrderBy(x => x.name).ToList();
+        }
+
+        private List<QuerystringParameter> GetQuerystringParameters(ActionCall action)
+        {
+            return new List<QuerystringParameter>();
+        }
+
+        private List<Error> GetErrors(ActionCall action)
+        {
+            return new List<Error>();
+        }
+
+        private Data GetData(Type type)
+        {
+            return new Data();
+        } 
     }
 }

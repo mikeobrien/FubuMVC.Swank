@@ -26,7 +26,7 @@ namespace Tests
         public static BehaviorGraph AddAction<T>(this BehaviorGraph graph, string route, HttpVerbs verb)
         {
             var chain = graph.AddActionFor(route, typeof(T));
-            chain.Route.AddHttpMethodConstraint("POST");
+            chain.Route.AddHttpMethodConstraint(verb.ToString().ToUpper());
             return graph;
         }
     }
@@ -57,6 +57,7 @@ namespace Tests
                 .AddAction<AdminUserPutHandler>("/admin/users/{Id}", HttpVerbs.Put)
                 .AddAction<AdminUserDeleteHandler>("/admin/users/{Id}", HttpVerbs.Delete)
                 .AddAction<AdminAddressGetAllHandler>("/admin/users/{UserId}/addresses", HttpVerbs.Get)
+                .AddAction<AdminAddressGetAllOfTypeHandler>("/admin/users/{UserId}/addresses/{AddressType}", HttpVerbs.Get)
                 .AddAction<AdminAddressPostHandler>("/admin/users/{UserId}/addresses", HttpVerbs.Post)
                 .AddAction<AdminAddressGetHandler>("/admin/users/{UserId}/addresses/{Id}", HttpVerbs.Get)
                 .AddAction<AdminAddressPutHandler>("/admin/users/{UserId}/addresses/{Id}", HttpVerbs.Put)
@@ -83,8 +84,19 @@ namespace Tests
     {
         public class TemplateRequest { public Guid Id { get; set; } }
         public class TemplateResponse { }
-        public class TemplateGetAllHandler { public TemplateResponse Execute(TemplateRequest request) { return null; } }
-        public class TemplatePostHandler { public TemplateResponse Execute(TemplateRequest request) { return null; } }
+
+        [Description("GetTemplates", "This gets all the templates yo.")]
+        public class TemplateGetAllHandler
+        {
+            public TemplateResponse Execute(TemplateRequest request) { return null; }
+        }
+
+        public class TemplatePostHandler
+        {
+            [Description("AddTemplate", "This adds a the template yo.")]
+            public TemplateResponse Execute(TemplateRequest request) { return null; }
+        }
+
         public class TemplateGetHandler { public TemplateResponse Execute_Id(TemplateRequest request) { return null; } }
         public class TemplatePutHandler { public TemplateResponse Execute_Id(TemplateRequest request) { return null; } }
         public class TemplateDeleteHandler { public TemplateResponse Execute_Id(TemplateRequest request) { return null; } }
@@ -192,9 +204,26 @@ namespace Tests
                 }
             }
 
-            public class AdminAddressRequest { public Guid Id { get; set; } public Guid UserId { get; set; } }
+            public enum AddressType
+            {
+                [Description("Work Address", "This is the work address of the user.")]
+                Work,
+                [Description("Home address", "This is the home address of the user.")]
+                Home,
+                Emergency
+            }
+
+            public class AdminAddressRequest
+            {
+                public Guid Id { get; set; } 
+                [Description("User Id", "This is the id of the user.")]
+                public Guid UserId { get; set; } 
+                public AddressType AddressType { get; set; }
+            }
+
             public class AdminAddressResponse { }
             public class AdminAddressGetAllHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
+            public class AdminAddressGetAllOfTypeHandler { public AdminAddressResponse Execute_UserId_AddressType(AdminAddressRequest request) { return null; } }
             public class AdminAddressPostHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
             public class AdminAddressGetHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
             public class AdminAddressPutHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }

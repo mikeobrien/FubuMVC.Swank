@@ -73,6 +73,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionSourceTests.cs" />
+    <Compile Include="Description\OptionSourceTests.cs" />
+    <Compile Include="Description\ParameterSourceTests.cs" />
     <Compile Include="SpecificationBuilderEndpointTests.cs" />
     <Compile Include="Description\EndpointSourceTests.cs" />
     <Compile Include="Description\DescriptionSourceTests.cs" />
@@ -86,6 +88,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="Templates\TemplatePutHandler.Execute_Id.md" />
+    <EmbeddedResource Include="EmbeddedMarkdownResource.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Swank\Swank.csproj">
@@ -96,6 +100,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Batches\BatchesModule.html" />
     <EmbeddedResource Include="Batches\Schedules\SchedulesModule.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\TemplateGetHandler.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedHtmlResource.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedTextResource.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

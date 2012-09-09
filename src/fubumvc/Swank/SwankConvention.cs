@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Core.Resources.Conneg;
@@ -21,6 +22,8 @@ namespace Swank
             graph.Services.AddService<IDescriptionSource<ActionCall, ModuleDescription>>(_configuration.ModuleDescriptionSource.Type, _configuration.ModuleDescriptionSource.Config);
             graph.Services.AddService<IDescriptionSource<ActionCall, ResourceDescription>>(_configuration.ResourceDescriptionSource.Type, _configuration.ResourceDescriptionSource.Config);
             graph.Services.AddService<IDescriptionSource<ActionCall, EndpointDescription>>(_configuration.EndpointDescriptionSource.Type, _configuration.EndpointDescriptionSource.Config);
+            graph.Services.AddService<IDescriptionSource<PropertyInfo, ParameterDescription>>(_configuration.ParameterDescriptionSource.Type, _configuration.ParameterDescriptionSource.Config);
+            graph.Services.AddService<IDescriptionSource<FieldInfo, OptionDescription>>(_configuration.OptionDescriptionSource.Type, _configuration.OptionDescriptionSource.Config);
             graph.AddActionFor(_configuration.SpecificationUrl, typeof(SpecificationHandler)).MakeAsymmetricJson();
         }
 

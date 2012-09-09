@@ -1,4 +1,6 @@
-﻿using FubuMVC.Core.Registration;
+﻿using System.Reflection;
+using FubuCore.Reflection;
+using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
 using NUnit.Framework;
 using Should;
@@ -23,6 +25,8 @@ namespace Tests
         private IDescriptionSource<ActionCall, ModuleDescription> _moduleSource;
         private IDescriptionSource<ActionCall, ResourceDescription> _resourceSource;
         private IDescriptionSource<ActionCall, EndpointDescription> _endpointSource;
+        private IDescriptionSource<PropertyInfo, ParameterDescription> _parameterSource;
+        private IDescriptionSource<FieldInfo, OptionDescription> _optionSource;
 
         [SetUp]
         public void Setup()
@@ -33,6 +37,8 @@ namespace Tests
                 new MarkerSource<ResourceDescription>(),
                 new Swank.ActionSource(_graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly())), new ResourceSourceConfig());
             _endpointSource = new EndpointSource();
+            _parameterSource = new ParameterSource();
+            _optionSource = new OptionSource();
         }
 
         [Test]
@@ -42,7 +48,8 @@ namespace Tests
                 .AppliesToThisAssembly()
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .OnOrphanedResourceAction(OrphanedActions.UseDefault));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource);
 
             var spec = specBuilder.Build();
 
@@ -88,7 +95,8 @@ namespace Tests
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .OnOrphanedResourceAction(OrphanedActions.UseDefault)
                 .WithDefaultResource(y => new ResourceDescription { Name = y.ParentChain().Route.FirstPatternSegment() }));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource);
 
             var spec = specBuilder.Build();
 
@@ -131,7 +139,8 @@ namespace Tests
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .OnOrphanedResourceAction(OrphanedActions.Exclude)
                 .WithDefaultResource(y => new ResourceDescription { Name = y.ParentChain().Route.FirstPatternSegment() }));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource);
 
             var spec = specBuilder.Build();
 
@@ -165,7 +174,8 @@ namespace Tests
                 .AppliesToThisAssembly()
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .OnOrphanedResourceAction(OrphanedActions.Fail));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource);
 
             Assert.Throws<OrphanedResourceActionException>(() => specBuilder.Build());
         }
@@ -179,7 +189,8 @@ namespace Tests
                 .OnOrphanedResourceAction(OrphanedActions.Fail)
                 .Where(y => y.HandlerType.Namespace != typeof(TemplateRequest).Namespace &&
                             y.HandlerType.Namespace != typeof(BatchScheduleRequest).Namespace));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), _moduleSource, _resourceSource, _endpointSource);
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource);
 
             Assert.DoesNotThrow(() => specBuilder.Build());
         }

@@ -25,8 +25,8 @@ namespace Tests
 
             var actions = new Swank.ActionSource(_graph, new Configuration()).GetActions();
 
-            actions.Count.ShouldEqual(36);
-            actions.Count(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldEqual(35);
+            actions.Count.ShouldEqual(37);
+            actions.Count(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldEqual(36);
             actions.Count(x => x.HandlerType.Assembly == typeof(SpecificationHandler).Assembly).ShouldEqual(1);
         }
 
@@ -39,7 +39,7 @@ namespace Tests
 
             var actions = new Swank.ActionSource(_graph, configuration).GetActions();
 
-            actions.Count.ShouldEqual(35);
+            actions.Count.ShouldEqual(36);
             actions.All(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldBeTrue();
         }
 
@@ -52,7 +52,7 @@ namespace Tests
 
             var actions = new Swank.ActionSource(_graph, configuration).GetActions();
 
-            actions.Count.ShouldEqual(25);
+            actions.Count.ShouldEqual(26);
             actions.All(x => x.ParentChain().Route.FirstPatternSegment() != "/batches/").ShouldBeTrue();
         }
     }

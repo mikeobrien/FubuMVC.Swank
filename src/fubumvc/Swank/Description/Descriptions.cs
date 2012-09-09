@@ -6,4 +6,8 @@
     public class ResourceDescription : Description { }
 
     public class EndpointDescription : Description { }
+
+    public class ParameterDescription : Description { }
+
+    public class OptionDescription : Description { }
 }

@@ -76,7 +76,7 @@ namespace Swank
             where TConfig : class, new()
         {
             _configuration.ResourceDescriptionSource.Type = typeof(T);
-            _configuration.ModuleDescriptionSource.Config = CreateConfig(configure);
+            _configuration.ResourceDescriptionSource.Config = CreateConfig(configure);
             return this;
         }
 
@@ -89,8 +89,36 @@ namespace Swank
             where T : IDescriptionSource<ActionCall, EndpointDescription>, new()
             where TConfig : class, new()
         {
-            _configuration.ResourceDescriptionSource.Type = typeof(T);
+            _configuration.EndpointDescriptionSource.Type = typeof(T);
             _configuration.EndpointDescriptionSource.Config = CreateConfig(configure);
+            return this;
+        }
+
+        public ConfigurationDsl WithParameterDescriptionSource<T>() where T : IDescriptionSource<PropertyInfo, ParameterDescription>, new()
+        {
+            return WithParameterDescriptionSource<T, object>(null);
+        }
+
+        public ConfigurationDsl WithParameterDescriptionSource<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionSource<PropertyInfo, ParameterDescription>, new()
+            where TConfig : class, new()
+        {
+            _configuration.ParameterDescriptionSource.Type = typeof(T);
+            _configuration.ParameterDescriptionSource.Config = CreateConfig(configure);
+            return this;
+        }
+
+        public ConfigurationDsl WithOptionDescriptionSource<T>() where T : IDescriptionSource<FieldInfo, OptionDescription>, new()
+        {
+            return WithOptionDescriptionSource<T, object>(null);
+        }
+
+        public ConfigurationDsl WithOptionDescriptionSource<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionSource<FieldInfo, OptionDescription>, new()
+            where TConfig : class, new()
+        {
+            _configuration.OptionDescriptionSource.Type = typeof(T);
+            _configuration.OptionDescriptionSource.Config = CreateConfig(configure);
             return this;
         }
 
