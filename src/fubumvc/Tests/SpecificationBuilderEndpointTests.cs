@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using FubuCore.Reflection;
 using FubuMVC.Core.Registration;
@@ -7,6 +8,7 @@ using NUnit.Framework;
 using Should;
 using Swank;
 using Swank.Description;
+using Tests.Administration.Users;
 
 namespace Tests
 {
@@ -20,7 +22,8 @@ namespace Tests
         private IDescriptionSource<PropertyInfo, ParameterDescription> _parameterSource;
         private IDescriptionSource<FieldInfo, OptionDescription> _optionSource;
         private IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
-
+        private IDescriptionSource<Type, DataTypeDescription> _dataTypes;
+            
         [SetUp]
         public void Setup()
         {
@@ -33,6 +36,7 @@ namespace Tests
             _parameterSource = new ParameterSource();
             _optionSource = new OptionSource();
             _errors = new ErrorSource();
+            _dataTypes = new DataTypeSource();
         }
 
         [Test]
@@ -40,7 +44,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 
             var spec = specBuilder.Build();
 
@@ -73,7 +77,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 
             var spec = specBuilder.Build();
 
@@ -115,7 +119,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                                                       _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 
             var spec = specBuilder.Build();
 
@@ -161,7 +165,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                                                       _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 
             var spec = specBuilder.Build();
 
@@ -206,7 +210,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                                                       _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 
             var spec = specBuilder.Build();
 
@@ -251,7 +255,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                                                       _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 
             var spec = specBuilder.Build();
 
@@ -267,6 +271,38 @@ namespace Tests
             error.status.ShouldEqual(411);
             error.name.ShouldEqual("Swank address");
             error.comments.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_specify_input_type()
+        {
+            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
+
+            var spec = specBuilder.Build();
+
+            var request = spec.modules[1].resources[1].endpoints[0].request;
+
+            request.dataType.ShouldEqual(typeof(AdminAddressRequest).FullName.Hash());
+            request.comments.ShouldEqual("This is an address request yo!");
+            request.name.ShouldEqual("AddressRequest");
+        }
+
+        [Test]
+        public void should_specify_output_type()
+        {
+            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
+
+            var spec = specBuilder.Build();
+
+            var request = spec.modules[1].resources[1].endpoints[0].response;
+
+            request.dataType.ShouldEqual(typeof(AdminAddressResponse).FullName.Hash());
+            request.comments.ShouldBeNull();
+            request.name.ShouldEqual("AdminAddressResponse");
         }
     }
 }

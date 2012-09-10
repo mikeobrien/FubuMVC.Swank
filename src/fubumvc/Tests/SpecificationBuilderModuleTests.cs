@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using FubuCore.Reflection;
 using FubuMVC.Core.Registration;
@@ -28,6 +29,7 @@ namespace Tests
         private IDescriptionSource<PropertyInfo, ParameterDescription> _parameterSource;
         private IDescriptionSource<FieldInfo, OptionDescription> _optionSource;
         private IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
+        private IDescriptionSource<Type, DataTypeDescription> _dataTypes;
 
         [SetUp]
         public void Setup()
@@ -41,6 +43,7 @@ namespace Tests
             _parameterSource = new ParameterSource();
             _optionSource = new OptionSource();
             _errors = new ErrorSource();
+            _dataTypes = new DataTypeSource();
         }
 
         [Test]
@@ -51,7 +54,7 @@ namespace Tests
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .Where(y => y.HandlerType.Namespace == typeof(TemplateRequest).Namespace));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 
             var spec = specBuilder.Build();
 
@@ -66,7 +69,7 @@ namespace Tests
                 .AppliesToThisAssembly()
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 
             var spec = specBuilder.Build();
 
@@ -94,7 +97,7 @@ namespace Tests
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .WithDefaultModule(y => new ModuleDescription { Name = "API", Comments = "This is the API yo!" }));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 
             var spec = specBuilder.Build();
 
@@ -121,7 +124,7 @@ namespace Tests
                 .AppliesToThisAssembly()
                 .OnOrphanedModuleAction(OrphanedActions.Exclude));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 
             var spec = specBuilder.Build();
 
@@ -145,7 +148,7 @@ namespace Tests
                 .AppliesToThisAssembly()
                 .OnOrphanedModuleAction(OrphanedActions.Fail));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 
             Assert.Throws<OrphanedModuleActionException>(() => specBuilder.Build());
         }
@@ -158,7 +161,7 @@ namespace Tests
                 .OnOrphanedModuleAction(OrphanedActions.Fail)
                 .Where(y => y.HandlerType.Namespace != typeof(TemplateRequest).Namespace));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 
             Assert.DoesNotThrow(() => specBuilder.Build());
         }

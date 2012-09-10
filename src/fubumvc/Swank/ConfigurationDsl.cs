@@ -137,6 +137,20 @@ namespace Swank
             return this;
         }
 
+        public ConfigurationDsl WithDataTypeDescriptionSource<T>() where T : IDescriptionSource<Type, DataTypeDescription>, new()
+        {
+            return WithDataTypeDescriptionSource<T, object>(null);
+        }
+
+        public ConfigurationDsl WithDataTypeDescriptionSource<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionSource<Type, DataTypeDescription>, new()
+            where TConfig : class, new()
+        {
+            _configuration.DataTypeDescriptionSource.Type = typeof(T);
+            _configuration.DataTypeDescriptionSource.Config = CreateConfig(configure);
+            return this;
+        }
+
         private TConfig CreateConfig<TConfig>(Action<TConfig> configure) where TConfig : class, new()
         {
             if (configure == null) return null;

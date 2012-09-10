@@ -34,6 +34,7 @@ namespace Swank
         private readonly IDescriptionSource<PropertyInfo, ParameterDescription> _parameters;
         private readonly IDescriptionSource<FieldInfo, OptionDescription> _options;
         private readonly IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
+        private readonly IDescriptionSource<Type, DataTypeDescription> _dataTypes;
 
         public SpecificationBuilder(
             Configuration configuration, 
@@ -44,7 +45,8 @@ namespace Swank
             IDescriptionSource<ActionCall, EndpointDescription> endpoints,
             IDescriptionSource<PropertyInfo, ParameterDescription> parameters,
             IDescriptionSource<FieldInfo, OptionDescription> options,
-            IDescriptionSource<ActionCall, List<ErrorDescription>> errors)
+            IDescriptionSource<ActionCall, List<ErrorDescription>> errors,
+            IDescriptionSource<Type, DataTypeDescription> dataTypes)
         {
             _configuration = configuration;
             _actions = actions;
@@ -55,6 +57,7 @@ namespace Swank
             _parameters = parameters;
             _options = options;
             _errors = errors;
+            _dataTypes = dataTypes;
         }
 
         public Specification Build()
@@ -176,7 +179,14 @@ namespace Swank
 
         private Data GetData(Type type)
         {
-            return new Data();
+            var dataType = _dataTypes.GetDescription(type);
+            return new Data
+                {
+                    name = dataType != null ? dataType.Alias : null,
+                    comments = dataType.GetCommentsOrDefault(),
+                    dataType = dataType.GetNameOrDefault(),
+                    collection = type.IsArray || type.IsList()
+                };
         } 
 
         private List<Option> GetOptions(Type type)

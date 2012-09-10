@@ -226,6 +226,7 @@ namespace Tests
 
             public enum Sort { Asc, Desc }
 
+            [Description("AddressRequest", "This is an address request yo!")]
             public class AdminAddressRequest
             {
                 [Description("Id", "This is the id.")]
@@ -237,6 +238,7 @@ namespace Tests
             }
 
             public class AdminAddressResponse { }
+
             public class AdminAddressGetAllHandler
             {
                 [ErrorDescription(411, "Swank address")]

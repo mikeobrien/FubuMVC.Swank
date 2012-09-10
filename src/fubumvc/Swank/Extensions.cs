@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using FubuMVC.Core;
 using FubuMVC.Core.Registration;
@@ -111,6 +113,17 @@ namespace Swank
             if (type == typeof(byte[])) return "binary";
             if (type.IsEnum) return "enum";
             return null;
+        }
+
+        public static string Hash(this string value)
+        {
+            using (var hash = MD5.Create())
+                return hash.ComputeHash(Encoding.Unicode.GetBytes(value)).ToHex();
+        }
+        
+        public static string ToHex(this byte[] bytes)
+        {
+            return bytes.Select(b => string.Format("{0:X2}", b)).Aggregate((a, i) => a + i);
         }
     }
 }

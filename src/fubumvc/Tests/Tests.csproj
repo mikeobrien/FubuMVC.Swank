@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionSourceTests.cs" />
+    <Compile Include="Description\DataTypeSourceTests.cs" />
     <Compile Include="Description\ErrorSourceTests.cs" />
     <Compile Include="Description\OptionSourceTests.cs" />
     <Compile Include="Description\ParameterSourceTests.cs" />

@@ -18,4 +18,9 @@
     {
         public int Status { get; set; }
     }
+
+    public class DataTypeDescription : Description
+    {
+        public string Alias { get; set; }
+    }
 }

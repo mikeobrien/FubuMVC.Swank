@@ -26,6 +26,7 @@ namespace Swank
             graph.Services.AddService<IDescriptionSource<PropertyInfo, ParameterDescription>>(_configuration.ParameterDescriptionSource.Type, _configuration.ParameterDescriptionSource.Config);
             graph.Services.AddService<IDescriptionSource<FieldInfo, OptionDescription>>(_configuration.OptionDescriptionSource.Type, _configuration.OptionDescriptionSource.Config);
             graph.Services.AddService<IDescriptionSource<ActionCall, List<ErrorDescription>>>(_configuration.ErrorDescriptionSource.Type, _configuration.ErrorDescriptionSource.Config);
+            graph.Services.AddService<IDescriptionSource<Type, DataTypeDescription>>(_configuration.DataTypeDescriptionSource.Type, _configuration.DataTypeDescriptionSource.Config);
             graph.AddActionFor(_configuration.SpecificationUrl, typeof(SpecificationHandler)).MakeAsymmetricJson();
         }
 
