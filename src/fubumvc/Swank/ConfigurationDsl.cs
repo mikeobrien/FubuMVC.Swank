@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using FubuMVC.Core.Registration.Nodes;
 using Swank.Description;
@@ -119,6 +120,20 @@ namespace Swank
         {
             _configuration.OptionDescriptionSource.Type = typeof(T);
             _configuration.OptionDescriptionSource.Config = CreateConfig(configure);
+            return this;
+        }
+
+        public ConfigurationDsl WithErrorDescriptionSource<T>() where T : IDescriptionSource<ActionCall, List<ErrorDescription>>, new()
+        {
+            return WithErrorDescriptionSource<T, object>(null);
+        }
+
+        public ConfigurationDsl WithErrorDescriptionSource<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionSource<ActionCall, List<ErrorDescription>>, new()
+            where TConfig : class, new()
+        {
+            _configuration.ErrorDescriptionSource.Type = typeof(T);
+            _configuration.ErrorDescriptionSource.Config = CreateConfig(configure);
             return this;
         }
 

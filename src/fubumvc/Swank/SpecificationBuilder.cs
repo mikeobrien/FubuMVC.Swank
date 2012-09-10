@@ -33,6 +33,7 @@ namespace Swank
         private readonly IDescriptionSource<ActionCall, EndpointDescription> _endpoints;
         private readonly IDescriptionSource<PropertyInfo, ParameterDescription> _parameters;
         private readonly IDescriptionSource<FieldInfo, OptionDescription> _options;
+        private readonly IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
 
         public SpecificationBuilder(
             Configuration configuration, 
@@ -42,7 +43,8 @@ namespace Swank
             IDescriptionSource<ActionCall, ResourceDescription> resources,
             IDescriptionSource<ActionCall, EndpointDescription> endpoints,
             IDescriptionSource<PropertyInfo, ParameterDescription> parameters,
-            IDescriptionSource<FieldInfo, OptionDescription> options)
+            IDescriptionSource<FieldInfo, OptionDescription> options,
+            IDescriptionSource<ActionCall, List<ErrorDescription>> errors)
         {
             _configuration = configuration;
             _actions = actions;
@@ -52,6 +54,7 @@ namespace Swank
             _endpoints = endpoints;
             _parameters = parameters;
             _options = options;
+            _errors = errors;
         }
 
         public Specification Build()
@@ -59,8 +62,7 @@ namespace Swank
             var actions = _actions.GetActions();
             var modules = GetModules(actions);
             var hasModules = modules.Any(x => !string.IsNullOrEmpty(x.name));
-            return new Specification
-                {
+            return new Specification {
                     dataTypes = new List<DataType>(),
                     modules = hasModules ? modules : new List<Module>(),
                     resources = !hasModules ? modules.SelectMany(x => x.resources).ToList() : new List<Resource>()
@@ -69,8 +71,7 @@ namespace Swank
 
         private List<Module> GetModules(IList<ActionCall> actions)
         {
-            if (_configuration.OrphanedModuleActions == OrphanedActions.Fail)
-            {
+            if (_configuration.OrphanedModuleActions == OrphanedActions.Fail) {
                 var orphanedActions = actions.Where(x => !_modules.HasDescription(x)).ToList();
                 if (orphanedActions.Any()) throw new OrphanedModuleActionException(orphanedActions.Select(x => x.HandlerType.FullName + "." + x.Method.Name));
             }
@@ -91,8 +92,7 @@ namespace Swank
 
         private List<Resource> GetResources(IList<ActionCall> actions)
         {
-            if (_configuration.OrphanedResourceActions == OrphanedActions.Fail)
-            {
+            if (_configuration.OrphanedResourceActions == OrphanedActions.Fail) {
                 var orphanedActions = actions.Where(x => !_resources.HasDescription(x)).ToList();
                 if (orphanedActions.Any()) throw new OrphanedResourceActionException(orphanedActions.Select(x => x.HandlerType.FullName + "." + x.Method.Name));
             }
@@ -113,8 +113,7 @@ namespace Swank
 
         private List<Endpoint> GetEndpoints(IEnumerable<ActionCall> actions)
         {
-            return actions.Select(x =>
-                {
+            return actions.Select(x => {
                     var endpoint = _endpoints.GetDescription(x);
                     return new Endpoint {
                         name = endpoint.GetNameOrDefault(),
@@ -137,8 +136,7 @@ namespace Swank
                 x => {
                     var property = properties[x.Name];
                     var parameter = _parameters.GetDescription(property);
-                    return new UrlParameter
-                        {
+                    return new UrlParameter {
                             name = parameter.GetNameOrDefault(),
                             comments = parameter.GetCommentsOrDefault(),
                             dataType = property.PropertyType.ToFriendlyName(),
@@ -146,6 +144,40 @@ namespace Swank
                         };
                 }).ToList();
         }
+
+        private List<QuerystringParameter> GetQuerystringParameters(ActionCall action)
+        {
+            return _typeCache.GetPropertiesFor(action.InputType())
+                .Where(x => x.Value.IsQuerystring(action))
+                .Select(x => {
+                    var parameter = _parameters.GetDescription(x.Value);
+                    return new QuerystringParameter {
+                        name = parameter.GetNameOrDefault(),
+                        comments = parameter.GetCommentsOrDefault(),
+                        dataType = (x.Value.PropertyType.IsArray ? x.Value.PropertyType.GetElementType() : 
+                                   x.Value.PropertyType.IsList() ? x.Value.PropertyType.GetGenericArguments()[0] : x.Value.PropertyType)
+                                   .ToFriendlyName(),
+                        options = GetOptions(x.Value.PropertyType),
+                        defaultValue = parameter.DefaultValue != null ? parameter.DefaultValue.ToString() : null,
+                        multipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList()
+                    };
+                }).ToList();
+        }
+
+        private List<Error> GetErrors(ActionCall action)
+        {
+            return _errors.GetDescription(action)
+                .Select(x => new Error {
+                    status = x.Status,
+                    name = x.Name,
+                    comments = x.Comments
+                }).OrderBy(x => x.status).ToList();
+        }
+
+        private Data GetData(Type type)
+        {
+            return new Data();
+        } 
 
         private List<Option> GetOptions(Type type)
         {
@@ -160,20 +192,5 @@ namespace Swank
                         };
                     }).OrderBy(x => x.name).ToList();
         }
-
-        private List<QuerystringParameter> GetQuerystringParameters(ActionCall action)
-        {
-            return new List<QuerystringParameter>();
-        }
-
-        private List<Error> GetErrors(ActionCall action)
-        {
-            return new List<Error>();
-        }
-
-        private Data GetData(Type type)
-        {
-            return new Data();
-        } 
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using FubuMVC.Core;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
 using Swank.Description;
@@ -187,13 +189,22 @@ namespace Tests
                 }
             }
 
-            public class AdminAccountRequest { public Guid Id { get; set; } public Guid UserId { get; set; } }
+            public class AdminAccountRequest 
+            { 
+                public Guid Id { get; set; }
+                public Guid UserId { get; set; }
+                [QueryString, DefaultValue(Sort.Desc)]
+                public Sort Order { get; set; }
+                [QueryString]
+                public List<Guid> Show { get; set; } 
+            }
+
             public class AdminAccountResponse { }
-            public class AdminAccountGetAllHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
-            public class AdminAccountPostHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
-            public class AdminAccountGetHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
-            public class AdminAccountPutHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
-            public class AdminAccountDeleteHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
+            public class AdminAccountGetAllHandler { public AdminAccountResponse Execute_UserId(AdminAccountRequest request) { return null; } }
+            public class AdminAccountPostHandler { public AdminAccountResponse Execute_UserId(AdminAccountRequest request) { return null; } }
+            public class AdminAccountGetHandler { public AdminAccountResponse Execute_UserId_Id(AdminAccountRequest request) { return null; } }
+            public class AdminAccountPutHandler { public AdminAccountResponse Execute_UserId_Id(AdminAccountRequest request) { return null; } }
+            public class AdminAccountDeleteHandler { public AdminAccountResponse Execute_UserId_Id(AdminAccountRequest request) { return null; } }
 
             public class AdminAddressResource : ResourceDescription
             {
@@ -213,16 +224,25 @@ namespace Tests
                 Emergency
             }
 
+            public enum Sort { Asc, Desc }
+
             public class AdminAddressRequest
             {
-                public Guid Id { get; set; } 
+                [Description("Id", "This is the id.")]
+                public Guid Id { get; set; }
+                public Sort Order { get; set; }
                 [Description("User Id", "This is the id of the user.")]
                 public Guid UserId { get; set; } 
                 public AddressType AddressType { get; set; }
             }
 
             public class AdminAddressResponse { }
-            public class AdminAddressGetAllHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
+            public class AdminAddressGetAllHandler
+            {
+                [ErrorDescription(411, "Swank address")]
+                [ErrorDescription(410, "Invalid address", "An invalid address was entered fool!")]
+                public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; }
+            }
             public class AdminAddressGetAllOfTypeHandler { public AdminAddressResponse Execute_UserId_AddressType(AdminAddressRequest request) { return null; } }
             public class AdminAddressPostHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
             public class AdminAddressGetHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }

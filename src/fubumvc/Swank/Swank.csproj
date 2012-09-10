@@ -69,6 +69,9 @@
     <Compile Include="ActionSource.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationDsl.cs" />
+    <Compile Include="Description\ErrorSource.cs" />
+    <Compile Include="Description\DefaultValueAttribute.cs" />
+    <Compile Include="Description\ErrorDescriptionAttribute.cs" />
     <Compile Include="Description\OptionSource.cs" />
     <Compile Include="Description\ParameterSource.cs" />
     <Compile Include="Description\DescriptionAttribute.cs" />

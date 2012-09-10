@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using FubuMVC.Core;
 using FubuMVC.Core.Registration;
+using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Core.Registration.ObjectGraph;
 using FubuMVC.Core.Registration.Routes;
 using MarkdownSharp;
@@ -21,6 +23,27 @@ namespace Swank
         public static string FirstPatternSegment(this IRouteDefinition route)
         {
             return route.Pattern.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+        }
+
+        public static bool IsUrlParameter(this PropertyInfo property, ActionCall action)
+        {
+            return action.ParentChain().Route.Input.RouteParameters.Any(x => x.Name == property.Name);
+        }
+
+        public static bool IsQuerystring(this PropertyInfo property, ActionCall action)
+        {
+            return !action.ParentChain().Route.Input.RouteParameters.Any(x => x.Name == property.Name) && 
+                (property.GetCustomAttribute<QueryStringAttribute>() != null ||
+                 !action.ParentChain().Route.AllowedHttpMethods.Any(x => 
+                     x.Equals("post", StringComparison.OrdinalIgnoreCase) ||
+                     x.Equals("put", StringComparison.OrdinalIgnoreCase)));
+        }
+
+        public static bool IsList(this Type type)
+        {
+            return type.IsGenericType && 
+                   (type.GetGenericTypeDefinition() == typeof(List<>) ||
+                    type.GetGenericTypeDefinition() == typeof(IList<>));
         }
 
         public static void AddService<T>(this ServiceGraph services, Type concreteType, params object[] dependencies)

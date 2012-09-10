@@ -7,7 +7,15 @@
 
     public class EndpointDescription : Description { }
 
-    public class ParameterDescription : Description { }
+    public class ParameterDescription : Description
+    {
+        public object DefaultValue { get; set; }
+    }
 
     public class OptionDescription : Description { }
+
+    public class ErrorDescription : Description
+    {
+        public int Status { get; set; }
+    }
 }

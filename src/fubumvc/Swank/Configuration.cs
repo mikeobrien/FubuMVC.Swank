@@ -35,8 +35,10 @@ namespace Swank
                 { Type = typeof(ParameterSource) };
             OptionDescriptionSource = new Service<IDescriptionSource<FieldInfo, OptionDescription>> 
                 { Type = typeof(OptionSource) };
+            ErrorDescriptionSource = new Service<IDescriptionSource<ActionCall, List<ErrorDescription>>>
+                { Type = typeof(ErrorSource) };
         }
-
+        
         public string Url { get; set; }
         public string SpecificationUrl { get; set; }
         public List<Assembly> AppliesToAssemblies { get; set; }
@@ -46,6 +48,7 @@ namespace Swank
         public Service<IDescriptionSource<ActionCall, EndpointDescription>> EndpointDescriptionSource { get; set; }
         public Service<IDescriptionSource<PropertyInfo, ParameterDescription>> ParameterDescriptionSource { get; set; }
         public Service<IDescriptionSource<FieldInfo, OptionDescription>> OptionDescriptionSource { get; set; }
+        public Service<IDescriptionSource<ActionCall, List<ErrorDescription>>> ErrorDescriptionSource { get; set; }
         public Func<ActionCall, ModuleDescription> DefaultModuleFactory { get; set; }
         public OrphanedActions OrphanedModuleActions { get; set; }
         public OrphanedActions OrphanedResourceActions { get; set; }

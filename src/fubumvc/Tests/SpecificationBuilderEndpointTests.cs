@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using FubuCore.Reflection;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
@@ -18,6 +19,7 @@ namespace Tests
         private IDescriptionSource<ActionCall, EndpointDescription> _endpointSource;
         private IDescriptionSource<PropertyInfo, ParameterDescription> _parameterSource;
         private IDescriptionSource<FieldInfo, OptionDescription> _optionSource;
+        private IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
 
         [SetUp]
         public void Setup()
@@ -30,6 +32,7 @@ namespace Tests
             _endpointSource = new EndpointSource();
             _parameterSource = new ParameterSource();
             _optionSource = new OptionSource();
+            _errors = new ErrorSource();
         }
 
         [Test]
@@ -37,7 +40,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource);
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
 
             var spec = specBuilder.Build();
 
@@ -70,7 +73,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource);
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
 
             var spec = specBuilder.Build();
 
@@ -112,12 +115,13 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                                                       _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource);
+                                                       _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
 
             var spec = specBuilder.Build();
 
             var endpoint = spec.modules[1].resources[1].endpoints[2];
 
+            endpoint.querystringParameters.Count.ShouldEqual(2);
             endpoint.urlParameters.Count.ShouldEqual(2);
 
             var parameter = endpoint.urlParameters[0];
@@ -150,6 +154,119 @@ namespace Tests
             option.name.ShouldEqual("Work Address");
             option.value.ShouldEqual("Work");
             option.comments.ShouldEqual("This is the work address of the user.");
+        }
+
+        [Test]
+        public void should_enumerate_endpoint_implicit_querystring_parameters()
+        {
+            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
+                                                       _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+
+            var spec = specBuilder.Build();
+
+            var endpoint = spec.modules[1].resources[1].endpoints[2];
+
+            endpoint.querystringParameters.Count.ShouldEqual(2);
+            endpoint.urlParameters.Count.ShouldEqual(2);
+
+            var parameter = endpoint.querystringParameters[0];
+            parameter.name.ShouldEqual("Id");
+            parameter.comments.ShouldEqual("This is the id.");
+            parameter.dataType.ShouldEqual("uuid");
+            parameter.multipleAllowed.ShouldBeFalse();
+            parameter.defaultValue.ShouldBeNull();
+            parameter.options.ShouldBeEmpty();
+
+            parameter = endpoint.querystringParameters[1];
+            parameter.name.ShouldEqual("Order");
+            parameter.comments.ShouldBeNull();
+            parameter.dataType.ShouldEqual("enum");
+            parameter.multipleAllowed.ShouldBeFalse();
+            parameter.defaultValue.ShouldBeNull();
+            parameter.options.Count.ShouldEqual(2);
+
+            var options = parameter.options;
+
+            options.Count.ShouldEqual(2);
+
+            var option = options[0];
+            option.name.ShouldBeNull();
+            option.value.ShouldEqual("Asc");
+            option.comments.ShouldBeNull();
+
+            option = options[1];
+            option.name.ShouldBeNull();
+            option.value.ShouldEqual("Desc");
+            option.comments.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_enumerate_endpoint_explicit_querystring_parameters()
+        {
+            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
+                                                       _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+
+            var spec = specBuilder.Build();
+
+            var endpoint = spec.modules[1].resources[0].endpoints[1];
+
+            endpoint.querystringParameters.Count.ShouldEqual(2);
+            endpoint.urlParameters.Count.ShouldEqual(0);
+
+            var parameter = endpoint.querystringParameters[0];
+            parameter.name.ShouldEqual("Order");
+            parameter.comments.ShouldBeNull();
+            parameter.dataType.ShouldEqual("enum");
+            parameter.multipleAllowed.ShouldBeFalse();
+            parameter.defaultValue.ShouldEqual("Desc");
+            parameter.options.Count.ShouldEqual(2);
+
+            var options = parameter.options;
+
+            options.Count.ShouldEqual(2);
+
+            var option = options[0];
+            option.name.ShouldBeNull();
+            option.value.ShouldEqual("Asc");
+            option.comments.ShouldBeNull();
+
+            option = options[1];
+            option.name.ShouldBeNull();
+            option.value.ShouldEqual("Desc");
+            option.comments.ShouldBeNull();
+
+            parameter = endpoint.querystringParameters[1];
+            parameter.name.ShouldEqual("Show");
+            parameter.comments.ShouldBeNull();
+            parameter.dataType.ShouldEqual("uuid");
+            parameter.multipleAllowed.ShouldBeTrue();
+            parameter.defaultValue.ShouldBeNull();
+            parameter.options.Count.ShouldEqual(0);
+        }
+
+        [Test]
+        public void should_enumerate_endpoint_errors()
+        {
+            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
+                                                       _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors);
+
+            var spec = specBuilder.Build();
+
+            var endpoint = spec.modules[1].resources[1].endpoints[0];
+
+            endpoint.errors.Count.ShouldEqual(2);
+            var error = endpoint.errors[0];
+            error.status.ShouldEqual(410);
+            error.name.ShouldEqual("Invalid address");
+            error.comments.ShouldEqual("An invalid address was entered fool!");
+
+            error = endpoint.errors[1];
+            error.status.ShouldEqual(411);
+            error.name.ShouldEqual("Swank address");
+            error.comments.ShouldBeNull();
         }
     }
 }
