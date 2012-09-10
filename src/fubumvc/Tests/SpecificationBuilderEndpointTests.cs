@@ -284,9 +284,10 @@ namespace Tests
 
             var request = spec.modules[1].resources[1].endpoints[0].request;
 
-            request.dataType.ShouldEqual(typeof(AdminAddressRequest).FullName.Hash());
-            request.comments.ShouldEqual("This is an address request yo!");
             request.name.ShouldEqual("AddressRequest");
+            request.comments.ShouldEqual("This is an address request yo!");
+            request.dataType.ShouldEqual(typeof(AdminAddressRequest).FullName.Hash());
+            request.collection.ShouldBeFalse();
         }
 
         [Test]
@@ -300,9 +301,44 @@ namespace Tests
 
             var request = spec.modules[1].resources[1].endpoints[0].response;
 
-            request.dataType.ShouldEqual(typeof(AdminAddressResponse).FullName.Hash());
-            request.comments.ShouldBeNull();
             request.name.ShouldEqual("AdminAddressResponse");
+            request.comments.ShouldBeNull();
+            request.dataType.ShouldEqual(typeof(AdminAddressResponse).FullName.Hash());
+            request.collection.ShouldBeFalse();
+        }
+
+        [Test]
+        public void should_specify_list_output_type()
+        {
+            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
+
+            var spec = specBuilder.Build();
+
+            var request = spec.modules[1].resources[1].endpoints[4].response;
+
+            request.name.ShouldEqual("AdminAddressResponse");
+            request.comments.ShouldBeNull();
+            request.dataType.ShouldEqual(typeof(AdminAddressResponse).FullName.Hash());
+            request.collection.ShouldBeTrue();
+        }
+
+        [Test]
+        public void should_specify_inherited_list_output_type()
+        {
+            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
+            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
+
+            var spec = specBuilder.Build();
+
+            var request = spec.modules[1].resources[1].endpoints[2].response;
+
+            request.name.ShouldEqual("Addresses");
+            request.comments.ShouldEqual("These are addresses yo!");
+            request.dataType.ShouldEqual(typeof(AdminAddressResponse).FullName.Hash());
+            request.collection.ShouldBeTrue();
         }
     }
 }

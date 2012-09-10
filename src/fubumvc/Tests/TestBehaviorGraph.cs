@@ -239,15 +239,18 @@ namespace Tests
 
             public class AdminAddressResponse { }
 
+            [Description("Addresses", "These are addresses yo!")]
+            public class AdminAddresses : List<AdminAddressResponse> {}
+
             public class AdminAddressGetAllHandler
             {
                 [ErrorDescription(411, "Swank address")]
                 [ErrorDescription(410, "Invalid address", "An invalid address was entered fool!")]
                 public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; }
             }
-            public class AdminAddressGetAllOfTypeHandler { public AdminAddressResponse Execute_UserId_AddressType(AdminAddressRequest request) { return null; } }
+            public class AdminAddressGetAllOfTypeHandler { public AdminAddresses Execute_UserId_AddressType(AdminAddressRequest request) { return null; } }
             public class AdminAddressPostHandler { public AdminAddressResponse Execute_UserId(AdminAddressRequest request) { return null; } }
-            public class AdminAddressGetHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
+            public class AdminAddressGetHandler { public List<AdminAddressResponse> Execute_UserId_Id(AdminAddressRequest request) { return null; } }
             public class AdminAddressPutHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
             public class AdminAddressDeleteHandler { public AdminAddressResponse Execute_UserId_Id(AdminAddressRequest request) { return null; } }
 

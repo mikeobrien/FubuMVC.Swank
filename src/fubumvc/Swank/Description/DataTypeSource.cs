@@ -8,13 +8,13 @@ namespace Swank.Description
         public DataTypeDescription GetDescription(Type type)
         {
             var description = type.GetCustomAttribute<DescriptionAttribute>();
-            return new DataTypeDescription
-            {
-                    Name = type.FullName.Hash(),
-                    Comments = description != null ? description.Comments : null,
-                    Namespace = type.Namespace,
-                    Alias = description != null ? description.Name : type.Name
-                };
+            var elementType = type.GetElementTypeOrDefault();
+            return new DataTypeDescription {
+                Name = elementType.FullName.Hash(),
+                Comments = description != null ? description.Comments : null,
+                Namespace = type.Namespace,
+                Alias = description != null ? description.Name : elementType.Name
+            };
         }
     }
 }

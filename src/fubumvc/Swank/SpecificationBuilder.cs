@@ -157,9 +157,7 @@ namespace Swank
                     return new QuerystringParameter {
                         name = parameter.GetNameOrDefault(),
                         comments = parameter.GetCommentsOrDefault(),
-                        dataType = (x.Value.PropertyType.IsArray ? x.Value.PropertyType.GetElementType() : 
-                                   x.Value.PropertyType.IsList() ? x.Value.PropertyType.GetGenericArguments()[0] : x.Value.PropertyType)
-                                   .ToFriendlyName(),
+                        dataType = x.Value.PropertyType.GetElementTypeOrDefault().ToFriendlyName(),
                         options = GetOptions(x.Value.PropertyType),
                         defaultValue = parameter.DefaultValue != null ? parameter.DefaultValue.ToString() : null,
                         multipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList()

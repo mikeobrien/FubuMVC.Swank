@@ -43,9 +43,19 @@ namespace Swank
 
         public static bool IsList(this Type type)
         {
-            return type.IsGenericType && 
-                   (type.GetGenericTypeDefinition() == typeof(List<>) ||
-                    type.GetGenericTypeDefinition() == typeof(IList<>));
+            return (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IList<>)) || 
+                type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof (IList<>));
+        }
+
+        public static Type AsGenericList(this Type type)
+        {
+            return (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IList<>)) ? type :
+                   type.GetInterfaces().First(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>));
+        }
+
+        public static Type GetElementTypeOrDefault(this Type type)
+        {
+            return type.IsArray ? type.GetElementType() : type.IsList() ? type.AsGenericList().GetGenericArguments()[0] : type;
         }
 
         public static void AddService<T>(this ServiceGraph services, Type concreteType, params object[] dependencies)
