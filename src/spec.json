@@ -1,9 +1,9 @@
 {
     "dataTypes" : [
         {
+            "id": "",
             "name": "",
             "comments": "",
-            "alias": "",
             "members": [
                 {
                     "name": "",

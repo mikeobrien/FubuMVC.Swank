@@ -43,24 +43,63 @@ namespace Tests
             Assembly.GetExecutingAssembly().FindTextResourceNamed("Tests.EmbeddedMarkdownResource").ShouldEqual("<p><strong>Some markdown yo!</strong></p>");
         }
 
-        private class Widgets : List<string> {}
+        private class Widgets : List<string> { }
+        private class Widgets<T> : List<string> { }
 
         [Test]
-        public void should_determine_if_an_object_is_a_list()
+        public void should_determine_if_an_type_is_a_list_type()
+        {
+            typeof(List<string>).IsListType().ShouldBeTrue();
+            typeof(IList<string>).IsListType().ShouldBeTrue();
+            typeof(Widgets).IsListType().ShouldBeFalse();
+            typeof(Widgets<string>).IsListType().ShouldBeFalse();
+        }
+
+        [Test]
+        public void should_determine_if_an_type_implements_a_list_type()
+        {
+            typeof(List<string>).ImplementsListType().ShouldBeTrue();
+            typeof(IList<string>).ImplementsListType().ShouldBeFalse();
+            typeof(Widgets).ImplementsListType().ShouldBeTrue();
+            typeof(Widgets<string>).ImplementsListType().ShouldBeTrue();
+        }
+
+        [Test]
+        public void should_determine_if_an_type_inherits_from_a_list()
+        {
+            typeof(List<string>).InheritsFromListType().ShouldBeFalse();
+            typeof(IList<string>).InheritsFromListType().ShouldBeFalse();
+            typeof(Widgets).InheritsFromListType().ShouldBeTrue();
+            typeof(Widgets<string>).InheritsFromListType().ShouldBeTrue();
+        }
+
+        [Test]
+        public void should_determine_if_a_type_is_a_list()
         {
             typeof(List<string>).IsList().ShouldBeTrue();
             typeof(IList<string>).IsList().ShouldBeTrue();
             typeof(Widgets).IsList().ShouldBeTrue();
+            typeof(Widgets<string>).IsList().ShouldBeTrue();
+        }
+
+        [Test]
+        public void should_return_types_list_interface()
+        {
+            typeof(List<string>).GetListInterface().ShouldEqual(typeof(IList<string>));
+            typeof(IList<string>).GetListInterface().ShouldEqual(typeof(IList<string>));
+            typeof(Widgets).GetListInterface().ShouldEqual(typeof(IList<string>));
+            typeof(Widgets<string>).GetListInterface().ShouldEqual(typeof(IList<string>));
         }
 
         [Test]
         public void should_return_list_element_type()
         {
-            typeof(List<string>).GetElementTypeOrDefault().ShouldEqual(typeof(string));
-            typeof(IList<string>).GetElementTypeOrDefault().ShouldEqual(typeof(string));
-            typeof(Widgets).GetElementTypeOrDefault().ShouldEqual(typeof(string));
-            typeof(string[]).GetElementTypeOrDefault().ShouldEqual(typeof(string));
-            typeof(string).GetElementTypeOrDefault().ShouldEqual(typeof(string));
+            Extensions.GetListElementType(typeof(List<string>)).ShouldEqual(typeof(string));
+            Extensions.GetListElementType(typeof(IList<string>)).ShouldEqual(typeof(string));
+            Extensions.GetListElementType(typeof(Widgets)).ShouldEqual(typeof(string));
+            Extensions.GetListElementType(typeof(Widgets<string>)).ShouldEqual(typeof(string));
+            Extensions.GetListElementType(typeof(string[])).ShouldEqual(typeof(string));
+            Extensions.GetListElementType(typeof(string)).ShouldBeNull();
         }
     }
 }

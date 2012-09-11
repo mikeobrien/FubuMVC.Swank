@@ -41,21 +41,43 @@ namespace Swank
                      x.Equals("put", StringComparison.OrdinalIgnoreCase)));
         }
 
-        public static bool IsList(this Type type)
+        public static bool IsSystemType(this Type type)
         {
-            return (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IList<>)) || 
-                type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof (IList<>));
+            return type.FullName.StartsWith("System.");
         }
 
-        public static Type AsGenericList(this Type type)
+        private static readonly Type[] ListTypes = new[] { typeof(IList<>), typeof(List<>) };
+
+        public static bool IsListType(this Type type)
+        {
+            var genericTypeDef = type.IsGenericType ? type.GetGenericTypeDefinition() : null;
+            return ListTypes.Any(x => genericTypeDef == x);
+        }
+
+        public static bool ImplementsListType(this Type type)
+        {
+            return type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>));
+        }
+
+        public static bool InheritsFromListType(this Type type)
+        {
+            return !type.IsListType() && type.ImplementsListType();
+        }
+
+        public static bool IsList(this Type type)
+        {
+            return type.IsListType() || type.ImplementsListType();
+        }
+
+        public static Type GetListInterface(this Type type)
         {
             return (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IList<>)) ? type :
                    type.GetInterfaces().First(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>));
         }
 
-        public static Type GetElementTypeOrDefault(this Type type)
+        public static Type GetListElementType(this Type type)
         {
-            return type.IsArray ? type.GetElementType() : type.IsList() ? type.AsGenericList().GetGenericArguments()[0] : type;
+            return type.IsArray ? type.GetElementType() : type.IsList() ? type.GetListInterface().GetGenericArguments()[0] : null;
         }
 
         public static void AddService<T>(this ServiceGraph services, Type concreteType, params object[] dependencies)

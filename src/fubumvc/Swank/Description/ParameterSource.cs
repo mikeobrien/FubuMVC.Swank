@@ -6,10 +6,10 @@ namespace Swank.Description
     {
         public ParameterDescription GetDescription(PropertyInfo property)
         {
-            var description = property.GetCustomAttribute<DescriptionAttribute>();
+            var description = property.GetCustomAttribute<CommentsAttribute>();
             var defaultValue = property.GetCustomAttribute<DefaultValueAttribute>();
             return new ParameterDescription {
-                    Name = description != null ? description.Name : property.Name,
+                    Name = property.Name,
                     Comments = description != null ? description.Comments : null,
                     Namespace = property.DeclaringType.Namespace,
                     DefaultValue = defaultValue != null ? defaultValue.Value : null

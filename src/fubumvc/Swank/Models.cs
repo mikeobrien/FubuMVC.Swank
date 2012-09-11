@@ -11,8 +11,8 @@ namespace Swank.Models
 
     public class DataType
     {
+        public string id { get; set; }
         public string name { get; set; }
-        public string alias { get; set; }
         public string comments { get; set; }
         public List<Member> members { get; set; }
     }

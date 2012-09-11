@@ -66,11 +66,39 @@ namespace Swank
             var modules = GetModules(actions);
             var hasModules = modules.Any(x => !string.IsNullOrEmpty(x.name));
             return new Specification {
-                    dataTypes = new List<DataType>(),
+                dataTypes = GetDataTypes(actions),
                     modules = hasModules ? modules : new List<Module>(),
                     resources = !hasModules ? modules.SelectMany(x => x.resources).ToList() : new List<Resource>()
                 };
         }
+
+        private List<DataType> GetDataTypes(IList<ActionCall> actions)
+        {
+            var rootTypes = actions.Where(x => x.HasInput).Select(x => Extensions.GetListElementType(x.InputType()) ?? x.InputType())
+                .Concat(actions.Where(x => x.HasOutput).Select(x => Extensions.GetListElementType(x.OutputType()) ?? x.OutputType()))
+                .Distinct().ToList();
+            return rootTypes
+                .Concat(rootTypes.SelectMany(GetTypes))
+                .Distinct()
+                .Select(x => {
+                    var dataType = _dataTypes.GetDescription(x);
+                    return new DataType {
+                        id = dataType != null ? dataType.Id : null,
+                        name = dataType.GetNameOrDefault(),
+                        comments = dataType.GetCommentsOrDefault(),
+                        members = null
+                    };
+                })
+                .OrderBy(x => x.name).ToList();
+        }
+
+        private List<Type> GetTypes(Type type)
+        {
+            var types = _typeCache.GetPropertiesFor(type)
+                .Select(x => x.Value.PropertyType)
+                .Where(x => !(x.GetElementType() ?? x).IsSystemType() && !x.IsEnum).Distinct().ToList();
+            return types.Concat(types.SelectMany(GetTypes)).Distinct().ToList();
+        } 
 
         private List<Module> GetModules(IList<ActionCall> actions)
         {
@@ -157,7 +185,7 @@ namespace Swank
                     return new QuerystringParameter {
                         name = parameter.GetNameOrDefault(),
                         comments = parameter.GetCommentsOrDefault(),
-                        dataType = x.Value.PropertyType.GetElementTypeOrDefault().ToFriendlyName(),
+                        dataType = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).ToFriendlyName(),
                         options = GetOptions(x.Value.PropertyType),
                         defaultValue = parameter.DefaultValue != null ? parameter.DefaultValue.ToString() : null,
                         multipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList()
@@ -180,9 +208,9 @@ namespace Swank
             var dataType = _dataTypes.GetDescription(type);
             return new Data
                 {
-                    name = dataType != null ? dataType.Alias : null,
+                    name = dataType.GetNameOrDefault(),
                     comments = dataType.GetCommentsOrDefault(),
-                    dataType = dataType.GetNameOrDefault(),
+                    dataType = dataType != null ? dataType.Id : null,
                     collection = type.IsArray || type.IsList()
                 };
         } 

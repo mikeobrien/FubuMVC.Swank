@@ -24,7 +24,7 @@ namespace Tests.Description
             var action = TestBehaviorGraph.CreateAction<AdminAddressGetAllOfTypeHandler>();
             var parameterSource = new ParameterSource();
             var description = parameterSource.GetDescription(action.InputType().GetProperty("UserId"));
-            description.Name.ShouldEqual("User Id");
+            description.Name.ShouldEqual("UserId");
             description.Comments.ShouldEqual("This is the id of the user.");
         }
     }

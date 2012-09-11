@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using FubuMVC.Core;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
@@ -85,7 +86,35 @@ namespace Tests
     namespace Templates
     {
         public class TemplateRequest { public Guid Id { get; set; } }
-        public class TemplateResponse { }
+
+        public class TemplateRevision
+        {
+            public int RevisionNumber { get; set; }
+            public TemplateAuthor Author { get; set; }
+        }
+
+        public interface IPermissions
+        {
+            bool IsAdmin { get; set; }
+        }
+
+        public class TemplateAuthor
+        {
+            public Guid Id { get; set; }
+            public string Name { get; set; }
+            public IPermissions Permissions {get; set;}
+        }
+
+        public class TemplateAuthors : List<TemplateAuthor> {}
+
+        public class TemplateResponse
+        {
+            public int RevisionNumber { get; set; }
+            public List<TemplateRevision> Revisions { get; set; }
+            public TemplateAuthors Authors { get; set; }
+            public TemplateAuthor OriginalAuthor { get; set; }
+            public List<DateTime> RevisionDates { get; set; } 
+        }
 
         [Description("GetTemplates", "This gets all the templates yo.")]
         public class TemplateGetAllHandler
@@ -226,20 +255,20 @@ namespace Tests
 
             public enum Sort { Asc, Desc }
 
-            [Description("AddressRequest", "This is an address request yo!")]
+            [Comments("This is an address request yo!")]
             public class AdminAddressRequest
             {
-                [Description("Id", "This is the id.")]
+                [Comments("This is the id.")]
                 public Guid Id { get; set; }
                 public Sort Order { get; set; }
-                [Description("User Id", "This is the id of the user.")]
+                [Comments("This is the id of the user.")]
                 public Guid UserId { get; set; } 
                 public AddressType AddressType { get; set; }
             }
 
             public class AdminAddressResponse { }
 
-            [Description("Addresses", "These are addresses yo!")]
+            [Comments("These are addresses yo!")]
             public class AdminAddresses : List<AdminAddressResponse> {}
 
             public class AdminAddressGetAllHandler
@@ -263,9 +292,13 @@ namespace Tests
                 }
             }
 
+            [Comments("These are users yo!"), XmlType("Users")]
+            public class AdminUsers : List<AdminUserResponse> { }
+
+            [XmlType("User")]
             public class AdminUserRequest { public Guid Id { get; set; } }
             public class AdminUserResponse { }
-            public class AdminUserGetAllHandler { public AdminUserResponse Execute(AdminUserRequest request) { return null; } }
+            public class AdminUserGetAllHandler { public AdminUsers Execute(AdminUserRequest request) { return null; } }
             public class AdminUserPostHandler { public AdminUserResponse Execute(AdminUserRequest request) { return null; } }
             public class AdminUserGetHandler { public AdminUserResponse Execute_Id(AdminUserRequest request) { return null; } }
             public class AdminUserPutHandler { public AdminUserResponse Execute_Id(AdminUserRequest request) { return null; } }

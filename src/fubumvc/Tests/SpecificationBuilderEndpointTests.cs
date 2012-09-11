@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using FubuCore.Reflection;
-using FubuMVC.Core.Registration;
-using FubuMVC.Core.Registration.Nodes;
+﻿using FubuCore.Reflection;
 using NUnit.Framework;
 using Should;
 using Swank;
@@ -15,38 +10,30 @@ namespace Tests
     [TestFixture]
     public class SpecificationBuilderEndpointTests
     {
-        private BehaviorGraph _graph;
-        private IDescriptionSource<ActionCall, ModuleDescription> _moduleSource;
-        private IDescriptionSource<ActionCall, ResourceDescription> _resourceSource;
-        private IDescriptionSource<ActionCall, EndpointDescription> _endpointSource;
-        private IDescriptionSource<PropertyInfo, ParameterDescription> _parameterSource;
-        private IDescriptionSource<FieldInfo, OptionDescription> _optionSource;
-        private IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
-        private IDescriptionSource<Type, DataTypeDescription> _dataTypes;
-            
+        private SpecificationBuilder _specBuilder;
+
         [SetUp]
         public void Setup()
         {
-            _graph = TestBehaviorGraph.Build();
-            _moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
-            _resourceSource = new ResourceSource(
+            var graph = TestBehaviorGraph.Build();
+            var moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
+            var resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
-                new Swank.ActionSource(_graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly())), new ResourceSourceConfig());
-            _endpointSource = new EndpointSource();
-            _parameterSource = new ParameterSource();
-            _optionSource = new OptionSource();
-            _errors = new ErrorSource();
-            _dataTypes = new DataTypeSource();
+                new ActionSource(graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly())), new ResourceSourceConfig());
+            var endpointSource = new EndpointSource();
+            var parameterSource = new ParameterSource();
+            var optionSource = new OptionSource();
+            var errors = new ErrorSource();
+            var dataTypes = new DataTypeSource();
+            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
+            _specBuilder = new SpecificationBuilder(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
+                moduleSource, resourceSource, endpointSource, parameterSource, optionSource, errors, dataTypes);
         }
 
         [Test]
         public void should_enumerate_endpoints()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-            var spec = specBuilder.Build();
+            var spec = _specBuilder.Build();
 
             var resources = spec.modules[0].resources;
             resources.Count.ShouldEqual(2);
@@ -75,11 +62,7 @@ namespace Tests
         [Test]
         public void should_enumerate_endpoint_description()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-            var spec = specBuilder.Build();
+            var spec = _specBuilder.Build();
 
             var endpoints = spec.modules[0].resources[0].endpoints;
 
@@ -117,11 +100,7 @@ namespace Tests
         [Test]
         public void should_enumerate_endpoint_url_parameters()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-            var spec = specBuilder.Build();
+            var spec = _specBuilder.Build();
 
             var endpoint = spec.modules[1].resources[1].endpoints[2];
 
@@ -129,7 +108,7 @@ namespace Tests
             endpoint.urlParameters.Count.ShouldEqual(2);
 
             var parameter = endpoint.urlParameters[0];
-            parameter.name.ShouldEqual("User Id");
+            parameter.name.ShouldEqual("UserId");
             parameter.dataType.ShouldEqual("uuid");
             parameter.comments.ShouldEqual("This is the id of the user.");
             parameter.options.ShouldBeEmpty();
@@ -163,11 +142,7 @@ namespace Tests
         [Test]
         public void should_enumerate_endpoint_implicit_querystring_parameters()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-            var spec = specBuilder.Build();
+            var spec = _specBuilder.Build();
 
             var endpoint = spec.modules[1].resources[1].endpoints[2];
 
@@ -208,11 +183,7 @@ namespace Tests
         [Test]
         public void should_enumerate_endpoint_explicit_querystring_parameters()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-            var spec = specBuilder.Build();
+            var spec = _specBuilder.Build();
 
             var endpoint = spec.modules[1].resources[0].endpoints[1];
 
@@ -253,11 +224,7 @@ namespace Tests
         [Test]
         public void should_enumerate_endpoint_errors()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-            var spec = specBuilder.Build();
+            var spec = _specBuilder.Build();
 
             var endpoint = spec.modules[1].resources[1].endpoints[0];
 
@@ -276,15 +243,11 @@ namespace Tests
         [Test]
         public void should_specify_input_type()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-            var spec = specBuilder.Build();
+            var spec = _specBuilder.Build();
 
             var request = spec.modules[1].resources[1].endpoints[0].request;
 
-            request.name.ShouldEqual("AddressRequest");
+            request.name.ShouldEqual("AdminAddressRequest");
             request.comments.ShouldEqual("This is an address request yo!");
             request.dataType.ShouldEqual(typeof(AdminAddressRequest).FullName.Hash());
             request.collection.ShouldBeFalse();
@@ -293,11 +256,7 @@ namespace Tests
         [Test]
         public void should_specify_output_type()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-            var spec = specBuilder.Build();
+            var spec = _specBuilder.Build();
 
             var request = spec.modules[1].resources[1].endpoints[0].response;
 
@@ -310,15 +269,11 @@ namespace Tests
         [Test]
         public void should_specify_list_output_type()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-            var spec = specBuilder.Build();
+            var spec = _specBuilder.Build();
 
             var request = spec.modules[1].resources[1].endpoints[4].response;
 
-            request.name.ShouldEqual("AdminAddressResponse");
+            request.name.ShouldEqual("ArrayOfAdminAddressResponse");
             request.comments.ShouldBeNull();
             request.dataType.ShouldEqual(typeof(AdminAddressResponse).FullName.Hash());
             request.collection.ShouldBeTrue();
@@ -327,17 +282,39 @@ namespace Tests
         [Test]
         public void should_specify_inherited_list_output_type()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-            var spec = specBuilder.Build();
+            var spec = _specBuilder.Build();
 
             var request = spec.modules[1].resources[1].endpoints[2].response;
 
-            request.name.ShouldEqual("Addresses");
+            request.name.ShouldEqual("ArrayOfAdminAddressResponse");
             request.comments.ShouldEqual("These are addresses yo!");
             request.dataType.ShouldEqual(typeof(AdminAddressResponse).FullName.Hash());
+            request.collection.ShouldBeTrue();
+        }
+
+        [Test]
+        public void should_specify_overriden_output_type()
+        {
+            var spec = _specBuilder.Build();
+
+            var request = spec.modules[1].resources[2].endpoints[0].request;
+
+            request.name.ShouldEqual("User");
+            request.comments.ShouldBeNull();
+            request.dataType.ShouldEqual(typeof(AdminUserRequest).FullName.Hash());
+            request.collection.ShouldBeFalse();
+        }
+
+        [Test]
+        public void should_specify_overriden_list_output_type()
+        {
+            var spec = _specBuilder.Build();
+
+            var request = spec.modules[1].resources[2].endpoints[0].response;
+
+            request.name.ShouldEqual("Users");
+            request.comments.ShouldEqual("These are users yo!");
+            request.dataType.ShouldEqual(typeof(AdminUserResponse).FullName.Hash());
             request.collection.ShouldBeTrue();
         }
     }

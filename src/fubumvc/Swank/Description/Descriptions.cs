@@ -21,6 +21,6 @@
 
     public class DataTypeDescription : Description
     {
-        public string Alias { get; set; }
+        public string Id { get; set; }
     }
 }
