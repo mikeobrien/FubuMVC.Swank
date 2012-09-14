@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using FubuMVC.Core.Registration;
+using NUnit.Framework;
 using Should;
 using Swank.Description;
 using Tests.Description.EndpointSourceTests.Templates;
@@ -8,10 +9,18 @@ namespace Tests.Description.EndpointSourceTests
     [TestFixture]
     public class Tests
     {
+        private BehaviorGraph _graph;
+
+        [SetUp]
+        public void Setup()
+        {
+            _graph = Behaviors.BuildGraph().AddActionsInThisNamespace();
+        }
+
         [Test]
         public void should_pull_description_from_method_attribute()
         {
-            var action = Behaviors.CreateAction<TemplatePostHandler>("/templates", HttpVerbs.Post);
+            var action = _graph.GetAction<TemplatePostHandler>();
             var endpointSource = new EndpointSource();
             var description = endpointSource.GetDescription(action);
             description.Name.ShouldEqual("AddTemplate");
@@ -21,7 +30,7 @@ namespace Tests.Description.EndpointSourceTests
         [Test]
         public void should_pull_description_from_handler_attribute()
         {
-            var action = Behaviors.CreateAction<TemplateGetAllHandler>("/templates", HttpVerbs.Get);
+            var action = _graph.GetAction<TemplateAllGetHandler>();
             var endpointSource = new EndpointSource();
             var description = endpointSource.GetDescription(action);
             description.Name.ShouldEqual("GetTemplates");
@@ -31,7 +40,7 @@ namespace Tests.Description.EndpointSourceTests
         [Test]
         public void should_pull_description_from_embedded_resource_named_as_handler()
         {
-            var action = Behaviors.CreateAction<TemplateGetHandler>("/templates/{Id}", HttpVerbs.Get);
+            var action = _graph.GetAction<TemplateGetHandler>();
             var endpointSource = new EndpointSource();
             var description = endpointSource.GetDescription(action);
             description.Name.ShouldBeNull();
@@ -41,7 +50,7 @@ namespace Tests.Description.EndpointSourceTests
         [Test]
         public void should_pull_description_from_embedded_resource_named_as_handler_and_method()
         {
-            var action = Behaviors.CreateAction<TemplatePutHandler>("/templates/{Id}", HttpVerbs.Put);
+            var action = _graph.GetAction<TemplatePutHandler>();
             var endpointSource = new EndpointSource();
             var description = endpointSource.GetDescription(action);
             description.Name.ShouldBeNull();

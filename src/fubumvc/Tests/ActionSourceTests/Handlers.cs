@@ -9,23 +9,23 @@
     {
         namespace Schedules
         {
-            public class BatchScheduleGetAllHandler { public object Execute(object request) { return null; } }
+            public class BatchScheduleAllGetHandler { public object Execute(object request) { return null; } }
         }
 
         namespace Cells
         {
-            public class BatchCellGetAllHandler { public object Execute(object request) { return null; } }
+            public class BatchCellAllGetHandler { public object Execute(object request) { return null; } }
         }
     }
 
     namespace Administration
     {
-        public class AdminAccountGetAllHandler { public object Execute(object request) { return null; } }
+        public class AdminAccountAllGetHandler { public object Execute(object request) { return null; } }
 
         namespace Users
         {
-            public class AdminAddressGetAllOfTypeHandler { public object Execute(object request) { return null; } }
-            public class AdminUserGetAllHandler { public object Execute(object request) { return null; } }
+            public class AdminAddressAllOfTypeGetHandler { public object Execute_Address(object request) { return null; } }
+            public class AdminUserAllGetHandler { public object Execute(object request) { return null; } }
         }
     }
 }

@@ -4,8 +4,8 @@ namespace Tests.SpecificationBuilderResourceTests
 {
     namespace Templates
     {
-        public class TemplateGetAllHandler { public object Execute(object request) { return null; } }
-        public class TemplateFileGetAllHandler { public object Execute_File(object request) { return null; } }
+        public class TemplateAllGetHandler { public object Execute(object request) { return null; } }
+        public class TemplateFileAllGetHandler { public object Execute_File(object request) { return null; } }
     }
 
     namespace Batches
@@ -15,7 +15,7 @@ namespace Tests.SpecificationBuilderResourceTests
         namespace Schedules
         {
             public class SchedulesModule : ModuleDescription { public SchedulesModule() { Name = "Schedules"; } }
-            public class BatchScheduleGetAllHandler { public object Execute(object request) { return null; } }
+            public class BatchScheduleAllGetHandler { public object Execute(object request) { return null; } }
         }
 
         namespace Cells
@@ -23,7 +23,7 @@ namespace Tests.SpecificationBuilderResourceTests
             public class BatchCellResource : ResourceDescription
             { public BatchCellResource() { Name = "Batch cells"; } }
 
-            public class BatchCellGetAllHandler { public object Execute(object request) { return null; } }
+            public class BatchCellAllGetHandler { public object Execute(object request) { return null; } }
         }
     }
 
@@ -32,22 +32,22 @@ namespace Tests.SpecificationBuilderResourceTests
         public class AdministrationModule : ModuleDescription
         { public AdministrationModule() { Name = "Administration"; Comments = "This is admin yo!"; } }
 
-        public class AdminAccountResource : ResourceDescription<AdminAccountGetAllHandler>
+        public class AdminAccountResource : ResourceDescription<AdminAccountAllGetHandler>
         { public AdminAccountResource() { Name = "Accounts"; } }
 
-        public class AdminAccountGetAllHandler { public object Execute(object request) { return null; } }
+        public class AdminAccountAllGetHandler { public object Execute(object request) { return null; } }
 
         namespace Users // These are ordered a certian way on purpose, don't change that.
         {
             public class AdminAddressResource : ResourceDescription
             { public AdminAddressResource() { Name = "User addresses"; Comments = "These are user addresses yo!"; } }
 
-            public class AdminAddressGetAllHandler { public object Execute(object request) { return null; } }
+            public class AdminAddressAllGetHandler { public object Execute_Address(object request) { return null; } }
 
-            public class AdminUserResource : ResourceDescription<AdminUserGetAllHandler>
+            public class AdminUserResource : ResourceDescription<AdminUserAllGetHandler>
             { public AdminUserResource() { Name = "Users"; Comments = "These are users yo!"; } }
 
-            public class AdminUserGetAllHandler { public object Execute(object request) { return null; } }
+            public class AdminUserAllGetHandler { public object Execute(object request) { return null; } }
         }
     }
 }

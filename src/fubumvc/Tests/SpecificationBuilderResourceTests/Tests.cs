@@ -42,14 +42,7 @@ namespace Tests.SpecificationBuilderResourceTests
         [SetUp]
         public void Setup()
         {
-            _graph = Behaviors.BuildGraph()
-                .AddAction<TemplateGetAllHandler>("/templates", HttpVerbs.Get)
-                .AddAction<TemplateFileGetAllHandler>("/templates/files", HttpVerbs.Get)
-                .AddAction<AdminAccountGetAllHandler>("/admin", HttpVerbs.Get)
-                .AddAction<AdminUserGetAllHandler>("/admin/users", HttpVerbs.Get)
-                .AddAction<AdminAddressGetAllHandler>("/admin/users/addresses", HttpVerbs.Get)
-                .AddAction<BatchCellGetAllHandler>("/batches/cells", HttpVerbs.Get)
-                .AddAction<BatchScheduleGetAllHandler>("/batches/schedules", HttpVerbs.Get);
+            _graph = Behaviors.BuildGraph().AddActionsInThisNamespace();
             _moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
             _resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
@@ -80,7 +73,7 @@ namespace Tests.SpecificationBuilderResourceTests
             resource.name.ShouldEqual("templates");
             resource.comments.ShouldBeNull();
             resource = resources[1];
-            resource.name.ShouldEqual("templates/files");
+            resource.name.ShouldEqual("templates/file");
             resource.comments.ShouldBeNull();
 
             resources = spec.modules[1].resources;
@@ -212,8 +205,8 @@ namespace Tests.SpecificationBuilderResourceTests
                 .Where(ActionFilter)
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .OnOrphanedResourceAction(OrphanedActions.Fail)
-                .Where(y => y.HandlerType.Namespace != typeof(TemplateGetAllHandler).Namespace &&
-                            y.HandlerType.Namespace != typeof(BatchScheduleGetAllHandler).Namespace));
+                .Where(y => y.HandlerType.Namespace != typeof(TemplateAllGetHandler).Namespace &&
+                            y.HandlerType.Namespace != typeof(BatchScheduleAllGetHandler).Namespace));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
                 _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 

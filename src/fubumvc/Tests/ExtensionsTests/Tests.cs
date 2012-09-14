@@ -94,12 +94,12 @@ namespace Tests.ExtensionsTests
         [Test]
         public void should_return_list_element_type()
         {
-            Extensions.GetListElementType(typeof(List<string>)).ShouldEqual(typeof(string));
-            Extensions.GetListElementType(typeof(IList<string>)).ShouldEqual(typeof(string));
-            Extensions.GetListElementType(typeof(Widgets)).ShouldEqual(typeof(string));
-            Extensions.GetListElementType(typeof(Widgets<string>)).ShouldEqual(typeof(string));
-            Extensions.GetListElementType(typeof(string[])).ShouldEqual(typeof(string));
-            Extensions.GetListElementType(typeof(string)).ShouldBeNull();
+            typeof(List<string>).GetListElementType().ShouldEqual(typeof(string));
+            typeof(IList<string>).GetListElementType().ShouldEqual(typeof(string));
+            typeof(Widgets).GetListElementType().ShouldEqual(typeof(string));
+            typeof(Widgets<string>).GetListElementType().ShouldEqual(typeof(string));
+            typeof(string[]).GetListElementType().ShouldEqual(typeof(string));
+            typeof(string).GetListElementType().ShouldBeNull();
         }
     }
 }

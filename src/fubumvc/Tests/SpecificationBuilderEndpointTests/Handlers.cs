@@ -41,7 +41,7 @@ namespace Tests.SpecificationBuilderEndpointTests
         }
 
         [Description("GetTemplates", "This gets all the templates yo.")]
-        public class TemplateGetAllHandler
+        public class TemplateAllGetHandler
         {
             public TemplateResponse Execute(TemplateRequest request) { return null; }
         }
@@ -62,7 +62,7 @@ namespace Tests.SpecificationBuilderEndpointTests
 
         public class TemplateFileRequest { public Guid Id { get; set; } }
 
-        public class TemplateFileGetAllHandler
+        public class TemplateFileAllGetHandler
         {
             [Hide]
             public object Execute_File(TemplateFileRequest request) { return null; }
@@ -80,14 +80,14 @@ namespace Tests.SpecificationBuilderEndpointTests
         namespace Schedules
         {
             public class SchedulesModule : ModuleDescription { public SchedulesModule() { Name = "Schedules"; } }
-            public class BatchScheduleGetAllHandler { public object Execute(object request) { return null; } }
+            public class BatchScheduleAllGetHandler { public object Execute(object request) { return null; } }
             public class BatchSchedulePostHandler { public object Execute(object request) { return null; } }
         }
 
         namespace Cells
         {
             public class BatchCellResource : ResourceDescription { public BatchCellResource() { Name = "Batch cells"; } }
-            public class BatchCellGetAllHandler { public object Execute(object request) { return null; } }
+            public class BatchCellAllGetHandler { public object Execute(object request) { return null; } }
             public class BatchCellPostHandler { public object Execute(object request) { return null; } }
         }
     }
@@ -96,25 +96,26 @@ namespace Tests.SpecificationBuilderEndpointTests
     {
         public class AdministrationModule : ModuleDescription { public AdministrationModule() { Name = "Administration";  } }
 
-        public class AdminAccountResource : ResourceDescription<AdminAccountGetAllHandler>
+        public class AdminAccountResource : ResourceDescription<AdminAccountAllGetHandler>
         { public AdminAccountResource() { Name = "Accounts"; } }
+
+        public class AdminAccountRequest
+        {
+            public Guid Id { get; set; }
+            public Guid UserId { get; set; }
+            [QueryString, DefaultValue(Sort.Desc)]
+            public Sort Order { get; set; }
+            [QueryString]
+            public List<Guid> Show { get; set; }
+            [QueryString, Hide]
+            public string SystemOption { get; set; }
+        }
+
+        public class AdminAccountAllGetHandler { public object Execute_UserId(AdminAccountRequest request) { return null; } }
+        public class AdminAccountPostHandler { public object Execute_UserId(AdminAccountRequest request) { return null; } }
 
         namespace Users // These are ordered a certian way on purpose, don't change that.
         {
-            public class AdminAccountRequest
-            {
-                public Guid Id { get; set; }
-                public Guid UserId { get; set; }
-                [QueryString, DefaultValue(Sort.Desc)]
-                public Sort Order { get; set; }
-                [QueryString]
-                public List<Guid> Show { get; set; }
-                [QueryString, Hide]
-                public string SystemOption { get; set; }
-            }
-
-            public class AdminAccountGetAllHandler { public object Execute_UserId(AdminAccountRequest request) { return null; } }
-            public class AdminAccountPostHandler { public object Execute_UserId(AdminAccountRequest request) { return null; } }
 
             public class AdminAddressResource : ResourceDescription { public AdminAddressResource() { Name = "User addresses"; } }
 
@@ -150,15 +151,15 @@ namespace Tests.SpecificationBuilderEndpointTests
             [Comments("These are addresses yo!")]
             public class AdminAddresses : List<AdminAddressResponse> { }
 
-            public class AdminAddressGetAllHandler
+            public class AdminAddressAllGetHandler
             {
                 [ErrorDescription(411, "Swank address")]
                 [ErrorDescription(410, "Invalid address", "An invalid address was entered fool!")]
-                public List<AdminAddressResponse> Execute_UserId(AdminAddressRequest request) { return null; }
+                public List<AdminAddressResponse> Execute_UserId_Address(AdminAddressRequest request) { return null; }
             }
-            public class AdminAddressGetAllOfTypeHandler { public AdminAddresses Execute_UserId_AddressType(AdminAddressRequest request) { return null; } }
+            public class AdminAddressAllOfTypeGetHandler { public AdminAddresses Execute_UserId_Address_AddressType(AdminAddressRequest request) { return null; } }
 
-            public class AdminUserResource : ResourceDescription<AdminUserGetAllHandler> { public AdminUserResource() { Name = "Users"; } }
+            public class AdminUserResource : ResourceDescription<AdminUserAllGetHandler> { public AdminUserResource() { Name = "Users"; } }
 
             [Comments("These are users yo!"), XmlType("Users")]
             public class AdminUsers : List<AdminUserResponse> { }
@@ -166,7 +167,7 @@ namespace Tests.SpecificationBuilderEndpointTests
             [XmlType("User")]
             public class AdminUserRequest { public Guid Id { get; set; } }
             public class AdminUserResponse { }
-            public class AdminUserGetAllHandler { public AdminUsers Execute(AdminUserRequest request) { return null; } }
+            public class AdminUserAllGetHandler { public AdminUsers Execute(AdminUserRequest request) { return null; } }
             public class AdminUserPostHandler { public AdminUserResponse Execute(AdminUserRequest request) { return null; } }
         }
     }

@@ -6,7 +6,7 @@ namespace Tests.Description.ErrorSourceTests
     {
         namespace Users
         {
-            public class AdminAddressGetAllHandler
+            public class AdminAddressAllGetHandler
             {
                 [ErrorDescription(411, "Swank address")]
                 [ErrorDescription(410, "Invalid address", "An invalid address was entered fool!")]

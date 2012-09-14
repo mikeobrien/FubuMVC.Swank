@@ -107,6 +107,7 @@
     <EmbeddedResource Include="SpecificationBuilderResourceTests\Templates\TemplatePutHandler.Execute_Id.md" />
     <EmbeddedResource Include="Description\EndpointSourceTests\Templates\TemplatePutHandler.Execute_Id.md" />
     <EmbeddedResource Include="Description\ModuleSourceTests\Batches\Schedules\SchedulesModule.md" />
+    <EmbeddedResource Include="Description\ResourceSourceTests\Administration\Users\AdminAccountResource.md" />
     <None Include="packages.config" />
     <EmbeddedResource Include="SpecificationBuilderEndpointTests\Templates\TemplatePutHandler.Execute_Id.md" />
     <EmbeddedResource Include="ExtensionsTests\EmbeddedMarkdownResource.md" />

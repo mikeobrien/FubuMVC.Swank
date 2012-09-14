@@ -4,7 +4,7 @@ namespace Tests.Description.ModuleSourceTests
 {
     namespace Templates
     {
-        public class TemplateGetAllHandler
+        public class TemplateAllGetHandler
         {
             public object Execute(object request) { return null; }
         }
@@ -17,7 +17,7 @@ namespace Tests.Description.ModuleSourceTests
         namespace Schedules
         {
             public class SchedulesModule : ModuleDescription { public SchedulesModule() { Name = "Schedules"; } }
-            public class BatchScheduleGetAllHandler { public object Execute(object request) { return null; } }
+            public class BatchScheduleAllGetHandler { public object Execute(object request) { return null; } }
         }
     }
 
@@ -27,7 +27,7 @@ namespace Tests.Description.ModuleSourceTests
 
         namespace Users
         {
-            public class AdminUserGetAllHandler { public object Execute(object request) { return null; } }
+            public class AdminUserAllGetHandler { public object Execute(object request) { return null; } }
         }
     }
 }

@@ -12,15 +12,13 @@ namespace Tests.SpecificationBuilderModuleTests
         namespace Schedules
         {
             public class SchedulesModule : ModuleDescription { public SchedulesModule() { Name = "Schedules"; } }
-            public class BatchScheduleGetAllHandler { public object Execute(object request) { return null; } }
+            public class BatchScheduleAllGetHandler { public object Execute(object request) { return null; } }
         }
 
         namespace Cells
         {
-            public class BatchCellResource : ResourceDescription
-            { public BatchCellResource() { Name = "Batch cells"; Comments = "These are batch cells yo!"; } }
-
-            public class BatchCellGetAllHandler { public object Execute(object request) { return null; } }
+            public class BatchCellResource : ResourceDescription { public BatchCellResource() { Name = "Batch cells"; } }
+            public class BatchCellAllGetHandler { public object Execute(object request) { return null; } }
         }
     }
 
@@ -29,22 +27,22 @@ namespace Tests.SpecificationBuilderModuleTests
         public class AdministrationModule : ModuleDescription
         { public AdministrationModule() { Name = "Administration"; Comments = "This is admin yo!"; } }
 
-        public class AdminAccountResource : ResourceDescription<AdminAccountGetAllHandler>
-        { public AdminAccountResource() { Name = "Accounts"; Comments = "These are accounts yo!"; } }
+        public class AdminAccountResource : ResourceDescription<AdminAccountAllGetHandler>
+        { public AdminAccountResource() { Name = "Accounts"; } }
 
-        public class AdminAccountGetAllHandler { public object Execute(object request) { return null; } }
+        public class AdminAccountAllGetHandler { public object Execute(object request) { return null; } }
 
         namespace Users // These are ordered a certian way on purpose, don't change that.
         {
             public class AdminAddressResource : ResourceDescription
-            { public AdminAddressResource() { Name = "User addresses"; Comments = "These are user addresses yo!"; } }
+            { public AdminAddressResource() { Name = "User addresses"; } }
 
-            public class AdminAddressGetAllOfTypeHandler { public object Execute(object request) { return null; } }
+            public class AdminAddressAllOfTypeGetHandler { public object Execute_Address(object request) { return null; } }
 
-            public class AdminUserResource : ResourceDescription<AdminUserGetAllHandler>
-            { public AdminUserResource() { Name = "Users"; Comments = "These are users yo!"; } }
+            public class AdminUserResource : ResourceDescription<AdminUserAllGetHandler>
+            { public AdminUserResource() { Name = "Users"; } }
 
-            public class AdminUserGetAllHandler { public object Execute(object request) { return null; } }
+            public class AdminUserAllGetHandler { public object Execute(object request) { return null; } }
         }
     }
 }

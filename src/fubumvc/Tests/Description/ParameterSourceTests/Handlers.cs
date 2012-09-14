@@ -16,7 +16,7 @@ namespace Tests.Description.ParameterSourceTests
                 public AddressType AddressType { get; set; }
             }
 
-            public class AdminAddressGetAllOfTypeHandler { public object Execute_AddressType(AdminAddressRequest request) { return null; } }
+            public class AdminAddressAllOfTypeGetHandler { public object Execute_AddressType(AdminAddressRequest request) { return null; } }
         }
     }
 }

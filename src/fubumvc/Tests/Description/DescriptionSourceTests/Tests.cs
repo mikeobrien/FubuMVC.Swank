@@ -81,9 +81,9 @@ namespace Tests.Description.DescriptionSourceTests
             _modules[2].AppliesTo.ShouldBeNull();
 
             _resources[0].AppliesTo.ShouldBeNull();
-            _resources[1].AppliesTo.ShouldEqual(typeof(AdminAccountGetAllHandler));
+            _resources[1].AppliesTo.ShouldEqual(typeof(AdminAccountAllGetHandler));
             _resources[2].AppliesTo.ShouldBeNull();
-            _resources[3].AppliesTo.ShouldEqual(typeof(AdminUserGetAllHandler));
+            _resources[3].AppliesTo.ShouldEqual(typeof(AdminUserAllGetHandler));
         }
 
         [Test]

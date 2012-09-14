@@ -3,7 +3,6 @@ using NUnit.Framework;
 using Should;
 using Swank;
 using Swank.Description;
-using Tests.Description.DataTypeSourceTests;
 
 namespace Tests.Description.DataTypeSourceTests
 {

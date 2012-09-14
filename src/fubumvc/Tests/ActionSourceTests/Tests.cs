@@ -4,11 +4,6 @@ using FubuMVC.Core.Registration;
 using NUnit.Framework;
 using Should;
 using Swank;
-using Tests.ActionSourceTests.Administration;
-using Tests.ActionSourceTests.Administration.Users;
-using Tests.ActionSourceTests.Batches.Cells;
-using Tests.ActionSourceTests.Batches.Schedules;
-using Tests.ActionSourceTests.Templates;
 
 namespace Tests.ActionSourceTests
 {
@@ -20,19 +15,13 @@ namespace Tests.ActionSourceTests
         [SetUp]
         public void Setup()
         {
-            _graph = Behaviors.BuildGraph()
-                .AddAction<TemplatePutHandler>("/templates", HttpVerbs.Put)
-                .AddAction<AdminAccountGetAllHandler>("/admin", HttpVerbs.Get)
-                .AddAction<AdminUserGetAllHandler>("/admin/users", HttpVerbs.Get)
-                .AddAction<AdminAddressGetAllOfTypeHandler>("/admin/users/addresses", HttpVerbs.Get)
-                .AddAction<BatchCellGetAllHandler>("/batches/cells", HttpVerbs.Get)
-                .AddAction<BatchScheduleGetAllHandler>("/batches/schedules", HttpVerbs.Get);
+            _graph = Behaviors.BuildGraph().AddActionsInThisNamespace();
         }
 
         [Test]
         public void should_enumerate_actions_in_all_assemblies_by_default()
         {
-            _graph.AddAction<SpecificationHandler>("/documentation", HttpVerbs.Get);
+            _graph.AddAction<SpecificationHandler>("GET");
 
             var actions = new Swank.ActionSource(_graph, new Configuration()).GetActions();
 
@@ -46,7 +35,7 @@ namespace Tests.ActionSourceTests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
 
-            _graph.AddAction<SpecificationHandler>("/documentation", HttpVerbs.Get);
+            _graph.AddAction<SpecificationHandler>("GET");
 
             var actions = new Swank.ActionSource(_graph, configuration).GetActions();
 

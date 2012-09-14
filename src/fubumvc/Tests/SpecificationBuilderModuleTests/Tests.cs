@@ -9,9 +9,7 @@ using Should;
 using Swank;
 using Swank.Description;
 using Tests.SpecificationBuilderModuleTests.Administration;
-using Tests.SpecificationBuilderModuleTests.Administration.Users;
 using Tests.SpecificationBuilderModuleTests.Batches;
-using Tests.SpecificationBuilderModuleTests.Batches.Cells;
 using Tests.SpecificationBuilderModuleTests.Batches.Schedules;
 using Tests.SpecificationBuilderModuleTests.Templates;
 
@@ -42,13 +40,7 @@ namespace Tests.SpecificationBuilderModuleTests
         [SetUp]
         public void Setup()
         {
-            _graph = Behaviors.BuildGraph()
-                .AddAction<TemplatePutHandler>("/templates", HttpVerbs.Put)
-                .AddAction<AdminAccountGetAllHandler>("/admin", HttpVerbs.Get)
-                .AddAction<AdminUserGetAllHandler>("/admin/users", HttpVerbs.Get)
-                .AddAction<AdminAddressGetAllOfTypeHandler>("/admin/users/addresses", HttpVerbs.Get)
-                .AddAction<BatchCellGetAllHandler>("/batches/cells", HttpVerbs.Get)
-                .AddAction<BatchScheduleGetAllHandler>("/batches/schedules", HttpVerbs.Get);
+            _graph = Behaviors.BuildGraph().AddActionsInThisNamespace();
             _moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
             _resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),

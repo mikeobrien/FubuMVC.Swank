@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using FubuMVC.Core.Registration;
+using NUnit.Framework;
 using Should;
 using Swank.Description;
 using Tests.Description.ErrorSourceTests.Administration.Users;
@@ -8,10 +9,18 @@ namespace Tests.Description.ErrorSourceTests
     [TestFixture]
     public class Tests
     {
+        private BehaviorGraph _graph;
+
+        [SetUp]
+        public void Setup()
+        {
+            _graph = Behaviors.BuildGraph().AddActionsInThisNamespace();
+        }
+
         [Test]
         public void should_return_errors()
         {
-            var action = Behaviors.CreateAction<AdminAddressGetAllHandler>("/administration/users/addresses", HttpVerbs.Get);
+            var action = _graph.GetAction<AdminAddressAllGetHandler>();
             var errorSource = new ErrorSource();
             var errorDescriptions = errorSource.GetDescription(action);
             errorDescriptions.Count.ShouldEqual(2);

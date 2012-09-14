@@ -8,9 +8,7 @@ using Swank.Description;
 using System.Linq;
 using Swank.Models;
 using Tests.SpecificationBuilderEndpointTests.Administration.Users;
-using Tests.SpecificationBuilderEndpointTests.Batches.Cells;
-using Tests.SpecificationBuilderEndpointTests.Batches.Schedules;
-using Tests.SpecificationBuilderEndpointTests.Templates;
+using ActionSource = Swank.ActionSource;
 
 namespace Tests.SpecificationBuilderEndpointTests
 {
@@ -25,25 +23,7 @@ namespace Tests.SpecificationBuilderEndpointTests
         [SetUp]
         public void Setup()
         {
-            var graph = Behaviors.BuildGraph()
-                .AddAction<TemplateGetAllHandler>("/templates", HttpVerbs.Get)
-                .AddAction<TemplatePostHandler>("/templates", HttpVerbs.Post)
-                .AddAction<TemplateGetHandler>("/templates/{Id}", HttpVerbs.Get)
-                .AddAction<TemplatePutHandler>("/templates/{Id}", HttpVerbs.Put)
-                .AddAction<TemplateDeleteHandler>("/templates/{Id}", HttpVerbs.Delete)
-                .AddAction<TemplateFileGetAllHandler>("/templates/files", HttpVerbs.Get)
-                .AddAction<TemplateFilePostHandler>("/templates/files", HttpVerbs.Post)
-                .AddAction<TemplateFileGetHandler>("/templates/files/{Id}", HttpVerbs.Get)
-                .AddAction<AdminAccountGetAllHandler>("/admin", HttpVerbs.Get)
-                .AddAction<AdminAccountPostHandler>("/admin", HttpVerbs.Post)
-                .AddAction<AdminUserGetAllHandler>("/admin/users", HttpVerbs.Get)
-                .AddAction<AdminUserPostHandler>("/admin/users", HttpVerbs.Post)
-                .AddAction<AdminAddressGetAllHandler>("/admin/users/{UserId}/addresses", HttpVerbs.Get)
-                .AddAction<AdminAddressGetAllOfTypeHandler>("/admin/users/{UserId}/addresses/{AddressType}", HttpVerbs.Get)
-                .AddAction<BatchCellGetAllHandler>("/batches/cells", HttpVerbs.Get)
-                .AddAction<BatchCellPostHandler>("/batches/cells", HttpVerbs.Post)
-                .AddAction<BatchScheduleGetAllHandler>("/batches/schedules", HttpVerbs.Get)
-                .AddAction<BatchSchedulePostHandler>("/batches/schedules", HttpVerbs.Post);
+            var graph = Behaviors.BuildGraph().AddActionsInThisNamespace();
             var moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
             var resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
@@ -219,7 +199,7 @@ namespace Tests.SpecificationBuilderEndpointTests
             var endpoint = _spec.modules[1].resources[0].endpoints[1];
 
             endpoint.querystringParameters.Count.ShouldEqual(2);
-            endpoint.urlParameters.Count.ShouldEqual(0);
+            endpoint.urlParameters.Count.ShouldEqual(1);
 
             var parameter = endpoint.querystringParameters[0];
             parameter.name.ShouldEqual("Order");

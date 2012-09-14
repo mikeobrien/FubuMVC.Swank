@@ -23,18 +23,18 @@ namespace Tests.Description.DescriptionSourceTests
 
         namespace Users // These are ordered a certian way on purpose, don't change that.
         {
-            public class AdminAccountResource : ResourceDescription<AdminAccountGetAllHandler>
+            public class AdminAccountResource : ResourceDescription<AdminAccountAllGetHandler>
             { public AdminAccountResource() { Name = "Accounts"; Comments = "These are accounts yo!"; } }
 
-            public class AdminAccountGetAllHandler { public object Execute(object request) { return null; } }
+            public class AdminAccountAllGetHandler { public object Execute(object request) { return null; } }
 
             public class AdminAddressResource : ResourceDescription
             { public AdminAddressResource() { Name = "User addresses"; Comments = "These are user addresses yo!"; } }
 
-            public class AdminUserResource : ResourceDescription<AdminUserGetAllHandler>
+            public class AdminUserResource : ResourceDescription<AdminUserAllGetHandler>
             { public AdminUserResource() { Name = "Users"; Comments = "These are users yo!"; } }
 
-            public class AdminUserGetAllHandler { public object Execute(object request) { return null; } }
+            public class AdminUserAllGetHandler { public object Execute(object request) { return null; } }
         }
     }
 }
