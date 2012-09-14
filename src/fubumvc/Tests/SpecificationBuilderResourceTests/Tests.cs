@@ -8,16 +8,20 @@ using NUnit.Framework;
 using Should;
 using Swank;
 using Swank.Description;
-using Tests.Administration.Users;
-using Tests.Batches.Cells;
-using Tests.Batches.Schedules;
-using Tests.Templates;
+using Tests.SpecificationBuilderResourceTests.Administration;
+using Tests.SpecificationBuilderResourceTests.Administration.Users;
+using Tests.SpecificationBuilderResourceTests.Batches.Cells;
+using Tests.SpecificationBuilderResourceTests.Batches.Schedules;
+using Tests.SpecificationBuilderResourceTests.Templates;
 
-namespace Tests
+namespace Tests.SpecificationBuilderResourceTests
 {
     [TestFixture]
-    public class SpecificationBuilderResourceTests
+    public class Tests
     {
+        public const string AccountResourceComments = "<p><strong>These are accounts yo!</strong></p>";
+        public const string BatchCellsResourceComments = "<b>These are batch cells yo!</b>";
+
         private static readonly BatchCellResource BatchCellResource = new BatchCellResource();
         private static readonly AdminAccountResource AdminAccountResource = new AdminAccountResource();
         private static readonly AdminAddressResource AdminAddressResource = new AdminAddressResource();
@@ -32,14 +36,24 @@ namespace Tests
         private IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
         private IDescriptionSource<Type, DataTypeDescription> _dataTypes;
 
+        private static readonly Func<ActionCall, bool> ActionFilter =
+            x => x.HandlerType.Namespace.StartsWith(typeof(Tests).Namespace);
+
         [SetUp]
         public void Setup()
         {
-            _graph = TestBehaviorGraph.Build();
+            _graph = Behaviors.BuildGraph()
+                .AddAction<TemplateGetAllHandler>("/templates", HttpVerbs.Get)
+                .AddAction<TemplateFileGetAllHandler>("/templates/files", HttpVerbs.Get)
+                .AddAction<AdminAccountGetAllHandler>("/admin", HttpVerbs.Get)
+                .AddAction<AdminUserGetAllHandler>("/admin/users", HttpVerbs.Get)
+                .AddAction<AdminAddressGetAllHandler>("/admin/users/addresses", HttpVerbs.Get)
+                .AddAction<BatchCellGetAllHandler>("/batches/cells", HttpVerbs.Get)
+                .AddAction<BatchScheduleGetAllHandler>("/batches/schedules", HttpVerbs.Get);
             _moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
             _resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
-                new Swank.ActionSource(_graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly())), new ResourceSourceConfig());
+                new Swank.ActionSource(_graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter))), new ResourceSourceConfig());
             _endpointSource = new EndpointSource();
             _parameterSource = new ParameterSource();
             _optionSource = new OptionSource();
@@ -52,6 +66,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
+                .Where(ActionFilter)
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .OnOrphanedResourceAction(OrphanedActions.UseDefault));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
@@ -72,7 +87,7 @@ namespace Tests
             resources.Count.ShouldEqual(3);
             resource = resources[0];
             resource.name.ShouldEqual(AdminAccountResource.Name);
-            resource.comments.ShouldEqual(AdminAccountResource.Comments);
+            resource.comments.ShouldEqual(AccountResourceComments);
             resource = resources[1];
             resource.name.ShouldEqual(AdminAddressResource.Name);
             resource.comments.ShouldEqual(AdminAddressResource.Comments);
@@ -84,7 +99,7 @@ namespace Tests
             resources.Count.ShouldEqual(1);
             resource = resources[0];
             resource.name.ShouldEqual(BatchCellResource.Name);
-            resource.comments.ShouldEqual(BatchCellResource.Comments);
+            resource.comments.ShouldEqual(BatchCellsResourceComments);
 
             resources = spec.modules[3].resources;
             resources.Count.ShouldEqual(1);
@@ -98,6 +113,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
+                .Where(ActionFilter)
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .OnOrphanedResourceAction(OrphanedActions.UseDefault)
                 .WithDefaultResource(y => new ResourceDescription { Name = y.ParentChain().Route.FirstPatternSegment() }));
@@ -116,7 +132,7 @@ namespace Tests
             resources.Count.ShouldEqual(3);
             resource = resources[0];
             resource.name.ShouldEqual(AdminAccountResource.Name);
-            resource.comments.ShouldEqual(AdminAccountResource.Comments);
+            resource.comments.ShouldEqual(AccountResourceComments);
             resource = resources[1];
             resource.name.ShouldEqual(AdminAddressResource.Name);
             resource.comments.ShouldEqual(AdminAddressResource.Comments);
@@ -128,7 +144,7 @@ namespace Tests
             resources.Count.ShouldEqual(1);
             resource = resources[0];
             resource.name.ShouldEqual(BatchCellResource.Name);
-            resource.comments.ShouldEqual(BatchCellResource.Comments);
+            resource.comments.ShouldEqual(BatchCellsResourceComments);
 
             resources = spec.modules[3].resources;
             resources.Count.ShouldEqual(1);
@@ -142,6 +158,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
+                .Where(ActionFilter)
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .OnOrphanedResourceAction(OrphanedActions.Exclude)
                 .WithDefaultResource(y => new ResourceDescription { Name = y.ParentChain().Route.FirstPatternSegment() }));
@@ -156,7 +173,7 @@ namespace Tests
             resources.Count.ShouldEqual(3);
             var resource = resources[0];
             resource.name.ShouldEqual(AdminAccountResource.Name);
-            resource.comments.ShouldEqual(AdminAccountResource.Comments);
+            resource.comments.ShouldEqual(AccountResourceComments);
             resource = resources[1];
             resource.name.ShouldEqual(AdminAddressResource.Name);
             resource.comments.ShouldEqual(AdminAddressResource.Comments);
@@ -168,7 +185,7 @@ namespace Tests
             resources.Count.ShouldEqual(1);
             resource = resources[0];
             resource.name.ShouldEqual(BatchCellResource.Name);
-            resource.comments.ShouldEqual(BatchCellResource.Comments);
+            resource.comments.ShouldEqual(BatchCellsResourceComments);
 
             spec.modules[3].resources.Count.ShouldEqual(0);
         }
@@ -178,6 +195,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
+                .Where(ActionFilter)
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .OnOrphanedResourceAction(OrphanedActions.Fail));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
@@ -191,10 +209,11 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
+                .Where(ActionFilter)
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .OnOrphanedResourceAction(OrphanedActions.Fail)
-                .Where(y => y.HandlerType.Namespace != typeof(TemplateRequest).Namespace &&
-                            y.HandlerType.Namespace != typeof(BatchScheduleRequest).Namespace));
+                .Where(y => y.HandlerType.Namespace != typeof(TemplateGetAllHandler).Namespace &&
+                            y.HandlerType.Namespace != typeof(BatchScheduleGetAllHandler).Namespace));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
                 _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 

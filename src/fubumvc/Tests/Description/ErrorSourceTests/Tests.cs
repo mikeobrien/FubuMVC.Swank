@@ -1,17 +1,17 @@
 ﻿using NUnit.Framework;
 using Should;
 using Swank.Description;
-using Tests.Administration.Users;
+using Tests.Description.ErrorSourceTests.Administration.Users;
 
-namespace Tests.Description
+namespace Tests.Description.ErrorSourceTests
 {
     [TestFixture]
-    public class ErrorSourceTests
+    public class Tests
     {
         [Test]
         public void should_return_errors()
         {
-            var action = TestBehaviorGraph.CreateAction<AdminAddressGetAllHandler>();
+            var action = Behaviors.CreateAction<AdminAddressGetAllHandler>("/administration/users/addresses", HttpVerbs.Get);
             var errorSource = new ErrorSource();
             var errorDescriptions = errorSource.GetDescription(action);
             errorDescriptions.Count.ShouldEqual(2);

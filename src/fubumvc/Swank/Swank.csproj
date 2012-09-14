@@ -70,6 +70,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationDsl.cs" />
     <Compile Include="Description\CommentsAttribute.cs" />
+    <Compile Include="Description\HideAttribute.cs" />
     <Compile Include="Description\DataTypeSource.cs" />
     <Compile Include="Description\ErrorSource.cs" />
     <Compile Include="Description\DefaultValueAttribute.cs" />

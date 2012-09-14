@@ -1,17 +1,17 @@
 ﻿using NUnit.Framework;
 using Should;
 using Swank.Description;
-using Tests.Templates;
+using Tests.Description.EndpointSourceTests.Templates;
 
-namespace Tests.Description
+namespace Tests.Description.EndpointSourceTests
 {
     [TestFixture]
-    public class EndpointSourceTests
+    public class Tests
     {
         [Test]
         public void should_pull_description_from_method_attribute()
         {
-            var action = TestBehaviorGraph.CreateAction<TemplatePostHandler>();
+            var action = Behaviors.CreateAction<TemplatePostHandler>("/templates", HttpVerbs.Post);
             var endpointSource = new EndpointSource();
             var description = endpointSource.GetDescription(action);
             description.Name.ShouldEqual("AddTemplate");
@@ -21,7 +21,7 @@ namespace Tests.Description
         [Test]
         public void should_pull_description_from_handler_attribute()
         {
-            var action = TestBehaviorGraph.CreateAction<TemplateGetAllHandler>();
+            var action = Behaviors.CreateAction<TemplateGetAllHandler>("/templates", HttpVerbs.Get);
             var endpointSource = new EndpointSource();
             var description = endpointSource.GetDescription(action);
             description.Name.ShouldEqual("GetTemplates");
@@ -31,7 +31,7 @@ namespace Tests.Description
         [Test]
         public void should_pull_description_from_embedded_resource_named_as_handler()
         {
-            var action = TestBehaviorGraph.CreateAction<TemplateGetHandler>();
+            var action = Behaviors.CreateAction<TemplateGetHandler>("/templates/{Id}", HttpVerbs.Get);
             var endpointSource = new EndpointSource();
             var description = endpointSource.GetDescription(action);
             description.Name.ShouldBeNull();
@@ -41,7 +41,7 @@ namespace Tests.Description
         [Test]
         public void should_pull_description_from_embedded_resource_named_as_handler_and_method()
         {
-            var action = TestBehaviorGraph.CreateAction<TemplatePutHandler>();
+            var action = Behaviors.CreateAction<TemplatePutHandler>("/templates/{Id}", HttpVerbs.Put);
             var endpointSource = new EndpointSource();
             var description = endpointSource.GetDescription(action);
             description.Name.ShouldBeNull();

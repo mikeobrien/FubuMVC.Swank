@@ -1,17 +1,17 @@
 ﻿using NUnit.Framework;
 using Should;
 using Swank.Description;
-using Tests.Administration.Users;
+using Tests.Description.ParameterSourceTests.Administration.Users;
 
-namespace Tests.Description
+namespace Tests.Description.ParameterSourceTests
 {
     [TestFixture]
-    public class ParameterSourceTests
+    public class Tests
     {
         [Test]
         public void should_return_default_description_of_parameter()
         {
-            var action = TestBehaviorGraph.CreateAction<AdminAddressGetAllOfTypeHandler>();
+            var action = Behaviors.CreateAction<AdminAddressGetAllOfTypeHandler>("/admin/users/{AddressType}", HttpVerbs.Get);
             var parameterSource = new ParameterSource();
             var description = parameterSource.GetDescription(action.InputType().GetProperty("AddressType"));
             description.Name.ShouldEqual("AddressType");
@@ -21,7 +21,7 @@ namespace Tests.Description
         [Test]
         public void should_return_attribute_description_of_parameter()
         {
-            var action = TestBehaviorGraph.CreateAction<AdminAddressGetAllOfTypeHandler>();
+            var action = Behaviors.CreateAction<AdminAddressGetAllOfTypeHandler>("/admin/users/{AddressType}", HttpVerbs.Get);
             var parameterSource = new ParameterSource();
             var description = parameterSource.GetDescription(action.InputType().GetProperty("UserId"));
             description.Name.ShouldEqual("UserId");

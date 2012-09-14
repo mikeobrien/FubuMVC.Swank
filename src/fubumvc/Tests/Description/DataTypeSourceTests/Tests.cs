@@ -3,12 +3,12 @@ using NUnit.Framework;
 using Should;
 using Swank;
 using Swank.Description;
-using Tests.Administration.Users;
+using Tests.Description.DataTypeSourceTests;
 
-namespace Tests.Description
+namespace Tests.Description.DataTypeSourceTests
 {
     [TestFixture]
-    public class DataTypeSourceTests
+    public class Tests
     {
         [Test]
         public void should_return_default_description_of_datatype()

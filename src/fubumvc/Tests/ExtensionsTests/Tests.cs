@@ -6,10 +6,10 @@ using NUnit.Framework;
 using Should;
 using Swank;
 
-namespace Tests
+namespace Tests.ExtensionsTests
 {
     [TestFixture]
-    public class ExtensionsTests
+    public class Tests
     {
         [Test]
         public void should_get_resource_from_pattern()
@@ -22,25 +22,25 @@ namespace Tests
         [Test]
         public void should_return_null_when_no_resource_found()
         {
-            Assembly.GetExecutingAssembly().FindTextResourceNamed("Tests.EmbeddedResource").ShouldBeNull();
+            Assembly.GetExecutingAssembly().FindTextResourceNamed("Tests.ExtensionsTests.EmbeddedResource").ShouldBeNull();
         }
 
         [Test]
         public void should_return_text_resource()
         {
-            Assembly.GetExecutingAssembly().FindTextResourceNamed("Tests.EmbeddedTextResource").ShouldEqual("Some text yo!");
+            Assembly.GetExecutingAssembly().FindTextResourceNamed("Tests.ExtensionsTests.EmbeddedTextResource").ShouldEqual("Some text yo!");
         }
 
         [Test]
         public void should_return_html_resource()
         {
-            Assembly.GetExecutingAssembly().FindTextResourceNamed("Tests.EmbeddedHtmlResource").ShouldEqual("<b>Some html yo!</b>");
+            Assembly.GetExecutingAssembly().FindTextResourceNamed("Tests.ExtensionsTests.EmbeddedHtmlResource").ShouldEqual("<b>Some html yo!</b>");
         }
 
         [Test]
         public void should_return_markdown_resource()
         {
-            Assembly.GetExecutingAssembly().FindTextResourceNamed("Tests.EmbeddedMarkdownResource").ShouldEqual("<p><strong>Some markdown yo!</strong></p>");
+            Assembly.GetExecutingAssembly().FindTextResourceNamed("Tests.ExtensionsTests.EmbeddedMarkdownResource").ShouldEqual("<p><strong>Some markdown yo!</strong></p>");
         }
 
         private class Widgets : List<string> { }

@@ -8,16 +8,21 @@ using NUnit.Framework;
 using Should;
 using Swank;
 using Swank.Description;
-using Tests.Administration;
-using Tests.Batches;
-using Tests.Batches.Schedules;
-using Tests.Templates;
+using Tests.SpecificationBuilderModuleTests.Administration;
+using Tests.SpecificationBuilderModuleTests.Administration.Users;
+using Tests.SpecificationBuilderModuleTests.Batches;
+using Tests.SpecificationBuilderModuleTests.Batches.Cells;
+using Tests.SpecificationBuilderModuleTests.Batches.Schedules;
+using Tests.SpecificationBuilderModuleTests.Templates;
 
-namespace Tests
+namespace Tests.SpecificationBuilderModuleTests
 {
     [TestFixture]
-    public class SpecificationBuilderModuleTests
+    public class Tests
     {
+        public const string SchedulesModuleComments = "<p><strong>These are schedules yo!</strong></p>";
+        public const string BatchesModuleComments = "<b>These are batches yo!</b>";
+
         private static readonly AdministrationModule AdministrationModule = new AdministrationModule();
         private static readonly BatchesModule BatchesModule = new BatchesModule();
         private static readonly SchedulesModule SchedulesModule = new SchedulesModule();
@@ -31,10 +36,19 @@ namespace Tests
         private IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
         private IDescriptionSource<Type, DataTypeDescription> _dataTypes;
 
+        private static readonly Func<ActionCall, bool> ActionFilter =
+            x => x.HandlerType.Namespace.StartsWith(typeof(Tests).Namespace);
+
         [SetUp]
         public void Setup()
         {
-            _graph = TestBehaviorGraph.Build();
+            _graph = Behaviors.BuildGraph()
+                .AddAction<TemplatePutHandler>("/templates", HttpVerbs.Put)
+                .AddAction<AdminAccountGetAllHandler>("/admin", HttpVerbs.Get)
+                .AddAction<AdminUserGetAllHandler>("/admin/users", HttpVerbs.Get)
+                .AddAction<AdminAddressGetAllOfTypeHandler>("/admin/users/addresses", HttpVerbs.Get)
+                .AddAction<BatchCellGetAllHandler>("/batches/cells", HttpVerbs.Get)
+                .AddAction<BatchScheduleGetAllHandler>("/batches/schedules", HttpVerbs.Get);
             _moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
             _resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
@@ -52,14 +66,15 @@ namespace Tests
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault)
-                .Where(y => y.HandlerType.Namespace == typeof(TemplateRequest).Namespace));
+                .Where(y => y.HandlerType.Namespace == typeof(TemplatePutHandler).Namespace));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
                 _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 
             var spec = specBuilder.Build();
 
             spec.modules.Count.ShouldEqual(0);
-            spec.resources.Count.ShouldEqual(2);
+            spec.resources.Count.ShouldEqual(1);
+            spec.resources[0].endpoints.Count.ShouldEqual(1);
         }
 
         [Test]
@@ -67,6 +82,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
+                .Where(ActionFilter)
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
                 _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
@@ -76,17 +92,25 @@ namespace Tests
             spec.modules.Count.ShouldEqual(4);
             spec.resources.Count.ShouldEqual(0);
 
-            spec.modules[0].name.ShouldBeNull();
-            spec.modules[0].comments.ShouldBeNull();
+            var module = spec.modules[0];
+            module.name.ShouldBeNull();
+            module.comments.ShouldBeNull();
+            module.resources.Count.ShouldEqual(1);
 
-            spec.modules[1].name.ShouldEqual(AdministrationModule.Name);
-            spec.modules[1].comments.ShouldEqual(AdministrationModule.Comments);
+            module = spec.modules[1];
+            module.name.ShouldEqual(AdministrationModule.Name);
+            module.comments.ShouldEqual(AdministrationModule.Comments);
+            module.resources.Count.ShouldEqual(3);
 
-            spec.modules[2].name.ShouldEqual(BatchesModule.Name);
-            spec.modules[2].comments.ShouldEqual(BatchesModule.ExpectedComments);
+            module = spec.modules[2];
+            module.name.ShouldEqual(BatchesModule.Name);
+            module.comments.ShouldEqual(BatchesModuleComments);
+            module.resources.Count.ShouldEqual(1);
 
-            spec.modules[3].name.ShouldEqual(SchedulesModule.Name);
-            spec.modules[3].comments.ShouldEqual(SchedulesModule.ExpectedComments);
+            module = spec.modules[3];
+            module.name.ShouldEqual(SchedulesModule.Name);
+            module.comments.ShouldEqual(SchedulesModuleComments);
+            module.resources.Count.ShouldEqual(1);
         }
 
         [Test]
@@ -94,6 +118,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
+                .Where(ActionFilter)
                 .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                 .WithDefaultModule(y => new ModuleDescription { Name = "API", Comments = "This is the API yo!" }));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
@@ -104,17 +129,25 @@ namespace Tests
             spec.modules.Count.ShouldEqual(4);
             spec.resources.Count.ShouldEqual(0);
 
-            spec.modules[0].name.ShouldEqual(AdministrationModule.Name);
-            spec.modules[0].comments.ShouldEqual(AdministrationModule.Comments);
+            var module = spec.modules[0];
+            module.name.ShouldEqual(AdministrationModule.Name);
+            module.comments.ShouldEqual(AdministrationModule.Comments);
+            module.resources.Count.ShouldEqual(3);
 
-            spec.modules[1].name.ShouldEqual("API");
-            spec.modules[1].comments.ShouldEqual("This is the API yo!");
+            module = spec.modules[1];
+            module.name.ShouldEqual("API");
+            module.comments.ShouldEqual("This is the API yo!");
+            module.resources.Count.ShouldEqual(1);
 
-            spec.modules[2].name.ShouldEqual(BatchesModule.Name);
-            spec.modules[2].comments.ShouldEqual(BatchesModule.ExpectedComments);
+            module = spec.modules[2];
+            module.name.ShouldEqual(BatchesModule.Name);
+            module.comments.ShouldEqual(BatchesModuleComments);
+            module.resources.Count.ShouldEqual(1);
 
-            spec.modules[3].name.ShouldEqual(SchedulesModule.Name);
-            spec.modules[3].comments.ShouldEqual(SchedulesModule.ExpectedComments);
+            module = spec.modules[3];
+            module.name.ShouldEqual(SchedulesModule.Name);
+            module.comments.ShouldEqual(SchedulesModuleComments);
+            module.resources.Count.ShouldEqual(1);
         }
 
         [Test]
@@ -122,6 +155,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
+                .Where(ActionFilter)
                 .OnOrphanedModuleAction(OrphanedActions.Exclude));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
                 _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
@@ -131,14 +165,20 @@ namespace Tests
             spec.modules.Count.ShouldEqual(3);
             spec.resources.Count.ShouldEqual(0);
 
-            spec.modules[0].name.ShouldEqual(AdministrationModule.Name);
-            spec.modules[0].comments.ShouldEqual(AdministrationModule.Comments);
+            var module = spec.modules[0];
+            module.name.ShouldEqual(AdministrationModule.Name);
+            module.comments.ShouldEqual(AdministrationModule.Comments);
+            module.resources.Count.ShouldEqual(3);
 
-            spec.modules[1].name.ShouldEqual(BatchesModule.Name);
-            spec.modules[1].comments.ShouldEqual(BatchesModule.ExpectedComments);
+            module = spec.modules[1];
+            module.name.ShouldEqual(BatchesModule.Name);
+            module.comments.ShouldEqual(BatchesModuleComments);
+            module.resources.Count.ShouldEqual(1);
 
-            spec.modules[2].name.ShouldEqual(SchedulesModule.Name);
-            spec.modules[2].comments.ShouldEqual(SchedulesModule.ExpectedComments);
+            module = spec.modules[2];
+            module.name.ShouldEqual(SchedulesModule.Name);
+            module.comments.ShouldEqual(SchedulesModuleComments);
+            module.resources.Count.ShouldEqual(1);
         }
 
         [Test]
@@ -146,6 +186,7 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
+                .Where(ActionFilter)
                 .OnOrphanedModuleAction(OrphanedActions.Fail));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
                 _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
@@ -158,8 +199,9 @@ namespace Tests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
+                .Where(ActionFilter)
                 .OnOrphanedModuleAction(OrphanedActions.Fail)
-                .Where(y => y.HandlerType.Namespace != typeof(TemplateRequest).Namespace));
+                .Where(y => y.HandlerType.Namespace != typeof(TemplatePutHandler).Namespace));
             var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
                 _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
 

@@ -4,18 +4,29 @@ using FubuMVC.Core.Registration;
 using NUnit.Framework;
 using Should;
 using Swank;
+using Tests.ActionSourceTests.Administration;
+using Tests.ActionSourceTests.Administration.Users;
+using Tests.ActionSourceTests.Batches.Cells;
+using Tests.ActionSourceTests.Batches.Schedules;
+using Tests.ActionSourceTests.Templates;
 
-namespace Tests
+namespace Tests.ActionSourceTests
 {
     [TestFixture]
-    public class ActionSourceTests
+    public class Tests
     {
         private BehaviorGraph _graph;
 
         [SetUp]
         public void Setup()
         {
-            _graph = TestBehaviorGraph.Build();
+            _graph = Behaviors.BuildGraph()
+                .AddAction<TemplatePutHandler>("/templates", HttpVerbs.Put)
+                .AddAction<AdminAccountGetAllHandler>("/admin", HttpVerbs.Get)
+                .AddAction<AdminUserGetAllHandler>("/admin/users", HttpVerbs.Get)
+                .AddAction<AdminAddressGetAllOfTypeHandler>("/admin/users/addresses", HttpVerbs.Get)
+                .AddAction<BatchCellGetAllHandler>("/batches/cells", HttpVerbs.Get)
+                .AddAction<BatchScheduleGetAllHandler>("/batches/schedules", HttpVerbs.Get);
         }
 
         [Test]
@@ -25,8 +36,8 @@ namespace Tests
 
             var actions = new Swank.ActionSource(_graph, new Configuration()).GetActions();
 
-            actions.Count.ShouldEqual(37);
-            actions.Count(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldEqual(36);
+            actions.Count.ShouldEqual(7);
+            actions.Count(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldEqual(6);
             actions.Count(x => x.HandlerType.Assembly == typeof(SpecificationHandler).Assembly).ShouldEqual(1);
         }
 
@@ -39,7 +50,7 @@ namespace Tests
 
             var actions = new Swank.ActionSource(_graph, configuration).GetActions();
 
-            actions.Count.ShouldEqual(36);
+            actions.Count.ShouldEqual(6);
             actions.All(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldBeTrue();
         }
 
@@ -52,7 +63,7 @@ namespace Tests
 
             var actions = new Swank.ActionSource(_graph, configuration).GetActions();
 
-            actions.Count.ShouldEqual(26);
+            actions.Count.ShouldEqual(4);
             actions.All(x => x.ParentChain().Route.FirstPatternSegment() != "/batches/").ShouldBeTrue();
         }
     }

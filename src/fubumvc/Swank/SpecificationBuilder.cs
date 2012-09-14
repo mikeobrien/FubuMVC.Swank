@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FubuCore.Reflection;
+using FubuMVC.Core.Http.AspNet;
 using FubuMVC.Core.Registration.Nodes;
 using Swank.Description;
 using Swank.Models;
@@ -144,7 +145,9 @@ namespace Swank
 
         private List<Endpoint> GetEndpoints(IEnumerable<ActionCall> actions)
         {
-            return actions.Select(x => {
+            return actions
+                .Where(x => !x.Method.HasAttribute<HideAttribute>() && !x.HandlerType.HasAttribute<HideAttribute>())
+                .Select(x => {
                     var endpoint = _endpoints.GetDescription(x);
                     return new Endpoint {
                         name = endpoint.GetNameOrDefault(),
@@ -179,7 +182,9 @@ namespace Swank
         private List<QuerystringParameter> GetQuerystringParameters(ActionCall action)
         {
             return _typeCache.GetPropertiesFor(action.InputType())
-                .Where(x => x.Value.IsQuerystring(action))
+                .Where(x => x.Value.IsQuerystring(action) && 
+                            !x.Value.HasAttribute<HideAttribute>() && 
+                            !RequestPropertyValueSource.IsSystemProperty(x.Value))
                 .Select(x => {
                     var parameter = _parameters.GetDescription(x.Value);
                     return new QuerystringParameter {
@@ -219,6 +224,7 @@ namespace Swank
         {
             return !type.IsEnum ? new List<Option>() :
                 type.GetCachedEnumValues()
+                    .Where(x => !x.HasAttribute<HideAttribute>())
                     .Select(x => {
                         var option = _options.GetDescription(x);
                         return new Option {

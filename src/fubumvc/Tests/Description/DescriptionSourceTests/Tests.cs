@@ -1,19 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using Should;
 using Swank.Description;
-using Tests.Administration;
-using Tests.Administration.Users;
-using Tests.Batches;
-using Tests.Batches.Cells;
-using Tests.Batches.Schedules;
+using Tests.Description.DescriptionSourceTests.Administration;
+using Tests.Description.DescriptionSourceTests.Administration.Users;
+using Tests.Description.DescriptionSourceTests.Batches;
+using Tests.Description.DescriptionSourceTests.Batches.Cells;
+using Tests.Description.DescriptionSourceTests.Batches.Schedules;
 
-namespace Tests.Description
+namespace Tests.Description.DescriptionSourceTests
 {
     [TestFixture]
-    public class DescriptionSourceTests
+    public class Tests
     {
+        public const string SchedulesModuleComments = "<p><strong>These are schedules yo!</strong></p>";
+        public const string BatchesModuleComments = "<b>These are batches yo!</b>";
+
         private static readonly AdministrationModule AdministrationModule = new AdministrationModule();
         private static readonly BatchesModule BatchesModule = new BatchesModule();
         private static readonly SchedulesModule SchedulesModule = new SchedulesModule();
@@ -29,8 +33,11 @@ namespace Tests.Description
         [SetUp]
         public void Setup()
         {
-            _modules = new MarkerSource<ModuleDescription>().GetDescriptions(Assembly.GetExecutingAssembly());
-            _resources = new MarkerSource<ResourceDescription>().GetDescriptions(Assembly.GetExecutingAssembly());
+            var handlersNamespace = GetType().Namespace;
+            _modules = new MarkerSource<ModuleDescription>().GetDescriptions(Assembly.GetExecutingAssembly())
+                .Where(x => x.Namespace.StartsWith(handlersNamespace)).ToList();
+            _resources = new MarkerSource<ResourceDescription>().GetDescriptions(Assembly.GetExecutingAssembly())
+                .Where(x => x.Namespace.StartsWith(handlersNamespace)).ToList();
         }
 
         [Test]
@@ -88,13 +95,13 @@ namespace Tests.Description
         [Test]
         public void should_set_description_comments_from_embedded_text()
         {
-            _modules[1].Comments.ShouldEqual(BatchesModule.ExpectedComments);
+            _modules[1].Comments.ShouldEqual(BatchesModuleComments);
         }
 
         [Test]
         public void should_set_description_comments_from_embedded_markdown()
         {
-            _modules[0].Comments.ShouldEqual(SchedulesModule.ExpectedComments);
+            _modules[0].Comments.ShouldEqual(SchedulesModuleComments);
         }
     }
 }

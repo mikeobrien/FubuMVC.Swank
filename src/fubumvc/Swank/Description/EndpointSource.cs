@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using FubuCore.Reflection;
 using FubuMVC.Core.Registration.Nodes;
 
 namespace Swank.Description
