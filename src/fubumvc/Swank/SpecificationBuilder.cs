@@ -75,8 +75,9 @@ namespace Swank
 
         private List<DataType> GetDataTypes(IList<ActionCall> actions)
         {
-            var rootTypes = actions.Where(x => x.HasInput).Select(x => Extensions.GetListElementType(x.InputType()) ?? x.InputType())
-                .Concat(actions.Where(x => x.HasOutput).Select(x => Extensions.GetListElementType(x.OutputType()) ?? x.OutputType()))
+            var rootTypes = actions.Where(x => x.HasInput && (x.ParentChain().Route.AllowsPost() || x.ParentChain().Route.AllowsPut()))
+                .Select(x => x.InputType().GetListElementType() ?? x.InputType())
+                .Concat(actions.Where(x => x.HasOutput).Select(x => x.OutputType().GetListElementType() ?? x.OutputType()))
                 .Distinct().ToList();
             return rootTypes
                 .Concat(rootTypes.SelectMany(GetTypes))
@@ -84,7 +85,7 @@ namespace Swank
                 .Select(x => {
                     var dataType = _dataTypes.GetDescription(x);
                     return new DataType {
-                        id = dataType != null ? dataType.Id : null,
+                        id = dataType != null ? dataType.Type.GetHash() : x.GetHash(),
                         name = dataType.GetNameOrDefault(),
                         comments = dataType.GetCommentsOrDefault(),
                         members = null
@@ -215,7 +216,7 @@ namespace Swank
                 {
                     name = dataType.GetNameOrDefault(),
                     comments = dataType.GetCommentsOrDefault(),
-                    dataType = dataType != null ? dataType.Id : null,
+                    dataType = dataType != null ? dataType.Type.GetHash() : type.GetHash(),
                     collection = type.IsArray || type.IsList()
                 };
         } 

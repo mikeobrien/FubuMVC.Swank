@@ -36,12 +36,17 @@ namespace Swank.Description
         public ResourceDescription GetDescription(ActionCall action)
         {
             return _descriptions.GetDescriptions(action.HandlerType.Assembly)
-                .GroupJoin(_actions.GetActions(), x => x.AppliesTo, x => x.HandlerType,
-                           (r, a) => new { Resource = r, Group = a.Any() ? _config.Grouping(a.First()) : null })
+                .Select(x => new {
+                        ResourceHandler = x.GetType().BaseType.GetGenericArguments().FirstOrDefault(),
+                        ResourceNamespace = x.GetType().Namespace,
+                        Resource = x
+                    })
+                .GroupJoin(_actions.GetActions(), x => x.ResourceHandler, x => x.HandlerType,
+                           (r, a) => new { r.Resource, r.ResourceHandler, r.ResourceNamespace, Group = a.Any() ? _config.Grouping(a.First()) : null })
                 .OrderByDescending(x => x.Group)
-                .ThenByDescending(x => x.Resource.Namespace)
-                .Where(x => (x.Resource.AppliesTo != null && _config.Grouping(action).Equals(x.Group)) ||
-                            (x.Resource.AppliesTo == null && action.HandlerType.Namespace.StartsWith(x.Resource.Namespace)))
+                .ThenByDescending(x => x.ResourceNamespace)
+                .Where(x => (x.ResourceHandler != null && _config.Grouping(action).Equals(x.Group)) ||
+                            (x.ResourceHandler == null && action.HandlerType.Namespace.StartsWith(x.ResourceNamespace)))
                 .Select(x => x.Resource)
                 .FirstOrDefault();
         }

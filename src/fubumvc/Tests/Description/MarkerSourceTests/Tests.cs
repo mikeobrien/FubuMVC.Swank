@@ -4,13 +4,13 @@ using System.Reflection;
 using NUnit.Framework;
 using Should;
 using Swank.Description;
-using Tests.Description.DescriptionSourceTests.Administration;
-using Tests.Description.DescriptionSourceTests.Administration.Users;
-using Tests.Description.DescriptionSourceTests.Batches;
-using Tests.Description.DescriptionSourceTests.Batches.Cells;
-using Tests.Description.DescriptionSourceTests.Batches.Schedules;
+using Tests.Description.MarkerSourceTests.Administration;
+using Tests.Description.MarkerSourceTests.Administration.Users;
+using Tests.Description.MarkerSourceTests.Batches;
+using Tests.Description.MarkerSourceTests.Batches.Cells;
+using Tests.Description.MarkerSourceTests.Batches.Schedules;
 
-namespace Tests.Description.DescriptionSourceTests
+namespace Tests.Description.MarkerSourceTests
 {
     [TestFixture]
     public class Tests
@@ -35,9 +35,9 @@ namespace Tests.Description.DescriptionSourceTests
         {
             var handlersNamespace = GetType().Namespace;
             _modules = new MarkerSource<ModuleDescription>().GetDescriptions(Assembly.GetExecutingAssembly())
-                .Where(x => x.Namespace.StartsWith(handlersNamespace)).ToList();
+                .Where(x => x.GetType().Namespace.StartsWith(handlersNamespace)).ToList();
             _resources = new MarkerSource<ResourceDescription>().GetDescriptions(Assembly.GetExecutingAssembly())
-                .Where(x => x.Namespace.StartsWith(handlersNamespace)).ToList();
+                .Where(x => x.GetType().Namespace.StartsWith(handlersNamespace)).ToList();
         }
 
         [Test]
@@ -58,32 +58,6 @@ namespace Tests.Description.DescriptionSourceTests
             _resources[1].Name.ShouldEqual(AdminAccountResource.Name);
             _resources[2].Name.ShouldEqual(AdminAddressResource.Name);
             _resources[3].Name.ShouldEqual(AdminUserResource.Name);
-        }
-
-        [Test]
-        public void should_set_namespace()
-        {
-            _modules[0].Namespace.ShouldEqual(SchedulesModule.GetType().Namespace);
-            _modules[1].Namespace.ShouldEqual(BatchesModule.GetType().Namespace);
-            _modules[2].Namespace.ShouldEqual(AdministrationModule.GetType().Namespace);
-
-            _resources[0].Namespace.ShouldEqual(BatchCellResource.GetType().Namespace);
-            _resources[1].Namespace.ShouldEqual(AdminAccountResource.GetType().Namespace);
-            _resources[2].Namespace.ShouldEqual(AdminAddressResource.GetType().Namespace);
-            _resources[3].Namespace.ShouldEqual(AdminUserResource.GetType().Namespace);
-        }
-
-        [Test]
-        public void should_set_applies_to()
-        {
-            _modules[0].AppliesTo.ShouldBeNull();
-            _modules[1].AppliesTo.ShouldBeNull();
-            _modules[2].AppliesTo.ShouldBeNull();
-
-            _resources[0].AppliesTo.ShouldBeNull();
-            _resources[1].AppliesTo.ShouldEqual(typeof(AdminAccountAllGetHandler));
-            _resources[2].AppliesTo.ShouldBeNull();
-            _resources[3].AppliesTo.ShouldEqual(typeof(AdminUserAllGetHandler));
         }
 
         [Test]

@@ -15,7 +15,7 @@ namespace Swank.Description
         public ModuleDescription GetDescription(ActionCall action)
         {
             return _descriptions.GetDescriptions(action.HandlerType.Assembly)
-                .FirstOrDefault(x => action.HandlerType.Namespace.StartsWith(x.Namespace));
+                .FirstOrDefault(x => action.HandlerType.Namespace.StartsWith(x.GetType().Namespace));
         }
     }
 }

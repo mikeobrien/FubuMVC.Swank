@@ -20,8 +20,6 @@ namespace Swank.Description
         private static Description CreateDescription(Type type)
         {
             var description = (Description) Activator.CreateInstance(type);
-            description.Namespace = type.Namespace;
-            description.AppliesTo = type.BaseType.GetGenericArguments().FirstOrDefault();
             if (string.IsNullOrEmpty(description.Comments)) 
                 description.Comments = type.Assembly.FindTextResourceNamed(type.FullName);
             return description;

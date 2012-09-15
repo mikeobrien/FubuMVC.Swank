@@ -13,8 +13,7 @@ namespace Swank.Description
                  .Select(x => new ErrorDescription {
                     Status = x.Status,
                     Name = x.Name,
-                    Comments = x.Comments,
-                    Namespace = action.HandlerType.Namespace
+                    Comments = x.Comments
                 }).OrderBy(x => x.Status).ToList();
         }
     }

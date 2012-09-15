@@ -14,7 +14,7 @@ namespace Tests.Description.DataTypeSourceTests
         {
             var type = typeof(AdminAddressResponse);
             var description = new DataTypeSource().GetDescription(type);
-            description.Id.ShouldEqual(type.FullName.Hash());
+            description.Type.ShouldEqual(type);
             description.Name.ShouldEqual("AdminAddressResponse");
             description.Comments.ShouldBeNull();
         }
@@ -24,7 +24,7 @@ namespace Tests.Description.DataTypeSourceTests
         {
             var type = typeof(AdminAddressRequest);
             var description = new DataTypeSource().GetDescription(type);
-            description.Id.ShouldEqual(type.FullName.Hash());
+            description.Type.ShouldEqual(type);
             description.Name.ShouldEqual("AdminAddressRequest");
             description.Comments.ShouldEqual("This is an address request yo!");
         }
@@ -34,7 +34,7 @@ namespace Tests.Description.DataTypeSourceTests
         {
             var type = typeof(AdminUserRequest);
             var description = new DataTypeSource().GetDescription(type);
-            description.Id.ShouldEqual(type.FullName.Hash());
+            description.Type.ShouldEqual(type);
             description.Name.ShouldEqual("User");
             description.Comments.ShouldBeNull();
         }
@@ -43,7 +43,7 @@ namespace Tests.Description.DataTypeSourceTests
         public void should_return_default_description_of_list_datatype()
         {
             var description = new DataTypeSource().GetDescription(typeof(List<AdminAddressResponse>));
-            description.Id.ShouldEqual(typeof(AdminAddressResponse).FullName.Hash());
+            description.Type.ShouldEqual(typeof(AdminAddressResponse));
             description.Name.ShouldEqual("ArrayOfAdminAddressResponse");
             description.Comments.ShouldBeNull();
         }
@@ -52,7 +52,7 @@ namespace Tests.Description.DataTypeSourceTests
         public void should_return_attribute_description_of_inherited_list_datatype()
         {
             var description = new DataTypeSource().GetDescription(typeof(AdminAddresses));
-            description.Id.ShouldEqual(typeof(AdminAddressResponse).FullName.Hash());
+            description.Type.ShouldEqual(typeof(AdminAddressResponse));
             description.Name.ShouldEqual("ArrayOfAdminAddressResponse");
             description.Comments.ShouldEqual("These are addresses yo!");
         }
@@ -61,7 +61,7 @@ namespace Tests.Description.DataTypeSourceTests
         public void should_return_attribute_description_of_inherited_list_datatype_with_xml_type_attribute()
         {
             var description = new DataTypeSource().GetDescription(typeof(AdminUsers));
-            description.Id.ShouldEqual(typeof(AdminUserResponse).FullName.Hash());
+            description.Type.ShouldEqual(typeof(AdminUserResponse));
             description.Name.ShouldEqual("Users");
             description.Comments.ShouldEqual("These are users yo!");
         }

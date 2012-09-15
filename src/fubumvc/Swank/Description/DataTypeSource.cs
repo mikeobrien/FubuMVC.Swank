@@ -12,10 +12,9 @@ namespace Swank.Description
             var xmlType = type.GetCustomAttribute<XmlTypeAttribute>();
             var elementType = Extensions.GetListElementType(type);
             return new DataTypeDescription {
-                Id = elementType != null ? elementType.FullName.Hash() : type.FullName.Hash(),
+                Type = elementType ?? type,
                 Name = xmlType != null ? xmlType.TypeName : elementType != null ? "ArrayOf" + elementType.Name : type.Name,
-                Comments = description != null ? description.Comments : null,
-                Namespace = type.Namespace
+                Comments = description != null ? description.Comments : null
             };
         }
     }

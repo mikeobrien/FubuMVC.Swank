@@ -19,8 +19,6 @@ namespace Swank.Description
     {
         public string Name { get; set; }
         public string Comments { get; set; }
-        public string Namespace { get; set; }
-        public Type AppliesTo { get; set; }
 
         public override bool Equals(object obj)
         {

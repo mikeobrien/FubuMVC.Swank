@@ -27,6 +27,16 @@ namespace Swank
             return route.Pattern.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
         }
 
+        public static bool AllowsPost(this IRouteDefinition route)
+        {
+            return route.AllowedHttpMethods.Any(y => y.Equals("POST", StringComparison.OrdinalIgnoreCase));
+        }
+
+        public static bool AllowsPut(this IRouteDefinition route)
+        {
+            return route.AllowedHttpMethods.Any(y => y.Equals("POST", StringComparison.OrdinalIgnoreCase));
+        }
+
         public static bool IsUrlParameter(this PropertyInfo property, ActionCall action)
         {
             return action.ParentChain().Route.Input.RouteParameters.Any(x => x.Name == property.Name);
@@ -34,11 +44,19 @@ namespace Swank
 
         public static bool IsQuerystring(this PropertyInfo property, ActionCall action)
         {
-            return !action.ParentChain().Route.Input.RouteParameters.Any(x => x.Name == property.Name) && 
+            return action.ParentChain().Route.Input.RouteParameters.All(x => x.Name != property.Name) && 
                 (property.GetCustomAttribute<QueryStringAttribute>() != null ||
-                 !action.ParentChain().Route.AllowedHttpMethods.Any(x => 
-                     x.Equals("post", StringComparison.OrdinalIgnoreCase) ||
-                     x.Equals("put", StringComparison.OrdinalIgnoreCase)));
+                 !(action.ParentChain().Route.AllowsPost() || action.ParentChain().Route.AllowsPut()));
+        }
+
+        public static string GetHash(this Type type)
+        {
+            return type.FullName.Hash();
+        }
+
+        public static string GetHash(this Type type, MethodInfo method)
+        {
+            return (method.DeclaringType.FullName + "." + method.Name + "." + type.FullName).Hash();
         }
 
         public static bool IsSystemType(this Type type)

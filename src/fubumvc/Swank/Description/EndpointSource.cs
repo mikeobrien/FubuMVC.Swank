@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using FubuCore.Reflection;
 using FubuMVC.Core.Registration.Nodes;
 
 namespace Swank.Description
@@ -21,8 +20,7 @@ namespace Swank.Description
                             action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName);
             return new EndpointDescription {
                     Name = name,
-                    Comments = comments,
-                    Namespace = action.HandlerType.Namespace
+                    Comments = comments
                 };
         }
     }

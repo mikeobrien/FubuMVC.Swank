@@ -11,7 +11,6 @@ namespace Swank.Description
             return new ParameterDescription {
                     Name = property.Name,
                     Comments = description != null ? description.Comments : null,
-                    Namespace = property.DeclaringType.Namespace,
                     DefaultValue = defaultValue != null ? defaultValue.Value : null
                 };
         }

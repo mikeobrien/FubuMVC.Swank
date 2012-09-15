@@ -9,8 +9,7 @@ namespace Swank.Description
             var description = field.GetCustomAttribute<DescriptionAttribute>();
             return new OptionDescription {
                     Name = description != null ? description.Name : null,
-                    Comments = description != null ? description.Comments : null,
-                    Namespace = field.DeclaringType.Namespace
+                    Comments = description != null ? description.Comments : null
                 };
         }
     }

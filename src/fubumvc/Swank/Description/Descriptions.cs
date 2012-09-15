@@ -1,9 +1,14 @@
-﻿namespace Swank.Description
+﻿using System;
+
+namespace Swank.Description
 {
     public class ModuleDescription : Description { }
 
     public class ResourceDescription<THandler> : ResourceDescription { }
-    public class ResourceDescription : Description { }
+    public class ResourceDescription : Description
+    {
+        public Type Handler { get; set; }
+    }
 
     public class EndpointDescription : Description { }
 
@@ -21,6 +26,6 @@
 
     public class DataTypeDescription : Description
     {
-        public string Id { get; set; }
+        public Type Type { get; set; }
     }
 }

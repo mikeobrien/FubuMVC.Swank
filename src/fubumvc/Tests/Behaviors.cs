@@ -42,10 +42,15 @@ namespace Tests
             return graph;
         }
 
+        public static MethodInfo GetExecuteMethod(this Type type)
+        {
+            return type.GetMethods().First(x => x.Name.StartsWith("Execute"));
+        }
+
         private static string GetRoute(Type handlerType, string thisNamespace)
         {
             var url = '/' + handlerType.Namespace.Replace(thisNamespace + ".", "").Replace('.', '/').ToLower();
-            var handlerMethod = handlerType.GetMethods().First(x => x.Name.StartsWith("Execute"));
+            var handlerMethod = handlerType.GetExecuteMethod();
             var inputType = handlerMethod.GetParameters().Select(x => x.ParameterType).FirstOrDefault();
             return url + (inputType != null ? inputType
                 .GetProperties()

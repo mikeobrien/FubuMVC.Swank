@@ -1,6 +1,6 @@
 ﻿using Swank.Description;
 
-namespace Tests.Description.DescriptionSourceTests
+namespace Tests.Description.MarkerSourceTests
 {
     namespace Batches
     {

@@ -75,13 +75,14 @@
     <Compile Include="ActionSourceTests\Handlers.cs" />
     <Compile Include="ActionSourceTests\Tests.cs" />
     <Compile Include="Description\DataTypeSourceTests\Types.cs" />
-    <Compile Include="Description\DescriptionSourceTests\Handlers.cs" />
+    <Compile Include="Description\MarkerSourceTests\Handlers.cs" />
     <Compile Include="Description\EndpointSourceTests\Handlers.cs" />
     <Compile Include="Description\ErrorSourceTests\Handlers.cs" />
     <Compile Include="Description\ModuleSourceTests\Handlers.cs" />
     <Compile Include="Description\OptionSourceTests\Handlers.cs" />
     <Compile Include="Description\ParameterSourceTests\Handlers.cs" />
     <Compile Include="Description\ResourceSourceTests\Handlers.cs" />
+    <Compile Include="SpecificationBuilderDataTypeTests\Handlers.cs" />
     <Compile Include="SpecificationBuilderDataTypeTests\Tests.cs" />
     <Compile Include="Description\DataTypeSourceTests\Tests.cs" />
     <Compile Include="Description\ErrorSourceTests\Tests.cs" />
@@ -90,7 +91,7 @@
     <Compile Include="SpecificationBuilderEndpointTests\Handlers.cs" />
     <Compile Include="SpecificationBuilderEndpointTests\Tests.cs" />
     <Compile Include="Description\EndpointSourceTests\Tests.cs" />
-    <Compile Include="Description\DescriptionSourceTests\Tests.cs" />
+    <Compile Include="Description\MarkerSourceTests\Tests.cs" />
     <Compile Include="Description\ResourceSourceTests\Tests.cs" />
     <Compile Include="Description\ModuleSourceTests\Tests.cs" />
     <Compile Include="SpecificationBuilderResourceTests\Handlers.cs" />
@@ -102,7 +103,7 @@
     <Compile Include="Behaviors.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Description\DescriptionSourceTests\Batches\Schedules\SchedulesModule.md" />
+    <EmbeddedResource Include="Description\MarkerSourceTests\Batches\Schedules\SchedulesModule.md" />
     <EmbeddedResource Include="SpecificationBuilderResourceTests\Administration\AdminAccountResource.md" />
     <EmbeddedResource Include="SpecificationBuilderResourceTests\Templates\TemplatePutHandler.Execute_Id.md" />
     <EmbeddedResource Include="Description\EndpointSourceTests\Templates\TemplatePutHandler.Execute_Id.md" />
@@ -136,7 +137,7 @@
     <EmbeddedResource Include="SpecificationBuilderModuleTests\Templates\TemplateGetHandler.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Description\DescriptionSourceTests\Batches\BatchesModule.html" />
+    <EmbeddedResource Include="Description\MarkerSourceTests\Batches\BatchesModule.html" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SpecificationBuilderResourceTests\Batches\Cells\BatchCellResource.html" />
