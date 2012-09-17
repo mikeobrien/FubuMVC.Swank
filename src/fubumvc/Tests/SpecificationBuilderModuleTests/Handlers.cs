@@ -2,47 +2,61 @@
 
 namespace Tests.SpecificationBuilderModuleTests
 {
-    namespace Templates
-    { public class TemplatePutHandler { public object Execute(object request) { return null; } } }
-
-    namespace Batches
+    namespace ModuleDescriptions
     {
-        public class BatchesModule : ModuleDescription { public BatchesModule() { Name = "Batches"; } }
-
-        namespace Schedules
+        namespace NoDescription
         {
-            public class SchedulesModule : ModuleDescription { public SchedulesModule() { Name = "Schedules"; } }
-            public class BatchScheduleAllGetHandler { public object Execute(object request) { return null; } }
+            public class Module : ModuleDescription { }
+            public class GetHandler { public object Execute(object request) { return null; } }
         }
 
-        namespace Cells
+        namespace Description
         {
-            public class BatchCellResource : ResourceDescription { public BatchCellResource() { Name = "Batch cells"; } }
-            public class BatchCellAllGetHandler { public object Execute(object request) { return null; } }
+            public class Module : ModuleDescription { public Module() { Name = "Some Module"; Comments = "Some comments."; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+
+        namespace EmbeddedTextComments
+        {
+            public class Module : ModuleDescription { public Module() { Name = "Some Text Module"; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+
+        namespace EmbeddedMarkdownComments
+        {
+            public class Module : ModuleDescription { public Module() { Name = "Some Markdown Module"; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
         }
     }
 
-    namespace Administration
+    namespace NoModules
     {
-        public class AdministrationModule : ModuleDescription
-        { public AdministrationModule() { Name = "Administration"; Comments = "This is admin yo!"; } }
+        public class GetHandler { public object Execute(object request) { return null; } }
+    }
 
-        public class AdminAccountResource : ResourceDescription<AdminAccountAllGetHandler>
-        { public AdminAccountResource() { Name = "Accounts"; } }
+    namespace OneEmptyModule
+    {
+        public class EmptyModule : ModuleDescription { }
+        public class GetHandler { public object Execute(object request) { return null; } }
+    }
 
-        public class AdminAccountAllGetHandler { public object Execute(object request) { return null; } }
-
-        namespace Users // These are ordered a certian way on purpose, don't change that.
+    namespace OneEmptyModuleAndOrphanedAction
+    {
+        public class GetHandler { public object Execute(object request) { return null; } }
+        namespace SomeHandler
         {
-            public class AdminAddressResource : ResourceDescription
-            { public AdminAddressResource() { Name = "User addresses"; } }
+            public class EmptyModule : ModuleDescription { }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+    }
 
-            public class AdminAddressAllOfTypeGetHandler { public object Execute_Address(object request) { return null; } }
-
-            public class AdminUserResource : ResourceDescription<AdminUserAllGetHandler>
-            { public AdminUserResource() { Name = "Users"; } }
-
-            public class AdminUserAllGetHandler { public object Execute(object request) { return null; } }
+    namespace OneModuleAndOrphanedAction
+    {
+        public class GetHandler { public object Execute_Orphan(object request) { return null; } }
+        namespace SomeHandler
+        {
+            public class EmptyModule : ModuleDescription { public EmptyModule() { Name = "Some Module"; } }
+            public class GetHandler { public object Execute_InModule(object request) { return null; } }
         }
     }
 }

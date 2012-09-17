@@ -8,23 +8,13 @@ using NUnit.Framework;
 using Should;
 using Swank;
 using Swank.Description;
-using Tests.SpecificationBuilderModuleTests.Administration;
-using Tests.SpecificationBuilderModuleTests.Batches;
-using Tests.SpecificationBuilderModuleTests.Batches.Schedules;
-using Tests.SpecificationBuilderModuleTests.Templates;
+using Swank.Models;
 
 namespace Tests.SpecificationBuilderModuleTests
 {
     [TestFixture]
     public class Tests
     {
-        public const string SchedulesModuleComments = "<p><strong>These are schedules yo!</strong></p>";
-        public const string BatchesModuleComments = "<b>These are batches yo!</b>";
-
-        private static readonly AdministrationModule AdministrationModule = new AdministrationModule();
-        private static readonly BatchesModule BatchesModule = new BatchesModule();
-        private static readonly SchedulesModule SchedulesModule = new SchedulesModule();
-
         private BehaviorGraph _graph;
         private IDescriptionSource<ActionCall, ModuleDescription> _moduleSource;
         private IDescriptionSource<ActionCall, ResourceDescription> _resourceSource;
@@ -33,9 +23,6 @@ namespace Tests.SpecificationBuilderModuleTests
         private IDescriptionSource<FieldInfo, OptionDescription> _optionSource;
         private IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
         private IDescriptionSource<Type, DataTypeDescription> _dataTypes;
-
-        private static readonly Func<ActionCall, bool> ActionFilter =
-            x => x.HandlerType.Namespace.StartsWith(typeof(Tests).Namespace);
 
         [SetUp]
         public void Setup()
@@ -52,17 +39,54 @@ namespace Tests.SpecificationBuilderModuleTests
             _dataTypes = new DataTypeSource();
         }
 
-        [Test]
-        public void should_return_actions_at_root_when_only_one_module_with_no_name()
+        private Specification BuildSpec<T>(Action<ConfigurationDsl> configure)
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x
-                .AppliesToThisAssembly()
-                .OnOrphanedModuleAction(OrphanedActions.UseDefault)
-                .Where(y => y.HandlerType.Namespace == typeof(TemplatePutHandler).Namespace));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
+            var configuration = ConfigurationDsl.CreateConfig(x => { configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<T>()); });
+            return new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
+                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes).Build();
+        }
 
-            var spec = specBuilder.Build();
+        [Test]
+        public void should_set_description_when_one_is_specified()
+        {
+            var spec = BuildSpec<ModuleDescriptions.Description.GetHandler>(x => x
+                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
+
+            var module = spec.modules[0];
+
+            module.name.ShouldEqual("Some Module");
+            module.comments.ShouldEqual("Some comments.");
+        }
+
+        [Test]
+        public void should_set_description_and_text_embedded_resource_comments_when_specified()
+        {
+            var spec = BuildSpec<ModuleDescriptions.EmbeddedTextComments.GetHandler>(x => x
+                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
+
+            var module = spec.modules[0];
+
+            module.name.ShouldEqual("Some Text Module");
+            module.comments.ShouldEqual("<b>Some text comments</b>");
+        }
+
+        [Test]
+        public void should_set_description_and_markdown_embedded_resource_comments_when_specified()
+        {
+            var spec = BuildSpec<ModuleDescriptions.EmbeddedMarkdownComments.GetHandler>(x => x
+                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
+
+            var module = spec.modules[0];
+
+            module.name.ShouldEqual("Some Markdown Module");
+            module.comments.ShouldEqual("<p><strong>Some markdown comments</strong></p>");
+        }
+
+        [Test]
+        public void should_return_actions_in_root_resources_when_there_are_no_modules_defined()
+        {
+            var spec = BuildSpec<NoModules.GetHandler>(x => x
+                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
 
             spec.modules.Count.ShouldEqual(0);
             spec.resources.Count.ShouldEqual(1);
@@ -70,134 +94,101 @@ namespace Tests.SpecificationBuilderModuleTests
         }
 
         [Test]
+        public void should_return_actions_in_root_resources_when_there_are_is_one_empty_module_defined()
+        {
+            var spec = BuildSpec<OneEmptyModule.GetHandler>(x => x
+                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
+
+            spec.modules.Count.ShouldEqual(0);
+            spec.resources.Count.ShouldEqual(1);
+            spec.resources[0].endpoints.Count.ShouldEqual(1);
+        }
+
+        [Test]
+        public void should_return_actions_in_root_resources_when_there_is_one_empty_module_defined_and_orphaned_actions()
+        {
+            var spec = BuildSpec<OneEmptyModuleAndOrphanedAction.GetHandler>(x => x
+                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
+
+            spec.modules.Count.ShouldEqual(0);
+            spec.resources.Count.ShouldEqual(2);
+            spec.resources[0].endpoints.Count.ShouldEqual(1);
+            spec.resources[1].endpoints.Count.ShouldEqual(1);
+        }
+        
+        [Test]
         public void should_automatically_add_orphaned_actions_to_empty_default_module()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x
-                .AppliesToThisAssembly()
-                .Where(ActionFilter)
-                .OnOrphanedModuleAction(OrphanedActions.UseDefault));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
+            var spec = BuildSpec<OneModuleAndOrphanedAction.GetHandler>(x => x
+                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
 
-            var spec = specBuilder.Build();
-
-            spec.modules.Count.ShouldEqual(4);
+            spec.modules.Count.ShouldEqual(2);
             spec.resources.Count.ShouldEqual(0);
 
             var module = spec.modules[0];
             module.name.ShouldBeNull();
-            module.comments.ShouldBeNull();
             module.resources.Count.ShouldEqual(1);
+            module.resources[0].endpoints.Count.ShouldEqual(1);
+            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/orphan");
 
             module = spec.modules[1];
-            module.name.ShouldEqual(AdministrationModule.Name);
-            module.comments.ShouldEqual(AdministrationModule.Comments);
-            module.resources.Count.ShouldEqual(3);
-
-            module = spec.modules[2];
-            module.name.ShouldEqual(BatchesModule.Name);
-            module.comments.ShouldEqual(BatchesModuleComments);
+            module.name.ShouldEqual("Some Module");
             module.resources.Count.ShouldEqual(1);
-
-            module = spec.modules[3];
-            module.name.ShouldEqual(SchedulesModule.Name);
-            module.comments.ShouldEqual(SchedulesModuleComments);
-            module.resources.Count.ShouldEqual(1);
+            module.resources[0].endpoints.Count.ShouldEqual(1);
+            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/somehandler/inmodule");
         }
 
         [Test]
-        public void should_automatically_add_orphaned_actions_to_specified_default_module()
+        public void should_automatically_add_orphaned_actions_to_the_specified_default_module()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x
-                .AppliesToThisAssembly()
-                .Where(ActionFilter)
-                .OnOrphanedModuleAction(OrphanedActions.UseDefault)
-                .WithDefaultModule(y => new ModuleDescription { Name = "API", Comments = "This is the API yo!" }));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
+            var spec = BuildSpec<OneModuleAndOrphanedAction.GetHandler>(x => x
+                    .OnOrphanedModuleAction(OrphanedActions.UseDefault)
+                    .WithDefaultModule(y => new ModuleDescription { Name = "Default Module" }));
 
-            var spec = specBuilder.Build();
-
-            spec.modules.Count.ShouldEqual(4);
+            spec.modules.Count.ShouldEqual(2);
             spec.resources.Count.ShouldEqual(0);
 
             var module = spec.modules[0];
-            module.name.ShouldEqual(AdministrationModule.Name);
-            module.comments.ShouldEqual(AdministrationModule.Comments);
-            module.resources.Count.ShouldEqual(3);
+            module.name.ShouldEqual("Default Module");
+            module.resources.Count.ShouldEqual(1);
+            module.resources[0].endpoints.Count.ShouldEqual(1);
+            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/orphan");
 
             module = spec.modules[1];
-            module.name.ShouldEqual("API");
-            module.comments.ShouldEqual("This is the API yo!");
+            module.name.ShouldEqual("Some Module");
             module.resources.Count.ShouldEqual(1);
-
-            module = spec.modules[2];
-            module.name.ShouldEqual(BatchesModule.Name);
-            module.comments.ShouldEqual(BatchesModuleComments);
-            module.resources.Count.ShouldEqual(1);
-
-            module = spec.modules[3];
-            module.name.ShouldEqual(SchedulesModule.Name);
-            module.comments.ShouldEqual(SchedulesModuleComments);
-            module.resources.Count.ShouldEqual(1);
+            module.resources[0].endpoints.Count.ShouldEqual(1);
+            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/somehandler/inmodule");
         }
 
         [Test]
         public void should_ignore_orphaned_actions()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x
-                .AppliesToThisAssembly()
-                .Where(ActionFilter)
-                .OnOrphanedModuleAction(OrphanedActions.Exclude));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
+            var spec = BuildSpec<OneModuleAndOrphanedAction.GetHandler>(x => x
+                    .OnOrphanedModuleAction(OrphanedActions.Exclude));
 
-            var spec = specBuilder.Build();
-
-            spec.modules.Count.ShouldEqual(3);
+            spec.modules.Count.ShouldEqual(1);
             spec.resources.Count.ShouldEqual(0);
 
             var module = spec.modules[0];
-            module.name.ShouldEqual(AdministrationModule.Name);
-            module.comments.ShouldEqual(AdministrationModule.Comments);
-            module.resources.Count.ShouldEqual(3);
-
-            module = spec.modules[1];
-            module.name.ShouldEqual(BatchesModule.Name);
-            module.comments.ShouldEqual(BatchesModuleComments);
+            module.name.ShouldEqual("Some Module");
             module.resources.Count.ShouldEqual(1);
-
-            module = spec.modules[2];
-            module.name.ShouldEqual(SchedulesModule.Name);
-            module.comments.ShouldEqual(SchedulesModuleComments);
-            module.resources.Count.ShouldEqual(1);
+            module.resources[0].endpoints.Count.ShouldEqual(1);
+            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/somehandler/inmodule");
         }
 
         [Test]
         public void should_throw_an_exception_for_orphaned_actions()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x
-                .AppliesToThisAssembly()
-                .Where(ActionFilter)
-                .OnOrphanedModuleAction(OrphanedActions.Fail));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-            Assert.Throws<OrphanedModuleActionException>(() => specBuilder.Build());
+            Assert.Throws<OrphanedModuleActionException>(() => BuildSpec<NoModules.GetHandler>(x => x
+                    .OnOrphanedModuleAction(OrphanedActions.Fail)));
         }
 
         [Test]
         public void should_not_throw_an_exception_when_there_are_no_orphaned_actions()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x
-                .AppliesToThisAssembly()
-                .Where(ActionFilter)
-                .OnOrphanedModuleAction(OrphanedActions.Fail)
-                .Where(y => y.HandlerType.Namespace != typeof(TemplatePutHandler).Namespace));
-            var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-            Assert.DoesNotThrow(() => specBuilder.Build());
+            Assert.DoesNotThrow(() => BuildSpec<OneEmptyModule.GetHandler>(x => x
+                    .OnOrphanedModuleAction(OrphanedActions.Fail)));
         }
     }
 }

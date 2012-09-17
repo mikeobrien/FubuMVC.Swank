@@ -41,5 +41,11 @@ namespace Tests
             return specification.modules.SelectMany(x => x.resources).Concat(specification.resources)
                 .SelectMany(x => x.endpoints).FirstOrDefault(x => x.url == url);
         }
+
+        public static bool InNamespace<T>(this Type type)
+        {
+            return type.Namespace == typeof (T).Namespace || 
+                type.Namespace.StartsWith(typeof (T).Namespace + ".");
+        }
     }
 }

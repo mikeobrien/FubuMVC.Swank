@@ -14,8 +14,7 @@ namespace Tests.SpecificationBuilderEndpointTests
     {
         protected Specification _spec;
 
-        private static readonly Func<ActionCall, bool> ActionFilter =
-            x => x.HandlerType.Namespace.StartsWith(typeof(TestBase).Namespace);
+        private static readonly Func<ActionCall, bool> ActionFilter = x => x.HandlerType.InNamespace<TestBase>();
 
         [SetUp]
         public void Setup()

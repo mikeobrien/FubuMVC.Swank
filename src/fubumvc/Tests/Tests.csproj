@@ -119,8 +119,7 @@
     <None Include="packages.config" />
     <EmbeddedResource Include="SpecificationBuilderEndpointTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Execute_EmbeddedDescription.md" />
     <EmbeddedResource Include="ExtensionsTests\EmbeddedMarkdownResource.md" />
-    <EmbeddedResource Include="SpecificationBuilderModuleTests\Batches\Schedules\SchedulesModule.md" />
-    <EmbeddedResource Include="SpecificationBuilderModuleTests\Templates\TemplatePutHandler.Execute_Id.md" />
+    <EmbeddedResource Include="SpecificationBuilderModuleTests\ModuleDescriptions\EmbeddedMarkdownComments\Module.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Swank\Swank.csproj">
@@ -138,10 +137,7 @@
     <EmbeddedResource Include="ExtensionsTests\EmbeddedTextResource.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SpecificationBuilderModuleTests\Batches\BatchesModule.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SpecificationBuilderModuleTests\Templates\TemplateGetHandler.html" />
+    <EmbeddedResource Include="SpecificationBuilderModuleTests\ModuleDescriptions\EmbeddedTextComments\Module.html" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Description\MarkerSourceTests\Batches\BatchesModule.html" />
