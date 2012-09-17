@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using Should;
 using Swank.Description;
-using Tests.Description.ErrorSourceTests.Administration.Users;
 
 namespace Tests.Description.ErrorSourceTests
 {
@@ -18,22 +17,43 @@ namespace Tests.Description.ErrorSourceTests
         }
 
         [Test]
-        public void should_return_errors()
+        public void should_set_endpoint_errors_on_handlers_and_actions()
         {
-            var action = _graph.GetAction<AdminAddressAllGetHandler>();
+            var action = _graph.GetAction<ErrorsTests.ErrorsGetHandler>();
             var errorSource = new ErrorSource();
             var errorDescriptions = errorSource.GetDescription(action);
-            errorDescriptions.Count.ShouldEqual(2);
+
+            errorDescriptions.Count.ShouldEqual(4);
 
             var error = errorDescriptions[0];
             error.Status.ShouldEqual(410);
-            error.Name.ShouldEqual("Invalid address");
-            error.Comments.ShouldEqual("An invalid address was entered fool!");
-            
+            error.Name.ShouldEqual("410 error on handler");
+            error.Comments.ShouldEqual("410 error on action description");
+
             error = errorDescriptions[1];
             error.Status.ShouldEqual(411);
-            error.Name.ShouldEqual("Swank address");
+            error.Name.ShouldEqual("411 error on handler");
             error.Comments.ShouldBeNull();
+
+            error = errorDescriptions[2];
+            error.Status.ShouldEqual(412);
+            error.Name.ShouldEqual("412 error on action");
+            error.Comments.ShouldEqual("412 error on action description");
+
+            error = errorDescriptions[3];
+            error.Status.ShouldEqual(413);
+            error.Name.ShouldEqual("413 error on action");
+            error.Comments.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_not_set_endpoint_errors_when_none_are_set_on_handlers_or_actions()
+        {
+            var action = _graph.GetAction<ErrorsTests.NoErrorsGetHandler>();
+            var errorSource = new ErrorSource();
+            var errorDescriptions = errorSource.GetDescription(action);
+
+            errorDescriptions.Count.ShouldEqual(0);
         }
     }
 }

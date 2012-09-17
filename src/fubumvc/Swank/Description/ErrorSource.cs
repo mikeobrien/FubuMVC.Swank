@@ -10,6 +10,7 @@ namespace Swank.Description
         public List<ErrorDescription> GetDescription(ActionCall action)
         {
             return action.Method.GetCustomAttributes<ErrorDescriptionAttribute>()
+                .Concat(action.HandlerType.GetCustomAttributes<ErrorDescriptionAttribute>())
                  .Select(x => new ErrorDescription {
                     Status = x.Status,
                     Name = x.Name,

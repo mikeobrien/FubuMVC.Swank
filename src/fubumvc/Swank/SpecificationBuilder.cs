@@ -150,15 +150,16 @@ namespace Swank
                 .Where(x => !x.Method.HasAttribute<HideAttribute>() && !x.HandlerType.HasAttribute<HideAttribute>())
                 .Select(x => {
                     var endpoint = _endpoints.GetDescription(x);
+                    var route = x.ParentChain().Route;
                     return new Endpoint {
                         name = endpoint.GetNameOrDefault(),
                         comments = endpoint.GetCommentsOrDefault(),
-                        url = x.ParentChain().Route.Pattern,
-                        method = x.ParentChain().Route.AllowedHttpMethods.FirstOrDefault(),
+                        url = route.Pattern,
+                        method = route.AllowedHttpMethods.FirstOrDefault(),
                         urlParameters = x.HasInput ? GetUrlParameters(x) : null,
                         querystringParameters = x.HasInput ? GetQuerystringParameters(x) : null,
                         errors = GetErrors(x),
-                        request = x.HasInput ? GetData(x.InputType()) : null,
+                        request = x.HasInput && (route.AllowsPost() || route.AllowsPut()) ? GetData(x.InputType(), x.Method) : null,
                         response = x.HasOutput ? GetData(x.OutputType()) : null
                     };
                 }).OrderBy(x => x.url).ThenBy(x => x.method).ToList();
@@ -196,7 +197,7 @@ namespace Swank
                         defaultValue = parameter.DefaultValue != null ? parameter.DefaultValue.ToString() : null,
                         multipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList()
                     };
-                }).ToList();
+                }).OrderBy(x => x.name).ToList();
         }
 
         private List<Error> GetErrors(ActionCall action)
@@ -209,14 +210,15 @@ namespace Swank
                 }).OrderBy(x => x.status).ToList();
         }
 
-        private Data GetData(Type type)
+        private Data GetData(Type type, MethodInfo action = null)
         {
             var dataType = _dataTypes.GetDescription(type);
+            var rootType = dataType != null ? dataType.Type : type;
             return new Data
                 {
                     name = dataType.GetNameOrDefault(),
                     comments = dataType.GetCommentsOrDefault(),
-                    dataType = dataType != null ? dataType.Type.GetHash() : type.GetHash(),
+                    dataType = action == null ? rootType.GetHash() : rootType.GetHash(action),
                     collection = type.IsArray || type.IsList()
                 };
         } 
@@ -233,7 +235,7 @@ namespace Swank
                             comments = option.GetCommentsOrDefault(), 
                             value = x.Name
                         };
-                    }).OrderBy(x => x.name).ToList();
+                    }).OrderBy(x => x.name ?? x.value).ToList();
         }
     }
 }

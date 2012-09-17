@@ -29,12 +29,17 @@ namespace Swank
 
         public static bool AllowsPost(this IRouteDefinition route)
         {
-            return route.AllowedHttpMethods.Any(y => y.Equals("POST", StringComparison.OrdinalIgnoreCase));
+            return route.AllowsMethod("POST");
         }
 
         public static bool AllowsPut(this IRouteDefinition route)
         {
-            return route.AllowedHttpMethods.Any(y => y.Equals("POST", StringComparison.OrdinalIgnoreCase));
+            return route.AllowsMethod("PUT");
+        }
+
+        public static bool AllowsMethod(this IRouteDefinition route, string method)
+        {
+            return route.AllowedHttpMethods.Any(y => y.Equals(method, StringComparison.OrdinalIgnoreCase));
         }
 
         public static bool IsUrlParameter(this PropertyInfo property, ActionCall action)
