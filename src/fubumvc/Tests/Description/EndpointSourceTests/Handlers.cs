@@ -3,6 +3,15 @@ using Swank.Description;
 
 namespace Tests.Description.EndpointSourceTests
 {
+    namespace ControllerResource
+    {
+        [Resource("Some Controller")]
+        public class Controller
+        {
+            public object ExecuteGet(object request) { return null; }
+        }
+    }
+
     namespace Templates
     {
         public class TemplateRequest { public Guid Id { get; set; } }

@@ -4,6 +4,27 @@ using Swank.Description;
 
 namespace Tests.Description.ResourceSourceTests
 {
+    namespace AttributeResource
+    {
+        [Resource("Some Resource", "Some resource description")]
+        public class Controller
+        {
+            public object Execute(object request) { return null; }
+        }
+
+        [Resource("Some Markdown Resource")]
+        public class EmbeddedMarkdownController
+        {
+            public object Execute(object request) { return null; }
+        }
+
+        [Resource("Some Text Resource")]
+        public class EmbeddedTextController
+        {
+            public object Execute(object request) { return null; }
+        }
+    }
+
     namespace Templates
     {
         public class TemplateAllGetHandler { public object Execute(object request) { return null; } }

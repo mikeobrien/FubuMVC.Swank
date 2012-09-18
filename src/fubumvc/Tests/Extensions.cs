@@ -43,6 +43,13 @@ namespace Tests
                 .SelectMany(x => x.endpoints).FirstOrDefault(x => x.url == url);
         }
 
+        public static Resource GetResource<T>(this Specification specification)
+        {
+            var url = typeof(T).GetHandlerUrl(new StackFrame(1).GetMethod().DeclaringType.Namespace);
+            return specification.modules.SelectMany(x => x.resources).Concat(specification.resources)
+                .FirstOrDefault(x => x.endpoints.Any(y => y.url == url));
+        }
+
         public static bool InNamespace<T>(this Type type)
         {
             return type.Namespace == typeof (T).Namespace || 

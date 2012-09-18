@@ -22,8 +22,7 @@ namespace Swank
             AppliesToAssemblies = new List<Assembly>();
             Filter = x => true;
             ModuleDescriptionSource = new Service<IDescriptionSource<ActionCall, ModuleDescription>> { Type = typeof(ModuleSource) };
-            ResourceDescriptionSource = new Service<IDescriptionSource<ActionCall, ResourceDescription>> 
-                { Type = typeof(ResourceSource), Config = new ResourceSourceConfig() };
+            ResourceDescriptionSource = new Service<IDescriptionSource<ActionCall, ResourceDescription>> { Type = typeof(ResourceSource) };
             DefaultModuleFactory = x => null;
             OrphanedModuleActions = OrphanedActions.UseDefault;
             DefaultResourceFactory = x => new ResourceDescription { Name = x.ParentChain().Route.GetRouteResource() };

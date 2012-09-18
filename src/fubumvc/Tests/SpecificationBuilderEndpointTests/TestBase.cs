@@ -23,7 +23,7 @@ namespace Tests.SpecificationBuilderEndpointTests
             var moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
             var resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
-                new ActionSource(graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter))), new ResourceSourceConfig());
+                new ActionSource(graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter))));
             var endpointSource = new EndpointSource();
             var parameterSource = new ParameterSource();
             var optionSource = new OptionSource();

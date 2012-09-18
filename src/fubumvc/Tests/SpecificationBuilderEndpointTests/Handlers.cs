@@ -74,6 +74,15 @@ namespace Tests.SpecificationBuilderEndpointTests
         public class VisibleGetHandler { public object Execute_Visible(object request) { return null; } }
     }
 
+    namespace ControllerResource
+    {
+        [Resource("Some Controller")]
+        public class Controller
+        {
+            public object Execute(object request) { return null; }
+        }
+    }
+
     namespace InputTypeDescriptions
     {
         [Comments("Some get request description")]

@@ -36,20 +36,19 @@ namespace Tests.SpecificationBuilderResourceTests
             _dataTypes = new TypeSource();
         }
 
-        private Specification BuildSpec<T>(Action<ConfigurationDsl> configure = null, ResourceSourceConfig resourceSourceConfig = null)
+        private Specification BuildSpec<T>(Action<ConfigurationDsl> configure = null)
         {
             var resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
                 new Swank.ActionSource(_graph,
-                    ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<Tests>()))),
-                    resourceSourceConfig ?? new ResourceSourceConfig());
+                    ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<Tests>()))));
             var configuration = ConfigurationDsl.CreateConfig(x => { if (configure != null) configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<T>()); });
             return new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
                 _moduleSource, resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes).Build();
         }
 
         [Test]
-        public void should_set_description_when_one_is_specified()
+        public void should_set_description_when_marker_is_defined()
         {
             var spec = BuildSpec<ResourceDescriptions.Description.GetHandler>();
 
@@ -60,7 +59,7 @@ namespace Tests.SpecificationBuilderResourceTests
         }
 
         [Test]
-        public void should_set_description_and_text_embedded_resource_comments_when_specified()
+        public void should_set_description_and_text_embedded_resource_comments_when_marker_is_defined()
         {
             var spec = BuildSpec<ResourceDescriptions.EmbeddedTextComments.GetHandler>();
 
@@ -71,7 +70,7 @@ namespace Tests.SpecificationBuilderResourceTests
         }
 
         [Test]
-        public void should_set_description_and_markdown_embedded_resource_comments_when_specified()
+        public void should_set_description_and_markdown_embedded_resource_comments_when_marker_is_defined()
         {
             var spec = BuildSpec<ResourceDescriptions.EmbeddedMarkdownComments.GetHandler>();
 
@@ -79,6 +78,39 @@ namespace Tests.SpecificationBuilderResourceTests
 
             resource.name.ShouldEqual("Some Markdown Resource");
             resource.comments.ShouldEqual("<p><strong>Some markdown comments</strong></p>");
+        }
+
+        [Test]
+        public void should_set_description_when_attribute_is_applied()
+        {
+            var spec = BuildSpec<AttributeResource.Attribute.Controller>();
+
+            var resource = spec.resources[0];
+
+            resource.name.ShouldEqual("Some Resource");
+            resource.comments.ShouldEqual("Some resource description");
+        }
+
+        [Test]
+        public void should_set_description_and_text_embedded_resource_comments_when_attribute_is_applied()
+        {
+            var spec = BuildSpec<AttributeResource.EmbeddedTextComments.Controller>();
+
+            var resource = spec.resources[0];
+
+            resource.name.ShouldEqual("Some Text Resource");
+            resource.comments.ShouldEqual("<b>This is a resource</b>");
+        }
+
+        [Test]
+        public void should_set_description_and_markdown_embedded_resource_comments_when_attribute_is_applied()
+        {
+            var spec = BuildSpec<AttributeResource.EmbeddedMarkdownComments.Controller>();
+
+            var resource = spec.resources[0];
+
+            resource.name.ShouldEqual("Some Markdown Resource");
+            resource.comments.ShouldEqual("<p><strong>This is a resource</strong></p>");
         }
 
         [Test]
@@ -112,19 +144,39 @@ namespace Tests.SpecificationBuilderResourceTests
         }
 
         [Test]
-        public void should_group_actions_in_a_child_namespace_into_the_resource()
+        public void should_group_all_actions_in_child_namespaces_into_the_same_resource()
         {
-            var spec = BuildSpec<NestedResources.GetHandler>();
+            var spec = BuildSpec<ChildResources.GetHandler>();
 
             spec.resources.Count.ShouldEqual(1);
 
             var resource = spec.resources[0];
             resource.endpoints.Count.ShouldEqual(4);
             resource.name.ShouldEqual("Some Resource");
+            resource.endpoints[0].url.ShouldEqual("/childresources");
+            resource.endpoints[1].url.ShouldEqual("/childresources/{Id}");
+            resource.endpoints[2].url.ShouldEqual("/childresources/widget");
+            resource.endpoints[3].url.ShouldEqual("/childresources/widget/{Id}");
+        }
+
+        [Test]
+        public void should_group_actions_into_the_closest_parent_resources()
+        {
+            var spec = BuildSpec<NestedResources.GetHandler>();
+
+            spec.resources.Count.ShouldEqual(2);
+
+            var resource = spec.resources[0];
+            resource.endpoints.Count.ShouldEqual(2);
+            resource.name.ShouldEqual("Another Resource");
+            resource.endpoints[0].url.ShouldEqual("/nestedresources/widget");
+            resource.endpoints[1].url.ShouldEqual("/nestedresources/widget/{Id}");
+
+            resource = spec.resources[1];
+            resource.endpoints.Count.ShouldEqual(2);
+            resource.name.ShouldEqual("Some Resource");
             resource.endpoints[0].url.ShouldEqual("/nestedresources");
             resource.endpoints[1].url.ShouldEqual("/nestedresources/{Id}");
-            resource.endpoints[2].url.ShouldEqual("/nestedresources/widget");
-            resource.endpoints[3].url.ShouldEqual("/nestedresources/widget/{Id}");
         }
 
         [Test]
@@ -148,10 +200,10 @@ namespace Tests.SpecificationBuilderResourceTests
         }
 
         [Test]
-        public void should_override_resource_grouping()
+        public void should_group_orphaned_actions_into_the_specified_default_resource()
         {
             var spec = BuildSpec<OrphanedResources.GetHandler>(
-                resourceSourceConfig: new ResourceSourceConfig().GroupBy(z => z.ParentChain().Route.FirstPatternSegment()));
+                x => x.WithDefaultResource(y => new ResourceDescription{ Name = y.ParentChain().Route.FirstPatternSegment()}));
 
             spec.resources.Count.ShouldEqual(1);
 
@@ -167,161 +219,36 @@ namespace Tests.SpecificationBuilderResourceTests
         [Test]
         public void should_apply_resource_to_handler()
         {
-            // this is with the generic param where two resources are in the same namespace
-            var spec = BuildSpec<ResourceDescriptions.EmbeddedMarkdownComments.GetHandler>();
+            var spec = BuildSpec<AppliedToResource.GetHandler>();
+
+            spec.resources.Count.ShouldEqual(2);
 
             var resource = spec.resources[0];
-        }
+            resource.endpoints.Count.ShouldEqual(2);
+            resource.name.ShouldEqual("Another Resource");
+            resource.endpoints[0].url.ShouldEqual("/appliedtoresource/widget");
+            resource.endpoints[1].url.ShouldEqual("/appliedtoresource/widget/{Id}");
 
-        [Test]
-        public void should_automatically_add_orphaned_actions_to_default_resource()
-        {
-            
-        }
-
-        [Test]
-        public void should_automatically_add_orphaned_actions_to_specified_default_resource()
-        {
-            
+            resource = spec.resources[1];
+            resource.endpoints.Count.ShouldEqual(2);
+            resource.name.ShouldEqual("Some Resource");
+            resource.endpoints[0].url.ShouldEqual("/appliedtoresource");
+            resource.endpoints[1].url.ShouldEqual("/appliedtoresource/{Id}");
         }
 
         [Test]
         public void should_ignore_orphaned_actions()
         {
-            
+            var spec = BuildSpec<OrphanedNestedResources.GetHandler>(x => x
+                .OnOrphanedResourceAction(OrphanedActions.Exclude));
+
+            spec.resources.Count.ShouldEqual(1);
+
+            var resource = spec.resources[0];
+            resource.endpoints.Count.ShouldEqual(2);
+            resource.name.ShouldEqual("Another Resource");
+            resource.endpoints[0].url.ShouldEqual("/orphanednestedresources/widget");
+            resource.endpoints[1].url.ShouldEqual("/orphanednestedresources/widget/{Id}");
         }
-
-        //[Test]
-        //public void should_automatically_add_orphaned_actions_to_default_resource()
-        //{
-        //    var configuration = ConfigurationDsl.CreateConfig(x => x
-        //        .AppliesToThisAssembly()
-        //        .Where(ActionFilter)
-        //        .OnOrphanedModuleAction(OrphanedActions.UseDefault)
-        //        .OnOrphanedResourceAction(OrphanedActions.UseDefault));
-        //    var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-        //        _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-        //    var spec = specBuilder.Build();
-
-        //    spec.modules.Count.ShouldEqual(3);
-        //    spec.resources.Count.ShouldEqual(2);
-
-        //    var resources = spec.modules[0].resources;
-        //    resources.Count.ShouldEqual(3);
-        //    var resource = resources[0];
-        //    resource.name.ShouldEqual(AdminAccountResource.Name);
-        //    resource.comments.ShouldEqual(AccountResourceComments);
-        //    resource = resources[1];
-        //    resource.name.ShouldEqual(AdminAddressResource.Name);
-        //    resource.comments.ShouldEqual(AdminAddressResource.Comments);
-        //    resource = resources[2];
-        //    resource.name.ShouldEqual(AdminUserResource.Name);
-        //    resource.comments.ShouldEqual(AdminUserResource.Comments);
-
-        //    resources = spec.modules[1].resources;
-        //    resources.Count.ShouldEqual(1);
-        //    resource = resources[0];
-        //    resource.name.ShouldEqual(BatchCellResource.Name);
-        //    resource.comments.ShouldEqual(BatchCellsResourceComments);
-
-        //    resources = spec.modules[2].resources;
-        //    resources.Count.ShouldEqual(1);
-        //    resource = resources[0];
-        //    resource.name.ShouldEqual("batches/schedules");
-        //    resource.comments.ShouldBeNull();
-
-        //    resources = spec.resources;
-        //    resources.Count.ShouldEqual(2);
-        //    resource = resources[0];
-        //    resource.name.ShouldEqual("templates");
-        //    resource.comments.ShouldBeNull();
-        //    resource = resources[1];
-        //    resource.name.ShouldEqual("templates/file");
-        //    resource.comments.ShouldBeNull();
-        //}
-
-        //[Test]
-        //public void should_automatically_add_orphaned_actions_to_specified_default_resource()
-        //{
-        //    var configuration = ConfigurationDsl.CreateConfig(x => x
-        //        .AppliesToThisAssembly()
-        //        .Where(ActionFilter)
-        //        .OnOrphanedModuleAction(OrphanedActions.UseDefault)
-        //        .OnOrphanedResourceAction(OrphanedActions.UseDefault)
-        //        .WithDefaultResource(y => new ResourceDescription { Name = y.ParentChain().Route.FirstPatternSegment() }));
-        //    var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-        //        _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-        //    var spec = specBuilder.Build();
-
-        //    spec.modules.Count.ShouldEqual(3);
-        //    spec.resources.Count.ShouldEqual(1);
-
-        //    var resources = spec.modules[0].resources;
-        //    resources.Count.ShouldEqual(3);
-        //    var resource = resources[0];
-        //    resource.name.ShouldEqual(AdminAccountResource.Name);
-        //    resource.comments.ShouldEqual(AccountResourceComments);
-        //    resource = resources[1];
-        //    resource.name.ShouldEqual(AdminAddressResource.Name);
-        //    resource.comments.ShouldEqual(AdminAddressResource.Comments);
-        //    resource = resources[2];
-        //    resource.name.ShouldEqual(AdminUserResource.Name);
-        //    resource.comments.ShouldEqual(AdminUserResource.Comments);
-
-        //    resources = spec.modules[1].resources;
-        //    resources.Count.ShouldEqual(1);
-        //    resource = resources[0];
-        //    resource.name.ShouldEqual(BatchCellResource.Name);
-        //    resource.comments.ShouldEqual(BatchCellsResourceComments);
-
-        //    resources = spec.modules[2].resources;
-        //    resources.Count.ShouldEqual(1);
-        //    resource = resources[0];
-        //    resource.name.ShouldEqual("batches");
-        //    resource.comments.ShouldBeNull();
-
-        //    resources = spec.resources;
-        //    resource = resources[0];
-        //    resource.name.ShouldEqual("templates");
-        //    resource.comments.ShouldBeNull();
-        //}
-
-        //[Test]
-        //public void should_ignore_orphaned_actions()
-        //{
-        //    var configuration = ConfigurationDsl.CreateConfig(x => x
-        //        .AppliesToThisAssembly()
-        //        .Where(ActionFilter)
-        //        .OnOrphanedModuleAction(OrphanedActions.UseDefault)
-        //        .OnOrphanedResourceAction(OrphanedActions.Exclude)
-        //        .WithDefaultResource(y => new ResourceDescription { Name = y.ParentChain().Route.FirstPatternSegment() }));
-        //    var specBuilder = new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
-        //        _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes);
-
-        //    var spec = specBuilder.Build();
-
-        //    spec.modules.Count.ShouldEqual(2);
-        //    spec.resources.Count.ShouldEqual(0);
-
-        //    var resources = spec.modules[0].resources;
-        //    resources.Count.ShouldEqual(3);
-        //    var resource = resources[0];
-        //    resource.name.ShouldEqual(AdminAccountResource.Name);
-        //    resource.comments.ShouldEqual(AccountResourceComments);
-        //    resource = resources[1];
-        //    resource.name.ShouldEqual(AdminAddressResource.Name);
-        //    resource.comments.ShouldEqual(AdminAddressResource.Comments);
-        //    resource = resources[2];
-        //    resource.name.ShouldEqual(AdminUserResource.Name);
-        //    resource.comments.ShouldEqual(AdminUserResource.Comments);
-
-        //    resources = spec.modules[1].resources;
-        //    resources.Count.ShouldEqual(1);
-        //    resource = resources[0];
-        //    resource.name.ShouldEqual(BatchCellResource.Name);
-        //    resource.comments.ShouldEqual(BatchCellsResourceComments);
-        //}
     }
 }

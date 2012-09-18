@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using Should;
 
 namespace Tests.SpecificationBuilderEndpointTests
@@ -23,6 +24,21 @@ namespace Tests.SpecificationBuilderEndpointTests
             endpoint.comments.ShouldEqual("<b>An embedded handler text description</b>");
             endpoint.method.ShouldEqual("GET");
             endpoint.url.ShouldEqual("/endpointdescriptions/handlerdescription/embeddeddescription");
+        }
+
+        [Test]
+        public void should_not_set_embedded_handler_description_when_resource_attribute_is_applied()
+        {
+            var resource = _spec.GetResource<ControllerResource.Controller>();
+
+            resource.name.ShouldEqual("Some Controller");
+            resource.comments.ShouldEqual("<p><strong>This is a resource</strong></p>");
+
+            var endpoint = resource.endpoints[0];
+            endpoint.name.ShouldBeNull();
+            endpoint.comments.ShouldBeNull();
+            endpoint.method.ShouldBeNull();
+            endpoint.url.ShouldEqual("/controllerresource");
         }
 
         [Test]

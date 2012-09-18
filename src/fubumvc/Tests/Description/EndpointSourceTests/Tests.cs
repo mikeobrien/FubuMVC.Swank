@@ -56,5 +56,15 @@ namespace Tests.Description.EndpointSourceTests
             description.Name.ShouldBeNull();
             description.Comments.ShouldEqual("<p><strong>This updates a template yo!</strong></p>");
         }
+
+        [Test]
+        public void should_not_pull_description_from_embedded_resource_named_as_handler_when_handler_has_resource_attribute()
+        {
+            var action = _graph.GetAction<ControllerResource.Controller>();
+            var endpointSource = new EndpointSource();
+            var description = endpointSource.GetDescription(action);
+            description.Name.ShouldBeNull();
+            description.Comments.ShouldBeNull();
+        }
     }
 }

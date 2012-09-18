@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using FubuMVC.Core.Registration;
@@ -18,10 +20,22 @@ namespace Tests
             return graph.Actions().First(x => x.HandlerType == typeof(T));
         }
 
+        public static IList<ActionCall> GetActions<T>(this BehaviorGraph graph)
+        {
+            return graph.Actions().Where(x => x.HandlerType == typeof(T)).ToList();
+        }
+
         public static BehaviorGraph AddAction<T>(this BehaviorGraph graph, string verb = null)
         {
-            graph.AddActionFor(typeof(T).GetHandlerUrl(typeof(T).Assembly.FullName), typeof(T))
-                .Route.AddHttpMethodConstraint(verb ?? typeof(T).GetHandlerVerb());
+            return AddAction(graph, typeof (T), verb);
+        }
+
+        private static BehaviorGraph AddAction(BehaviorGraph graph, Type type, string verb = null, string thisNamespace = null)
+        {
+            var route = type.GetHandlerUrl(thisNamespace ?? type.Assembly.FullName);
+            var chain = graph.AddActionFor(route, type);
+            var method = verb ?? (type.Name.EndsWith("Handler") ? type.GetHandlerVerb() : null);
+            if (method != null) chain.Route.AddHttpMethodConstraint(method);
             return graph;
         }
 
@@ -29,14 +43,9 @@ namespace Tests
         {
             var thisNamespace = new StackFrame(1).GetMethod().DeclaringType.Namespace;
             Assembly.GetCallingAssembly().GetTypes()
-                .Where(x => x.Namespace.StartsWith(thisNamespace) && x.Name.EndsWith("Handler"))
+                .Where(x => x.Namespace.StartsWith(thisNamespace) && (x.Name.EndsWith("Handler") || x.Name.EndsWith("Controller")))
                 .ToList()
-                .ForEach(x => {
-                        var route = x.GetHandlerUrl(thisNamespace);
-                        var method = x.GetHandlerVerb();
-                        //Debug.WriteLine("{0} {1} ({2})", route, method, x.FullName);
-                        graph.AddActionFor(route, x).Route.AddHttpMethodConstraint(method);
-                    });
+                .ForEach(x => AddAction(graph, x, thisNamespace: thisNamespace));
             return graph;
         }
     }

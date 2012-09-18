@@ -33,8 +33,7 @@ namespace Tests.SpecificationBuilderModuleTests
             _resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
                 new Swank.ActionSource(_graph, 
-                    ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<Tests>()))), 
-                    new ResourceSourceConfig());
+                    ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<Tests>()))));
             _endpointSource = new EndpointSource();
             _parameterSource = new ParameterSource();
             _optionSource = new OptionSource();

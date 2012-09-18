@@ -114,11 +114,16 @@
     <EmbeddedResource Include="Description\EndpointSourceTests\Templates\TemplatePutHandler.Execute_Id.md" />
     <EmbeddedResource Include="Description\ModuleSourceTests\Batches\Schedules\SchedulesModule.md" />
     <EmbeddedResource Include="Description\ResourceSourceTests\Administration\Users\AdminAccountResource.md" />
+    <EmbeddedResource Include="Description\EndpointSourceTests\ControllerResource\GetHandler.md" />
+    <EmbeddedResource Include="Description\ResourceSourceTests\AttributeResource\EmbeddedMarkdownController.md" />
+    <EmbeddedResource Include="Description\ResourceSourceTests\AttributeResource\EmbeddedTextController.html" />
     <None Include="packages.config" />
     <EmbeddedResource Include="SpecificationBuilderEndpointTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Execute_EmbeddedDescription.md" />
     <EmbeddedResource Include="ExtensionsTests\EmbeddedMarkdownResource.md" />
     <EmbeddedResource Include="SpecificationBuilderModuleTests\ModuleDescriptions\EmbeddedMarkdownComments\Module.md" />
     <EmbeddedResource Include="SpecificationBuilderResourceTests\ResourceDescriptions\EmbeddedMarkdownComments\Resource.md" />
+    <EmbeddedResource Include="SpecificationBuilderEndpointTests\ControllerResource\Controller.md" />
+    <EmbeddedResource Include="SpecificationBuilderResourceTests\AttributeResource\EmbeddedMarkdownComments\Controller.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Swank\Swank.csproj">
@@ -146,6 +151,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SpecificationBuilderResourceTests\ResourceDescriptions\EmbeddedTextComments\Resource.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SpecificationBuilderResourceTests\AttributeResource\EmbeddedTextComments\Controller.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

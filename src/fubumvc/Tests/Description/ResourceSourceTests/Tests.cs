@@ -24,8 +24,7 @@ namespace Tests.Description.ResourceSourceTests
             _resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
                 new ActionSource(_graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly()
-                    .Where(y => y.HandlerType.Namespace.StartsWith(GetType().Namespace)))), 
-                new ResourceSourceConfig());
+                    .Where(y => y.HandlerType.Namespace.StartsWith(GetType().Namespace)))));
         }
 
         [Test]
@@ -65,6 +64,39 @@ namespace Tests.Description.ResourceSourceTests
         }
 
         [Test]
+        public void should_find_attribute_resource_description()
+        {
+            var action = _graph.GetAction<AttributeResource.Controller>();
+            _resourceSource.HasDescription(action).ShouldBeTrue();
+            var resource = _resourceSource.GetDescription(action);
+            resource.ShouldNotBeNull();
+            resource.Name.ShouldEqual("Some Resource");
+            resource.Comments.ShouldEqual("Some resource description");
+        }
+
+        [Test]
+        public void should_find_attribute_resource_markdown_description()
+        {
+            var action = _graph.GetAction<AttributeResource.EmbeddedMarkdownController>();
+            _resourceSource.HasDescription(action).ShouldBeTrue();
+            var resource = _resourceSource.GetDescription(action);
+            resource.ShouldNotBeNull();
+            resource.Name.ShouldEqual("Some Markdown Resource");
+            resource.Comments.ShouldEqual("<p><strong>This is a resource</strong></p>");
+        }
+
+        [Test]
+        public void should_find_attribute_resource_text_description()
+        {
+            var action = _graph.GetAction<AttributeResource.EmbeddedTextController>();
+            _resourceSource.HasDescription(action).ShouldBeTrue();
+            var resource = _resourceSource.GetDescription(action);
+            resource.ShouldNotBeNull();
+            resource.Name.ShouldEqual("Some Text Resource");
+            resource.Comments.ShouldEqual("<b>This is a resource<b/>");
+        }
+
+        [Test]
         public void should_not_find_resource_description_when_none_is_specified_in_the_same_namespaces()
         {
             var action = _graph.GetAction<TemplateAllGetHandler>();
@@ -73,7 +105,7 @@ namespace Tests.Description.ResourceSourceTests
         }
 
         [Test]
-        public void should_enumerate_resources_using_default_grouping()
+        public void should_enumerate_resources()
         {
             var endpoints = _graph.Actions().ToDictionary(x => x.HandlerType, _resourceSource.GetDescription);
 
@@ -94,34 +126,6 @@ namespace Tests.Description.ResourceSourceTests
             endpoints[typeof(AdminAddressGetHandler)].ShouldBeType<AdminAddressResource>();
             endpoints[typeof(AdminAddressPutHandler)].ShouldBeType<AdminAddressResource>();
             endpoints[typeof(AdminAddressDeleteHandler)].ShouldBeType<AdminAddressResource>();
-        }
-
-        [Test]
-        public void should_enumerate_resources_using_custom_grouping()
-        {
-            var resourceSource = new ResourceSource(
-                new MarkerSource<ResourceDescription>(),
-                new ActionSource(_graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly())),
-                new ResourceSourceConfig().GroupBy(x => x.ParentChain().Route.FirstPatternSegment()));
-            var endpoints = _graph.Actions().ToDictionary(x => x.HandlerType, resourceSource.GetDescription);
-
-            endpoints[typeof(AdminAccountAllGetHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminAccountPostHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminAccountGetHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminAccountPutHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminAccountDeleteHandler)].ShouldBeType<AdminAccountResource>();
-
-            endpoints[typeof(AdminUserAllGetHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminUserPostHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminUserGetHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminUserPutHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminUserDeleteHandler)].ShouldBeType<AdminAccountResource>();
-
-            endpoints[typeof(AdminAddressAllGetHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminAddressPostHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminAddressGetHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminAddressPutHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminAddressDeleteHandler)].ShouldBeType<AdminAccountResource>();
         }
     }
 }
