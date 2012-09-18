@@ -111,8 +111,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Description\MarkerSourceTests\Batches\Schedules\SchedulesModule.md" />
-    <EmbeddedResource Include="SpecificationBuilderResourceTests\Administration\AdminAccountResource.md" />
-    <EmbeddedResource Include="SpecificationBuilderResourceTests\Templates\TemplatePutHandler.Execute_Id.md" />
     <EmbeddedResource Include="Description\EndpointSourceTests\Templates\TemplatePutHandler.Execute_Id.md" />
     <EmbeddedResource Include="Description\ModuleSourceTests\Batches\Schedules\SchedulesModule.md" />
     <EmbeddedResource Include="Description\ResourceSourceTests\Administration\Users\AdminAccountResource.md" />
@@ -120,6 +118,7 @@
     <EmbeddedResource Include="SpecificationBuilderEndpointTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Execute_EmbeddedDescription.md" />
     <EmbeddedResource Include="ExtensionsTests\EmbeddedMarkdownResource.md" />
     <EmbeddedResource Include="SpecificationBuilderModuleTests\ModuleDescriptions\EmbeddedMarkdownComments\Module.md" />
+    <EmbeddedResource Include="SpecificationBuilderResourceTests\ResourceDescriptions\EmbeddedMarkdownComments\Resource.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Swank\Swank.csproj">
@@ -143,13 +142,10 @@
     <EmbeddedResource Include="Description\MarkerSourceTests\Batches\BatchesModule.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SpecificationBuilderResourceTests\Batches\Cells\BatchCellResource.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SpecificationBuilderResourceTests\Templates\TemplateGetHandler.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Description\EndpointSourceTests\Templates\TemplateGetHandler.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SpecificationBuilderResourceTests\ResourceDescriptions\EmbeddedTextComments\Resource.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

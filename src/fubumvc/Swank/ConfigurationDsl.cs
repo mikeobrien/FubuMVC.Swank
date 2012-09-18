@@ -53,13 +53,13 @@ namespace Swank
             return this;
         }
 
-        public ConfigurationDsl WithModuleDescriptionSource<T>() where T : IDescriptionSource<ActionCall, ModuleDescription>, new()
+        public ConfigurationDsl WithModuleDescriptionSource<T>() where T : IDescriptionSource<ActionCall, ModuleDescription>
         {
             return WithModuleDescriptionSource<T, object>(null);
         }
 
         public ConfigurationDsl WithModuleDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<ActionCall, ModuleDescription>, new() 
+            where T : IDescriptionSource<ActionCall, ModuleDescription>
             where TConfig : class, new()
         {
             _configuration.ModuleDescriptionSource.Type = typeof(T);
@@ -67,13 +67,13 @@ namespace Swank
             return this;
         }
 
-        public ConfigurationDsl WithResourceDescriptionSource<T>() where T : IDescriptionSource<ActionCall, ResourceDescription>, new()
+        public ConfigurationDsl WithResourceDescriptionSource<T>() where T : IDescriptionSource<ActionCall, ResourceDescription>
         {
             return WithResourceDescriptionSource<T, object>(null);
         }
 
         public ConfigurationDsl WithResourceDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<ActionCall, ResourceDescription>, new()
+            where T : IDescriptionSource<ActionCall, ResourceDescription>
             where TConfig : class, new()
         {
             _configuration.ResourceDescriptionSource.Type = typeof(T);
@@ -81,13 +81,13 @@ namespace Swank
             return this;
         }
 
-        public ConfigurationDsl WithEndpointDescriptionSource<T>() where T : IDescriptionSource<ActionCall, EndpointDescription>, new()
+        public ConfigurationDsl WithEndpointDescriptionSource<T>() where T : IDescriptionSource<ActionCall, EndpointDescription>
         {
             return WithEndpointDescriptionSource<T, object>(null);
         }
 
         public ConfigurationDsl WithEndpointDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<ActionCall, EndpointDescription>, new()
+            where T : IDescriptionSource<ActionCall, EndpointDescription>
             where TConfig : class, new()
         {
             _configuration.EndpointDescriptionSource.Type = typeof(T);
@@ -95,13 +95,13 @@ namespace Swank
             return this;
         }
 
-        public ConfigurationDsl WithParameterDescriptionSource<T>() where T : IDescriptionSource<PropertyInfo, ParameterDescription>, new()
+        public ConfigurationDsl WithParameterDescriptionSource<T>() where T : IDescriptionSource<PropertyInfo, ParameterDescription>
         {
             return WithParameterDescriptionSource<T, object>(null);
         }
 
         public ConfigurationDsl WithParameterDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<PropertyInfo, ParameterDescription>, new()
+            where T : IDescriptionSource<PropertyInfo, ParameterDescription>
             where TConfig : class, new()
         {
             _configuration.ParameterDescriptionSource.Type = typeof(T);
@@ -109,13 +109,13 @@ namespace Swank
             return this;
         }
 
-        public ConfigurationDsl WithOptionDescriptionSource<T>() where T : IDescriptionSource<FieldInfo, OptionDescription>, new()
+        public ConfigurationDsl WithOptionDescriptionSource<T>() where T : IDescriptionSource<FieldInfo, OptionDescription>
         {
             return WithOptionDescriptionSource<T, object>(null);
         }
 
         public ConfigurationDsl WithOptionDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<FieldInfo, OptionDescription>, new()
+            where T : IDescriptionSource<FieldInfo, OptionDescription>
             where TConfig : class, new()
         {
             _configuration.OptionDescriptionSource.Type = typeof(T);
@@ -123,13 +123,13 @@ namespace Swank
             return this;
         }
 
-        public ConfigurationDsl WithErrorDescriptionSource<T>() where T : IDescriptionSource<ActionCall, List<ErrorDescription>>, new()
+        public ConfigurationDsl WithErrorDescriptionSource<T>() where T : IDescriptionSource<ActionCall, List<ErrorDescription>>
         {
             return WithErrorDescriptionSource<T, object>(null);
         }
 
         public ConfigurationDsl WithErrorDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<ActionCall, List<ErrorDescription>>, new()
+            where T : IDescriptionSource<ActionCall, List<ErrorDescription>>
             where TConfig : class, new()
         {
             _configuration.ErrorDescriptionSource.Type = typeof(T);
@@ -137,13 +137,13 @@ namespace Swank
             return this;
         }
 
-        public ConfigurationDsl WithDataTypeDescriptionSource<T>() where T : IDescriptionSource<Type, DataTypeDescription>, new()
+        public ConfigurationDsl WithDataTypeDescriptionSource<T>() where T : IDescriptionSource<Type, DataTypeDescription>
         {
             return WithDataTypeDescriptionSource<T, object>(null);
         }
 
         public ConfigurationDsl WithDataTypeDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<Type, DataTypeDescription>, new()
+            where T : IDescriptionSource<Type, DataTypeDescription>
             where TConfig : class, new()
         {
             _configuration.DataTypeDescriptionSource.Type = typeof(T);

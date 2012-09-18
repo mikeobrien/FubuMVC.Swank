@@ -1,53 +1,83 @@
-﻿using Swank.Description;
+﻿using System;
+using Swank.Description;
 
 namespace Tests.SpecificationBuilderResourceTests
 {
-    namespace Templates
+    namespace ResourceDescriptions
     {
-        public class TemplateAllGetHandler { public object Execute(object request) { return null; } }
-        public class TemplateFileAllGetHandler { public object Execute_File(object request) { return null; } }
+        namespace NoDescription
+        {
+            public class Resource : ResourceDescription { }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+
+        namespace Description
+        {
+            public class Resource : ResourceDescription { public Resource() { Name = "Some Resource"; Comments = "Some comments."; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+
+        namespace EmbeddedTextComments
+        {
+            public class Resource : ResourceDescription { public Resource() { Name = "Some Text Resource"; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+
+        namespace EmbeddedMarkdownComments
+        {
+            public class Resource : ResourceDescription { public Resource() { Name = "Some Markdown Resource"; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
     }
 
-    namespace Batches
+    namespace OrphanedAction
     {
-        public class BatchesModule : ModuleDescription { public BatchesModule() { Name = "Batches"; } }
+        public class GetHandler { public object Execute(object request) { return null; } }
+    }
 
-        namespace Schedules
+    namespace NotOrphanedAction
+    {
+        public class Resource : ResourceDescription { public Resource() { Name = "Some Resource"; } }
+        public class GetHandler { public object Execute(object request) { return null; } }
+    }
+
+    namespace SameNamespace
+    {
+        public class Resource : ResourceDescription { public Resource() { Name = "Some Resource"; } }
+
+        public class Request { public Guid Id { get; set; } }
+
+        public class GetHandler { public object Execute_Id(Request request) { return null; } }
+        public class PostHandler { public object Execute(Request request) { return null; } }
+
+        public class WidgetGetHandler { public object Execute_Widget_Id(Request request) { return null; } }
+        public class WidgetPostHandler { public object Execute_Widget(Request request) { return null; } }
+    }
+
+    namespace NestedResources
+    {
+        public class Resource : ResourceDescription { public Resource() { Name = "Some Resource"; } }
+
+        public class Request { public Guid Id { get; set; } }
+
+        public class GetHandler { public object Execute_Id(Request request) { return null; } }
+        public class PostHandler { public object Execute(Request request) { return null; } }
+
+        namespace Widget
         {
-            public class SchedulesModule : ModuleDescription { public SchedulesModule() { Name = "Schedules"; } }
-            public class BatchScheduleAllGetHandler { public object Execute(object request) { return null; } }
-        }
-
-        namespace Cells
-        {
-            public class BatchCellResource : ResourceDescription
-            { public BatchCellResource() { Name = "Batch cells"; } }
-
-            public class BatchCellAllGetHandler { public object Execute(object request) { return null; } }
+            public class WidgetGetHandler { public object Execute_Id(Request request) { return null; } }
+            public class WidgetPostHandler { public object Execute(Request request) { return null; } }
         }
     }
 
-    namespace Administration
+    namespace OrphanedResources
     {
-        public class AdministrationModule : ModuleDescription
-        { public AdministrationModule() { Name = "Administration"; Comments = "This is admin yo!"; } }
+        public class Request { public Guid Id { get; set; } }
 
-        public class AdminAccountResource : ResourceDescription<AdminAccountAllGetHandler>
-        { public AdminAccountResource() { Name = "Accounts"; } }
+        public class GetHandler { public object Execute_Id(Request request) { return null; } }
+        public class PostHandler { public object Execute(Request request) { return null; } }
 
-        public class AdminAccountAllGetHandler { public object Execute(object request) { return null; } }
-
-        namespace Users // These are ordered a certian way on purpose, don't change that.
-        {
-            public class AdminAddressResource : ResourceDescription
-            { public AdminAddressResource() { Name = "User addresses"; Comments = "These are user addresses yo!"; } }
-
-            public class AdminAddressAllGetHandler { public object Execute_Address(object request) { return null; } }
-
-            public class AdminUserResource : ResourceDescription<AdminUserAllGetHandler>
-            { public AdminUserResource() { Name = "Users"; Comments = "These are users yo!"; } }
-
-            public class AdminUserAllGetHandler { public object Execute(object request) { return null; } }
-        }
+        public class WidgetGetHandler { public object Execute_Widget_Id(Request request) { return null; } }
+        public class WidgetPostHandler { public object Execute_Widget(Request request) { return null; } }
     }
 }

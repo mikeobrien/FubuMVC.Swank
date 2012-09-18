@@ -42,9 +42,9 @@ namespace Tests.SpecificationBuilderModuleTests
             _dataTypes = new TypeSource();
         }
 
-        private Specification BuildSpec<T>(Action<ConfigurationDsl> configure)
+        private Specification BuildSpec<T>(Action<ConfigurationDsl> configure = null)
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => { configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<T>()); });
+            var configuration = ConfigurationDsl.CreateConfig(x => { if (configure != null) configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<T>()); });
             return new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
                 _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes).Build();
         }
@@ -52,8 +52,7 @@ namespace Tests.SpecificationBuilderModuleTests
         [Test]
         public void should_set_description_when_one_is_specified()
         {
-            var spec = BuildSpec<ModuleDescriptions.Description.GetHandler>(x => x
-                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
+            var spec = BuildSpec<ModuleDescriptions.Description.GetHandler>();
 
             var module = spec.modules[0];
 
@@ -64,8 +63,7 @@ namespace Tests.SpecificationBuilderModuleTests
         [Test]
         public void should_set_description_and_text_embedded_resource_comments_when_specified()
         {
-            var spec = BuildSpec<ModuleDescriptions.EmbeddedTextComments.GetHandler>(x => x
-                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
+            var spec = BuildSpec<ModuleDescriptions.EmbeddedTextComments.GetHandler>();
 
             var module = spec.modules[0];
 
@@ -76,8 +74,7 @@ namespace Tests.SpecificationBuilderModuleTests
         [Test]
         public void should_set_description_and_markdown_embedded_resource_comments_when_specified()
         {
-            var spec = BuildSpec<ModuleDescriptions.EmbeddedMarkdownComments.GetHandler>(x => x
-                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
+            var spec = BuildSpec<ModuleDescriptions.EmbeddedMarkdownComments.GetHandler>();
 
             var module = spec.modules[0];
 
@@ -88,8 +85,7 @@ namespace Tests.SpecificationBuilderModuleTests
         [Test]
         public void should_return_actions_in_root_resources_when_there_are_no_modules_defined()
         {
-            var spec = BuildSpec<NoModules.GetHandler>(x => x
-                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
+            var spec = BuildSpec<NoModules.GetHandler>();
 
             spec.modules.Count.ShouldEqual(0);
             spec.resources.Count.ShouldEqual(1);
@@ -99,8 +95,7 @@ namespace Tests.SpecificationBuilderModuleTests
         [Test]
         public void should_automatically_add_orphaned_actions_to_root_resources_when_modules_are_defined()
         {
-            var spec = BuildSpec<OneModuleAndOrphanedAction.GetHandler>(x => x
-                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
+            var spec = BuildSpec<OneModuleAndOrphanedAction.GetHandler>();
 
             spec.modules.Count.ShouldEqual(1);
             spec.resources.Count.ShouldEqual(1);
@@ -120,7 +115,6 @@ namespace Tests.SpecificationBuilderModuleTests
         public void should_automatically_add_orphaned_actions_to_the_specified_default_module()
         {
             var spec = BuildSpec<OneModuleAndOrphanedAction.GetHandler>(x => x
-                    .OnOrphanedModuleAction(OrphanedActions.UseDefault)
                     .WithDefaultModule(y => new ModuleDescription { Name = "Default Module" }));
 
             spec.modules.Count.ShouldEqual(2);
@@ -172,8 +166,7 @@ namespace Tests.SpecificationBuilderModuleTests
         [Test]
         public void should_add_actions_to_closest_parent_module()
         {
-            var spec = BuildSpec<NestedModules.GetHandler>(x => x
-                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
+            var spec = BuildSpec<NestedModules.GetHandler>();
 
             spec.modules.Count.ShouldEqual(2);
             spec.resources.Count.ShouldEqual(0);
