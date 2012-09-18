@@ -29,11 +29,11 @@ namespace Tests.SpecificationBuilderEndpointTests
         [Test]
         public void should_set_the_datatype_for_post_input_post_and_put_types_to_a_hash_of_the_datatype_and_handler_method()
         {
-            _spec.GetEndpoint<InputTypeDescriptions.PostHandler>().request.dataType
+            _spec.GetEndpoint<InputTypeDescriptions.PostHandler>().request.type
                 .ShouldEqual(typeof(InputTypeDescriptions.PostRequest)
                     .GetHash(typeof(InputTypeDescriptions.PostHandler).GetExecuteMethod()));
 
-            _spec.GetEndpoint<InputTypeDescriptions.PutHandler>().request.dataType
+            _spec.GetEndpoint<InputTypeDescriptions.PutHandler>().request.type
                 .ShouldEqual(typeof(InputTypeDescriptions.PutRequest)
                     .GetHash(typeof(InputTypeDescriptions.PutHandler).GetExecuteMethod()));
         }
@@ -57,7 +57,7 @@ namespace Tests.SpecificationBuilderEndpointTests
 
             request.name.ShouldEqual("ArrayOfRequestItem");
             request.comments.ShouldBeNull();
-            request.dataType.ShouldEqual(typeof(InputTypeDescriptions.RequestItem)
+            request.type.ShouldEqual(typeof(InputTypeDescriptions.RequestItem)
                 .GetHash(typeof(InputTypeDescriptions.CollectionPostHandler).GetExecuteMethod()));
             request.collection.ShouldBeTrue();
         }
@@ -69,7 +69,7 @@ namespace Tests.SpecificationBuilderEndpointTests
 
             request.name.ShouldEqual("ArrayOfRequestItem");
             request.comments.ShouldBeNull();
-            request.dataType.ShouldEqual(typeof(InputTypeDescriptions.RequestItem)
+            request.type.ShouldEqual(typeof(InputTypeDescriptions.RequestItem)
                 .GetHash(typeof(InputTypeDescriptions.InheritedCollectionPostHandler).GetExecuteMethod()));
             request.collection.ShouldBeTrue();
         }
@@ -81,7 +81,7 @@ namespace Tests.SpecificationBuilderEndpointTests
 
             request.name.ShouldEqual("NewItemName");
             request.comments.ShouldBeNull();
-            request.dataType.ShouldEqual(typeof(InputTypeDescriptions.OverridenRequestItem)
+            request.type.ShouldEqual(typeof(InputTypeDescriptions.OverridenRequestItem)
                 .GetHash(typeof(InputTypeDescriptions.OverridenRequestPostHandler).GetExecuteMethod()));
             request.collection.ShouldBeFalse();
         }
@@ -93,7 +93,7 @@ namespace Tests.SpecificationBuilderEndpointTests
 
             request.name.ShouldEqual("NewCollectionName");
             request.comments.ShouldBeNull();
-            request.dataType.ShouldEqual(typeof(InputTypeDescriptions.OverridenRequestItem)
+            request.type.ShouldEqual(typeof(InputTypeDescriptions.OverridenRequestItem)
                 .GetHash(typeof(InputTypeDescriptions.OverridenCollectionPostHandler).GetExecuteMethod()));
             request.collection.ShouldBeTrue();
         }

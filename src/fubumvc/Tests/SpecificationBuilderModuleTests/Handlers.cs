@@ -34,29 +34,30 @@ namespace Tests.SpecificationBuilderModuleTests
         public class GetHandler { public object Execute(object request) { return null; } }
     }
 
-    namespace OneEmptyModule
-    {
-        public class EmptyModule : ModuleDescription { }
-        public class GetHandler { public object Execute(object request) { return null; } }
-    }
-
-    namespace OneEmptyModuleAndOrphanedAction
-    {
-        public class GetHandler { public object Execute(object request) { return null; } }
-        namespace SomeHandler
-        {
-            public class EmptyModule : ModuleDescription { }
-            public class GetHandler { public object Execute(object request) { return null; } }
-        }
-    }
-
     namespace OneModuleAndOrphanedAction
     {
         public class GetHandler { public object Execute_Orphan(object request) { return null; } }
-        namespace SomeHandler
+        namespace SomeNamespace
         {
             public class EmptyModule : ModuleDescription { public EmptyModule() { Name = "Some Module"; } }
             public class GetHandler { public object Execute_InModule(object request) { return null; } }
+        }
+    }
+
+    namespace NestedModules
+    {
+        namespace SomeOtherNamespace
+        {
+            public class GetHandler { public object Execute_RootModule(object request) { return null; } }
+        }
+
+        public class RootModule : ModuleDescription { public RootModule() { Name = "Root Module"; } }
+        public class GetHandler { public object Execute_RootModule(object request) { return null; } }
+
+        namespace SomeNamespace
+        {
+            public class NestedModule : ModuleDescription { public NestedModule() { Name = "Nested Module"; } }
+            public class GetHandler { public object Execute_NestedModule(object request) { return null; } }
         }
     }
 }

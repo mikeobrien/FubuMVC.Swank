@@ -9,6 +9,7 @@ using Should;
 using Swank;
 using Swank.Description;
 using Swank.Models;
+using Type = System.Type;
 
 namespace Tests.SpecificationBuilderModuleTests
 {
@@ -31,12 +32,14 @@ namespace Tests.SpecificationBuilderModuleTests
             _moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
             _resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
-                new Swank.ActionSource(_graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly())), new ResourceSourceConfig());
+                new Swank.ActionSource(_graph, 
+                    ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<Tests>()))), 
+                    new ResourceSourceConfig());
             _endpointSource = new EndpointSource();
             _parameterSource = new ParameterSource();
             _optionSource = new OptionSource();
             _errors = new ErrorSource();
-            _dataTypes = new DataTypeSource();
+            _dataTypes = new TypeSource();
         }
 
         private Specification BuildSpec<T>(Action<ConfigurationDsl> configure)
@@ -94,48 +97,23 @@ namespace Tests.SpecificationBuilderModuleTests
         }
 
         [Test]
-        public void should_return_actions_in_root_resources_when_there_are_is_one_empty_module_defined()
-        {
-            var spec = BuildSpec<OneEmptyModule.GetHandler>(x => x
-                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
-
-            spec.modules.Count.ShouldEqual(0);
-            spec.resources.Count.ShouldEqual(1);
-            spec.resources[0].endpoints.Count.ShouldEqual(1);
-        }
-
-        [Test]
-        public void should_return_actions_in_root_resources_when_there_is_one_empty_module_defined_and_orphaned_actions()
-        {
-            var spec = BuildSpec<OneEmptyModuleAndOrphanedAction.GetHandler>(x => x
-                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
-
-            spec.modules.Count.ShouldEqual(0);
-            spec.resources.Count.ShouldEqual(2);
-            spec.resources[0].endpoints.Count.ShouldEqual(1);
-            spec.resources[1].endpoints.Count.ShouldEqual(1);
-        }
-        
-        [Test]
-        public void should_automatically_add_orphaned_actions_to_empty_default_module()
+        public void should_automatically_add_orphaned_actions_to_root_resources_when_modules_are_defined()
         {
             var spec = BuildSpec<OneModuleAndOrphanedAction.GetHandler>(x => x
                     .OnOrphanedModuleAction(OrphanedActions.UseDefault));
 
-            spec.modules.Count.ShouldEqual(2);
-            spec.resources.Count.ShouldEqual(0);
+            spec.modules.Count.ShouldEqual(1);
+            spec.resources.Count.ShouldEqual(1);
 
             var module = spec.modules[0];
-            module.name.ShouldBeNull();
-            module.resources.Count.ShouldEqual(1);
-            module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/orphan");
-
-            module = spec.modules[1];
             module.name.ShouldEqual("Some Module");
             module.resources.Count.ShouldEqual(1);
             module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/somehandler/inmodule");
+            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/somenamespace/inmodule");
+
+            var resource = spec.resources[0];
+            resource.endpoints.Count.ShouldEqual(1);
+            resource.endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/orphan");
         }
 
         [Test]
@@ -158,7 +136,7 @@ namespace Tests.SpecificationBuilderModuleTests
             module.name.ShouldEqual("Some Module");
             module.resources.Count.ShouldEqual(1);
             module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/somehandler/inmodule");
+            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/somenamespace/inmodule");
         }
 
         [Test]
@@ -174,7 +152,7 @@ namespace Tests.SpecificationBuilderModuleTests
             module.name.ShouldEqual("Some Module");
             module.resources.Count.ShouldEqual(1);
             module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/somehandler/inmodule");
+            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/somenamespace/inmodule");
         }
 
         [Test]
@@ -187,8 +165,32 @@ namespace Tests.SpecificationBuilderModuleTests
         [Test]
         public void should_not_throw_an_exception_when_there_are_no_orphaned_actions()
         {
-            Assert.DoesNotThrow(() => BuildSpec<OneEmptyModule.GetHandler>(x => x
+            Assert.DoesNotThrow(() => BuildSpec<ModuleDescriptions.NoDescription.GetHandler>(x => x
                     .OnOrphanedModuleAction(OrphanedActions.Fail)));
+        }
+
+        [Test]
+        public void should_add_actions_to_closest_parent_module()
+        {
+            var spec = BuildSpec<NestedModules.GetHandler>(x => x
+                    .OnOrphanedModuleAction(OrphanedActions.UseDefault));
+
+            spec.modules.Count.ShouldEqual(2);
+            spec.resources.Count.ShouldEqual(0);
+
+            var module = spec.modules[0];
+            module.name.ShouldEqual("Nested Module");
+            module.resources.Count.ShouldEqual(1);
+            module.resources[0].endpoints.Count.ShouldEqual(1);
+            module.resources[0].endpoints[0].url.ShouldEqual("/nestedmodules/somenamespace/nestedmodule");
+
+            module = spec.modules[1];
+            module.name.ShouldEqual("Root Module");
+            module.resources.Count.ShouldEqual(2);
+            module.resources[0].endpoints.Count.ShouldEqual(1);
+            module.resources[0].endpoints[0].url.ShouldEqual("/nestedmodules/rootmodule");
+            module.resources[1].endpoints.Count.ShouldEqual(1);
+            module.resources[1].endpoints[0].url.ShouldEqual("/nestedmodules/someothernamespace/rootmodule");
         }
     }
 }

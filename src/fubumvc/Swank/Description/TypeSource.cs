@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 
 namespace Swank.Description
 {
-    public class DataTypeSource : IDescriptionSource<Type, DataTypeDescription>
+    public class TypeSource : IDescriptionSource<Type, DataTypeDescription>
     {
         public DataTypeDescription GetDescription(Type type)
         {

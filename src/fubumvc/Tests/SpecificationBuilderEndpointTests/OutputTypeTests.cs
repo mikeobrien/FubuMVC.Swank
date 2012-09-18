@@ -49,16 +49,16 @@ namespace Tests.SpecificationBuilderEndpointTests
         [Test]
         public void should_set_the_datatype_for__output_types_to_a_hash_of_the_datatype()
         {
-            _spec.GetEndpoint<OutputTypeDescriptions.GetHandler>().response.dataType
+            _spec.GetEndpoint<OutputTypeDescriptions.GetHandler>().response.type
                 .ShouldEqual(typeof(OutputTypeDescriptions.GetResponse).GetHash());
 
-            _spec.GetEndpoint<OutputTypeDescriptions.PostHandler>().response.dataType
+            _spec.GetEndpoint<OutputTypeDescriptions.PostHandler>().response.type
                 .ShouldEqual(typeof(OutputTypeDescriptions.PostResponse).GetHash());
 
-            _spec.GetEndpoint<OutputTypeDescriptions.PutHandler>().response.dataType
+            _spec.GetEndpoint<OutputTypeDescriptions.PutHandler>().response.type
                 .ShouldEqual(typeof(OutputTypeDescriptions.PutResponse).GetHash());
 
-            _spec.GetEndpoint<OutputTypeDescriptions.DeleteHandler>().response.dataType
+            _spec.GetEndpoint<OutputTypeDescriptions.DeleteHandler>().response.type
                 .ShouldEqual(typeof(OutputTypeDescriptions.DeleteResponse).GetHash());
         }
 
@@ -69,7 +69,7 @@ namespace Tests.SpecificationBuilderEndpointTests
 
             response.name.ShouldEqual("ArrayOfResponseItem");
             response.comments.ShouldBeNull();
-            response.dataType.ShouldEqual(typeof(OutputTypeDescriptions.ResponseItem).GetHash());
+            response.type.ShouldEqual(typeof(OutputTypeDescriptions.ResponseItem).GetHash());
             response.collection.ShouldBeTrue();
         }
 
@@ -80,7 +80,7 @@ namespace Tests.SpecificationBuilderEndpointTests
 
             response.name.ShouldEqual("ArrayOfResponseItem");
             response.comments.ShouldBeNull();
-            response.dataType.ShouldEqual(typeof(OutputTypeDescriptions.ResponseItem).GetHash());
+            response.type.ShouldEqual(typeof(OutputTypeDescriptions.ResponseItem).GetHash());
             response.collection.ShouldBeTrue();
         }
 
@@ -91,7 +91,7 @@ namespace Tests.SpecificationBuilderEndpointTests
 
             response.name.ShouldEqual("NewItemName");
             response.comments.ShouldBeNull();
-            response.dataType.ShouldEqual(typeof(OutputTypeDescriptions.OverridenResponseItem).GetHash());
+            response.type.ShouldEqual(typeof(OutputTypeDescriptions.OverridenResponseItem).GetHash());
             response.collection.ShouldBeFalse();
         }
 
@@ -102,7 +102,7 @@ namespace Tests.SpecificationBuilderEndpointTests
 
             response.name.ShouldEqual("NewCollectionName");
             response.comments.ShouldBeNull();
-            response.dataType.ShouldEqual(typeof(OutputTypeDescriptions.OverridenResponseItem).GetHash());
+            response.type.ShouldEqual(typeof(OutputTypeDescriptions.OverridenResponseItem).GetHash());
             response.collection.ShouldBeTrue();
         }
     }

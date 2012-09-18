@@ -22,7 +22,7 @@ namespace Tests.SpecificationBuilderEndpointTests
             var parameter = _spec.GetEndpoint<UrlParameters.GetHandler>().urlParameters[0];
 
             parameter.name.ShouldEqual("WidgetId");
-            parameter.dataType.ShouldEqual("uuid");
+            parameter.type.ShouldEqual("uuid");
             parameter.comments.ShouldBeNull();
             parameter.options.ShouldBeEmpty();
         }
@@ -33,7 +33,7 @@ namespace Tests.SpecificationBuilderEndpointTests
             var parameter = _spec.GetEndpoint<UrlParameters.GetHandler>().urlParameters[1];
 
             parameter.name.ShouldEqual("Revision");
-            parameter.dataType.ShouldEqual("int");
+            parameter.type.ShouldEqual("int");
             parameter.comments.ShouldEqual("This the revision number.");
             parameter.options.ShouldBeEmpty();
         }

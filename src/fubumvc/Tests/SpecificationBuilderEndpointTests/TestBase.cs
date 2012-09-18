@@ -28,7 +28,7 @@ namespace Tests.SpecificationBuilderEndpointTests
             var parameterSource = new ParameterSource();
             var optionSource = new OptionSource();
             var errors = new ErrorSource();
-            var dataTypes = new DataTypeSource();
+            var dataTypes = new TypeSource();
             var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter));
             var specBuilder = new SpecificationBuilder(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
                 moduleSource, resourceSource, endpointSource, parameterSource, optionSource, errors, dataTypes);

@@ -1,5 +1,5 @@
 {
-    "dataTypes" : [
+    "types" : [
         {
             "id": "",
             "name": "",
@@ -10,7 +10,7 @@
                     "comments": "",
                     "required": true,
                     "defaultValue": "",
-                    "dataType": "",
+                    "type": "",
                     "collection": false,
                     "options": [
                         {
@@ -44,7 +44,7 @@
                         { 
                             "name": "",
                             "comments": "",
-                            "dataType": "",
+                            "type": "",
                             "options": [
                                 {
                                     "name": "",
@@ -61,7 +61,7 @@
                             "defaultValue": "",
                             "multipleAllowed": false,
                             "required": true,
-                            "dataType": "",
+                            "type": "",
                             "options": [
                                 {
                                     "name": "", 
@@ -81,13 +81,13 @@
                     "request": {
                         "name": "",
                         "comments": "",
-                        "dataType": "",
+                        "type": "",
                         "collection": false
                     },
                     "response": {
                         "name": "",
                         "comments": "",
-                        "dataType": "",
+                        "type": "",
                         "collection": false
                     }
                 }

@@ -71,7 +71,7 @@
     <Compile Include="ConfigurationDsl.cs" />
     <Compile Include="Description\CommentsAttribute.cs" />
     <Compile Include="Description\HideAttribute.cs" />
-    <Compile Include="Description\DataTypeSource.cs" />
+    <Compile Include="Description\TypeSource.cs" />
     <Compile Include="Description\ErrorSource.cs" />
     <Compile Include="Description\DefaultValueAttribute.cs" />
     <Compile Include="Description\ErrorDescriptionAttribute.cs" />

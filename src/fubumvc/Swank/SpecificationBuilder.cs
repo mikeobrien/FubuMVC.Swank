@@ -8,6 +8,7 @@ using FubuMVC.Core.Registration.Nodes;
 using Swank.Description;
 using Swank.Models;
 using Module = Swank.Models.Module;
+using Type = Swank.Models.Type;
 
 namespace Swank
 {
@@ -24,6 +25,13 @@ namespace Swank
                     string.Join(", ", actions))) { }
     }
 
+    public class ActionMapping
+    {
+        public ActionCall Action { get; set; }
+        public ModuleDescription Module { get; set; }
+        public ResourceDescription Resource { get; set; }
+    }
+
     public class SpecificationBuilder
     {
         private readonly Configuration _configuration;
@@ -35,7 +43,7 @@ namespace Swank
         private readonly IDescriptionSource<PropertyInfo, ParameterDescription> _parameters;
         private readonly IDescriptionSource<FieldInfo, OptionDescription> _options;
         private readonly IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
-        private readonly IDescriptionSource<Type, DataTypeDescription> _dataTypes;
+        private readonly IDescriptionSource<System.Type, DataTypeDescription> _dataTypes;
 
         public SpecificationBuilder(
             Configuration configuration, 
@@ -47,7 +55,7 @@ namespace Swank
             IDescriptionSource<PropertyInfo, ParameterDescription> parameters,
             IDescriptionSource<FieldInfo, OptionDescription> options,
             IDescriptionSource<ActionCall, List<ErrorDescription>> errors,
-            IDescriptionSource<Type, DataTypeDescription> dataTypes)
+            IDescriptionSource<System.Type, DataTypeDescription> dataTypes)
         {
             _configuration = configuration;
             _actions = actions;
@@ -63,19 +71,53 @@ namespace Swank
 
         public Specification Build()
         {
-            var actions = _actions.GetActions();
-            var modules = GetModules(actions);
-            var hasModules = modules.Any(x => !string.IsNullOrEmpty(x.name));
+            var actionMapping = GetActionMapping(_actions.GetActions());
+            CheckForOrphanedActions(actionMapping);
             return new Specification {
-                dataTypes = GetDataTypes(actions),
-                    modules = hasModules ? modules : new List<Module>(),
-                    resources = !hasModules ? modules.SelectMany(x => x.resources).ToList() : new List<Resource>()
+                    types = GetTypes(actionMapping.Select(x => x.Action).ToList()),
+                    modules = GetModules(actionMapping.Where(x => x.Module != null).ToList()),
+                    resources = GetResources(actionMapping.Where(x => x.Module == null).ToList())
                 };
         }
 
-        private List<DataType> GetDataTypes(IList<ActionCall> actions)
+        private List<ActionMapping> GetActionMapping(IList<ActionCall> actions)
         {
-            var rootTypes = actions.Where(x => x.HasInput && (x.ParentChain().Route.AllowsPost() || x.ParentChain().Route.AllowsPut()))
+            return actions
+                .Select(x => new { Action = x, Module = _modules.GetDescription(x), Resource = _resources.GetDescription(x) })
+                .Where(x => ((_configuration.OrphanedModuleActions == OrphanedActions.Exclude && x.Module != null) ||
+                              _configuration.OrphanedModuleActions != OrphanedActions.Exclude))
+                .Where(x => ((_configuration.OrphanedResourceActions == OrphanedActions.Exclude && x.Resource != null) ||
+                              _configuration.OrphanedResourceActions != OrphanedActions.Exclude))
+                .Select(x => new ActionMapping {
+                    Action = x.Action,
+                    Module = _configuration.OrphanedModuleActions == OrphanedActions.UseDefault ?
+                        x.Module ?? _configuration.DefaultModuleFactory(x.Action) : x.Module,
+                    Resource = _configuration.OrphanedResourceActions == OrphanedActions.UseDefault ?
+                        x.Resource ?? _configuration.DefaultResourceFactory(x.Action) : x.Resource
+                }).ToList();
+        }
+
+        private void CheckForOrphanedActions(IList<ActionMapping> actionMapping)
+        {
+            if (_configuration.OrphanedModuleActions == OrphanedActions.Fail)
+            {
+                var orphanedModuleActions = actionMapping.Where(x => x.Module == null).ToList();
+                if (orphanedModuleActions.Any()) throw new OrphanedModuleActionException(
+                    orphanedModuleActions.Select(x => x.Action.HandlerType.FullName + "." + x.Action.Method.Name));
+            }
+
+            if (_configuration.OrphanedResourceActions == OrphanedActions.Fail)
+            {
+                var orphanedActions = actionMapping.Where(x => x.Resource == null).ToList();
+                if (orphanedActions.Any()) throw new OrphanedResourceActionException(
+                    orphanedActions.Select(x => x.Action.HandlerType.FullName + "." + x.Action.Method.Name));
+            }
+        }
+
+        private List<Type> GetTypes(IList<ActionCall> actions)
+        {
+            var rootTypes = actions
+                .Where(x => x.HasInput && (x.ParentChain().Route.AllowsPost() || x.ParentChain().Route.AllowsPut()))
                 .Select(x => x.InputType().GetListElementType() ?? x.InputType())
                 .Concat(actions.Where(x => x.HasOutput).Select(x => x.OutputType().GetListElementType() ?? x.OutputType()))
                 .Distinct().ToList();
@@ -84,7 +126,7 @@ namespace Swank
                 .Distinct()
                 .Select(x => {
                     var dataType = _dataTypes.GetDescription(x);
-                    return new DataType {
+                    return new Type {
                         id = dataType != null ? dataType.Type.GetHash() : x.GetHash(),
                         name = dataType.GetNameOrDefault(),
                         comments = dataType.GetCommentsOrDefault(),
@@ -94,54 +136,36 @@ namespace Swank
                 .OrderBy(x => x.name).ToList();
         }
 
-        private List<Type> GetTypes(Type type)
+        private List<System.Type> GetTypes(System.Type type)
         {
             var types = _typeCache.GetPropertiesFor(type)
                 .Select(x => x.Value.PropertyType)
                 .Where(x => !(x.GetElementType() ?? x).IsSystemType() && !x.IsEnum).Distinct().ToList();
             return types.Concat(types.SelectMany(GetTypes)).Distinct().ToList();
-        } 
+        }
 
-        private List<Module> GetModules(IList<ActionCall> actions)
+        private List<Module> GetModules(IList<ActionMapping> actionMapping)
         {
-            if (_configuration.OrphanedModuleActions == OrphanedActions.Fail) {
-                var orphanedActions = actions.Where(x => !_modules.HasDescription(x)).ToList();
-                if (orphanedActions.Any()) throw new OrphanedModuleActionException(orphanedActions.Select(x => x.HandlerType.FullName + "." + x.Method.Name));
-            }
-
-            var modules = actions
-                .Where(x => (_configuration.OrphanedModuleActions == OrphanedActions.Exclude && 
-                             _modules.HasDescription(x)) || 
-                            _configuration.OrphanedModuleActions == OrphanedActions.UseDefault)
-                .GroupBy(x => _modules.GetDescription(x) ?? _configuration.DefaultModuleFactory(x))
+            return actionMapping
+                .GroupBy(x => x.Module)
                 .Select(x => new Module {
                     name = x.Key.Name,
                     comments = x.Key.Comments,
-                    resources = GetResources(x.ToList())
+                    resources = GetResources(x.Select(y => y).ToList())
                 })
-                .OrderBy(x => x.name);
-            return modules.ToList();
+                .OrderBy(x => x.name).ToList();
         }
 
-        private List<Resource> GetResources(IList<ActionCall> actions)
+        private List<Resource> GetResources(IList<ActionMapping> actionMapping)
         {
-            if (_configuration.OrphanedResourceActions == OrphanedActions.Fail) {
-                var orphanedActions = actions.Where(x => !_resources.HasDescription(x)).ToList();
-                if (orphanedActions.Any()) throw new OrphanedResourceActionException(orphanedActions.Select(x => x.HandlerType.FullName + "." + x.Method.Name));
-            }
-
-            var resources = actions
-                .Where(x => (_configuration.OrphanedResourceActions == OrphanedActions.Exclude &&
-                             _resources.HasDescription(x)) ||
-                            _configuration.OrphanedResourceActions == OrphanedActions.UseDefault)
-                .GroupBy(x => _resources.GetDescription(x) ?? _configuration.DefaultResourceFactory(x))
+            return actionMapping
+                .GroupBy(x => x.Resource)
                 .Select(x => new Resource {
                     name = x.Key.Name,
                     comments = x.Key.Comments,
-                    endpoints = GetEndpoints(x)
+                    endpoints = GetEndpoints(x.Select(y => y.Action))
                 })
-                .OrderBy(x => x.name);
-            return resources.ToList();
+                .OrderBy(x => x.name).ToList();
         }
 
         private List<Endpoint> GetEndpoints(IEnumerable<ActionCall> actions)
@@ -175,7 +199,7 @@ namespace Swank
                     return new UrlParameter {
                             name = parameter.GetNameOrDefault(),
                             comments = parameter.GetCommentsOrDefault(),
-                            dataType = property.PropertyType.ToFriendlyName(),
+                            type = property.PropertyType.ToFriendlyName(),
                             options = GetOptions(property.PropertyType)
                         };
                 }).ToList();
@@ -192,7 +216,7 @@ namespace Swank
                     return new QuerystringParameter {
                         name = parameter.GetNameOrDefault(),
                         comments = parameter.GetCommentsOrDefault(),
-                        dataType = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).ToFriendlyName(),
+                        type = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).ToFriendlyName(),
                         options = GetOptions(x.Value.PropertyType),
                         defaultValue = parameter.DefaultValue != null ? parameter.DefaultValue.ToString() : null,
                         multipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList()
@@ -210,7 +234,7 @@ namespace Swank
                 }).OrderBy(x => x.status).ToList();
         }
 
-        private Data GetData(Type type, MethodInfo action = null)
+        private Data GetData(System.Type type, MethodInfo action = null)
         {
             var dataType = _dataTypes.GetDescription(type);
             var rootType = dataType != null ? dataType.Type : type;
@@ -218,12 +242,12 @@ namespace Swank
                 {
                     name = dataType.GetNameOrDefault(),
                     comments = dataType.GetCommentsOrDefault(),
-                    dataType = action == null ? rootType.GetHash() : rootType.GetHash(action),
+                    type = action == null ? rootType.GetHash() : rootType.GetHash(action),
                     collection = type.IsArray || type.IsList()
                 };
         } 
 
-        private List<Option> GetOptions(Type type)
+        private List<Option> GetOptions(System.Type type)
         {
             return !type.IsEnum ? new List<Option>() :
                 type.GetCachedEnumValues()

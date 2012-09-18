@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using FubuCore.Reflection;
@@ -51,7 +51,7 @@ namespace Tests.SpecificationBuilderResourceTests
             _parameterSource = new ParameterSource();
             _optionSource = new OptionSource();
             _errors = new ErrorSource();
-            _dataTypes = new DataTypeSource();
+            _dataTypes = new TypeSource();
         }
 
         [Test]
@@ -67,18 +67,12 @@ namespace Tests.SpecificationBuilderResourceTests
 
             var spec = specBuilder.Build();
 
-            var resources = spec.modules[0].resources;
-            resources.Count.ShouldEqual(2);
-            var resource = resources[0];
-            resource.name.ShouldEqual("templates");
-            resource.comments.ShouldBeNull();
-            resource = resources[1];
-            resource.name.ShouldEqual("templates/file");
-            resource.comments.ShouldBeNull();
+            spec.modules.Count.ShouldEqual(3);
+            spec.resources.Count.ShouldEqual(2);
 
-            resources = spec.modules[1].resources;
+            var resources = spec.modules[0].resources;
             resources.Count.ShouldEqual(3);
-            resource = resources[0];
+            var resource = resources[0];
             resource.name.ShouldEqual(AdminAccountResource.Name);
             resource.comments.ShouldEqual(AccountResourceComments);
             resource = resources[1];
@@ -88,16 +82,25 @@ namespace Tests.SpecificationBuilderResourceTests
             resource.name.ShouldEqual(AdminUserResource.Name);
             resource.comments.ShouldEqual(AdminUserResource.Comments);
 
-            resources = spec.modules[2].resources;
+            resources = spec.modules[1].resources;
             resources.Count.ShouldEqual(1);
             resource = resources[0];
             resource.name.ShouldEqual(BatchCellResource.Name);
             resource.comments.ShouldEqual(BatchCellsResourceComments);
 
-            resources = spec.modules[3].resources;
+            resources = spec.modules[2].resources;
             resources.Count.ShouldEqual(1);
             resource = resources[0];
             resource.name.ShouldEqual("batches/schedules");
+            resource.comments.ShouldBeNull();
+
+            resources = spec.resources;
+            resources.Count.ShouldEqual(2);
+            resource = resources[0];
+            resource.name.ShouldEqual("templates");
+            resource.comments.ShouldBeNull();
+            resource = resources[1];
+            resource.name.ShouldEqual("templates/file");
             resource.comments.ShouldBeNull();
         }
 
@@ -115,15 +118,12 @@ namespace Tests.SpecificationBuilderResourceTests
 
             var spec = specBuilder.Build();
 
-            var resources = spec.modules[0].resources;
-            resources.Count.ShouldEqual(1);
-            var resource = resources[0];
-            resource.name.ShouldEqual("templates");
-            resource.comments.ShouldBeNull();
+            spec.modules.Count.ShouldEqual(3);
+            spec.resources.Count.ShouldEqual(1);
 
-            resources = spec.modules[1].resources;
+            var resources = spec.modules[0].resources;
             resources.Count.ShouldEqual(3);
-            resource = resources[0];
+            var resource = resources[0];
             resource.name.ShouldEqual(AdminAccountResource.Name);
             resource.comments.ShouldEqual(AccountResourceComments);
             resource = resources[1];
@@ -133,16 +133,21 @@ namespace Tests.SpecificationBuilderResourceTests
             resource.name.ShouldEqual(AdminUserResource.Name);
             resource.comments.ShouldEqual(AdminUserResource.Comments);
 
-            resources = spec.modules[2].resources;
+            resources = spec.modules[1].resources;
             resources.Count.ShouldEqual(1);
             resource = resources[0];
             resource.name.ShouldEqual(BatchCellResource.Name);
             resource.comments.ShouldEqual(BatchCellsResourceComments);
 
-            resources = spec.modules[3].resources;
+            resources = spec.modules[2].resources;
             resources.Count.ShouldEqual(1);
             resource = resources[0];
             resource.name.ShouldEqual("batches");
+            resource.comments.ShouldBeNull();
+
+            resources = spec.resources;
+            resource = resources[0];
+            resource.name.ShouldEqual("templates");
             resource.comments.ShouldBeNull();
         }
 
@@ -160,9 +165,10 @@ namespace Tests.SpecificationBuilderResourceTests
 
             var spec = specBuilder.Build();
 
-            spec.modules[0].resources.Count.ShouldEqual(0);
+            spec.modules.Count.ShouldEqual(2);
+            spec.resources.Count.ShouldEqual(0);
 
-            var resources = spec.modules[1].resources;
+            var resources = spec.modules[0].resources;
             resources.Count.ShouldEqual(3);
             var resource = resources[0];
             resource.name.ShouldEqual(AdminAccountResource.Name);
@@ -174,13 +180,11 @@ namespace Tests.SpecificationBuilderResourceTests
             resource.name.ShouldEqual(AdminUserResource.Name);
             resource.comments.ShouldEqual(AdminUserResource.Comments);
 
-            resources = spec.modules[2].resources;
+            resources = spec.modules[1].resources;
             resources.Count.ShouldEqual(1);
             resource = resources[0];
             resource.name.ShouldEqual(BatchCellResource.Name);
             resource.comments.ShouldEqual(BatchCellsResourceComments);
-
-            spec.modules[3].resources.Count.ShouldEqual(0);
         }
 
         [Test]

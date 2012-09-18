@@ -91,13 +91,13 @@ namespace Tests.SpecificationBuilderEndpointTests
         [Test]
         public void should_set_the_element_type_when_multiple_are_allowed()
         {
-            _spec.GetEndpoint<Querystrings.ImplicitGetHandler>().querystringParameters[0].dataType.ShouldEqual("int");
+            _spec.GetEndpoint<Querystrings.ImplicitGetHandler>().querystringParameters[0].type.ShouldEqual("int");
         }
 
         [Test]
         public void should_set_the_property_type_when_multiple_are_not_allowed()
         {
-            _spec.GetEndpoint<Querystrings.ImplicitGetHandler>().querystringParameters[1].dataType.ShouldEqual("string");
+            _spec.GetEndpoint<Querystrings.ImplicitGetHandler>().querystringParameters[1].type.ShouldEqual("string");
         }
 
         [Test]

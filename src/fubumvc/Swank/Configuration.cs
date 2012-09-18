@@ -24,7 +24,7 @@ namespace Swank
             ModuleDescriptionSource = new Service<IDescriptionSource<ActionCall, ModuleDescription>> { Type = typeof(ModuleSource) };
             ResourceDescriptionSource = new Service<IDescriptionSource<ActionCall, ResourceDescription>> 
                 { Type = typeof(ResourceSource), Config = new ResourceSourceConfig() };
-            DefaultModuleFactory = x => new ModuleDescription();
+            DefaultModuleFactory = x => null;
             OrphanedModuleActions = OrphanedActions.UseDefault;
             DefaultResourceFactory = x => new ResourceDescription { Name = x.ParentChain().Route.GetRouteResource() };
             OrphanedResourceActions = OrphanedActions.UseDefault;
@@ -32,7 +32,7 @@ namespace Swank
             ParameterDescriptionSource = new Service<IDescriptionSource<PropertyInfo, ParameterDescription>> { Type = typeof(ParameterSource) };
             OptionDescriptionSource = new Service<IDescriptionSource<FieldInfo, OptionDescription>> { Type = typeof(OptionSource) };
             ErrorDescriptionSource = new Service<IDescriptionSource<ActionCall, List<ErrorDescription>>> { Type = typeof(ErrorSource) };
-            DataTypeDescriptionSource = new Service<IDescriptionSource<Type, DataTypeDescription>> { Type = typeof(DataTypeSource) };
+            DataTypeDescriptionSource = new Service<IDescriptionSource<Type, DataTypeDescription>> { Type = typeof(TypeSource) };
         }
         
         public string Url { get; set; }

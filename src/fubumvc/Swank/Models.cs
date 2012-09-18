@@ -4,12 +4,12 @@ namespace Swank.Models
 {
     public class Specification
     {
-        public List<DataType> dataTypes { get; set; }
+        public List<Type> types { get; set; }
         public List<Module> modules { get; set; }
         public List<Resource> resources { get; set; }
     }
 
-    public class DataType
+    public class Type
     {
         public string id { get; set; }
         public string name { get; set; }
@@ -24,7 +24,7 @@ namespace Swank.Models
         public bool required { get; set; }
         public string defaultValue { get; set; }
         public bool collection { get; set; }
-        public string dataType { get; set; }
+        public string type { get; set; }
         public List<Option> options { get; set; }
     }
 
@@ -66,7 +66,7 @@ namespace Swank.Models
     {
         public string name { get; set; }
         public string comments { get; set; }
-        public string dataType { get; set; }
+        public string type { get; set; }
         public List<Option> options { get; set; }
     }
 
@@ -74,7 +74,7 @@ namespace Swank.Models
     {
         public string name { get; set; }
         public string comments { get; set; }
-        public string dataType { get; set; }
+        public string type { get; set; }
         public string defaultValue { get; set; }
         public bool multipleAllowed { get; set; }
         public List<Option> options { get; set; }
@@ -91,7 +91,7 @@ namespace Swank.Models
     {
         public string name { get; set; }
         public string comments { get; set; }
-        public string dataType { get; set; }
+        public string type { get; set; }
         public bool collection { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using Swank.Description;
 
-namespace Tests.Description.DataTypeSourceTests
+namespace Tests.Description.TypeSourceTests
 {
     [Comments("These are addresses yo!")]
     public class AdminAddresses : List<AdminAddressResponse> {}
