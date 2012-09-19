@@ -1,4 +1,4 @@
-swank - describing RESTful web services
+FubuMVC.Swank
 =============
 
 oh hai
