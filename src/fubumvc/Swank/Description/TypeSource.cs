@@ -10,7 +10,7 @@ namespace Swank.Description
         {
             var description = type.GetCustomAttribute<CommentsAttribute>();
             var xmlType = type.GetCustomAttribute<XmlTypeAttribute>();
-            var elementType = Extensions.GetListElementType(type);
+            var elementType = type.GetListElementType();
             return new DataTypeDescription {
                 Type = elementType ?? type,
                 Name = xmlType != null ? xmlType.TypeName : elementType != null ? "ArrayOf" + elementType.Name : type.Name,
