@@ -1,9 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
 using Swank.Description;
 
 namespace Tests.Description.ResourceSourceTests
 {
+    namespace ResourceDescriptions
+    {
+        namespace NoDescription
+        {
+            public class Resource : ResourceDescription { }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+
+        namespace Description
+        {
+            public class Resource : ResourceDescription { public Resource() { Name = "Some Resource"; Comments = "Some comments."; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+
+        namespace EmbeddedTextComments
+        {
+            public class Resource : ResourceDescription { public Resource() { Name = "Some Text Resource"; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+
+        namespace EmbeddedMarkdownComments
+        {
+            public class Resource : ResourceDescription { public Resource() { Name = "Some Markdown Resource"; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+    }
+
     namespace AttributeResource
     {
         [Resource("Some Resource", "Some resource description")]
@@ -25,50 +51,51 @@ namespace Tests.Description.ResourceSourceTests
         }
     }
 
-    namespace Templates
+    namespace OrphanedAction
     {
-        public class TemplateAllGetHandler { public object Execute(object request) { return null; } }
+        public class GetHandler { public object Execute(object request) { return null; } }
     }
 
-    namespace Administration
+    namespace AppliedToResource
     {
-        public class AdministrationModule : ModuleDescription { public AdministrationModule() { Name = "Administration"; } }
+        public class Resource : ResourceDescription { public Resource() { Name = "Some Resource"; } }
 
-        namespace Users // These are ordered a certian way on purpose, don't change that.
+        public class GetHandler { public object Execute_Id(object request) { return null; } }
+        public class PostHandler { public object Execute(object request) { return null; } }
+
+        public class WidgetResource : ResourceDescription<WidgetGetHandler> { public WidgetResource() { Name = "Another Resource"; } }
+        public class Request { public Guid Id { get; set; } }
+        public class WidgetGetHandler { public object Execute_Widget(object request) { return null; } }
+        public class WidgetPutHandler { public object Execute_Widget_Id(Request request) { return null; } }
+    }
+
+    namespace ChildResources
+    {
+        public class Resource : ResourceDescription { public Resource() { Name = "Some Resource"; } }
+
+        public class GetHandler { public object Execute(object request) { return null; } }
+
+        namespace Widget
         {
-            public class AdminAccountResource : ResourceDescription<AdminAccountAllGetHandler>
-            { public AdminAccountResource() { Name = "Accounts"; } }
-
-            public class AdminAccountRequest { public Guid Id { get; set; } }
-            public class AdminAccountResponse { }
-            public class AdminAccountAllGetHandler { public AdminAccountResponse Execute_UserId(AdminAccountRequest request) { return null; } }
-            public class AdminAccountPostHandler { public AdminAccountResponse Execute_UserId(AdminAccountRequest request) { return null; } }
-            public class AdminAccountGetHandler { public AdminAccountResponse Execute_UserId_Id(AdminAccountRequest request) { return null; } }
-            public class AdminAccountPutHandler { public AdminAccountResponse Execute_UserId_Id(AdminAccountRequest request) { return null; } }
-            public class AdminAccountDeleteHandler { public AdminAccountResponse Execute_UserId_Id(AdminAccountRequest request) { return null; } }
-
-            public class AdminAddressResource : ResourceDescription
-            { public AdminAddressResource() { Name = "User addresses"; Comments = "These are user addresses yo!"; } }
-
-            public class AdminAddressRequest { public Guid Id { get; set; } public Guid UserId { get; set; } public string AddressType { get; set; } }
-            public class AdminAddressResponse { }
-            public class AdminAddressAllGetHandler { public AdminAddressResponse Execute_UserId_Address(AdminAddressRequest request) { return null; } }
-            public class AdminAddressAllOfTypeGetHandler { public AdminAddressResponse Execute_UserId_Address_AddressType(AdminAddressRequest request) { return null; } }
-            public class AdminAddressPostHandler { public AdminAddressResponse Execute_UserId_Address(AdminAddressRequest request) { return null; } }
-            public class AdminAddressGetHandler { public List<AdminAddressResponse> Execute_UserId_Address_Id(AdminAddressRequest request) { return null; } }
-            public class AdminAddressPutHandler { public AdminAddressResponse Execute_UserId_Address_Id(AdminAddressRequest request) { return null; } }
-            public class AdminAddressDeleteHandler { public AdminAddressResponse Execute_UserId_Address_Id(AdminAddressRequest request) { return null; } }
-
-            public class AdminUserResource : ResourceDescription<AdminUserAllGetHandler>
-            { public AdminUserResource() { Name = "Users"; Comments = "These are users yo!"; } }
-
-            public class AdminUserRequest { public Guid Id { get; set; } }
-            public class AdminUserResponse { }
-            public class AdminUserAllGetHandler { public AdminUserResponse Execute(AdminUserRequest request) { return null; } }
-            public class AdminUserPostHandler { public AdminUserResponse Execute(AdminUserRequest request) { return null; } }
-            public class AdminUserGetHandler { public AdminUserResponse Execute_Id(AdminUserRequest request) { return null; } }
-            public class AdminUserPutHandler { public AdminUserResponse Execute_Id(AdminUserRequest request) { return null; } }
-            public class AdminUserDeleteHandler { public AdminUserResponse Execute_Id(AdminUserRequest request) { return null; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
         }
+    }
+
+    namespace NestedResources
+    {
+        public class Resource : ResourceDescription { public Resource() { Name = "Some Resource"; } }
+
+        public class GetHandler { public object Execute(object request) { return null; } }
+
+        namespace Widget
+        {
+            public class Resource : ResourceDescription { public Resource() { Name = "Another Resource"; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+    }
+    namespace ResourceCommentsPriority
+    {
+        public class Resource : ResourceDescription { public Resource() { Name = "Some Description"; Comments = "Some comments."; } }
+        public class GetHandler { public object Execute(object request) { return null; } }
     }
 }

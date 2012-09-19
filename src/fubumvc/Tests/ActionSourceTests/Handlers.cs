@@ -1,31 +1,18 @@
-﻿namespace Tests.ActionSourceTests
+﻿using System;
+
+namespace Tests.ActionSourceTests
 {
-    namespace Templates
+    namespace Handlers
     {
-        public class TemplatePutHandler { public object Execute(object request) { return null; } }
-    }
+        public class Request { public Guid Id { get; set; } }
 
-    namespace Batches
-    {
-        namespace Schedules
+        public class AllGetHandler { public object Execute(Request request) { return null; } }
+        public class GetHandler { public object Execute_Id(Request request) { return null; } }
+
+        namespace Widgets
         {
-            public class BatchScheduleAllGetHandler { public object Execute(object request) { return null; } }
-        }
-
-        namespace Cells
-        {
-            public class BatchCellAllGetHandler { public object Execute(object request) { return null; } }
-        }
-    }
-
-    namespace Administration
-    {
-        public class AdminAccountAllGetHandler { public object Execute(object request) { return null; } }
-
-        namespace Users
-        {
-            public class AdminAddressAllOfTypeGetHandler { public object Execute_Address(object request) { return null; } }
-            public class AdminUserAllGetHandler { public object Execute(object request) { return null; } }
+            public class AllGetHandler { public object Execute(Request request) { return null; } }
+            public class GetHandler { public object Execute_Id(Request request) { return null; } }
         }
     }
 }

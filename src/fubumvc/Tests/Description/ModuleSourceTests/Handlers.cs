@@ -2,32 +2,52 @@
 
 namespace Tests.Description.ModuleSourceTests
 {
-    namespace Templates
+    namespace ModuleDescriptions
     {
-        public class TemplateAllGetHandler
+        namespace NoDescription
         {
-            public object Execute(object request) { return null; }
+            public class Module : ModuleDescription { }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+
+        namespace Description
+        {
+            public class Module : ModuleDescription { public Module() { Name = "Some Module"; Comments = "Some comments."; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+
+        namespace EmbeddedTextComments
+        {
+            public class Module : ModuleDescription { public Module() { Name = "Some Text Module"; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+
+        namespace EmbeddedMarkdownComments
+        {
+            public class Module : ModuleDescription { public Module() { Name = "Some Markdown Module"; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
         }
     }
 
-    namespace Batches
+    namespace NoModules
     {
-        public class BatchesModule : ModuleDescription { public BatchesModule() { Name = "Batches"; } }
-
-        namespace Schedules
-        {
-            public class SchedulesModule : ModuleDescription { public SchedulesModule() { Name = "Schedules"; } }
-            public class BatchScheduleAllGetHandler { public object Execute(object request) { return null; } }
-        }
+        public class GetHandler { public object Execute(object request) { return null; } }
     }
 
-    namespace Administration
+    namespace NestedModules
     {
-        public class AdministrationModule : ModuleDescription { public AdministrationModule() { Name = "Administration"; } }
-
-        namespace Users
+        namespace NoModules
         {
-            public class AdminUserAllGetHandler { public object Execute(object request) { return null; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
+
+        public class RootModule : ModuleDescription { public RootModule() { Name = "Root Module"; } }
+        public class GetHandler { public object Execute(object request) { return null; } }
+
+        namespace NestedModule
+        {
+            public class NestedModule : ModuleDescription { public NestedModule() { Name = "Nested Module"; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
         }
     }
 }

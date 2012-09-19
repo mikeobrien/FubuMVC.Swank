@@ -49,6 +49,17 @@ namespace Tests.SpecificationBuilderModuleTests
         }
 
         [Test]
+        public void should_set_description_to_default_when_none_is_specified()
+        {
+            var spec = BuildSpec<ModuleDescriptions.NoDescription.GetHandler>();
+
+            var module = spec.modules[0];
+
+            module.name.ShouldBeNull();
+            module.comments.ShouldBeNull();
+        }
+
+        [Test]
         public void should_set_description_when_one_is_specified()
         {
             var spec = BuildSpec<ModuleDescriptions.Description.GetHandler>();
@@ -82,6 +93,29 @@ namespace Tests.SpecificationBuilderModuleTests
         }
 
         [Test]
+        public void should_add_actions_to_closest_parent_module()
+        {
+            var spec = BuildSpec<NestedModules.GetHandler>();
+
+            spec.modules.Count.ShouldEqual(2);
+            spec.resources.Count.ShouldEqual(0);
+
+            var module = spec.modules[0];
+            module.name.ShouldEqual("Nested Module");
+            module.resources.Count.ShouldEqual(1);
+            module.resources[0].endpoints.Count.ShouldEqual(1);
+            module.resources[0].endpoints[0].url.ShouldEqual("/nestedmodules/nestedmodule");
+
+            module = spec.modules[1];
+            module.name.ShouldEqual("Root Module");
+            module.resources.Count.ShouldEqual(2);
+            module.resources[0].endpoints.Count.ShouldEqual(1);
+            module.resources[0].endpoints[0].url.ShouldEqual("/nestedmodules");
+            module.resources[1].endpoints.Count.ShouldEqual(1);
+            module.resources[1].endpoints[0].url.ShouldEqual("/nestedmodules/nomodule");
+        }
+
+        [Test]
         public void should_return_actions_in_root_resources_when_there_are_no_modules_defined()
         {
             var spec = BuildSpec<NoModules.GetHandler>();
@@ -103,7 +137,7 @@ namespace Tests.SpecificationBuilderModuleTests
             module.name.ShouldEqual("Some Module");
             module.resources.Count.ShouldEqual(1);
             module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/somenamespace/inmodule");
+            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/withmodule/inmodule");
 
             var resource = spec.resources[0];
             resource.endpoints.Count.ShouldEqual(1);
@@ -129,7 +163,7 @@ namespace Tests.SpecificationBuilderModuleTests
             module.name.ShouldEqual("Some Module");
             module.resources.Count.ShouldEqual(1);
             module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/somenamespace/inmodule");
+            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/withmodule/inmodule");
         }
 
         [Test]
@@ -145,7 +179,7 @@ namespace Tests.SpecificationBuilderModuleTests
             module.name.ShouldEqual("Some Module");
             module.resources.Count.ShouldEqual(1);
             module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/somenamespace/inmodule");
+            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/withmodule/inmodule");
         }
 
         [Test]
@@ -160,29 +194,6 @@ namespace Tests.SpecificationBuilderModuleTests
         {
             Assert.DoesNotThrow(() => BuildSpec<ModuleDescriptions.NoDescription.GetHandler>(x => x
                     .OnOrphanedModuleAction(OrphanedActions.Fail)));
-        }
-
-        [Test]
-        public void should_add_actions_to_closest_parent_module()
-        {
-            var spec = BuildSpec<NestedModules.GetHandler>();
-
-            spec.modules.Count.ShouldEqual(2);
-            spec.resources.Count.ShouldEqual(0);
-
-            var module = spec.modules[0];
-            module.name.ShouldEqual("Nested Module");
-            module.resources.Count.ShouldEqual(1);
-            module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/nestedmodules/somenamespace/nestedmodule");
-
-            module = spec.modules[1];
-            module.name.ShouldEqual("Root Module");
-            module.resources.Count.ShouldEqual(2);
-            module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/nestedmodules/rootmodule");
-            module.resources[1].endpoints.Count.ShouldEqual(1);
-            module.resources[1].endpoints[0].url.ShouldEqual("/nestedmodules/someothernamespace/rootmodule");
         }
     }
 }

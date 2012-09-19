@@ -3,10 +3,6 @@ using FubuMVC.Core.Registration.Nodes;
 using NUnit.Framework;
 using Should;
 using Swank.Description;
-using Tests.Description.ModuleSourceTests.Administration;
-using Tests.Description.ModuleSourceTests.Administration.Users;
-using Tests.Description.ModuleSourceTests.Batches.Schedules;
-using Tests.Description.ModuleSourceTests.Templates;
 
 namespace Tests.Description.ModuleSourceTests
 {
@@ -25,35 +21,57 @@ namespace Tests.Description.ModuleSourceTests
         }
 
         [Test]
-        public void should_find_module_description_when_one_is_specified_in_the_a_parent_namespaces()
+        public void should_set_description_to_default_when_none_is_specified()
         {
-            var moduleDescription = new AdministrationModule();
-            var action = _graph.GetAction<AdminUserAllGetHandler>();
-            _moduleSource.HasDescription(action).ShouldBeTrue();
-            var module = _moduleSource.GetDescription(action);
-            module.ShouldNotBeNull();
-            module.Name.ShouldEqual(moduleDescription.Name);
-            module.Comments.ShouldEqual(moduleDescription.Comments);
+            var module = _moduleSource.GetDescription(_graph.GetAction<ModuleDescriptions.NoDescription.GetHandler>());
+
+            module.Name.ShouldBeNull();
+            module.Comments.ShouldBeNull();
         }
 
         [Test]
-        public void should_find_nearest_module_description_when_multiple_are_defined_in_parent_namespaces()
+        public void should_set_description_when_one_is_specified()
         {
-            var moduleDescription = new SchedulesModule();
-            var action = _graph.GetAction<BatchScheduleAllGetHandler>();
-            _moduleSource.HasDescription(action).ShouldBeTrue();
-            var module = _moduleSource.GetDescription(action);
-            module.ShouldNotBeNull();
-            module.Name.ShouldEqual(moduleDescription.Name);
-            module.Comments.ShouldEqual(SchedulesModuleComments);
+            var module = _moduleSource.GetDescription(_graph.GetAction<ModuleDescriptions.Description.GetHandler>());
+
+            module.Name.ShouldEqual("Some Module");
+            module.Comments.ShouldEqual("Some comments.");
         }
 
         [Test]
-        public void should_not_find_module_description_when_none_is_specified_in_any_parent_namespaces()
+        public void should_set_description_and_text_embedded_resource_comments_when_specified()
         {
-            var action = _graph.GetAction<TemplateAllGetHandler>();
-            _moduleSource.HasDescription(action).ShouldBeFalse();
-            _moduleSource.GetDescription(action).ShouldBeNull();
+            var module = _moduleSource.GetDescription(_graph.GetAction<ModuleDescriptions.EmbeddedTextComments.GetHandler>());
+
+            module.Name.ShouldEqual("Some Text Module");
+            module.Comments.ShouldEqual("<b>Some text comments</b>");
+        }
+
+        [Test]
+        public void should_set_description_and_markdown_embedded_resource_comments_when_specified()
+        {
+            var module = _moduleSource.GetDescription(_graph.GetAction<ModuleDescriptions.EmbeddedMarkdownComments.GetHandler>());
+
+            module.Name.ShouldEqual("Some Markdown Module");
+            module.Comments.ShouldEqual("<p><strong>Some markdown comments</strong></p>");
+        }
+
+        [Test]
+        public void should_set_description_to_parent()
+        {
+            var module = _moduleSource.GetDescription(_graph.GetAction<NestedModules.NoModules.GetHandler>());
+
+            module.Name.ShouldEqual("Root Module");
+            module.Comments.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_set_description_to_closest_parent()
+        {
+            var module = _moduleSource.GetDescription(_graph.GetAction<NestedModules.NestedModule.GetHandler>());
+
+            module.Name.ShouldEqual("Nested Module");
+            module.Comments.ShouldBeNull();
         }
     }
 }

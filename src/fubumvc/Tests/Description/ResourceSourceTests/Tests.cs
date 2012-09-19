@@ -1,12 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Reflection;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
 using NUnit.Framework;
 using Should;
 using Swank;
 using Swank.Description;
-using Tests.Description.ResourceSourceTests.Administration.Users;
-using Tests.Description.ResourceSourceTests.Templates;
 using ActionSource = Swank.ActionSource;
 
 namespace Tests.Description.ResourceSourceTests
@@ -24,108 +23,130 @@ namespace Tests.Description.ResourceSourceTests
             _resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
                 new ActionSource(_graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly()
-                    .Where(y => y.HandlerType.Namespace.StartsWith(GetType().Namespace)))));
+                    .Where(y => y.HandlerType.InNamespace<Tests>()))));
         }
 
         [Test]
-        public void should_find_resource_markdown_description()
+        public void should_use_attribute_description_over_embedded_description()
         {
-            var resourceDescription = new AdminAccountResource();
-            var action = _graph.GetAction<AdminAccountAllGetHandler>();
-            _resourceSource.HasDescription(action).ShouldBeTrue();
+            var action = _graph.GetAction<ResourceCommentsPriority.GetHandler>();
             var resource = _resourceSource.GetDescription(action);
-            resource.ShouldNotBeNull();
-            resource.Name.ShouldEqual(resourceDescription.Name);
-            resource.Comments.ShouldEqual("<p><strong>These are accounts yo!</strong></p>");
+
+            resource.Name.ShouldEqual("Some Description");
+            resource.Comments.ShouldEqual("Some comments.");
+
+            Assembly.GetExecutingAssembly().FindTextResourceNamed<ResourceCommentsPriority.Resource>()
+                .ShouldEqual("<p><strong>This is a resource</strong></p>");
         }
 
         [Test]
-        public void should_find_resource_description_when_an_applies_to_type_is_not_specified()
+        public void should_not_find_resource_description_when_none_is_specified()
         {
-            var resourceDescription = new AdminAddressResource();
-            var action = _graph.GetAction<AdminAddressAllGetHandler>();
-            _resourceSource.HasDescription(action).ShouldBeTrue();
-            var resource = _resourceSource.GetDescription(action);
-            resource.ShouldNotBeNull();
-            resource.Name.ShouldEqual(resourceDescription.Name);
-            resource.Comments.ShouldEqual(resourceDescription.Comments);
+            var action = _graph.GetAction<OrphanedAction.GetHandler>();
+            _resourceSource.GetDescription(action).ShouldBeNull();
         }
 
         [Test]
-        public void should_find_resource_description_when_an_applies_to_type_is_specified()
+        public void should_set_default_description_when_no_marker_is_defined()
         {
-            var resourceDescription = new AdminUserResource();
-            var action = _graph.GetAction<AdminUserAllGetHandler>();
-            _resourceSource.HasDescription(action).ShouldBeTrue();
-            var resource = _resourceSource.GetDescription(action);
-            resource.ShouldNotBeNull();
-            resource.Name.ShouldEqual(resourceDescription.Name);
-            resource.Comments.ShouldEqual(resourceDescription.Comments);
+            var resource = _resourceSource.GetDescription(
+                _graph.GetAction<ResourceDescriptions.NoDescription.GetHandler>());
+
+            resource.Name.ShouldBeNull();
+            resource.Comments.ShouldBeNull();
         }
 
         [Test]
-        public void should_find_attribute_resource_description()
+        public void should_find_resource_marker_description()
         {
-            var action = _graph.GetAction<AttributeResource.Controller>();
-            _resourceSource.HasDescription(action).ShouldBeTrue();
-            var resource = _resourceSource.GetDescription(action);
+            var resource = _resourceSource.GetDescription(
+                _graph.GetAction<ResourceDescriptions.Description.GetHandler>());
+
+            resource.Name.ShouldEqual("Some Resource");
+            resource.Comments.ShouldEqual("Some comments.");
+        }
+
+        [Test]
+        public void should_find_resource_marker_description_and_text_embedded_resource_comments()
+        {
+            var resource = _resourceSource.GetDescription(
+                _graph.GetAction<ResourceDescriptions.EmbeddedTextComments.GetHandler>());
+
+            resource.Name.ShouldEqual("Some Text Resource");
+            resource.Comments.ShouldEqual("<b>Some text comments</b>");
+        }
+
+        [Test]
+        public void should_find_resource_marker_description_and_markdown_embedded_comments()
+        {
+            var resource = _resourceSource.GetDescription(
+                _graph.GetAction<ResourceDescriptions.EmbeddedMarkdownComments.GetHandler>());
+
+            resource.Name.ShouldEqual("Some Markdown Resource");
+            resource.Comments.ShouldEqual("<p><strong>Some markdown comments</strong></p>");
+        }
+
+        [Test]
+        public void should_find_resource_attribute_description()
+        {
+            var resource = _resourceSource.GetDescription(_graph.GetAction<AttributeResource.Controller>());
             resource.ShouldNotBeNull();
             resource.Name.ShouldEqual("Some Resource");
             resource.Comments.ShouldEqual("Some resource description");
         }
 
         [Test]
-        public void should_find_attribute_resource_markdown_description()
+        public void should_find_resource_attribute_markdown_description()
         {
-            var action = _graph.GetAction<AttributeResource.EmbeddedMarkdownController>();
-            _resourceSource.HasDescription(action).ShouldBeTrue();
-            var resource = _resourceSource.GetDescription(action);
+            var resource = _resourceSource.GetDescription(_graph.GetAction<AttributeResource.EmbeddedMarkdownController>());
             resource.ShouldNotBeNull();
             resource.Name.ShouldEqual("Some Markdown Resource");
             resource.Comments.ShouldEqual("<p><strong>This is a resource</strong></p>");
         }
 
         [Test]
-        public void should_find_attribute_resource_text_description()
+        public void should_find_resource_attribute_text_description()
         {
-            var action = _graph.GetAction<AttributeResource.EmbeddedTextController>();
-            _resourceSource.HasDescription(action).ShouldBeTrue();
-            var resource = _resourceSource.GetDescription(action);
+            var resource = _resourceSource.GetDescription(_graph.GetAction<AttributeResource.EmbeddedTextController>());
             resource.ShouldNotBeNull();
             resource.Name.ShouldEqual("Some Text Resource");
             resource.Comments.ShouldEqual("<b>This is a resource<b/>");
         }
 
         [Test]
-        public void should_not_find_resource_description_when_none_is_specified_in_the_same_namespaces()
+        public void should_find_resource_description_when_an_applies_to_type_is_specified()
         {
-            var action = _graph.GetAction<TemplateAllGetHandler>();
-            _resourceSource.HasDescription(action).ShouldBeFalse();
-            _resourceSource.GetDescription(action).ShouldBeNull();
+            var resource = _resourceSource.GetDescription(_graph.GetAction<AppliedToResource.WidgetGetHandler>());
+            resource.ShouldNotBeNull();
+            resource.Name.ShouldEqual("Another Resource");
+            resource.Comments.ShouldBeNull();
         }
 
         [Test]
-        public void should_enumerate_resources()
+        public void should_find_resource_description_when_an_applies_to_type_is_specified_for_another_type_in_the_group()
         {
-            var endpoints = _graph.Actions().ToDictionary(x => x.HandlerType, _resourceSource.GetDescription);
+            var resource = _resourceSource.GetDescription(_graph.GetAction<AppliedToResource.WidgetPutHandler>());
+            resource.ShouldNotBeNull();
+            resource.Name.ShouldEqual("Another Resource");
+            resource.Comments.ShouldBeNull();
+        }
 
-            endpoints[typeof(AdminAccountAllGetHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminAccountPostHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminAccountGetHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminAccountPutHandler)].ShouldBeType<AdminAccountResource>();
-            endpoints[typeof(AdminAccountDeleteHandler)].ShouldBeType<AdminAccountResource>();
+        [Test]
+        public void should_find_parent_resource_description()
+        {
+            var resource = _resourceSource.GetDescription(_graph.GetAction<ChildResources.Widget.GetHandler>());
+            resource.ShouldNotBeNull();
+            resource.Name.ShouldEqual("Some Resource");
+            resource.Comments.ShouldBeNull();
+        }
 
-            endpoints[typeof(AdminUserAllGetHandler)].ShouldBeType<AdminUserResource>();
-            endpoints[typeof(AdminUserPostHandler)].ShouldBeType<AdminUserResource>();
-            endpoints[typeof(AdminUserGetHandler)].ShouldBeType<AdminUserResource>();
-            endpoints[typeof(AdminUserPutHandler)].ShouldBeType<AdminUserResource>();
-            endpoints[typeof(AdminUserDeleteHandler)].ShouldBeType<AdminUserResource>();
-
-            endpoints[typeof(AdminAddressAllGetHandler)].ShouldBeType<AdminAddressResource>();
-            endpoints[typeof(AdminAddressPostHandler)].ShouldBeType<AdminAddressResource>();
-            endpoints[typeof(AdminAddressGetHandler)].ShouldBeType<AdminAddressResource>();
-            endpoints[typeof(AdminAddressPutHandler)].ShouldBeType<AdminAddressResource>();
-            endpoints[typeof(AdminAddressDeleteHandler)].ShouldBeType<AdminAddressResource>();
+        [Test]
+        public void should_find_closest_parent_resource_description()
+        {
+            var resource = _resourceSource.GetDescription(_graph.GetAction<NestedResources.Widget.GetHandler>());
+            resource.ShouldNotBeNull();
+            resource.Name.ShouldEqual("Another Resource");
+            resource.Comments.ShouldBeNull();
         }
     }
 }

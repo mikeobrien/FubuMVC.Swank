@@ -74,21 +74,17 @@
   <ItemGroup>
     <Compile Include="ActionSourceTests\Handlers.cs" />
     <Compile Include="ActionSourceTests\Tests.cs" />
-    <Compile Include="Description\TypeSourceTests\Types.cs" />
     <Compile Include="Description\MarkerSourceTests\Handlers.cs" />
     <Compile Include="Description\EndpointSourceTests\Handlers.cs" />
-    <Compile Include="Description\ErrorSourceTests\Handlers.cs" />
     <Compile Include="Description\ModuleSourceTests\Handlers.cs" />
-    <Compile Include="Description\OptionSourceTests\Handlers.cs" />
-    <Compile Include="Description\ParameterSourceTests\Handlers.cs" />
     <Compile Include="Description\ResourceSourceTests\Handlers.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="SpecificationBuilderTypeTests\Handlers.cs" />
     <Compile Include="SpecificationBuilderTypeTests\Tests.cs" />
-    <Compile Include="Description\TypeSourceTests\Tests.cs" />
-    <Compile Include="Description\ErrorSourceTests\Tests.cs" />
-    <Compile Include="Description\OptionSourceTests\Tests.cs" />
-    <Compile Include="Description\ParameterSourceTests\Tests.cs" />
+    <Compile Include="Description\TypeSourceTests.cs" />
+    <Compile Include="Description\ErrorSourceTests.cs" />
+    <Compile Include="Description\OptionSourceTests.cs" />
+    <Compile Include="Description\ParameterSourceTests.cs" />
     <Compile Include="SpecificationBuilderEndpointTests\EndpointTests.cs" />
     <Compile Include="SpecificationBuilderEndpointTests\UrlParameterTests.cs" />
     <Compile Include="SpecificationBuilderEndpointTests\QuerystringTests.cs" />
@@ -110,13 +106,16 @@
     <Compile Include="Behaviors.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Description\MarkerSourceTests\Batches\Schedules\SchedulesModule.md" />
-    <EmbeddedResource Include="Description\EndpointSourceTests\Templates\TemplatePutHandler.Execute_Id.md" />
-    <EmbeddedResource Include="Description\ModuleSourceTests\Batches\Schedules\SchedulesModule.md" />
-    <EmbeddedResource Include="Description\ResourceSourceTests\Administration\Users\AdminAccountResource.md" />
-    <EmbeddedResource Include="Description\EndpointSourceTests\ControllerResource\GetHandler.md" />
+    <EmbeddedResource Include="Description\EndpointSourceTests\AttributePriority\GetHandler.md" />
     <EmbeddedResource Include="Description\ResourceSourceTests\AttributeResource\EmbeddedMarkdownController.md" />
     <EmbeddedResource Include="Description\ResourceSourceTests\AttributeResource\EmbeddedTextController.html" />
+    <EmbeddedResource Include="Description\ResourceSourceTests\ResourceDescriptions\EmbeddedMarkdownComments\Resource.md" />
+    <EmbeddedResource Include="Description\ModuleSourceTests\ModuleDescriptions\EmbeddedMarkdownComments\Module.md" />
+    <EmbeddedResource Include="Description\MarkerSourceTests\MarkerDescriptions\EmbeddedMarkdownComments\Description.md" />
+    <EmbeddedResource Include="Description\EndpointSourceTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Execute_EmbeddedDescription.md" />
+    <EmbeddedResource Include="Description\EndpointSourceTests\ControllerResource\Controller.md" />
+    <EmbeddedResource Include="Description\MarkerSourceTests\MarkerCommentsPriority\Description.md" />
+    <EmbeddedResource Include="Description\ResourceSourceTests\ResourceCommentsPriority\Resource.md" />
     <None Include="packages.config" />
     <EmbeddedResource Include="SpecificationBuilderEndpointTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Execute_EmbeddedDescription.md" />
     <EmbeddedResource Include="ExtensionsTests\EmbeddedMarkdownResource.md" />
@@ -144,16 +143,22 @@
     <EmbeddedResource Include="SpecificationBuilderModuleTests\ModuleDescriptions\EmbeddedTextComments\Module.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Description\MarkerSourceTests\Batches\BatchesModule.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Description\EndpointSourceTests\Templates\TemplateGetHandler.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="SpecificationBuilderResourceTests\ResourceDescriptions\EmbeddedTextComments\Resource.html" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SpecificationBuilderResourceTests\AttributeResource\EmbeddedTextComments\Controller.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Description\ResourceSourceTests\ResourceDescriptions\EmbeddedTextComments\Resource.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Description\ModuleSourceTests\ModuleDescriptions\EmbeddedTextComments\Module.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Description\MarkerSourceTests\MarkerDescriptions\EmbeddedTextComments\Description.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Description\EndpointSourceTests\EndpointDescriptions\HandlerDescription\EmbeddedDescriptionGetHandler.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

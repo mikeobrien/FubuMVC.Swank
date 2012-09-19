@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Swank;
 using Swank.Models;
 using Type = System.Type;
 
@@ -54,6 +55,11 @@ namespace Tests
         {
             return type.Namespace == typeof (T).Namespace || 
                 type.Namespace.StartsWith(typeof (T).Namespace + ".");
+        }
+
+        public static string FindTextResourceNamed<T>(this Assembly assembly)
+        {
+            return assembly.FindTextResourceNamed(typeof(T).FullName);
         }
     }
 }

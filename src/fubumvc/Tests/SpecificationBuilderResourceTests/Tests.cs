@@ -48,6 +48,17 @@ namespace Tests.SpecificationBuilderResourceTests
         }
 
         [Test]
+        public void should_set_default_description_when_no_marker_is_defined()
+        {
+            var spec = BuildSpec<ResourceDescriptions.NoDescription.GetHandler>();
+
+            var resource = spec.resources[0];
+
+            resource.name.ShouldBeNull();
+            resource.comments.ShouldBeNull();
+        }
+
+        [Test]
         public void should_set_description_when_marker_is_defined()
         {
             var spec = BuildSpec<ResourceDescriptions.Description.GetHandler>();

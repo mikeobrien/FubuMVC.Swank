@@ -25,21 +25,20 @@ namespace Tests.ActionSourceTests
 
             var actions = new Swank.ActionSource(_graph, new Configuration()).GetActions();
 
-            actions.Count.ShouldEqual(7);
-            actions.Count(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldEqual(6);
+            actions.Count.ShouldEqual(5);
+            actions.Count(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldEqual(4);
             actions.Count(x => x.HandlerType.Assembly == typeof(SpecificationHandler).Assembly).ShouldEqual(1);
         }
 
         [Test]
         public void should_only_enumerate_actions_in_the_specified_assemblies()
         {
-            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
-
             _graph.AddAction<SpecificationHandler>("GET");
 
+            var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly());
             var actions = new Swank.ActionSource(_graph, configuration).GetActions();
 
-            actions.Count.ShouldEqual(6);
+            actions.Count.ShouldEqual(4);
             actions.All(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldBeTrue();
         }
 
@@ -48,12 +47,12 @@ namespace Tests.ActionSourceTests
         {
             var configuration = ConfigurationDsl.CreateConfig(x => x
                 .AppliesToThisAssembly()
-                .Where(y => y.ParentChain().Route.FirstPatternSegment() != "batches"));
+                .Where(y => y.ParentChain().Route.Pattern.StartsWith("/handlers/widget")));
 
             var actions = new Swank.ActionSource(_graph, configuration).GetActions();
 
-            actions.Count.ShouldEqual(4);
-            actions.All(x => x.ParentChain().Route.FirstPatternSegment() != "/batches/").ShouldBeTrue();
+            actions.Count.ShouldEqual(2);
+            actions.All(x => x.ParentChain().Route.Pattern.StartsWith("/handlers/widget")).ShouldBeTrue();
         }
     }
 }

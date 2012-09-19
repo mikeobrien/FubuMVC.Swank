@@ -37,7 +37,7 @@ namespace Tests.SpecificationBuilderModuleTests
     namespace OneModuleAndOrphanedAction
     {
         public class GetHandler { public object Execute_Orphan(object request) { return null; } }
-        namespace SomeNamespace
+        namespace WithModule
         {
             public class EmptyModule : ModuleDescription { public EmptyModule() { Name = "Some Module"; } }
             public class GetHandler { public object Execute_InModule(object request) { return null; } }
@@ -46,18 +46,18 @@ namespace Tests.SpecificationBuilderModuleTests
 
     namespace NestedModules
     {
-        namespace SomeOtherNamespace
+        namespace NoModule
         {
-            public class GetHandler { public object Execute_RootModule(object request) { return null; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
         }
 
         public class RootModule : ModuleDescription { public RootModule() { Name = "Root Module"; } }
-        public class GetHandler { public object Execute_RootModule(object request) { return null; } }
+        public class GetHandler { public object Execute(object request) { return null; } }
 
-        namespace SomeNamespace
+        namespace NestedModule
         {
             public class NestedModule : ModuleDescription { public NestedModule() { Name = "Nested Module"; } }
-            public class GetHandler { public object Execute_NestedModule(object request) { return null; } }
+            public class GetHandler { public object Execute(object request) { return null; } }
         }
     }
 }

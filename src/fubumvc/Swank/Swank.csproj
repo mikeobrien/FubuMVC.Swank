@@ -81,7 +81,7 @@
     <Compile Include="Description\DescriptionAttribute.cs" />
     <Compile Include="Description\EndpointSource.cs" />
     <Compile Include="Description\MarkerSource.cs" />
-    <Compile Include="Description\Description.cs" />
+    <Compile Include="Description\DescriptionBase.cs" />
     <Compile Include="Func.cs" />
     <Compile Include="Description\IDescriptionSource.cs" />
     <Compile Include="Description\Descriptions.cs" />

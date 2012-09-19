@@ -4,25 +4,25 @@ namespace Swank.Description
 {
     public static class DescriptionExtensions
     {
-        public static string GetNameOrDefault(this Description description, string defaultName = null)
+        public static string GetNameOrDefault(this DescriptionBase description, string defaultName = null)
         {
             return (description != null ? description.Name : null) ?? defaultName;
         }
 
-        public static string GetCommentsOrDefault(this Description description, string defaultComments = null)
+        public static string GetCommentsOrDefault(this DescriptionBase description, string defaultComments = null)
         {
             return (description != null ? description.Comments : null) ?? defaultComments;
         } 
     }
 
-    public abstract class Description
+    public class DescriptionBase
     {
         public string Name { get; set; }
         public string Comments { get; set; }
 
         public override bool Equals(object obj)
         {
-            return obj is Description && ((Description)obj).Name == Name;
+            return obj is DescriptionBase && ((DescriptionBase)obj).Name == Name;
         }
 
         public override int GetHashCode()

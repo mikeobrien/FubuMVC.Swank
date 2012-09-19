@@ -17,16 +17,6 @@ namespace Tests.SpecificationBuilderEndpointTests
         }
 
         [Test]
-        public void should_set_embedded_markdown_handler_description()
-        {
-            var endpoint = _spec.GetEndpoint<EndpointDescriptions.HandlerDescription.EmbeddedDescriptionGetHandler>();
-            endpoint.name.ShouldBeNull();
-            endpoint.comments.ShouldEqual("<b>An embedded handler text description</b>");
-            endpoint.method.ShouldEqual("GET");
-            endpoint.url.ShouldEqual("/endpointdescriptions/handlerdescription/embeddeddescription");
-        }
-
-        [Test]
         public void should_not_set_embedded_handler_description_when_resource_attribute_is_applied()
         {
             var resource = _spec.GetResource<ControllerResource.Controller>();
@@ -42,13 +32,13 @@ namespace Tests.SpecificationBuilderEndpointTests
         }
 
         [Test]
-        public void should_set_embedded_text_action_description()
+        public void should_set_embedded_text_handler_description()
         {
-            var endpoint = _spec.GetEndpoint<EndpointDescriptions.ActionDescription.EmbeddedDescriptionGetHandler>();
+            var endpoint = _spec.GetEndpoint<EndpointDescriptions.HandlerDescription.EmbeddedDescriptionGetHandler>();
             endpoint.name.ShouldBeNull();
-            endpoint.comments.ShouldEqual("<p><strong>An embedded action markdown description</strong></p>");
+            endpoint.comments.ShouldEqual("<b>An embedded handler text description</b>");
             endpoint.method.ShouldEqual("GET");
-            endpoint.url.ShouldEqual("/endpointdescriptions/actiondescription/embeddeddescription");
+            endpoint.url.ShouldEqual("/endpointdescriptions/handlerdescription/embeddeddescription");
         }
 
         [Test]
@@ -89,6 +79,16 @@ namespace Tests.SpecificationBuilderEndpointTests
             endpoint.comments.ShouldEqual("Some delete handler description");
             endpoint.method.ShouldEqual("DELETE");
             endpoint.url.ShouldEqual("/endpointdescriptions/handlerdescription/delete/{Id}");
+        }
+
+        [Test]
+        public void should_set_embedded_markdown_action_description()
+        {
+            var endpoint = _spec.GetEndpoint<EndpointDescriptions.ActionDescription.EmbeddedDescriptionGetHandler>();
+            endpoint.name.ShouldBeNull();
+            endpoint.comments.ShouldEqual("<p><strong>An embedded action markdown description</strong></p>");
+            endpoint.method.ShouldEqual("GET");
+            endpoint.url.ShouldEqual("/endpointdescriptions/actiondescription/embeddeddescription");
         }
 
         [Test]

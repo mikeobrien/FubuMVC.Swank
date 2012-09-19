@@ -17,8 +17,13 @@ namespace Swank.Description
                 name = attribute.Name;
                 comments = attribute.Comments;
             }
-            else comments = action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName + "." + action.Method.Name) ??
-                (!action.HandlerType.HasAttribute<ResourceAttribute>() ? action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName) : null);
+            
+            if (comments == null) 
+            {
+                comments = action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName + "." + action.Method.Name) ??
+                    (!action.HandlerType.HasAttribute<ResourceAttribute>() ? action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName) : null);
+            }
+
             return new EndpointDescription {
                     Name = name,
                     Comments = comments
