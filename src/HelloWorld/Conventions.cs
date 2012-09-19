@@ -1,7 +1,7 @@
 ﻿using FubuMVC.Core;
 using FubuMVC.Core.Continuations;
+using FubuMVC.Swank;
 using HelloWorld.Infrastructure;
-using Swank;
 
 namespace HelloWorld
 {

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using FubuMVC.Core.Registration.Nodes;
 
-namespace Swank.Description
+namespace FubuMVC.Swank.Description
 {
     public class ErrorSource : IDescriptionSource<ActionCall, List<ErrorDescription>>
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Swank.Description
+namespace FubuMVC.Swank.Description
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
     public class ErrorDescriptionAttribute : Attribute

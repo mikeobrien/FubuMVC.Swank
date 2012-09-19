@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using FubuMVC.Core.Registration.Routes;
+using FubuMVC.Swank;
 using NSubstitute;
 using NUnit.Framework;
 using Should;
-using Swank;
 
 namespace Tests.ExtensionsTests
 {

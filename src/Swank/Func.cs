@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Linq.Expressions;
 
-namespace Swank
+namespace FubuMVC.Swank
 {
     public static class Func
     {

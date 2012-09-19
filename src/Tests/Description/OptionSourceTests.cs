@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
+﻿using FubuMVC.Swank.Description;
+using NUnit.Framework;
 using Should;
-using Swank.Description;
 
 namespace Tests.Description
 {
@@ -17,7 +17,7 @@ namespace Tests.Description
 
         public enum Options
         {
-            [Swank.Description.Description("Option 2", "This is option 2.")]
+            [FubuMVC.Swank.Description.Description("Option 2", "This is option 2.")]
             Option2,
             Option1
         }

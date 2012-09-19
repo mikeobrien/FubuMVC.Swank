@@ -22,8 +22,8 @@ namespace HelloWorld.Infrastructure
         {
             _entities = entities.ToList();
             var property = typeof (T).GetProperty("Id");
-            _getId = x => (Guid)property.GetValue(x);
-            _setId = (x, id) => property.SetValue(x, id);
+            _getId = x => (Guid)property.GetValue(x, null);
+            _setId = (x, id) => property.SetValue(x, id, null);
             _entities.Where(x => _getId(x) == Guid.Empty).ToList().ForEach(x => _setId(x, Guid.NewGuid()));
         }
 

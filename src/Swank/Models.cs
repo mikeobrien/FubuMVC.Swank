@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Swank.Models
+namespace FubuMVC.Swank
 {
     public class Specification
     {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using FubuMVC.Core.Registration.Nodes;
-using Swank.Description;
+using FubuMVC.Swank.Description;
 
-namespace Swank
+namespace FubuMVC.Swank
 {
     public enum OrphanedActions { Exclude, Fail, UseDefault }
 
@@ -12,7 +12,7 @@ namespace Swank
     {
         public class Service<T>
         {
-            public Type Type { get; set; }
+            public System.Type Type { get; set; }
             public object Config { get; set; }
         }
 
@@ -31,7 +31,7 @@ namespace Swank
             ParameterDescriptionSource = new Service<IDescriptionSource<PropertyInfo, ParameterDescription>> { Type = typeof(ParameterSource) };
             OptionDescriptionSource = new Service<IDescriptionSource<FieldInfo, OptionDescription>> { Type = typeof(OptionSource) };
             ErrorDescriptionSource = new Service<IDescriptionSource<ActionCall, List<ErrorDescription>>> { Type = typeof(ErrorSource) };
-            DataTypeDescriptionSource = new Service<IDescriptionSource<Type, DataTypeDescription>> { Type = typeof(TypeSource) };
+            DataTypeDescriptionSource = new Service<IDescriptionSource<System.Type, DataTypeDescription>> { Type = typeof(TypeSource) };
         }
         
         public string Url { get; set; }
@@ -48,6 +48,6 @@ namespace Swank
         public Service<IDescriptionSource<PropertyInfo, ParameterDescription>> ParameterDescriptionSource { get; set; }
         public Service<IDescriptionSource<FieldInfo, OptionDescription>> OptionDescriptionSource { get; set; }
         public Service<IDescriptionSource<ActionCall, List<ErrorDescription>>> ErrorDescriptionSource { get; set; }
-        public Service<IDescriptionSource<Type, DataTypeDescription>> DataTypeDescriptionSource { get; set; }
+        public Service<IDescriptionSource<System.Type, DataTypeDescription>> DataTypeDescriptionSource { get; set; }
     }
 }

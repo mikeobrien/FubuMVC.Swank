@@ -3,8 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Swank;
-using Swank.Models;
+using FubuMVC.Swank;
 using Type = System.Type;
 
 namespace Tests

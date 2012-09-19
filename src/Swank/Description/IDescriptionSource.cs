@@ -1,4 +1,4 @@
-namespace Swank.Description
+namespace FubuMVC.Swank.Description
 {
     public interface IDescriptionSource<TSource, TDescription> where TDescription : class
     {

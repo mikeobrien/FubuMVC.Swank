@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using FubuMVC.Core.Registration.Nodes;
-using Swank.Description;
+using FubuMVC.Swank.Description;
 
-namespace Swank
+namespace FubuMVC.Swank
 {
     public class ConfigurationDsl
     {
@@ -34,7 +34,7 @@ namespace Swank
             return this;
         }
 
-        public ConfigurationDsl AppliesTo(Type type)
+        public ConfigurationDsl AppliesTo(System.Type type)
         {
             _configuration.AppliesToAssemblies.Add(type.Assembly);
             return this;
@@ -137,13 +137,13 @@ namespace Swank
             return this;
         }
 
-        public ConfigurationDsl WithDataTypeDescriptionSource<T>() where T : IDescriptionSource<Type, DataTypeDescription>
+        public ConfigurationDsl WithDataTypeDescriptionSource<T>() where T : IDescriptionSource<System.Type, DataTypeDescription>
         {
             return WithDataTypeDescriptionSource<T, object>(null);
         }
 
         public ConfigurationDsl WithDataTypeDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<Type, DataTypeDescription>
+            where T : IDescriptionSource<System.Type, DataTypeDescription>
             where TConfig : class, new()
         {
             _configuration.DataTypeDescriptionSource.Type = typeof(T);

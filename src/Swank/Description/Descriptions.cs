@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace Swank.Description
+﻿namespace FubuMVC.Swank.Description
 {
     public class ModuleDescription : DescriptionBase { }
 
     public class ResourceDescription<THandler> : ResourceDescription { }
     public class ResourceDescription : DescriptionBase
     {
-        public Type Handler { get; set; }
+        public System.Type Handler { get; set; }
     }
 
     public class EndpointDescription : DescriptionBase { }
@@ -26,6 +24,6 @@ namespace Swank.Description
 
     public class DataTypeDescription : DescriptionBase
     {
-        public Type Type { get; set; }
+        public System.Type Type { get; set; }
     }
 }

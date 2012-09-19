@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Swank.Description
+namespace FubuMVC.Swank.Description
 {
     public class MarkerSource<TMarker> where TMarker : DescriptionBase
     {
@@ -17,7 +17,7 @@ namespace Swank.Description
             return GetCachedDescriptions(assembly);
         }
 
-        private static DescriptionBase CreateDescription(Type type)
+        private static DescriptionBase CreateDescription(System.Type type)
         {
             var description = (DescriptionBase) Activator.CreateInstance(type);
             if (string.IsNullOrEmpty(description.Comments)) 

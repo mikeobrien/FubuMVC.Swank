@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Swank.Description
+namespace FubuMVC.Swank.Description
 {
     public class DescriptionAttribute : Attribute
     {

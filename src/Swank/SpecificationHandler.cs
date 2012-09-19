@@ -1,6 +1,4 @@
-﻿using Swank.Models;
-
-namespace Swank
+﻿namespace FubuMVC.Swank
 {
     public class SpecificationHandler
     {

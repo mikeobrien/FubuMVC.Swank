@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using FubuMVC.Core.Registration.Nodes;
 
-namespace Swank.Description
+namespace FubuMVC.Swank.Description
 {
     public class ModuleSource : IDescriptionSource<ActionCall, ModuleDescription>
     {

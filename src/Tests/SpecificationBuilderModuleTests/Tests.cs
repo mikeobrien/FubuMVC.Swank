@@ -4,11 +4,11 @@ using System.Reflection;
 using FubuCore.Reflection;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
+using FubuMVC.Swank;
+using FubuMVC.Swank.Description;
 using NUnit.Framework;
 using Should;
-using Swank;
-using Swank.Description;
-using Swank.Models;
+using ActionSource = FubuMVC.Swank.ActionSource;
 using Type = System.Type;
 
 namespace Tests.SpecificationBuilderModuleTests
@@ -32,7 +32,7 @@ namespace Tests.SpecificationBuilderModuleTests
             _moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
             _resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
-                new Swank.ActionSource(_graph, 
+                new ActionSource(_graph, 
                     ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<Tests>()))));
             _endpointSource = new EndpointSource();
             _parameterSource = new ParameterSource();
@@ -44,7 +44,7 @@ namespace Tests.SpecificationBuilderModuleTests
         private Specification BuildSpec<T>(Action<ConfigurationDsl> configure = null)
         {
             var configuration = ConfigurationDsl.CreateConfig(x => { if (configure != null) configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<T>()); });
-            return new SpecificationBuilder(configuration, new Swank.ActionSource(_graph, configuration), new TypeDescriptorCache(),
+            return new SpecificationBuilder(configuration, new ActionSource(_graph, configuration), new TypeDescriptorCache(),
                 _moduleSource, _resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes).Build();
         }
 

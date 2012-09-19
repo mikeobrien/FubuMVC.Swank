@@ -5,12 +5,9 @@ using System.Reflection;
 using FubuCore.Reflection;
 using FubuMVC.Core.Http.AspNet;
 using FubuMVC.Core.Registration.Nodes;
-using Swank.Description;
-using Swank.Models;
-using Module = Swank.Models.Module;
-using Type = Swank.Models.Type;
+using FubuMVC.Swank.Description;
 
-namespace Swank
+namespace FubuMVC.Swank
 {
     public class OrphanedModuleActionException : Exception {
         public OrphanedModuleActionException(IEnumerable<string> actions) 

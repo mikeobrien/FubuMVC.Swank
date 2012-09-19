@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FubuMVC.Swank.Description;
 using NUnit.Framework;
 using Should;
-using Swank.Description;
 
 namespace Tests.Description.MarkerSourceTests
 {

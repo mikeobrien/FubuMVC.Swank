@@ -1,7 +1,7 @@
 ﻿using FubuMVC.Core.Registration;
+using FubuMVC.Swank.Description;
 using NUnit.Framework;
 using Should;
-using Swank.Description;
 
 namespace Tests.Description
 {

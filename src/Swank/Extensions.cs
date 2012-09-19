@@ -13,7 +13,7 @@ using FubuMVC.Core.Registration.ObjectGraph;
 using FubuMVC.Core.Registration.Routes;
 using MarkdownSharp;
 
-namespace Swank
+namespace FubuMVC.Swank
 {
     public static class Extensions
     {
@@ -54,66 +54,76 @@ namespace Swank
                  !(action.ParentChain().Route.AllowsPost() || action.ParentChain().Route.AllowsPut()));
         }
 
-        public static string GetHash(this Type type)
+        public static T GetCustomAttribute<T>(this MemberInfo memberInfo)
+        {
+            return memberInfo.GetCustomAttributes<T>().FirstOrDefault();
+        }
+
+        public static IEnumerable<T> GetCustomAttributes<T>(this MemberInfo memberInfo)
+        {
+            return memberInfo.GetCustomAttributes(true).OfType<T>();
+        }
+
+        public static string GetHash(this System.Type type)
         {
             return type.FullName.Hash();
         }
 
-        public static string GetHash(this Type type, MethodInfo method)
+        public static string GetHash(this System.Type type, MethodInfo method)
         {
             return (method.DeclaringType.FullName + "." + method.Name + "." + type.FullName).Hash();
         }
 
-        public static bool IsSystemType(this Type type)
+        public static bool IsSystemType(this System.Type type)
         {
             return type.FullName.StartsWith("System.");
         }
 
-        private static readonly Type[] ListTypes = new[] { typeof(IList<>), typeof(List<>) };
+        private static readonly System.Type[] ListTypes = new[] { typeof(IList<>), typeof(List<>) };
 
-        public static bool IsListType(this Type type)
+        public static bool IsListType(this System.Type type)
         {
             var genericTypeDef = type.IsGenericType ? type.GetGenericTypeDefinition() : null;
             return ListTypes.Any(x => genericTypeDef == x);
         }
 
-        public static bool ImplementsListType(this Type type)
+        public static bool ImplementsListType(this System.Type type)
         {
             return type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>));
         }
 
-        public static bool InheritsFromListType(this Type type)
+        public static bool InheritsFromListType(this System.Type type)
         {
             return !type.IsListType() && type.ImplementsListType();
         }
 
-        public static bool IsList(this Type type)
+        public static bool IsList(this System.Type type)
         {
             return type.IsListType() || type.ImplementsListType();
         }
 
-        public static Type GetListInterface(this Type type)
+        public static System.Type GetListInterface(this System.Type type)
         {
             return (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IList<>)) ? type :
                    type.GetInterfaces().First(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>));
         }
 
-        public static Type GetListElementType(this Type type)
+        public static System.Type GetListElementType(this System.Type type)
         {
             return type.IsArray ? type.GetElementType() : type.IsList() ? type.GetListInterface().GetGenericArguments()[0] : null;
         }
 
-        public static void AddService<T>(this ServiceGraph services, Type concreteType, params object[] dependencies)
+        public static void AddService<T>(this ServiceGraph services, System.Type concreteType, params object[] dependencies)
         {
             var objectDef = new ObjectDef(concreteType);
             dependencies.Where(x => x != null).ToList().ForEach(objectDef.DependencyByValue);
             services.AddService(typeof(T), objectDef);
         }
 
-        private static readonly Func<Type, FieldInfo[]> CachedEnumValues =
-            Func.Memoize<Type, FieldInfo[]>(x => x.GetFields(BindingFlags.Public | BindingFlags.Static));
+        private static readonly Func<System.Type, FieldInfo[]> CachedEnumValues =
+            Func.Memoize<System.Type, FieldInfo[]>(x => x.GetFields(BindingFlags.Public | BindingFlags.Static));
 
-        public static FieldInfo[] GetCachedEnumValues(this Type type)
+        public static FieldInfo[] GetCachedEnumValues(this System.Type type)
         {
             return CachedEnumValues(type);
         }
@@ -146,7 +156,7 @@ namespace Swank
             }
         }
 
-        public static string ToFriendlyName(this Type type)
+        public static string ToFriendlyName(this System.Type type)
         {
             if (type == typeof(Decimal)) return "decimal";
             if (type == typeof(Double)) return "double";

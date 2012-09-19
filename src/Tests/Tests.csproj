@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tests</RootNamespace>
     <AssemblyName>Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -125,12 +126,6 @@
     <EmbeddedResource Include="SpecificationBuilderResourceTests\AttributeResource\EmbeddedMarkdownComments\Controller.md" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Swank\Swank.csproj">
-      <Project>{2142599a-9c6d-4e23-a09f-d3f7348b279d}</Project>
-      <Name>Swank</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="SpecificationBuilderEndpointTests\EndpointDescriptions\HandlerDescription\EmbeddedDescriptionGetHandler.html" />
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +154,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Description\EndpointSourceTests\EndpointDescriptions\HandlerDescription\EmbeddedDescriptionGetHandler.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Swank\Swank.csproj">
+      <Project>{2142599a-9c6d-4e23-a09f-d3f7348b279d}</Project>
+      <Name>Swank</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

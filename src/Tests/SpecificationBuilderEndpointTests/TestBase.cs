@@ -1,11 +1,10 @@
 ﻿using System;
 using FubuCore.Reflection;
 using FubuMVC.Core.Registration.Nodes;
+using FubuMVC.Swank;
+using FubuMVC.Swank.Description;
 using NUnit.Framework;
-using Swank;
-using Swank.Description;
-using Swank.Models;
-using ActionSource = Swank.ActionSource;
+using ActionSource = FubuMVC.Swank.ActionSource;
 
 namespace Tests.SpecificationBuilderEndpointTests
 {

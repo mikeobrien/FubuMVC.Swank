@@ -1,6 +1,6 @@
 ﻿using System;
+using FubuMVC.Swank.Description;
 using NUnit.Framework;
-using Swank.Description;
 using Should;
 
 namespace Tests.Description

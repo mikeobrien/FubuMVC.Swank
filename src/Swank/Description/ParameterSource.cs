@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Swank.Description
+namespace FubuMVC.Swank.Description
 {
     public class ParameterSource : IDescriptionSource<PropertyInfo, ParameterDescription>
     {

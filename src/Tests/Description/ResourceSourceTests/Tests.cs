@@ -2,11 +2,11 @@
 using System.Reflection;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
+using FubuMVC.Swank;
+using FubuMVC.Swank.Description;
 using NUnit.Framework;
 using Should;
-using Swank;
-using Swank.Description;
-using ActionSource = Swank.ActionSource;
+using ActionSource = FubuMVC.Swank.ActionSource;
 
 namespace Tests.Description.ResourceSourceTests
 {

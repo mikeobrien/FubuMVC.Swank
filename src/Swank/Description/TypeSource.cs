@@ -1,12 +1,11 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Xml.Serialization;
 
-namespace Swank.Description
+namespace FubuMVC.Swank.Description
 {
-    public class TypeSource : IDescriptionSource<Type, DataTypeDescription>
+    public class TypeSource : IDescriptionSource<System.Type, DataTypeDescription>
     {
-        public DataTypeDescription GetDescription(Type type)
+        public DataTypeDescription GetDescription(System.Type type)
         {
             var description = type.GetCustomAttribute<CommentsAttribute>();
             var xmlType = type.GetCustomAttribute<XmlTypeAttribute>();

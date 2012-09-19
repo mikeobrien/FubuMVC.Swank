@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Swank.Description
+﻿namespace FubuMVC.Swank.Description
 {
     public static class DescriptionExtensions
     {

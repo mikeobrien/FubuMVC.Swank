@@ -3,7 +3,7 @@ using System.Linq;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
 
-namespace Swank
+namespace FubuMVC.Swank
 {
     public class ActionSource
     {

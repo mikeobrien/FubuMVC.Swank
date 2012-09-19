@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
+﻿using FubuMVC.Swank;
+using NUnit.Framework;
 using Should;
-using Swank;
 
 namespace Tests.SpecificationBuilderEndpointTests
 {

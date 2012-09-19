@@ -2,7 +2,7 @@
 using FubuCore.Reflection;
 using FubuMVC.Core.Registration.Nodes;
 
-namespace Swank.Description
+namespace FubuMVC.Swank.Description
 {
     public class EndpointSource : IDescriptionSource<ActionCall, EndpointDescription>
     {
