@@ -1,6 +1,7 @@
 require "albacore"
 require_relative "filesystem"
 require_relative "gallio-task"
+require_relative "fubu-bottles"
 
 reportsPath = "reports"
 version = ENV["BUILD_NUMBER"]
@@ -48,17 +49,19 @@ deployPath = "deploy"
 
 packagePath = File.join(deployPath, "package")
 nuspecFilename = "FubuMVC.Swank.nuspec"
-packageLibPath = File.join(packagePath, "lib")
-binPath = "src/Swank/bin/release"
+contentPath = File.join(packagePath, "content/fubu-content")
 
 task :prepPackage => :unitTests do
 	FileSystem.DeleteDirectory(deployPath)
-	FileSystem.EnsurePath(packageLibPath)
-	FileSystem.CopyFiles(File.join(binPath, "FubuMVC.Swank.dll"), packageLibPath)
-	FileSystem.CopyFiles(File.join(binPath, "FubuMVC.Swank.pdb"), packageLibPath)
+	FileSystem.EnsurePath(contentPath)
 end
 
-nuspec :createSpec => :prepPackage do |nuspec|
+create_fubu_bottle :createBottle => :prepPackage do |bottle|
+    bottle.project_path = 'src/Swank/Swank.csproj'
+    bottle.output_path = contentPath
+end
+
+nuspec :createSpec => :createBottle do |nuspec|
    nuspec.id = "FubuMVC.Swank"
    nuspec.version = version
    nuspec.authors = "Mike O'Brien"

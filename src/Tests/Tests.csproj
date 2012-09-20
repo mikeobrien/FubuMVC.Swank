@@ -157,7 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Swank\Swank.csproj">
-      <Project>{2142599a-9c6d-4e23-a09f-d3f7348b279d}</Project>
+      <Project>{b24d9a42-67e1-4878-a910-bade3248926e}</Project>
       <Name>Swank</Name>
     </ProjectReference>
   </ItemGroup>
