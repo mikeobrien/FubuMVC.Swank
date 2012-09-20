@@ -14,7 +14,7 @@ assemblyinfo :assemblyInfo do |asm|
     asm.product_name = "FubuMVC Swank"
     asm.title = "FubuMVC Swank"
     asm.description = "FubuMVC Swank."
-    asm.copyright = "Copyright (c) #{time.year} Ultraviolet Catastrophe"
+    asm.copyright = "Copyright (c) #{Time.now.year} Ultraviolet Catastrophe"
     asm.output_file = "src/Swank/Properties/AssemblyInfo.cs"
 end
 
