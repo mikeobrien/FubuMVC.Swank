@@ -57,8 +57,10 @@ task :prepPackage => :unitTests do
 end
 
 create_fubu_bottle :createBottle => :prepPackage do |bottle|
-    bottle.project_path = 'src/Swank/Swank.csproj'
-    bottle.output_path = contentPath
+    bottle.source_path = 'src/Swank'
+    bottle.output_path = File.join(contentPath, 'fubu-swank.zip')
+    bottle.include_pdb = true
+    bottle.overwrite = true
 end
 
 nuspec :createSpec => :createBottle do |nuspec|

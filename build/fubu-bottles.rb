@@ -10,17 +10,18 @@ def create_fubu_bottle(*args, &block)
 end
 	
 class CreateFubuBottle
-
-    attr_accessor :project_path, :output_path
+    attr_accessor :source_path, :output_path, :include_pdb, :overwrite
 
     def run()
 		command = []
 		
         command << "\"#{get_nuget_tool_path("Bottles", "BottleRunner.exe")}\""
-        command << "assembly-pak"
+        command << "create"
+		command << "\"#{@source_path}\""
+		command << "-o"
 		command << "\"#{@output_path}\""
-		command << "-p"
-		command << "\"#{@project_path}\""
+		if @include_pdb then command << "--pdb" end
+		if @overwrite then command << "-f" end
 		
 		command = command.join(' ')
 		puts command
