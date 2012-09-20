@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace FubuMVC.Swank.Description
 {

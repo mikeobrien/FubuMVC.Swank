@@ -1,4 +1,5 @@
-﻿using FubuMVC.Core.Registration;
+﻿using System.Net;
+using FubuMVC.Core.Registration;
 using FubuMVC.Swank.Description;
 using NUnit.Framework;
 using Should;
@@ -18,11 +19,11 @@ namespace Tests.Description
             _errorSource = new ErrorSource();
         }
 
-        [ErrorDescription(411, "411 error on handler")]
+        [ErrorDescription(HttpStatusCode.LengthRequired, "411 error on handler")]
         [ErrorDescription(410, "410 error on handler", "410 error on action description")]
         public class ErrorsGetHandler
         {
-            [ErrorDescription(413, "413 error on action")]
+            [ErrorDescription(HttpStatusCode.RequestEntityTooLarge, "413 error on action")]
             [ErrorDescription(412, "412 error on action", "412 error on action description")]
             public object Execute_Errors(object request) { return null; }
         }

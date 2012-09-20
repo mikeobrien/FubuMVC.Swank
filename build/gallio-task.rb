@@ -103,13 +103,13 @@ class Gallio
 
         error_handler = \
             lambda do |ok, res|
-                raise "Could not find gallio.echo.exe. " \
-                    "Make sure it is added to your path." \
-                    if res.exitstatus == 127
-                raise "Gallio failed with exit " \
-                    "code #{res.exitstatus}." \
-                    if res.exitstatus > 0 and res.exitstatus != 16
-            end
+                       raise "Could not find gallio.echo.exe. " \
+                             "Make sure it is added to your path." \
+                       if res.exitstatus == 127
+                       raise "Gallio failed with exit " \
+                             "code #{res.exitstatus}." \
+                       if res.exitstatus > 0
+                   end
 
         if echo_command_line == true then puts command end
         
