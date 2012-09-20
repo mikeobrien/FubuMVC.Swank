@@ -13,7 +13,7 @@ using ActionSource = FubuMVC.Swank.ActionSource;
 
 namespace Tests.SpecificationBuilderTypeTests
 {
-    [TestFixture]
+    [TestFixture(Ignore = true)]
     public class Tests
     {
         private BehaviorGraph _graph;
