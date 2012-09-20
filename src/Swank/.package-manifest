@@ -3,7 +3,7 @@
   <Role>module</Role>
   <Name>FubuMVC.Swank</Name>
   <assembly>FubuMVC.Swank</assembly>
-  <ContentFileSet Include="*.spark;Content/*.*;*.config">
+  <ContentFileSet Include="*.spark;*.config">
     <DeepSearch>true</DeepSearch>
   </ContentFileSet>
 </package>
