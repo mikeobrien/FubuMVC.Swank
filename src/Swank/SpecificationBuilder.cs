@@ -1,28 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Xml.Serialization;
+using System.Web;
+using System.Web.Script.Serialization;
+using FubuCore;
 using FubuCore.Reflection;
-using FubuMVC.Core.Http.AspNet;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Description;
 
 namespace FubuMVC.Swank
 {
-    public class OrphanedModuleActionException : Exception {
-        public OrphanedModuleActionException(IEnumerable<string> actions) 
-            : base(string.Format("The following actions are not associated with a module. Either assocate them with a module or turn off orphaned action exceptions. {0}",
-                    string.Join(", ", actions))) { }
-    }
-
-    public class OrphanedResourceActionException : Exception
-    {
-        public OrphanedResourceActionException(IEnumerable<string> actions)
-            : base(string.Format("The following actions are not associated with a resource. Either assocate them with a resource or turn off orphaned action exceptions. {0}",
-                    string.Join(", ", actions))) { }
-    }
-
     public class SpecificationBuilder
     {
         private class ActionMapping
@@ -83,14 +71,17 @@ namespace FubuMVC.Swank
         {
             var actionMapping = GetActionMapping(_actions.GetActions());
             CheckForOrphanedActions(actionMapping);
-            return new Specification {
+            var specification = new Specification {
                     types = GetTypes(actionMapping.Select(x => x.Action).ToList()),
                     modules = GetModules(actionMapping.Where(x => x.Module != null).ToList()),
                     resources = GetResources(actionMapping.Where(x => x.Module == null).ToList())
                 };
+            if (_configuration.MergeSpecificationPath.IsNotEmpty())
+                MergeSepcification(specification, _configuration.MergeSpecificationPath);
+            return specification;
         }
 
-        private List<ActionMapping> GetActionMapping(IList<ActionCall> actions)
+        private List<ActionMapping> GetActionMapping(IEnumerable<ActionCall> actions)
         {
             return actions
                 .Where(x => !x.Method.HasAttribute<HideAttribute>() && !x.HandlerType.HasAttribute<HideAttribute>())
@@ -153,10 +144,10 @@ namespace FubuMVC.Swank
         private List<TypeDef> GetTypes(TypeDef type)
         {
             var types = _typeCache.GetPropertiesFor(type.Type).Select(x => x.Value)
-                .Where(x => !IsHidden(x) &&
+                .Where(x => !x.IsHidden() &&
                             !(x.PropertyType.GetListElementType() ?? x.PropertyType).IsSystemType() && 
                             !x.PropertyType.IsEnum &&
-                            !RequestPropertyValueSource.IsSystemProperty(x))
+                            !x.IsAutoBound())
                 .Select(x => x.PropertyType.GetListElementType() ?? x.PropertyType)
                 .Distinct()
                 .ToList();
@@ -167,16 +158,11 @@ namespace FubuMVC.Swank
                         .ToList();
         }
 
-        private static readonly Func<PropertyInfo, bool> IsHidden = x => 
-            x.PropertyType.HasAttribute<HideAttribute>() || 
-            x.HasAttribute<HideAttribute>() ||
-            x.HasAttribute<XmlIgnoreAttribute>(); 
-
         private List<Member> GetMembers(System.Type type, ActionCall action)
         {
             return _typeCache.GetPropertiesFor(type).Select(x => x.Value)
-                .Where(x => !IsHidden(x) &&
-                            !RequestPropertyValueSource.IsSystemProperty(x) &&
+                .Where(x => !x.IsHidden() &&
+                            !x.IsAutoBound() &&
                             !x.IsQuerystring(action) &&
                             !x.IsUrlParameter(action))
                 .Select(x => {
@@ -195,7 +181,7 @@ namespace FubuMVC.Swank
                 .ToList();
         } 
 
-        private List<Module> GetModules(IList<ActionMapping> actionMapping)
+        private List<Module> GetModules(IEnumerable<ActionMapping> actionMapping)
         {
             return actionMapping
                 .GroupBy(x => x.Module)
@@ -207,7 +193,7 @@ namespace FubuMVC.Swank
                 .OrderBy(x => x.name).ToList();
         }
 
-        private List<Resource> GetResources(IList<ActionMapping> actionMapping)
+        private List<Resource> GetResources(IEnumerable<ActionMapping> actionMapping)
         {
             return actionMapping
                 .GroupBy(x => x.Resource)
@@ -260,7 +246,7 @@ namespace FubuMVC.Swank
             return _typeCache.GetPropertiesFor(action.InputType())
                 .Where(x => x.Value.IsQuerystring(action) && 
                             !x.Value.HasAttribute<HideAttribute>() && 
-                            !RequestPropertyValueSource.IsSystemProperty(x.Value))
+                            !x.Value.IsAutoBound())
                 .Select(x => {
                     var description = _members.GetDescription(x.Value);
                     return new QuerystringParameter {
@@ -311,6 +297,29 @@ namespace FubuMVC.Swank
                             value = x.Name
                         };
                     }).OrderBy(x => x.name ?? x.value).ToList();
+        }
+
+        private void MergeSepcification(Specification specification, string path)
+        {
+            if (!Path.IsPathRooted(path))
+                path = HttpContext.Current.WhenNotNull(x => x.Server.MapPath(path), Path.GetFullPath(path));
+
+            var mergeSpecification = new JavaScriptSerializer().Deserialize<Specification>(File.ReadAllText(path));
+
+            specification.types.AddRange(mergeSpecification.types.Where(x => specification.types.All(y => y.id != x.id)));
+            
+            specification.modules.SelectMany(x => x.resources.Select(y => new { Module = x, Resource = y }))
+                .Join(mergeSpecification.modules.SelectMany(x => x.resources.Select(y => new { Module = x, Resource = y })),
+                        x => x.Module.name + "." + x.Resource.name, x => x.Module.name + "." + x.Resource.name, 
+                        (source, merge) => new { Source = source.Resource, Merge = merge.Resource })
+                .ToList().ForEach(x => x.Source.endpoints.AddRange(x.Merge.endpoints.Where(y => x.Source.endpoints.All(z => y.url != z.url))));
+            specification.modules.Join(mergeSpecification.modules, x => x.name, x => x.name, (source, merge) => new { Source = source, Merge = merge})
+                .ToList().ForEach(x => x.Source.resources.AddRange(x.Merge.resources.Where(y => x.Source.resources.All(z => y.name != z.name))));
+            specification.modules.AddRange(mergeSpecification.modules.Where(x => specification.modules.All(y => y.name != x.name)));
+            
+            specification.resources.Join(mergeSpecification.resources, x => x.name, x => x.name, (source, merge) => new { Source = source, Merge = merge })
+                .ToList().ForEach(x => x.Source.endpoints.AddRange(x.Merge.endpoints.Where(y => x.Source.endpoints.All(z => y.url != z.url))));
+            specification.resources.AddRange(mergeSpecification.resources.Where(x => specification.resources.All(y => y.name != x.name)));
         }
     }
 }

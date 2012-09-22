@@ -90,6 +90,10 @@
     <Compile Include="ActionSource.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationDsl.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="OrphanedModuleActionException.cs" />
+    <Compile Include="OrphanedResourceActionException.cs" />
+    <Compile Include="ReflectionExtensions.cs" />
     <Compile Include="Description\CommentsAttribute.cs" />
     <Compile Include="Description\RequiredAttribute.cs" />
     <Compile Include="Description\DefaultValueAttribute.cs" />
@@ -108,7 +112,7 @@
     <Compile Include="Description\ResourceAttribute.cs" />
     <Compile Include="Description\ResourceSource.cs" />
     <Compile Include="Description\TypeSource.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="FubuExtensions.cs" />
     <Compile Include="Func.cs" />
     <Compile Include="Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

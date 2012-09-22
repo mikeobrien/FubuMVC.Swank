@@ -121,7 +121,9 @@
     <EmbeddedResource Include="Description\EndpointSourceTests\ControllerResource\Controller.md" />
     <EmbeddedResource Include="Description\MarkerSourceTests\MarkerCommentsPriority\Description.md" />
     <EmbeddedResource Include="Description\ResourceSourceTests\ResourceCommentsPriority\Resource.md" />
-    <None Include="MergeSpecificationTests\Merge.json" />
+    <None Include="MergeSpecificationTests\Merge.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <EmbeddedResource Include="SpecificationBuilderEndpointTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Execute_EmbeddedDescription.md" />
     <EmbeddedResource Include="ExtensionsTests\EmbeddedMarkdownResource.md" />

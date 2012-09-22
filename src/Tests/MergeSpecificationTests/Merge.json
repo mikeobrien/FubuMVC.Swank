@@ -1,78 +1,157 @@
 {
     "types" : [
         {
-            "id": "1234",
-            "name": "status",
+            "id": "Some type id",
+            "name": "SomeType",
+            "comments": "Some type comments",
             "members": [
                 {
-                    "name": "description",
-                    "type": "string",
-                    "collection": true
+                    "name": "SomeMember",
+                    "comments": "Some member comments",
+                    "required": true,
+                    "defaultValue": "some default value",
+                    "type": "some type",
+                    "collection": true,
+                    "options": [
+                        {
+                            "name": "SomeOption",
+                            "value": "Some option value", 
+                            "comments": "Some option comments"
+                        }                          
+                    ]
                 }
             ]
         }
     ],
     "modules": [
         { 
-            "name": "Administration", 
-            "comments": "This is administration"
+            "name": "Some module", 
+            "comments": "Some module comments",
             "resources": [
                 {
-                    "name": "Users",
+                    "name": "Some module resource",
+                    "comments": "Some module resource comments",
                     "endpoints": [
                         {
-                            "name": "Delete User",
-                            "comments": "Deletes a user.",
-                            "url": "/administration/users/{Id}",
-                            "method": "DELETE",
+                            "name": "Some endpoint",
+                            "comments": "Some endpoint comments",
+                            "url": "/some/url",
+                            "method": "METHOD",
                             "urlParameters": [
                                 { 
-                                    "name": "Id",
-                                    "comments": "the user id.",
-                                    "type": "uuid"
+                                    "name": "Some url param",
+                                    "comments": "Some url param comments",
+                                    "type": "Some type",
+                                    "options": [
+                                        {
+                                            "name": "Some option",
+                                            "value": "Some option value", 
+                                            "comments": "Some option comments"
+                                        }                          
+                                    ]
                                 }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }, 
-        { 
-            "name": "Widgets", 
-            "comments": "This is widgets"
-            "resources": [
-                {
-                    "name": "Management",
-                    "endpoints": [
-                        {
-                            "name": "Delete Widget",
-                            "comments": "Deletes a widget.",
-                            "url": "/widgets/{Id}",
-                            "method": "DELETE",
-                            "urlParameters": [
+                            ],
+                            "querystringParameters": [
                                 { 
-                                    "name": "Id",
-                                    "comments": "the widget id.",
-                                    "type": "uuid"
+                                    "name": "Some querystring",
+                                    "comments": "Some querystring comments",
+                                    "defaultValue": "Some default value",
+                                    "multipleAllowed": true,
+                                    "required": true,
+                                    "type": "Some type",
+                                    "options": [
+                                        {
+                                            "name": "Some option", 
+                                            "comments": "Some option comments",
+                                            "value": "Some option value"
+                                        }                           
+                                    ]
                                 }
-                            ]
+                            ],
+                            "errors": [
+                                {
+                                    "name": "Some error",
+                                    "comments": "Some error comments",
+                                    "status": 999
+                                }
+                            ],
+                            "request": {
+                                "name": "Some request",
+                                "comments": "Some request comments",
+                                "type": "Some type",
+                                "collection": true
+                            },
+                            "response": {
+                                "name": "Some response",
+                                "comments": "Some response comments",
+                                "type": "Some type",
+                                "collection": true
+                            }
                         }
                     ]
                 }
             ]
         } 
-    ]
+    ],
     "resources": [
         {
-            "name": "status"
+            "name": "Some resource",
+            "comments": "Some resource comments",
             "endpoints": [
                 {
-                    "url": "/status",
-                    "method": "POST"
+                    "name": "Some endpoint",
+                    "comments": "Some endpoint comments",
+                    "url": "/some/url",
+                    "method": "METHOD",
+                    "urlParameters": [
+                        { 
+                            "name": "Some url param",
+                            "comments": "Some url param comments",
+                            "type": "Some type",
+                            "options": [
+                                {
+                                    "name": "Some option",
+                                    "value": "Some option value", 
+                                    "comments": "Some option comments"
+                                }                          
+                            ]
+                        }
+                    ],
+                    "querystringParameters": [
+                        { 
+                            "name": "Some querystring",
+                            "comments": "Some querystring comments",
+                            "defaultValue": "Some default value",
+                            "multipleAllowed": true,
+                            "required": true,
+                            "type": "Some type",
+                            "options": [
+                                {
+                                    "name": "Some option", 
+                                    "comments": "Some option comments",
+                                    "value": "Some option value"
+                                }                           
+                            ]
+                        }
+                    ],
+                    "errors": [
+                        {
+                            "name": "Some error",
+                            "comments": "Some error comments",
+                            "status": 999
+                        }
+                    ],
                     "request": {
-                        "name": "status",
-                        "type": "1234",
-                        "collection": false
+                        "name": "Some request",
+                        "comments": "Some request comments",
+                        "type": "Some type",
+                        "collection": true
+                    },
+                    "response": {
+                        "name": "Some response",
+                        "comments": "Some response comments",
+                        "type": "Some type",
+                        "collection": true
                     }
                 }
             ]

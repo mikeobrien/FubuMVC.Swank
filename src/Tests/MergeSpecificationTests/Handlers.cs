@@ -2,22 +2,24 @@
 
 namespace Tests.MergeSpecificationTests
 {
-    namespace Handlers
+    namespace NoHandlers { public class Marker { } }
+
+    namespace OverlappingModule
     {
-        public class Response { }
-        public class GetHandler { public Response Execute_Status() { return null; } }
+        public class SomeModule : ModuleDescription { public SomeModule() { Name = "Some module"; } }
+        public class GetHandler { public object Execute() { return null; } }
+    }
 
-        namespace Administration
-        {
-            public class AdministrationModule : ModuleDescription { public AdministrationModule() { Name = "Administration"; } }
+    namespace OverlappingModuleResource
+    {
+        public class SomeModule : ModuleDescription { public SomeModule() { Name = "Some module"; } }
+        public class SomeResource : ResourceDescription { public SomeResource() { Name = "Some module resource"; } }
+        public class GetHandler { public object Execute() { return null; } }
+    }
 
-            namespace Users
-            {
-                public class UserResource : ModuleDescription { public UserResource() { Name = "Users"; Comments = "These are users."; } }
-                public class Request {}
-                public class Response {}
-                public class PostHandler { public Response Execute(Request request) { return null; } }
-            }
-        }
+    namespace OverlappingResource
+    {
+        public class SomeResource : ResourceDescription { public SomeResource() { Name = "Some resource"; } }
+        public class GetHandler { public object Execute() { return null; } }
     }
 }
