@@ -6,13 +6,11 @@ namespace FubuMVC.Swank.Description
     {
         public DataTypeDescription GetDescription(System.Type type)
         {
-            var description = type.GetCustomAttribute<CommentsAttribute>();
-            var xmlType = type.GetCustomAttribute<XmlTypeAttribute>();
             var elementType = type.GetListElementType();
             return new DataTypeDescription {
                 Type = elementType ?? type,
-                Name = xmlType != null ? xmlType.TypeName : elementType != null ? "ArrayOf" + elementType.Name : type.Name,
-                Comments = description != null ? description.Comments : null
+                Name = type.GetCustomAttribute<XmlTypeAttribute>().WhenNotNull(x => x.TypeName, elementType.WhenNotNull(x => "ArrayOf" + x.Name, type.Name)),
+                Comments = type.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments)
             };
         }
     }

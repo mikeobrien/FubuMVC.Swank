@@ -24,13 +24,13 @@ namespace Tests.SpecificationBuilderEndpointTests
                 new MarkerSource<ResourceDescription>(),
                 new ActionSource(graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter))));
             var endpointSource = new EndpointSource();
-            var parameterSource = new ParameterSource();
+            var memberSource = new MemberSource();
             var optionSource = new OptionSource();
             var errors = new ErrorSource();
             var dataTypes = new TypeSource();
             var configuration = ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter));
             var specBuilder = new SpecificationBuilder(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleSource, resourceSource, endpointSource, parameterSource, optionSource, errors, dataTypes);
+                moduleSource, resourceSource, endpointSource, memberSource, optionSource, errors, dataTypes);
             _spec = specBuilder.Build();
         }
     }

@@ -10,9 +10,11 @@
 
     public class EndpointDescription : DescriptionBase { }
 
-    public class ParameterDescription : DescriptionBase
+    public class MemberDescription : DescriptionBase
     {
         public object DefaultValue { get; set; }
+        public bool Required { get; set; }
+        public System.Type Type { get; set; }
     }
 
     public class OptionDescription : DescriptionBase { }

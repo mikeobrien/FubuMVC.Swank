@@ -23,7 +23,7 @@ namespace FubuMVC.Swank
             graph.Services.AddService<IDescriptionSource<ActionCall, ModuleDescription>>(_configuration.ModuleDescriptionSource.Type, _configuration.ModuleDescriptionSource.Config);
             graph.Services.AddService<IDescriptionSource<ActionCall, ResourceDescription>>(_configuration.ResourceDescriptionSource.Type, _configuration.ResourceDescriptionSource.Config);
             graph.Services.AddService<IDescriptionSource<ActionCall, EndpointDescription>>(_configuration.EndpointDescriptionSource.Type, _configuration.EndpointDescriptionSource.Config);
-            graph.Services.AddService<IDescriptionSource<PropertyInfo, ParameterDescription>>(_configuration.ParameterDescriptionSource.Type, _configuration.ParameterDescriptionSource.Config);
+            graph.Services.AddService<IDescriptionSource<PropertyInfo, MemberDescription>>(_configuration.MemberDescriptionSource.Type, _configuration.MemberDescriptionSource.Config);
             graph.Services.AddService<IDescriptionSource<FieldInfo, OptionDescription>>(_configuration.OptionDescriptionSource.Type, _configuration.OptionDescriptionSource.Config);
             graph.Services.AddService<IDescriptionSource<ActionCall, List<ErrorDescription>>>(_configuration.ErrorDescriptionSource.Type, _configuration.ErrorDescriptionSource.Config);
             graph.Services.AddService<IDescriptionSource<System.Type, DataTypeDescription>>(_configuration.DataTypeDescriptionSource.Type, _configuration.DataTypeDescriptionSource.Config);

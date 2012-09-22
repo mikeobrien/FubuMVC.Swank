@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Xml.Serialization;
 using FubuCore.Reflection;
 using FubuMVC.Core.Http.AspNet;
 using FubuMVC.Core.Registration.Nodes;
@@ -22,22 +23,34 @@ namespace FubuMVC.Swank
                     string.Join(", ", actions))) { }
     }
 
-    public class ActionMapping
-    {
-        public ActionCall Action { get; set; }
-        public ModuleDescription Module { get; set; }
-        public ResourceDescription Resource { get; set; }
-    }
-
     public class SpecificationBuilder
     {
+        private class ActionMapping
+        {
+            public ActionCall Action { get; set; }
+            public ModuleDescription Module { get; set; }
+            public ResourceDescription Resource { get; set; }
+        }
+
+        private class TypeDef
+        {
+            public TypeDef(System.Type type, ActionCall action = null)
+            {
+                Type = type;
+                Action = action;
+            }
+
+            public System.Type Type { get; private set; }
+            public ActionCall Action { get; private set; }
+        }
+
         private readonly Configuration _configuration;
         private readonly ActionSource _actions;
         private readonly ITypeDescriptorCache _typeCache;
         private readonly IDescriptionSource<ActionCall, ModuleDescription> _modules;
         private readonly IDescriptionSource<ActionCall, ResourceDescription> _resources;
         private readonly IDescriptionSource<ActionCall, EndpointDescription> _endpoints;
-        private readonly IDescriptionSource<PropertyInfo, ParameterDescription> _parameters;
+        private readonly IDescriptionSource<PropertyInfo, MemberDescription> _members;
         private readonly IDescriptionSource<FieldInfo, OptionDescription> _options;
         private readonly IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
         private readonly IDescriptionSource<System.Type, DataTypeDescription> _dataTypes;
@@ -49,7 +62,7 @@ namespace FubuMVC.Swank
             IDescriptionSource<ActionCall, ModuleDescription> modules,
             IDescriptionSource<ActionCall, ResourceDescription> resources,
             IDescriptionSource<ActionCall, EndpointDescription> endpoints,
-            IDescriptionSource<PropertyInfo, ParameterDescription> parameters,
+            IDescriptionSource<PropertyInfo, MemberDescription> members,
             IDescriptionSource<FieldInfo, OptionDescription> options,
             IDescriptionSource<ActionCall, List<ErrorDescription>> errors,
             IDescriptionSource<System.Type, DataTypeDescription> dataTypes)
@@ -60,7 +73,7 @@ namespace FubuMVC.Swank
             _modules = modules;
             _resources = resources;
             _endpoints = endpoints;
-            _parameters = parameters;
+            _members = members;
             _options = options;
             _errors = errors;
             _dataTypes = dataTypes;
@@ -80,6 +93,7 @@ namespace FubuMVC.Swank
         private List<ActionMapping> GetActionMapping(IList<ActionCall> actions)
         {
             return actions
+                .Where(x => !x.Method.HasAttribute<HideAttribute>() && !x.HandlerType.HasAttribute<HideAttribute>())
                 .Select(x => new { Action = x, Module = _modules.GetDescription(x), Resource = _resources.GetDescription(x) })
                 .Where(x => ((_configuration.OrphanedModuleActions == OrphanedActions.Exclude && x.Module != null) ||
                               _configuration.OrphanedModuleActions != OrphanedActions.Exclude))
@@ -114,32 +128,72 @@ namespace FubuMVC.Swank
         private List<Type> GetTypes(IList<ActionCall> actions)
         {
             var rootTypes = actions
-                .Where(x => x.HasInput && (x.ParentChain().Route.AllowsPost() || x.ParentChain().Route.AllowsPut()))
-                .Select(x => x.InputType().GetListElementType() ?? x.InputType())
-                .Concat(actions.Where(x => x.HasOutput).Select(x => x.OutputType().GetListElementType() ?? x.OutputType()))
-                .Distinct().ToList();
+                .Where(x => x.HasInput && !x.ParentChain().Route.AllowsGet() && !x.ParentChain().Route.AllowsDelete())
+                .Select(x => new TypeDef(x.InputType().GetListElementType() ?? x.InputType(), x))
+                .Concat(actions.Where(x => x.HasOutput)
+                               .SelectDistinct(x => x.OutputType())
+                               .Select(x => new TypeDef(x.GetListElementType() ?? x)))
+                .ToList();
             return rootTypes
                 .Concat(rootTypes.SelectMany(GetTypes))
-                .Distinct()
+                .DistinctBy(x => x.Type, x => x.Action)
                 .Select(x => {
-                    var dataType = _dataTypes.GetDescription(x);
+                    var description = _dataTypes.GetDescription(x.Type);
+                    var type = description.WhenNotNull(y => y.Type, x.Type);
                     return new Type {
-                        id = dataType != null ? dataType.Type.GetHash() : x.GetHash(),
-                        name = dataType.GetNameOrDefault(),
-                        comments = dataType.GetCommentsOrDefault(),
-                        members = null
+                        id = x.Action != null ? type.GetHash(x.Action.Method) : type.GetHash(),
+                        name = description.WhenNotNull(y => y.Name),
+                        comments = description.WhenNotNull(y => y.Comments),
+                        members = GetMembers(type, x.Action)
                     };
                 })
                 .OrderBy(x => x.name).ToList();
         }
 
-        private List<System.Type> GetTypes(System.Type type)
+        private List<TypeDef> GetTypes(TypeDef type)
         {
-            var types = _typeCache.GetPropertiesFor(type)
-                .Select(x => x.Value.PropertyType)
-                .Where(x => !(x.GetElementType() ?? x).IsSystemType() && !x.IsEnum).Distinct().ToList();
-            return types.Concat(types.SelectMany(GetTypes)).Distinct().ToList();
+            var types = _typeCache.GetPropertiesFor(type.Type).Select(x => x.Value)
+                .Where(x => !IsHidden(x) &&
+                            !(x.PropertyType.GetListElementType() ?? x.PropertyType).IsSystemType() && 
+                            !x.PropertyType.IsEnum &&
+                            !RequestPropertyValueSource.IsSystemProperty(x))
+                .Select(x => x.PropertyType.GetListElementType() ?? x.PropertyType)
+                .Distinct()
+                .ToList();
+            return types.Select(x => new TypeDef(x))
+                        .Concat(types.Select(x => new TypeDef(x))
+                        .SelectMany(GetTypes))
+                        .Distinct()
+                        .ToList();
         }
+
+        private static readonly Func<PropertyInfo, bool> IsHidden = x => 
+            x.PropertyType.HasAttribute<HideAttribute>() || 
+            x.HasAttribute<HideAttribute>() ||
+            x.HasAttribute<XmlIgnoreAttribute>(); 
+
+        private List<Member> GetMembers(System.Type type, ActionCall action)
+        {
+            return _typeCache.GetPropertiesFor(type).Select(x => x.Value)
+                .Where(x => !IsHidden(x) &&
+                            !RequestPropertyValueSource.IsSystemProperty(x) &&
+                            !x.IsQuerystring(action) &&
+                            !x.IsUrlParameter(action))
+                .Select(x => {
+                        var description = _members.GetDescription(x);
+                        var memberType = description.WhenNotNull(y => y.Type, x.PropertyType.GetListElementType() ?? x.PropertyType);
+                        return new Member {
+                            name = description.WhenNotNull(y => y.Name),
+                            comments = description.WhenNotNull(y => y.Comments),
+                            defaultValue = description.WhenNotNull(y => y.DefaultValue.WhenNotNull(z => z.ToString())),
+                            required = description.WhenNotNull(y => y.Required),
+                            type = memberType.IsSystemType() ? memberType.ToFriendlyName() : memberType.GetHash(),
+                            collection = x.PropertyType.IsArray || x.PropertyType.IsList(),
+                            options = GetOptions(x.PropertyType)
+                        };
+                    })
+                .ToList();
+        } 
 
         private List<Module> GetModules(IList<ActionMapping> actionMapping)
         {
@@ -168,13 +222,12 @@ namespace FubuMVC.Swank
         private List<Endpoint> GetEndpoints(IEnumerable<ActionCall> actions)
         {
             return actions
-                .Where(x => !x.Method.HasAttribute<HideAttribute>() && !x.HandlerType.HasAttribute<HideAttribute>())
                 .Select(x => {
                     var endpoint = _endpoints.GetDescription(x);
                     var route = x.ParentChain().Route;
                     return new Endpoint {
-                        name = endpoint.GetNameOrDefault(),
-                        comments = endpoint.GetCommentsOrDefault(),
+                        name = endpoint.WhenNotNull(y => y.Name),
+                        comments = endpoint.WhenNotNull(y => y.Comments),
                         url = route.Pattern,
                         method = route.AllowedHttpMethods.FirstOrDefault(),
                         urlParameters = x.HasInput ? GetUrlParameters(x) : null,
@@ -192,10 +245,10 @@ namespace FubuMVC.Swank
             return action.ParentChain().Route.Input.RouteParameters.Select(
                 x => {
                     var property = properties[x.Name];
-                    var parameter = _parameters.GetDescription(property);
+                    var description = _members.GetDescription(property);
                     return new UrlParameter {
-                            name = parameter.GetNameOrDefault(),
-                            comments = parameter.GetCommentsOrDefault(),
+                            name = description.WhenNotNull(y => y.Name),
+                            comments = description.WhenNotNull(y => y.Comments),
                             type = property.PropertyType.ToFriendlyName(),
                             options = GetOptions(property.PropertyType)
                         };
@@ -209,14 +262,15 @@ namespace FubuMVC.Swank
                             !x.Value.HasAttribute<HideAttribute>() && 
                             !RequestPropertyValueSource.IsSystemProperty(x.Value))
                 .Select(x => {
-                    var parameter = _parameters.GetDescription(x.Value);
+                    var description = _members.GetDescription(x.Value);
                     return new QuerystringParameter {
-                        name = parameter.GetNameOrDefault(),
-                        comments = parameter.GetCommentsOrDefault(),
+                        name = description.WhenNotNull(y => y.Name),
+                        comments = description.WhenNotNull(y => y.Comments),
                         type = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).ToFriendlyName(),
                         options = GetOptions(x.Value.PropertyType),
-                        defaultValue = parameter.DefaultValue != null ? parameter.DefaultValue.ToString() : null,
-                        multipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList()
+                        defaultValue = description.DefaultValue.WhenNotNull(y => y.ToString()),
+                        multipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList(),
+                        required = description.Required
                     };
                 }).OrderBy(x => x.name).ToList();
         }
@@ -234,12 +288,12 @@ namespace FubuMVC.Swank
         private Data GetData(System.Type type, MethodInfo action = null)
         {
             var dataType = _dataTypes.GetDescription(type);
-            var rootType = dataType != null ? dataType.Type : type;
+            var rootType = dataType.WhenNotNull(x => x.Type, type);
             return new Data
                 {
-                    name = dataType.GetNameOrDefault(),
-                    comments = dataType.GetCommentsOrDefault(),
-                    type = action == null ? rootType.GetHash() : rootType.GetHash(action),
+                    name = dataType.WhenNotNull(y => y.Name),
+                    comments = dataType.WhenNotNull(y => y.Comments),
+                    type = action.WhenNotNull(x => rootType.GetHash(action), rootType.GetHash()),
                     collection = type.IsArray || type.IsList()
                 };
         } 
@@ -252,8 +306,8 @@ namespace FubuMVC.Swank
                     .Select(x => {
                         var option = _options.GetDescription(x);
                         return new Option {
-                            name = option.GetNameOrDefault(),
-                            comments = option.GetCommentsOrDefault(), 
+                            name = option.WhenNotNull(y => y.Name),
+                            comments = option.WhenNotNull(y => y.Comments), 
                             value = x.Name
                         };
                     }).OrderBy(x => x.name ?? x.value).ToList();

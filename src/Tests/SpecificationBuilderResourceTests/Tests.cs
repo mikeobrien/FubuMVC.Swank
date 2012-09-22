@@ -19,7 +19,7 @@ namespace Tests.SpecificationBuilderResourceTests
         private BehaviorGraph _graph;
         private IDescriptionSource<ActionCall, ModuleDescription> _moduleSource;
         private IDescriptionSource<ActionCall, EndpointDescription> _endpointSource;
-        private IDescriptionSource<PropertyInfo, ParameterDescription> _parameterSource;
+        private IDescriptionSource<PropertyInfo, MemberDescription> _memberSource;
         private IDescriptionSource<FieldInfo, OptionDescription> _optionSource;
         private IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
         private IDescriptionSource<Type, DataTypeDescription> _dataTypes;
@@ -30,21 +30,21 @@ namespace Tests.SpecificationBuilderResourceTests
             _graph = Behaviors.BuildGraph().AddActionsInThisNamespace();
             _moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
             _endpointSource = new EndpointSource();
-            _parameterSource = new ParameterSource();
+            _memberSource = new MemberSource();
             _optionSource = new OptionSource();
             _errors = new ErrorSource();
             _dataTypes = new TypeSource();
         }
 
-        private Specification BuildSpec<T>(Action<ConfigurationDsl> configure = null)
+        private Specification BuildSpec<TNamespace>(Action<ConfigurationDsl> configure = null)
         {
             var resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
                 new ActionSource(_graph,
                     ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<Tests>()))));
-            var configuration = ConfigurationDsl.CreateConfig(x => { if (configure != null) configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<T>()); });
+            var configuration = ConfigurationDsl.CreateConfig(x => { if (configure != null) configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<TNamespace>()); });
             return new SpecificationBuilder(configuration, new ActionSource(_graph, configuration), new TypeDescriptorCache(),
-                _moduleSource, resourceSource, _endpointSource, _parameterSource, _optionSource, _errors, _dataTypes).Build();
+                _moduleSource, resourceSource, _endpointSource, _memberSource, _optionSource, _errors, _dataTypes).Build();
         }
 
         [Test]

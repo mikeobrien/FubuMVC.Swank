@@ -181,6 +181,8 @@ namespace Tests.SpecificationBuilderEndpointTests
             public List<int> Revision { get; set; }
             [QueryString, Hide]
             public string HiddenParameter { get; set; }
+            [QueryString, Required]
+            public string RequiredParameter { get; set; }
             public string ContentType { get; set; }
         }
 

@@ -8,8 +8,8 @@ namespace FubuMVC.Swank.Description
         {
             var description = field.GetCustomAttribute<DescriptionAttribute>();
             return new OptionDescription {
-                    Name = description != null ? description.Name : null,
-                    Comments = description != null ? description.Comments : null
+                    Name = description.WhenNotNull(x => x.Name),
+                    Comments = description.WhenNotNull(x => x.Comments)
                 };
         }
     }

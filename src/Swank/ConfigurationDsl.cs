@@ -95,17 +95,17 @@ namespace FubuMVC.Swank
             return this;
         }
 
-        public ConfigurationDsl WithParameterDescriptionSource<T>() where T : IDescriptionSource<PropertyInfo, ParameterDescription>
+        public ConfigurationDsl WithMemberDescriptionSource<T>() where T : IDescriptionSource<PropertyInfo, MemberDescription>
         {
-            return WithParameterDescriptionSource<T, object>(null);
+            return WithMemberDescriptionSource<T, object>(null);
         }
 
-        public ConfigurationDsl WithParameterDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<PropertyInfo, ParameterDescription>
+        public ConfigurationDsl WithMemberDescriptionSource<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionSource<PropertyInfo, MemberDescription>
             where TConfig : class, new()
         {
-            _configuration.ParameterDescriptionSource.Type = typeof(T);
-            _configuration.ParameterDescriptionSource.Config = CreateConfig(configure);
+            _configuration.MemberDescriptionSource.Type = typeof(T);
+            _configuration.MemberDescriptionSource.Config = CreateConfig(configure);
             return this;
         }
 

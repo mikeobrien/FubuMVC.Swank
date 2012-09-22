@@ -80,12 +80,14 @@
     <Compile Include="Description\ModuleSourceTests\Handlers.cs" />
     <Compile Include="Description\ResourceSourceTests\Handlers.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="SpecificationBuilderTypeTests\MemberTests.cs" />
+    <Compile Include="SpecificationBuilderTypeTests\TestBase.cs" />
     <Compile Include="SpecificationBuilderTypeTests\Handlers.cs" />
-    <Compile Include="SpecificationBuilderTypeTests\Tests.cs" />
+    <Compile Include="SpecificationBuilderTypeTests\TypeTests.cs" />
     <Compile Include="Description\TypeSourceTests.cs" />
     <Compile Include="Description\ErrorSourceTests.cs" />
     <Compile Include="Description\OptionSourceTests.cs" />
-    <Compile Include="Description\ParameterSourceTests.cs" />
+    <Compile Include="Description\MemberSourceTests.cs" />
     <Compile Include="SpecificationBuilderEndpointTests\EndpointTests.cs" />
     <Compile Include="SpecificationBuilderEndpointTests\UrlParameterTests.cs" />
     <Compile Include="SpecificationBuilderEndpointTests\QuerystringTests.cs" />

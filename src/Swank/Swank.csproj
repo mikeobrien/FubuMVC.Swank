@@ -91,6 +91,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationDsl.cs" />
     <Compile Include="Description\CommentsAttribute.cs" />
+    <Compile Include="Description\RequiredAttribute.cs" />
     <Compile Include="Description\DefaultValueAttribute.cs" />
     <Compile Include="Description\DescriptionAttribute.cs" />
     <Compile Include="Description\DescriptionBase.cs" />
@@ -103,7 +104,7 @@
     <Compile Include="Description\MarkerSource.cs" />
     <Compile Include="Description\ModuleSource.cs" />
     <Compile Include="Description\OptionSource.cs" />
-    <Compile Include="Description\ParameterSource.cs" />
+    <Compile Include="Description\MemberSource.cs" />
     <Compile Include="Description\ResourceAttribute.cs" />
     <Compile Include="Description\ResourceSource.cs" />
     <Compile Include="Description\TypeSource.cs" />

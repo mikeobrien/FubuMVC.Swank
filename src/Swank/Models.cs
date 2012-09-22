@@ -77,6 +77,7 @@ namespace FubuMVC.Swank
         public string type { get; set; }
         public string defaultValue { get; set; }
         public bool multipleAllowed { get; set; }
+        public bool required { get; set; }
         public List<Option> options { get; set; }
     }
 
