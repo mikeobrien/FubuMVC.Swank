@@ -1,7 +1,7 @@
 ﻿using FubuMVC.Core;
 using FubuMVC.Core.Continuations;
+using FubuMVC.RegexUrlPolicy;
 using FubuMVC.Swank;
-using HelloWorld.Infrastructure;
 
 namespace HelloWorld
 {
@@ -22,17 +22,17 @@ namespace HelloWorld
 
             Routes
                 .OverrideFolders()
-                .UrlPolicy(RegexUrlPolicy.Create()
+                .UrlPolicy(RegexUrlPolicy.Create(x => x
                     .IgnoreAssemblyNamespace<Conventions>()
                     .IgnoreClassName()
                     .IgnoreMethodNames("Execute")
-                    .ConstrainClassToHttpGetEndingWith("GetHandler")
-                    .ConstrainClassToHttpPostEndingWith("PostHandler")
-                    .ConstrainClassToHttpPutEndingWith("PutHandler")
-                    .ConstrainClassToHttpDeleteEndingWith("DeleteHandler"));
+                    .ConstrainClassToGetEndingWith("GetHandler")
+                    .ConstrainClassToPostEndingWith("PostHandler")
+                    .ConstrainClassToPutEndingWith("PutHandler")
+                    .ConstrainClassToDeleteEndingWith("DeleteHandler")));
 
             Media.ApplyContentNegotiationToActions(x =>
-                x.IsInAssembly<Conventions>() && !x.HasAnyOutputBehavior());
+                x.IsInThisAssembly() && !x.HasAnyOutputBehavior());
         }
     }
 }

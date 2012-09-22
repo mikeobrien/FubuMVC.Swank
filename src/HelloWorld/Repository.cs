@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HelloWorld.Infrastructure
+namespace HelloWorld
 {
     public interface IRepository<T> : IEnumerable<T> where T : class, new()
     {

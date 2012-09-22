@@ -80,6 +80,8 @@
     <Compile Include="Description\ModuleSourceTests\Handlers.cs" />
     <Compile Include="Description\ResourceSourceTests\Handlers.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="MergeSpecificationTests\Handlers.cs" />
+    <Compile Include="MergeSpecificationTests\Tests.cs" />
     <Compile Include="SpecificationBuilderTypeTests\MemberTests.cs" />
     <Compile Include="SpecificationBuilderTypeTests\TestBase.cs" />
     <Compile Include="SpecificationBuilderTypeTests\Handlers.cs" />
@@ -119,6 +121,7 @@
     <EmbeddedResource Include="Description\EndpointSourceTests\ControllerResource\Controller.md" />
     <EmbeddedResource Include="Description\MarkerSourceTests\MarkerCommentsPriority\Description.md" />
     <EmbeddedResource Include="Description\ResourceSourceTests\ResourceCommentsPriority\Resource.md" />
+    <None Include="MergeSpecificationTests\Merge.json" />
     <None Include="packages.config" />
     <EmbeddedResource Include="SpecificationBuilderEndpointTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Execute_EmbeddedDescription.md" />
     <EmbeddedResource Include="ExtensionsTests\EmbeddedMarkdownResource.md" />

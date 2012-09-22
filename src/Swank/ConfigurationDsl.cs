@@ -22,6 +22,12 @@ namespace FubuMVC.Swank
             return config;
         }
 
+        public ConfigurationDsl MergeThisSpecification(string path)
+        {
+            _configuration.MergeSpecificationPath = path;
+            return this;
+        }
+
         public ConfigurationDsl AppliesToThisAssembly()
         {
             _configuration.AppliesToAssemblies.Add(Assembly.GetCallingAssembly());

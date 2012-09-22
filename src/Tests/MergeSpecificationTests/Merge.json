@@ -1,0 +1,81 @@
+{
+    "types" : [
+        {
+            "id": "1234",
+            "name": "status",
+            "members": [
+                {
+                    "name": "description",
+                    "type": "string",
+                    "collection": true
+                }
+            ]
+        }
+    ],
+    "modules": [
+        { 
+            "name": "Administration", 
+            "comments": "This is administration"
+            "resources": [
+                {
+                    "name": "Users",
+                    "endpoints": [
+                        {
+                            "name": "Delete User",
+                            "comments": "Deletes a user.",
+                            "url": "/administration/users/{Id}",
+                            "method": "DELETE",
+                            "urlParameters": [
+                                { 
+                                    "name": "Id",
+                                    "comments": "the user id.",
+                                    "type": "uuid"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }, 
+        { 
+            "name": "Widgets", 
+            "comments": "This is widgets"
+            "resources": [
+                {
+                    "name": "Management",
+                    "endpoints": [
+                        {
+                            "name": "Delete Widget",
+                            "comments": "Deletes a widget.",
+                            "url": "/widgets/{Id}",
+                            "method": "DELETE",
+                            "urlParameters": [
+                                { 
+                                    "name": "Id",
+                                    "comments": "the widget id.",
+                                    "type": "uuid"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        } 
+    ]
+    "resources": [
+        {
+            "name": "status"
+            "endpoints": [
+                {
+                    "url": "/status",
+                    "method": "POST"
+                    "request": {
+                        "name": "status",
+                        "type": "1234",
+                        "collection": false
+                    }
+                }
+            ]
+        }
+    ]
+}

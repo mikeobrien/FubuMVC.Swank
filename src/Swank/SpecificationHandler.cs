@@ -3,6 +3,7 @@
     public class SpecificationHandler
     {
         private readonly SpecificationBuilder _specificationBuilder;
+        private static Specification _specification;
 
         public SpecificationHandler(SpecificationBuilder specificationBuilder)
         {
@@ -11,7 +12,7 @@
 
         public Specification Execute()
         {
-            return _specificationBuilder.Build();
+            return _specification ?? (_specification = _specificationBuilder.Build());
         }
     }
 }

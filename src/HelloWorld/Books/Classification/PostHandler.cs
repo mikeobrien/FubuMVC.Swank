@@ -1,6 +1,4 @@
-﻿using HelloWorld.Infrastructure;
-
-namespace HelloWorld.Books.Classification
+﻿namespace HelloWorld.Books.Classification
 {
     public class PostHandler
     {

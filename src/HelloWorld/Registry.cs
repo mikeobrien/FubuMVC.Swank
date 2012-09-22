@@ -1,7 +1,6 @@
 ﻿using HelloWorld.Authors;
 using HelloWorld.Books;
 using HelloWorld.Books.Classification;
-using HelloWorld.Infrastructure;
 
 namespace HelloWorld
 {

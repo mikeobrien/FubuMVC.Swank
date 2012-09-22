@@ -36,6 +36,7 @@ namespace FubuMVC.Swank
         
         public string Url { get; set; }
         public string SpecificationUrl { get; set; }
+        public string MergeSpecificationPath { get; set; }
         public List<Assembly> AppliesToAssemblies { get; set; }
         public Func<ActionCall, bool> Filter { get; set; }
         public OrphanedActions OrphanedModuleActions { get; set; }

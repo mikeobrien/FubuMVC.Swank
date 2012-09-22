@@ -1,6 +1,4 @@
-﻿using HelloWorld.Infrastructure;
-
-namespace HelloWorld.Authors
+﻿namespace HelloWorld.Authors
 {
     public class PutHandler
     {

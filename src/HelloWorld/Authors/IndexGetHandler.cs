@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using HelloWorld.Infrastructure;
 
 namespace HelloWorld.Authors
 {
