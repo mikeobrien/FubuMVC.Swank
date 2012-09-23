@@ -20,7 +20,6 @@ namespace Tests
             var swankAssemblyName = typeof(SwankConvention).Assembly.GetName().Name;
             _testWebsite = new Website();
             var testHarnessPath = Path.GetFullPath(Environment.CurrentDirectory + @"\..\..\..\TestHarness");
-            Directory.GetFiles(Path.Combine(testHarnessPath, "bin"), swankAssemblyName + ".*", SearchOption.AllDirectories).ToList().ForEach(File.Delete);
             _testWebsite.Create(swankAssemblyName, testHarnessPath, 34534);
             var swankPath = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\Swank"));
             var testHarnessFubuContentPath = Path.Combine(testHarnessPath, "fubu-content", "fubu-swank.zip");

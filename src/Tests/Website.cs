@@ -42,8 +42,8 @@ namespace Tests
             catch (WebException exception)
             {
                 var response = (HttpWebResponse) exception.Response;
-                Debug.WriteLine("{0}: {1}", response.StatusCode, response.StatusDescription);
-                Debug.WriteLine(new StreamReader(response.GetResponseStream()).ReadToEnd());
+                Console.WriteLine("{0}: {1}", response.StatusCode, response.StatusDescription);
+                Console.WriteLine(new StreamReader(response.GetResponseStream()).ReadToEnd());
                 throw;
             }
         }
