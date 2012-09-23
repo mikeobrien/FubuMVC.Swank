@@ -7,18 +7,18 @@ using Microsoft.Web.Administration;
 
 namespace Tests
 {
-    public class TestWebsite
+    public class Website
     {
-        private const int Port = 34523;
         private string _siteName;
+        private int _port;
 
-        public void Create()
+        public void Create(string name, string path, int port)
         {
+            _port = port;
             using (var manager = new ServerManager())
             {
-                _siteName = "FubuMVC.Swank_" + Guid.NewGuid().ToString("N");
-                manager.Sites.Add(_siteName, 
-                                  "http", "*:{0}:".ToFormat(Port), Path.GetFullPath(Environment.CurrentDirectory + @"\..\..\..\TestHarness"));
+                _siteName = name + "_" + Guid.NewGuid().ToString("N");
+                manager.Sites.Add(_siteName, "http", "*:{0}:".ToFormat(port), path);
                 manager.CommitChanges(); 
             } 
         }
@@ -37,7 +37,7 @@ namespace Tests
         {
             try
             {
-                return new WebClient().DownloadString("http://localhost:{0}/{1}".ToFormat(Port, url));
+                return new WebClient().DownloadString("http://localhost:{0}/{1}".ToFormat(_port, url));
             }
             catch (WebException exception)
             {

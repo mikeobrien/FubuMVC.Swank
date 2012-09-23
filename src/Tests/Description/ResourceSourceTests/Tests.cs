@@ -19,7 +19,7 @@ namespace Tests.Description.ResourceSourceTests
         [SetUp]
         public void Setup()
         {
-            _graph = Behaviors.BuildGraph().AddActionsInThisNamespace();
+            _graph = Behavior.BuildGraph().AddActionsInThisNamespace();
             _resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
                 new ActionSource(_graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly()

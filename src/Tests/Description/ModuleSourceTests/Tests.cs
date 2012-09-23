@@ -17,7 +17,7 @@ namespace Tests.Description.ModuleSourceTests
         public void Setup()
         {
             _moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
-            _graph = Behaviors.BuildGraph().AddActionsInThisNamespace();
+            _graph = Behavior.BuildGraph().AddActionsInThisNamespace();
         }
 
         [Test]

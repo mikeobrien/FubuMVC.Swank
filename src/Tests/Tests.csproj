@@ -113,8 +113,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecificationBuilderModuleTests\Handlers.cs" />
     <Compile Include="SpecificationBuilderModuleTests\Tests.cs" />
-    <Compile Include="Behaviors.cs" />
-    <Compile Include="TestWebsite.cs" />
+    <Compile Include="Website.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Description\EndpointSourceTests\AttributePriority\GetHandler.md" />

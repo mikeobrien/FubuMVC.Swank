@@ -16,7 +16,7 @@ namespace Tests.Description.EndpointSourceTests
         [SetUp]
         public void Setup()
         {
-            _graph = Behaviors.BuildGraph().AddActionsInThisNamespace();
+            _graph = Behavior.BuildGraph().AddActionsInThisNamespace();
             _endpointSource = new EndpointSource();
         }
 

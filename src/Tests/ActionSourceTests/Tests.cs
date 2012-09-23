@@ -16,7 +16,7 @@ namespace Tests.ActionSourceTests
         [SetUp]
         public void Setup()
         {
-            _graph = Behaviors.BuildGraph().AddActionsInThisNamespace();
+            _graph = Behavior.BuildGraph().AddActionsInThisNamespace();
         }
 
         [Test]

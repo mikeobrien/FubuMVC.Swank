@@ -18,7 +18,7 @@ namespace Tests.SpecificationBuilderEndpointTests
         [SetUp]
         public void Setup()
         {
-            var graph = Behaviors.BuildGraph().AddActionsInThisNamespace();
+            var graph = Behavior.BuildGraph().AddActionsInThisNamespace();
             var moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
             var resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),

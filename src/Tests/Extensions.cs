@@ -5,15 +5,75 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Bottles.Commands;
+using Bottles.Creation;
 using FubuCore;
+using FubuMVC.Core.Registration;
+using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank;
 using Should;
 using Type = System.Type;
 
 namespace Tests
 {
+    public static class Behavior
+    {
+        public static BehaviorGraph BuildGraph()
+        {
+            return new BehaviorGraph();
+        }
+    }
+
+    public static class Bottles
+    {
+        public static bool Create(string source, string output, bool deleteExisting, bool includePdbs)
+        {
+            return new CreateBottleCommand().Execute(new CreateBottleInput
+            {
+                PackageFolder = source,
+                ZipFileFlag = output,
+                ForceFlag = deleteExisting,
+                PdbFlag = includePdbs
+            });
+        }
+    }
+
     public static class Extensions
     {
+        public static ActionCall GetAction<T>(this BehaviorGraph graph)
+        {
+            return graph.Actions().First(x => x.HandlerType == typeof(T));
+        }
+
+        public static IList<ActionCall> GetActions<T>(this BehaviorGraph graph)
+        {
+            return graph.Actions().Where(x => x.HandlerType == typeof(T)).ToList();
+        }
+
+        public static BehaviorGraph AddAction<T>(this BehaviorGraph graph, string verb = null)
+        {
+            return AddAction(graph, typeof(T), verb);
+        }
+
+        private static BehaviorGraph AddAction(BehaviorGraph graph, Type type, string verb = null, string thisNamespace = null)
+        {
+            var route = type.GetHandlerUrl(thisNamespace ?? type.Assembly.FullName);
+            var chain = graph.AddActionFor(route, type);
+            var method = verb ?? (type.Name.EndsWith("Handler") ? type.GetHandlerVerb() : null);
+            if (method != null) chain.Route.AddHttpMethodConstraint(method);
+            return graph;
+        }
+
+        public static BehaviorGraph AddActionsInThisNamespace(this BehaviorGraph graph)
+        {
+            var thisNamespace = new StackFrame(1).GetMethod().DeclaringType.Namespace;
+            Assembly.GetCallingAssembly().GetTypes()
+                .Where(x => x.Namespace.StartsWith(thisNamespace) && (x.Name.EndsWith("Handler") || x.Name.EndsWith("Controller")))
+                .ToList()
+                .ForEach(x => AddAction(graph, x, thisNamespace: thisNamespace));
+            return graph;
+        }
+
         public static MethodInfo GetExecuteMethod(this Type type)
         {
             return type.GetMethods().First(x => x.Name.StartsWith("Execute"));
