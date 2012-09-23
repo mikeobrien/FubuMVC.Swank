@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -36,6 +37,12 @@ namespace Tests
                 PdbFlag = includePdbs
             });
         }
+    }
+
+    public static class Paths
+    {
+        public static string Swank { get { return Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\Swank")); } }
+        public static string TestHarness { get { return Path.GetFullPath(Environment.CurrentDirectory + @"\..\..\..\TestHarness");}}
     }
 
     public static class Extensions

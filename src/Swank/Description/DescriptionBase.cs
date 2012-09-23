@@ -12,7 +12,7 @@
 
         public override int GetHashCode()
         {
-            return Name.WhenNotNull(x => x.GetHashCode(), 0);
+            return Name.WhenNotNull(x => x.GetHashCode()).Otherwise(0);
         }
     }
 }

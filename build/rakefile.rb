@@ -1,5 +1,5 @@
 require "albacore"
-require_relative "filesystem"
+require_relative "path"
 require_relative "gallio-task"
 require_relative "fubu-bottles"
 
@@ -38,7 +38,7 @@ msbuild :buildTests => :buildTestHarness do |msb|
 end
 
 task :unitTestInit do
-	FileSystem.EnsurePath(reportsPath)
+	Path.EnsurePath(reportsPath)
 end
 
 gallio :unitTests => [:buildTests, :unitTestInit] do |runner|
@@ -55,16 +55,19 @@ deployPath = "deploy"
 
 packagePath = File.join(deployPath, "package")
 nuspecFilename = "FubuMVC.Swank.nuspec"
-contentPath = File.join(packagePath, "content/fubu-content")
+packageContentPath = File.join(packagePath, "content/fubu-content")
 
 task :prepPackage => :unitTests do
-	FileSystem.DeleteDirectory(deployPath)
-	FileSystem.EnsurePath(contentPath)
+	Path.DeleteDirectory(deployPath)
+	Path.EnsurePath(packageContentPath)
+    packageLibPath = File.join(packagePath, "lib")
+	Path.EnsurePath(packageLibPath)
+	Path.CopyFiles("src/Swank/bin/Release/FubuMVC.Swank.*", packageLibPath)
 end
 
 create_fubu_bottle :createBottle => :prepPackage do |bottle|
     bottle.source_path = 'src/Swank'
-    bottle.output_path = File.join(contentPath, 'fubu-swank.zip')
+    bottle.output_path = File.join(packageContentPath, 'fubu-swank.zip')
     bottle.include_pdb = true
     bottle.overwrite = true
 end

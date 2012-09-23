@@ -1,8 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using Bottles.Commands;
-using Bottles.Creation;
 using FubuMVC.Swank;
 using NUnit.Framework;
 using Should;
@@ -17,14 +14,10 @@ namespace Tests
         [SetUp]
         public void Setup()
         {
-            var swankAssemblyName = typeof(SwankConvention).Assembly.GetName().Name;
-            _testWebsite = new Website();
-            var testHarnessPath = Path.GetFullPath(Environment.CurrentDirectory + @"\..\..\..\TestHarness");
-            _testWebsite.Create(swankAssemblyName, testHarnessPath, 34534);
-            var swankPath = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\Swank"));
-            var testHarnessFubuContentPath = Path.Combine(testHarnessPath, "fubu-content", "fubu-swank.zip");
-            if (!Bottles.Create(swankPath, testHarnessFubuContentPath, true, true)) 
+            if (!Bottles.Create(Paths.Swank, Path.Combine(Paths.TestHarness, "fubu-content", "fubu-swank.zip"), true, true)) 
                 throw new Exception("Could not create bottle.");
+            _testWebsite = new Website();
+            _testWebsite.Create(typeof(SwankConvention).Assembly.GetName().Name, Paths.TestHarness);
         }
 
         [TearDown]

@@ -10,7 +10,7 @@ namespace TestHarness
             IncludeDiagnostics(true);
 
             Actions.IncludeTypesNamed(x => x.EndsWith("Handler"));
-
+            
             Routes
                 .HomeIs<IndexHandler>(x => x.ExecuteGet())
                 .IgnoreNamespaceForUrlFrom<Conventions>()

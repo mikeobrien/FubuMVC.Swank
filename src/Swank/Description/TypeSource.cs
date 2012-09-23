@@ -9,8 +9,9 @@ namespace FubuMVC.Swank.Description
             var elementType = type.GetListElementType();
             return new DataTypeDescription {
                 Type = elementType ?? type,
-                Name = type.GetCustomAttribute<XmlTypeAttribute>().WhenNotNull(x => x.TypeName, elementType.WhenNotNull(x => "ArrayOf" + x.Name, type.Name)),
-                Comments = type.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments)
+                Name = type.GetCustomAttribute<XmlTypeAttribute>().WhenNotNull(x => x.TypeName)
+                            .Otherwise(elementType.WhenNotNull(x => "ArrayOf" + x.Name).Otherwise(type.Name)),
+                Comments = type.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments).OtherwiseDefault()
             };
         }
     }

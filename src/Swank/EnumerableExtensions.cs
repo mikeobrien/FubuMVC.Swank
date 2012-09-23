@@ -23,17 +23,5 @@ namespace FubuMVC.Swank
         {
             return source.GroupBy(compare1).SelectMany(x => x.GroupBy(compare2).Select(y => y.First()));
         }
-
-        public static TResult WhenNotNull<TSource, TResult>(this TSource value, Func<TSource, TResult> returnThis)
-            where TSource : class
-        {
-            return value.WhenNotNull(returnThis, default(TResult));
-        }
-
-        public static TResult WhenNotNull<TSource, TResult>(this TSource value, Func<TSource, TResult> returnThis, TResult orThisDefault)
-            where TSource : class
-        {
-            return value != null ? returnThis(value) : orThisDefault;
-        }
     }
 }

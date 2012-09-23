@@ -91,6 +91,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationDsl.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="OrphanedModuleActionException.cs" />
     <Compile Include="OrphanedResourceActionException.cs" />
     <Compile Include="ReflectionExtensions.cs" />

@@ -9,12 +9,12 @@ namespace FubuMVC.Swank.Description
         public MemberDescription GetDescription(PropertyInfo property)
         {
             return new MemberDescription {
-                    Name = property.GetCustomAttribute<XmlElementAttribute>().WhenNotNull(x => x.ElementName, property.Name),
-                    Comments = property.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments),
-                    DefaultValue = property.GetCustomAttribute<DefaultValueAttribute>().WhenNotNull(x => x.Value),
-                    Required = property.HasAttribute<RequiredAttribute>(),
-                    Type = property.PropertyType.GetListElementType() ?? property.PropertyType
-                };
+                Name = property.GetCustomAttribute<XmlElementAttribute>().WhenNotNull(x => x.ElementName).Otherwise(property.Name),
+                Comments = property.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments).OtherwiseDefault(),
+                DefaultValue = property.GetCustomAttribute<DefaultValueAttribute>().WhenNotNull(x => x.Value).OtherwiseDefault(),
+                Required = property.HasAttribute<RequiredAttribute>(),
+                Type = property.PropertyType.GetListElementType() ?? property.PropertyType
+            };
         }
     }
 }
