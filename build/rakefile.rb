@@ -62,7 +62,7 @@ task :prepPackage => :unitTests do
 	Path.EnsurePath(packageContentPath)
     packageLibPath = File.join(packagePath, "lib")
 	Path.EnsurePath(packageLibPath)
-	Path.CopyFiles("src/Swank/bin/Release/FubuMVC.Swank.*", packageLibPath)
+	Path.CopyFiles("src/Swank/bin/FubuMVC.Swank.*", packageLibPath)
 end
 
 create_fubu_bottle :createBottle => :prepPackage do |bottle|
