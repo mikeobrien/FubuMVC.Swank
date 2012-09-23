@@ -25,7 +25,13 @@ msbuild :buildLibrary => :assemblyInfo do |msb|
     msb.solution = "src/Swank/Swank.csproj"
 end
 
-msbuild :buildTests => :buildLibrary do |msb|
+msbuild :buildTestHarness => :buildLibrary do |msb|
+    msb.properties :configuration => :Release
+    msb.targets :Clean, :Build
+    msb.solution = "src/TestHarness/TestHarness.csproj"
+end
+
+msbuild :buildTests => :buildTestHarness do |msb|
     msb.properties :configuration => :Release
     msb.targets :Clean, :Build
     msb.solution = "src/Tests/Tests.csproj"
