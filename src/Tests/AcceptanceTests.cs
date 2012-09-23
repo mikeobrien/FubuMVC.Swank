@@ -33,9 +33,7 @@ namespace Tests
         [Test]
         public void should_have_connectivity_to_the_test_harness_site()
         {
-            _testWebsite.DownloadString("test.html").ShouldEqual("oh hai");
-
-            
+            _testWebsite.DownloadString().ShouldEqual("oh hai");
         }
     }
 }

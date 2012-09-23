@@ -33,7 +33,7 @@ namespace Tests
             }
         }
 
-        public string DownloadString(string url)
+        public string DownloadString(string url = "")
         {
             try
             {

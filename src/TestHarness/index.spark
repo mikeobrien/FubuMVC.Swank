@@ -1,0 +1,1 @@
+﻿<viewdata model="TestHarness.IndexResponse" />${Model.Message}
