@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using FubuCore.Reflection;
 using FubuMVC.Core.Registration.Nodes;
+using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank.Description
 {

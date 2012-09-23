@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using FubuCore;
 using FubuMVC.Swank;
+using FubuMVC.Swank.Extensions;
 using Microsoft.Web.Administration;
 
 namespace Tests
@@ -34,11 +35,15 @@ namespace Tests
             }
         }
 
-        public string DownloadString(string url = "")
+        public string DownloadString(string url = "", string contentType = null)
         {
             try
             {
-                return new WebClient().DownloadString("http://localhost:{0}/{1}".ToFormat(_port, url));
+                using (var client = new WebClient())
+                {
+                    if (contentType != null) client.Headers.Add("accept", contentType);
+                    return client.DownloadString("http://localhost:{0}/{1}".ToFormat(_port, url));
+                }
             }
             catch (WebException exception)
             {

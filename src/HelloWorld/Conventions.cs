@@ -9,10 +9,6 @@ namespace HelloWorld
     {
         public Conventions()
         {
-            ApplyConvention(SwankConvention.Create(x => x
-                .At("documentation")
-                .AppliesTo<Conventions>()
-                .Where(y => y.OutputType() != typeof(FubuContinuation))));
 
             IncludeDiagnostics(true);
 
@@ -30,6 +26,10 @@ namespace HelloWorld
                     .ConstrainClassToPostEndingWith("PostHandler")
                     .ConstrainClassToPutEndingWith("PutHandler")
                     .ConstrainClassToDeleteEndingWith("DeleteHandler")));
+
+            Import<Swank>(x => x
+                .AtUrl("documentation")
+                .AppliesTo<Conventions>());
 
             Media.ApplyContentNegotiationToActions(x =>
                 x.IsInThisAssembly() && !x.HasAnyOutputBehavior());

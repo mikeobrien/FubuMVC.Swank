@@ -51,6 +51,9 @@
     <Reference Include="FubuMVC.Core">
       <HintPath>..\packages\FubuMVC.References.0.9.5.926\lib\net40\FubuMVC.Core.dll</HintPath>
     </Reference>
+    <Reference Include="FubuMVC.Spark">
+      <HintPath>..\packages\FubuMVC.Spark.0.9.5.926\lib\net40\FubuMVC.Spark.dll</HintPath>
+    </Reference>
     <Reference Include="FubuMVC.StructureMap">
       <HintPath>..\packages\FubuMVC.References.0.9.5.926\lib\net40\FubuMVC.StructureMap.dll</HintPath>
     </Reference>
@@ -63,6 +66,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Spark">
+      <HintPath>..\packages\Spark.1.7.4.0\lib\NET40\Spark.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
@@ -87,14 +93,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionSource.cs" />
+    <Compile Include="Specification\ActionSource.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="ConfigurationDsl.cs" />
-    <Compile Include="EnumerableExtensions.cs" />
-    <Compile Include="ObjectExtensions.cs" />
-    <Compile Include="OrphanedModuleActionException.cs" />
-    <Compile Include="OrphanedResourceActionException.cs" />
-    <Compile Include="ReflectionExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Specification\OrphanedModuleActionException.cs" />
+    <Compile Include="Specification\OrphanedResourceActionException.cs" />
+    <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Description\CommentsAttribute.cs" />
     <Compile Include="Description\RequiredAttribute.cs" />
     <Compile Include="Description\DefaultValueAttribute.cs" />
@@ -113,13 +118,14 @@
     <Compile Include="Description\ResourceAttribute.cs" />
     <Compile Include="Description\ResourceSource.cs" />
     <Compile Include="Description\TypeSource.cs" />
-    <Compile Include="FubuExtensions.cs" />
-    <Compile Include="Func.cs" />
-    <Compile Include="Models.cs" />
+    <Compile Include="Extensions\FubuExtensions.cs" />
+    <Compile Include="Extensions\Func.cs" />
+    <Compile Include="Specification\Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecificationBuilder.cs" />
-    <Compile Include="SpecificationHandler.cs" />
-    <Compile Include="SwankConvention.cs" />
+    <Compile Include="Conventions.cs" />
+    <Compile Include="Specification\SpecificationBuilder.cs" />
+    <Compile Include="Specification\Handler.cs" />
+    <Compile Include="Swank.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".package-manifest" />

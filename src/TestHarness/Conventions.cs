@@ -1,5 +1,5 @@
 ﻿using FubuMVC.Core;
-using FubuMVC.Spark;
+using FubuMVC.Swank;
 
 namespace TestHarness
 {
@@ -20,7 +20,11 @@ namespace TestHarness
                 .ConstrainToHttpMethod(action => action.Method.Name.StartsWith("Put"), "PUT")
                 .ConstrainToHttpMethod(action => action.Method.Name.StartsWith("Delete"), "DELETE");
 
-            Import<SparkEngine>();
+            Import<Swank>(x => x
+                .AtUrl("documentation")
+                .AppliesTo<Conventions>()
+                .Where(y => !y.HasAnyOutputBehavior()));
+
             Views.TryToAttachWithDefaultConventions();
 
             Media.ApplyContentNegotiationToActions(x => 

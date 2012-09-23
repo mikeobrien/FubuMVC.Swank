@@ -11,7 +11,8 @@ using Bottles.Creation;
 using FubuCore;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
-using FubuMVC.Swank;
+using FubuMVC.Swank.Extensions;
+using FubuMVC.Swank.Specification;
 using Should;
 using Type = System.Type;
 
@@ -108,14 +109,14 @@ namespace Tests
             throw new Exception("Could not determine verb from handler type name.");
         }
 
-        public static Endpoint GetEndpoint<T>(this Specification specification)
+        public static Endpoint GetEndpoint<T>(this FubuMVC.Swank.Specification.Specification specification)
         {
             var url = typeof(T).GetHandlerUrl(new StackFrame(1).GetMethod().DeclaringType.Namespace);
             return specification.modules.SelectMany(x => x.resources).Concat(specification.resources)
                 .SelectMany(x => x.endpoints).FirstOrDefault(x => x.url == url);
         }
 
-        public static Resource GetResource<T>(this Specification specification)
+        public static Resource GetResource<T>(this FubuMVC.Swank.Specification.Specification specification)
         {
             var url = typeof(T).GetHandlerUrl(new StackFrame(1).GetMethod().DeclaringType.Namespace);
             return specification.modules.SelectMany(x => x.resources).Concat(specification.resources)
@@ -133,70 +134,70 @@ namespace Tests
             return assembly.FindTextResourceNamed(typeof(T).FullName);
         }
 
-        public static FubuMVC.Swank.Type GetType<TType>(this List<FubuMVC.Swank.Type> types)
+        public static FubuMVC.Swank.Specification.Type GetType<TType>(this List<FubuMVC.Swank.Specification.Type> types)
         {
             return types.Single(x => x.id == typeof(TType).GetHash());
         }
 
-        public static FubuMVC.Swank.Type GetType<TType, THandler>(this List<FubuMVC.Swank.Type> types)
+        public static FubuMVC.Swank.Specification.Type GetType<TType, THandler>(this List<FubuMVC.Swank.Specification.Type> types)
         {
             return types.Single(x => x.id == typeof(TType).GetHash(typeof(THandler).GetExecuteMethod()));
         }
 
-        public static void ShouldContainOneOutputType<TType>(this List<FubuMVC.Swank.Type> types)
+        public static void ShouldContainOneOutputType<TType>(this List<FubuMVC.Swank.Specification.Type> types)
         {
             types.ShouldContainOneType<TType>();
         }
 
-        public static void ShouldContainOneType<TType>(this List<FubuMVC.Swank.Type> types)
+        public static void ShouldContainOneType<TType>(this List<FubuMVC.Swank.Specification.Type> types)
         {
             types.ShouldContainOneType<TType>(typeof(TType).GetHash());
         }
 
-        public static void ShouldNotContainAnyOutputTypes<TType>(this List<FubuMVC.Swank.Type> types)
+        public static void ShouldNotContainAnyOutputTypes<TType>(this List<FubuMVC.Swank.Specification.Type> types)
         {
             types.ShouldNotContainAnyType<TType>();
         }
 
-        public static void ShouldNotContainAnyType<TType>(this List<FubuMVC.Swank.Type> types)
+        public static void ShouldNotContainAnyType<TType>(this List<FubuMVC.Swank.Specification.Type> types)
         {
             types.ShouldNotContainAnyType<TType>(typeof(TType).GetHash());
         }
 
-        public static void ShouldContainOneInputType<TType, THandler>(this List<FubuMVC.Swank.Type> types)
+        public static void ShouldContainOneInputType<TType, THandler>(this List<FubuMVC.Swank.Specification.Type> types)
         {
             types.ShouldContainOneType<TType>(typeof(TType).GetHash(typeof(THandler).GetExecuteMethod()));
         }
 
-        public static void ShouldNotContainAnyInputType<TType, THandler>(this List<FubuMVC.Swank.Type> types)
+        public static void ShouldNotContainAnyInputType<TType, THandler>(this List<FubuMVC.Swank.Specification.Type> types)
         {
             types.ShouldNotContainAnyType<TType>(typeof(TType).GetHash(typeof(THandler).GetExecuteMethod()));
         }
 
-        private static void ShouldNotContainAnyType<TType>(this List<FubuMVC.Swank.Type> types, string id)
+        private static void ShouldNotContainAnyType<TType>(this List<FubuMVC.Swank.Specification.Type> types, string id)
         {
             types.Any(x => x.id == id).ShouldBeFalse("Specification should not contain type {0}.".ToFormat(typeof(TType).Name));
         }
 
-        private static void ShouldContainOneType<TType>(this List<FubuMVC.Swank.Type> types, string id)
+        private static void ShouldContainOneType<TType>(this List<FubuMVC.Swank.Specification.Type> types, string id)
         {
             var count = types.Count(x => x.id == id);
             (count > 0).ShouldBeTrue("Specification does not contain any types {0}.".ToFormat(typeof(TType).Name));
             (count < 2).ShouldBeTrue("Specification contains more than one types {0}.".ToFormat(typeof(TType).Name));
         }
 
-        public static void ShouldContainMember<TType>(this FubuMVC.Swank.Type type, Expression<Func<TType, object>> member)
+        public static void ShouldContainMember<TType>(this FubuMVC.Swank.Specification.Type type, Expression<Func<TType, object>> member)
         {
             type.ShouldContainMember(member.GetMemberName());
         }
 
-        public static void ShouldContainMember(this FubuMVC.Swank.Type type, string name)
+        public static void ShouldContainMember(this FubuMVC.Swank.Specification.Type type, string name)
         {
             type.members.Count(x => x.name == name)
                 .ShouldEqual(1, "Should contain member {0}.".ToFormat(name));
         }
 
-        public static void ShouldNotContainMember<TType>(this FubuMVC.Swank.Type type, Expression<Func<TType, object>> member)
+        public static void ShouldNotContainMember<TType>(this FubuMVC.Swank.Specification.Type type, Expression<Func<TType, object>> member)
         {
             type.members.Any(x => x.name == member.GetMemberName())
                 .ShouldBeFalse("Should not contain member {0}.".ToFormat(member.GetMemberName()));
@@ -222,7 +223,7 @@ namespace Tests
             return endpoint.querystringParameters.Single(x => x.name == member.GetMemberName());
         }
 
-        public static Member GetMember<TType>(this FubuMVC.Swank.Type type, Expression<Func<TType, object>> member)
+        public static Member GetMember<TType>(this FubuMVC.Swank.Specification.Type type, Expression<Func<TType, object>> member)
         {
             return type.members.Single(x => x.name == member.GetMemberName());
         }

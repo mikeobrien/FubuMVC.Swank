@@ -1,4 +1,6 @@
-﻿namespace FubuMVC.Swank.Description
+﻿using FubuMVC.Swank.Extensions;
+
+namespace FubuMVC.Swank.Description
 {
     public class DescriptionBase
     {

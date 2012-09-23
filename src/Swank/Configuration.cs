@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Description;
+using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank
 {
@@ -18,7 +19,7 @@ namespace FubuMVC.Swank
 
         public Configuration()
         {
-            Url = "docs";
+            Url = "specification";
             AppliesToAssemblies = new List<Assembly>();
             Filter = x => true;
             ModuleDescriptionSource = new Service<IDescriptionSource<ActionCall, ModuleDescription>> { Type = typeof(ModuleSource) };
@@ -35,7 +36,6 @@ namespace FubuMVC.Swank
         }
         
         public string Url { get; set; }
-        public string SpecificationUrl { get; set; }
         public string MergeSpecificationPath { get; set; }
         public List<Assembly> AppliesToAssemblies { get; set; }
         public Func<ActionCall, bool> Filter { get; set; }

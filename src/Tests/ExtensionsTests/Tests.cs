@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using FubuMVC.Core.Registration.Routes;
-using FubuMVC.Swank;
+using FubuMVC.Swank.Extensions;
 using NSubstitute;
 using NUnit.Framework;
 using Should;

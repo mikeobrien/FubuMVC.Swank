@@ -1,12 +1,11 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank;
 using FubuMVC.Swank.Description;
 using NUnit.Framework;
 using Should;
-using ActionSource = FubuMVC.Swank.ActionSource;
+using ActionSource = FubuMVC.Swank.Specification.ActionSource;
 
 namespace Tests.Description.ResourceSourceTests
 {
@@ -22,7 +21,7 @@ namespace Tests.Description.ResourceSourceTests
             _graph = Behavior.BuildGraph().AddActionsInThisNamespace();
             _resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
-                new ActionSource(_graph, ConfigurationDsl.CreateConfig(x => x.AppliesToThisAssembly()
+                new ActionSource(_graph, Swank.CreateConfig(x => x.AppliesToThisAssembly()
                     .Where(y => y.HandlerType.InNamespace<Tests>()))));
         }
 
