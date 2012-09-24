@@ -174,6 +174,10 @@
       <Project>{b24d9a42-67e1-4878-a910-bade3248926e}</Project>
       <Name>Swank</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestHarness\TestHarness.csproj">
+      <Project>{3f0d282d-075c-4c40-8c95-5f41ef4b9e55}</Project>
+      <Name>TestHarness</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

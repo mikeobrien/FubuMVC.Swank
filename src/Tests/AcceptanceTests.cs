@@ -45,5 +45,11 @@ namespace Tests
             spec.modules.ShouldBeEmpty();
             spec.resources.ShouldBeEmpty();
         }
+
+        [Test]
+        public void should_return_specification_html()
+        {
+            _testWebsite.DownloadString("documentation", "text/html").ShouldContain("<h3>oh hai</h3>");
+        }
     }
 }
