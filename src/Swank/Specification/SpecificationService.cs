@@ -12,7 +12,7 @@ using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank.Specification
 {
-    public class SpecificationBuilder
+    public class SpecificationService
     {
         private class ActionMapping
         {
@@ -44,7 +44,7 @@ namespace FubuMVC.Swank.Specification
         private readonly IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
         private readonly IDescriptionSource<System.Type, DataTypeDescription> _dataTypes;
 
-        public SpecificationBuilder(
+        public SpecificationService(
             Configuration configuration, 
             ActionSource actions,
             ITypeDescriptorCache typeCache,
@@ -68,7 +68,7 @@ namespace FubuMVC.Swank.Specification
             _dataTypes = dataTypes;
         }
 
-        public Specification Build()
+        public Specification Generate()
         {
             var actionMapping = GetActionMapping(_actions.GetActions());
             CheckForOrphanedActions(actionMapping);

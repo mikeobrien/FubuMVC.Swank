@@ -6,7 +6,7 @@ using FubuMVC.Swank.Description;
 using FubuMVC.Swank.Specification;
 using NUnit.Framework;
 
-namespace Tests.Specification.SpecificationBuilderEndpointTests
+namespace Tests.Specification.SpecificationServiceEndpointTests
 {
     [TestFixture]
     public abstract class TestBase
@@ -29,9 +29,9 @@ namespace Tests.Specification.SpecificationBuilderEndpointTests
             var errors = new ErrorSource();
             var dataTypes = new TypeSource();
             var configuration = Swank.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter));
-            var specBuilder = new SpecificationBuilder(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
+            var specBuilder = new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
                 moduleSource, resourceSource, endpointSource, memberSource, optionSource, errors, dataTypes);
-            Spec = specBuilder.Build();
+            Spec = specBuilder.Generate();
         }
     }
 }

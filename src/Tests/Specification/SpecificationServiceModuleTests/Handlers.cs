@@ -1,6 +1,6 @@
 ﻿using FubuMVC.Swank.Description;
 
-namespace Tests.Specification.SpecificationBuilderModuleTests
+namespace Tests.Specification.SpecificationServiceModuleTests
 {
     namespace ModuleDescriptions
     {

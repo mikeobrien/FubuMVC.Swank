@@ -7,7 +7,7 @@ using FubuMVC.Swank.Specification;
 using NUnit.Framework;
 using Should;
 
-namespace Tests.Specification.SpecificationBuilderResourceTests
+namespace Tests.Specification.SpecificationServiceResourceTests
 {
     [TestFixture]
     public class Tests
@@ -23,8 +23,8 @@ namespace Tests.Specification.SpecificationBuilderResourceTests
                         .Where(y => y.HandlerType.InNamespace<Tests>()))));
             var configuration = Swank.CreateConfig(x => 
             { if (configure != null) configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<TNamespace>()); });
-            return new SpecificationBuilder(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleSource, resourceSource, new EndpointSource(), new MemberSource(), new OptionSource(), new ErrorSource(), new TypeSource()).Build();
+            return new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
+                moduleSource, resourceSource, new EndpointSource(), new MemberSource(), new OptionSource(), new ErrorSource(), new TypeSource()).Generate();
         }
 
         [Test]

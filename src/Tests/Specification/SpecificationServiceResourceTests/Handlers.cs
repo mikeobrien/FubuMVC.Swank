@@ -1,7 +1,7 @@
 ﻿using System;
 using FubuMVC.Swank.Description;
 
-namespace Tests.Specification.SpecificationBuilderResourceTests
+namespace Tests.Specification.SpecificationServiceResourceTests
 {
     namespace ResourceDescriptions
     {

@@ -87,34 +87,34 @@
     <Compile Include="Description\ModuleSourceTests\Handlers.cs" />
     <Compile Include="Description\ResourceSourceTests\Handlers.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Specification\MergeSpecificationTests\Handlers.cs" />
-    <Compile Include="Specification\MergeSpecificationTests\Tests.cs" />
-    <Compile Include="Specification\SpecificationBuilderTypeTests\MemberTests.cs" />
-    <Compile Include="Specification\SpecificationBuilderTypeTests\TestBase.cs" />
-    <Compile Include="Specification\SpecificationBuilderTypeTests\Handlers.cs" />
-    <Compile Include="Specification\SpecificationBuilderTypeTests\TypeTests.cs" />
+    <Compile Include="Specification\SpecificationServiceMergeTests\Handlers.cs" />
+    <Compile Include="Specification\SpecificationServiceMergeTests\Tests.cs" />
+    <Compile Include="Specification\SpecificationServiceTypeTests\MemberTests.cs" />
+    <Compile Include="Specification\SpecificationServiceTypeTests\TestBase.cs" />
+    <Compile Include="Specification\SpecificationServiceTypeTests\Handlers.cs" />
+    <Compile Include="Specification\SpecificationServiceTypeTests\TypeTests.cs" />
     <Compile Include="Description\TypeSourceTests.cs" />
     <Compile Include="Description\ErrorSourceTests.cs" />
     <Compile Include="Description\OptionSourceTests.cs" />
     <Compile Include="Description\MemberSourceTests.cs" />
-    <Compile Include="Specification\SpecificationBuilderEndpointTests\EndpointTests.cs" />
-    <Compile Include="Specification\SpecificationBuilderEndpointTests\UrlParameterTests.cs" />
-    <Compile Include="Specification\SpecificationBuilderEndpointTests\QuerystringTests.cs" />
-    <Compile Include="Specification\SpecificationBuilderEndpointTests\ErrorsTests.cs" />
-    <Compile Include="Specification\SpecificationBuilderEndpointTests\OutputTypeTests.cs" />
-    <Compile Include="Specification\SpecificationBuilderEndpointTests\InputTypeTests.cs" />
-    <Compile Include="Specification\SpecificationBuilderEndpointTests\Handlers.cs" />
-    <Compile Include="Specification\SpecificationBuilderEndpointTests\TestBase.cs" />
+    <Compile Include="Specification\SpecificationServiceEndpointTests\EndpointTests.cs" />
+    <Compile Include="Specification\SpecificationServiceEndpointTests\UrlParameterTests.cs" />
+    <Compile Include="Specification\SpecificationServiceEndpointTests\QuerystringTests.cs" />
+    <Compile Include="Specification\SpecificationServiceEndpointTests\ErrorsTests.cs" />
+    <Compile Include="Specification\SpecificationServiceEndpointTests\OutputTypeTests.cs" />
+    <Compile Include="Specification\SpecificationServiceEndpointTests\InputTypeTests.cs" />
+    <Compile Include="Specification\SpecificationServiceEndpointTests\Handlers.cs" />
+    <Compile Include="Specification\SpecificationServiceEndpointTests\TestBase.cs" />
     <Compile Include="Description\EndpointSourceTests\Tests.cs" />
     <Compile Include="Description\MarkerSourceTests\Tests.cs" />
     <Compile Include="Description\ResourceSourceTests\Tests.cs" />
     <Compile Include="Description\ModuleSourceTests\Tests.cs" />
-    <Compile Include="Specification\SpecificationBuilderResourceTests\Handlers.cs" />
-    <Compile Include="Specification\SpecificationBuilderResourceTests\Tests.cs" />
+    <Compile Include="Specification\SpecificationServiceResourceTests\Handlers.cs" />
+    <Compile Include="Specification\SpecificationServiceResourceTests\Tests.cs" />
     <Compile Include="ExtensionsTests\Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Specification\SpecificationBuilderModuleTests\Handlers.cs" />
-    <Compile Include="Specification\SpecificationBuilderModuleTests\Tests.cs" />
+    <Compile Include="Specification\SpecificationServiceModuleTests\Handlers.cs" />
+    <Compile Include="Specification\SpecificationServiceModuleTests\Tests.cs" />
     <Compile Include="Website.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -128,19 +128,19 @@
     <EmbeddedResource Include="Description\EndpointSourceTests\ControllerResource\Controller.md" />
     <EmbeddedResource Include="Description\MarkerSourceTests\MarkerCommentsPriority\Description.md" />
     <EmbeddedResource Include="Description\ResourceSourceTests\ResourceCommentsPriority\Resource.md" />
-    <None Include="Specification\MergeSpecificationTests\Merge.json">
+    <None Include="Specification\SpecificationServiceMergeTests\Merge.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-    <EmbeddedResource Include="Specification\SpecificationBuilderEndpointTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Execute_EmbeddedDescription.md" />
+    <EmbeddedResource Include="Specification\SpecificationServiceEndpointTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Execute_EmbeddedDescription.md" />
     <EmbeddedResource Include="ExtensionsTests\EmbeddedMarkdownResource.md" />
-    <EmbeddedResource Include="Specification\SpecificationBuilderModuleTests\ModuleDescriptions\EmbeddedMarkdownComments\Module.md" />
-    <EmbeddedResource Include="Specification\SpecificationBuilderResourceTests\ResourceDescriptions\EmbeddedMarkdownComments\Resource.md" />
-    <EmbeddedResource Include="Specification\SpecificationBuilderEndpointTests\ControllerResource\Controller.md" />
-    <EmbeddedResource Include="Specification\SpecificationBuilderResourceTests\AttributeResource\EmbeddedMarkdownComments\Controller.md" />
+    <EmbeddedResource Include="Specification\SpecificationServiceModuleTests\ModuleDescriptions\EmbeddedMarkdownComments\Module.md" />
+    <EmbeddedResource Include="Specification\SpecificationServiceResourceTests\ResourceDescriptions\EmbeddedMarkdownComments\Resource.md" />
+    <EmbeddedResource Include="Specification\SpecificationServiceEndpointTests\ControllerResource\Controller.md" />
+    <EmbeddedResource Include="Specification\SpecificationServiceResourceTests\AttributeResource\EmbeddedMarkdownComments\Controller.md" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Specification\SpecificationBuilderEndpointTests\EndpointDescriptions\HandlerDescription\EmbeddedDescriptionGetHandler.html" />
+    <EmbeddedResource Include="Specification\SpecificationServiceEndpointTests\EndpointDescriptions\HandlerDescription\EmbeddedDescriptionGetHandler.html" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ExtensionsTests\EmbeddedHtmlResource.html" />
@@ -149,13 +149,13 @@
     <EmbeddedResource Include="ExtensionsTests\EmbeddedTextResource.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Specification\SpecificationBuilderModuleTests\ModuleDescriptions\EmbeddedTextComments\Module.html" />
+    <EmbeddedResource Include="Specification\SpecificationServiceModuleTests\ModuleDescriptions\EmbeddedTextComments\Module.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Specification\SpecificationBuilderResourceTests\ResourceDescriptions\EmbeddedTextComments\Resource.html" />
+    <EmbeddedResource Include="Specification\SpecificationServiceResourceTests\ResourceDescriptions\EmbeddedTextComments\Resource.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Specification\SpecificationBuilderResourceTests\AttributeResource\EmbeddedTextComments\Controller.html" />
+    <EmbeddedResource Include="Specification\SpecificationServiceResourceTests\AttributeResource\EmbeddedTextComments\Controller.html" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Description\ResourceSourceTests\ResourceDescriptions\EmbeddedTextComments\Resource.html" />

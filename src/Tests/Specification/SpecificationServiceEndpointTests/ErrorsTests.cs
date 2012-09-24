@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Should;
 
-namespace Tests.Specification.SpecificationBuilderEndpointTests
+namespace Tests.Specification.SpecificationServiceEndpointTests
 {
     public class ErrorsTests : TestBase
     {

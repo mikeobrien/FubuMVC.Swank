@@ -4,7 +4,7 @@ using FubuMVC.Swank.Extensions;
 using NUnit.Framework;
 using Should;
 
-namespace Tests.Specification.SpecificationBuilderTypeTests
+namespace Tests.Specification.SpecificationServiceTypeTests
 {
     public class TypeTests : TestBase
     {

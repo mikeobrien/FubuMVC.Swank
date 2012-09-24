@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 using FubuMVC.Core;
 using FubuMVC.Swank.Description;
 
-namespace Tests.Specification.SpecificationBuilderTypeTests
+namespace Tests.Specification.SpecificationServiceTypeTests
 {
     namespace ExcludedHandlers
     {

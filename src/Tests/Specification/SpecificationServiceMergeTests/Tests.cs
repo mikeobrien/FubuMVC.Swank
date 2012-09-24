@@ -19,13 +19,13 @@ namespace Tests.Specification.MergeSpecificationTests
                 new MarkerSource<ResourceDescription>(),
                 new ActionSource(graph,
                     Swank.CreateConfig(x => x.AppliesToThisAssembly()
-                        .Where(y => y.HandlerType.InNamespace<global::Tests.Specification.SpecificationBuilderModuleTests.Tests>()))));
+                        .Where(y => y.HandlerType.InNamespace<global::Tests.Specification.SpecificationServiceModuleTests.Tests>()))));
             var configuration = Swank.CreateConfig(x =>
                 { if (configure != null) configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<TNamespace>())
-                    .MergeThisSpecification(@"Specification\MergeSpecificationTests\Merge.json");
+                    .MergeThisSpecification(@"Specification\SpecificationServiceMergeTests\Merge.json");
                 });
-            return new SpecificationBuilder(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleSource, resourceSource, new EndpointSource(), new MemberSource(), new OptionSource(), new ErrorSource(), new TypeSource()).Build();
+            return new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
+                moduleSource, resourceSource, new EndpointSource(), new MemberSource(), new OptionSource(), new ErrorSource(), new TypeSource()).Generate();
         }
 
         [Test]
