@@ -2,17 +2,17 @@
 {
     public class Handler
     {
-        private readonly SpecificationService _SpecificationService;
+        private readonly ISpecificationService _specificationService;
         private static Specification _specification;
 
-        public Handler(SpecificationService SpecificationService)
+        public Handler(ISpecificationService specificationService)
         {
-            _SpecificationService = SpecificationService;
+            _specificationService = specificationService;
         }
 
         public Specification Execute()
         {
-            return _specification ?? (_specification = _SpecificationService.Generate());
+            return _specification ?? (_specification = _specificationService.Generate());
         }
     }
 }

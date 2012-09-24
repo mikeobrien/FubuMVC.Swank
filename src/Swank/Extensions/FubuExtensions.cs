@@ -64,7 +64,12 @@ namespace FubuMVC.Swank.Extensions
                    action.ParentChain().Route.AllowsUpdate()));
         }
 
-        public static void AddService<T>(this IServiceRegistry services, System.Type concreteType, params object[] dependencies)
+        public static void AddService<T, TConcrete>(this IServiceRegistry services)
+        {
+            services.AddService(typeof(T), new ObjectDef(typeof(TConcrete)));
+        }
+
+        public static void AddService<T>(this IServiceRegistry services, Type concreteType, params object[] dependencies)
         {
             var objectDef = new ObjectDef(concreteType);
             dependencies.Where(x => x != null).ToList().ForEach(objectDef.DependencyByValue);

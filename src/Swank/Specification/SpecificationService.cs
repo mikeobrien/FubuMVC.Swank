@@ -12,7 +12,7 @@ using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank.Specification
 {
-    public class SpecificationService
+    public class SpecificationService : ISpecificationService
     {
         private class ActionMapping
         {

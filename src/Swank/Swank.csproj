@@ -97,6 +97,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Specification\ISpecificationService.cs" />
     <Compile Include="Specification\OrphanedModuleActionException.cs" />
     <Compile Include="Specification\OrphanedResourceActionException.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
