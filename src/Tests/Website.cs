@@ -42,7 +42,9 @@ namespace Tests
                 using (var client = new WebClient())
                 {
                     if (contentType != null) client.Headers.Add("accept", contentType);
-                    return client.DownloadString("http://localhost:{0}/{1}".ToFormat(_port, url));
+                    url = "http://localhost:{0}/{1}".ToFormat(_port, url.IsEmpty() ? url : url + "/");
+                    Console.WriteLine("Downloading {0}", url);
+                    return client.DownloadString(url);
                 }
             }
             catch (WebException exception)
