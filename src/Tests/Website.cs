@@ -18,11 +18,6 @@ namespace Tests
 
         public void Create(string name, string path)
         {
-            var directory = new DirectoryInfo(path);
-            var directorySecurity = directory.GetAccessControl();
-            directorySecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.NetworkServiceSid, null),
-                                              FileSystemRights.FullControl, AccessControlType.Allow));
-            directory.SetAccessControl(directorySecurity);
             _port = Random.Next(30000, 40000);
             using (var manager = new ServerManager())
             {
@@ -49,7 +44,7 @@ namespace Tests
                 using (var client = new WebClient())
                 {
                     if (contentType != null) client.Headers.Add("accept", contentType);
-                    url = "http://localhost:{0}/{1}".ToFormat(_port, url.IsEmpty() ? url : url + "/");
+                    url = "http://localhost:{0}/{1}".ToFormat(_port, url);
                     Console.WriteLine("Downloading {0}", url);
                     return client.DownloadString(url);
                 }

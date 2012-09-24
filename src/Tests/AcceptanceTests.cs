@@ -12,7 +12,7 @@ namespace Tests
     {
         private Website _testWebsite;
 
-        [SetUp]
+        [TestFixtureSetUp]
         public void Setup()
         {
             if (!Bottles.Create(Paths.Swank, Path.Combine(Paths.TestHarness, "fubu-content", "fubu-swank.zip"), true, true)) 
@@ -21,7 +21,7 @@ namespace Tests
             _testWebsite.Create(typeof(Swank).Assembly.GetName().Name, Paths.TestHarness);
         }
 
-        [TearDown]
+        [TestFixtureTearDown]
         public void TearDown()
         {
             _testWebsite.Remove();
