@@ -22,9 +22,9 @@ namespace Tests
             using (var manager = new ServerManager())
             {
                 _name = name + "_" + Guid.NewGuid().ToString("N");
-                var site = manager.Sites.Add(_name, "http", "*:{0}:".ToFormat(_port), path);
+                manager.Sites.Add(_name, "http", "*:{0}:".ToFormat(_port), path);
                 manager.CommitChanges();
-                site.Start();
+                manager.Sites[_name].Start();
             } 
         }
 
