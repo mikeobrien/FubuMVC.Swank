@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using FubuCore;
 using FubuMVC.Swank;
 using FubuMVC.Swank.Extensions;
@@ -16,6 +18,11 @@ namespace Tests
 
         public void Create(string name, string path)
         {
+            var directory = new DirectoryInfo(path);
+            var directorySecurity = directory.GetAccessControl();
+            directorySecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.NetworkServiceSid, null),
+                                              FileSystemRights.FullControl, AccessControlType.Allow));
+            directory.SetAccessControl(directorySecurity);
             _port = Random.Next(30000, 40000);
             using (var manager = new ServerManager())
             {
