@@ -89,6 +89,7 @@ nuspec :createSpec => :createBottle do |nuspec|
    nuspec.tags = "fubumvc"
    nuspec.dependency "FubuMVC.References", "0.9.0.0"
    nuspec.dependency "FubuMVC.Spark", "0.9.0.0"
+   nuspec.dependency "MarkdownSharp", "1.0.0.0"
 end
 
 nugetpack :createPackage => :createSpec do |nugetpack|
