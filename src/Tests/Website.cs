@@ -13,7 +13,7 @@ namespace Tests
     public class Website
     {
         private static readonly Random Random = new Random();
-        private string _siteName;
+        private string _name;
         private int _port;
 
         public void Create(string name, string path)
@@ -21,9 +21,10 @@ namespace Tests
             _port = Random.Next(30000, 40000);
             using (var manager = new ServerManager())
             {
-                _siteName = name + "_" + Guid.NewGuid().ToString("N");
-                manager.Sites.Add(_siteName, "http", "*:{0}:".ToFormat(_port), path);
-                manager.CommitChanges(); 
+                _name = name + "_" + Guid.NewGuid().ToString("N");
+                var site = manager.Sites.Add(_name, "http", "*:{0}:".ToFormat(_port), path);
+                manager.CommitChanges();
+                site.Start();
             } 
         }
 
@@ -31,9 +32,10 @@ namespace Tests
         {
             using (var manager = new ServerManager())
             {
-                manager.Sites.Remove(manager.Sites[_siteName]);
+                var site = manager.Sites[_name];
+                site.Stop();
+                manager.Sites.Remove(site);
                 manager.CommitChanges();
-                manager.Dispose();
             }
         }
 
