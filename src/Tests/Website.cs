@@ -1,10 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
-using System.Security.AccessControl;
-using System.Security.Principal;
 using FubuCore;
-using FubuMVC.Swank;
 using FubuMVC.Swank.Extensions;
 using Microsoft.Web.Administration;
 
@@ -24,7 +21,6 @@ namespace Tests
                 _name = name + "_" + Guid.NewGuid().ToString("N");
                 manager.Sites.Add(_name, "http", "*:{0}:".ToFormat(_port), path);
                 manager.CommitChanges();
-                manager.Sites[_name].Start();
             } 
         }
 

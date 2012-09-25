@@ -51,5 +51,11 @@ namespace Tests
         {
             _testWebsite.DownloadString("documentation", "text/html").ShouldContain("<h3>oh hai</h3>");
         }
+
+        [Test]
+        public void should_return_content()
+        {
+            _testWebsite.DownloadString("_content/swank/swank.js").ShouldEqual("{}");
+        }
     }
 }
