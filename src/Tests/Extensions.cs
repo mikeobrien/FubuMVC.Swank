@@ -26,23 +26,8 @@ namespace Tests
         }
     }
 
-    public static class Bottles
-    {
-        public static bool Create(string source, string output, bool deleteExisting, bool includePdbs)
-        {
-            return new CreateBottleCommand().Execute(new CreateBottleInput
-            {
-                PackageFolder = source,
-                ZipFileFlag = output,
-                ForceFlag = deleteExisting,
-                PdbFlag = includePdbs
-            });
-        }
-    }
-
     public static class Paths
     {
-        public static string Swank { get { return Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\Swank")); } }
         public static string TestHarness { get { return Path.GetFullPath(Environment.CurrentDirectory + @"\..\..\..\TestHarness");}}
     }
 
@@ -112,15 +97,15 @@ namespace Tests
         public static Endpoint GetEndpoint<T>(this FubuMVC.Swank.Specification.Specification specification)
         {
             var url = typeof(T).GetHandlerUrl(new StackFrame(1).GetMethod().DeclaringType.Namespace);
-            return specification.modules.SelectMany(x => x.resources).Concat(specification.resources)
-                .SelectMany(x => x.endpoints).FirstOrDefault(x => x.url == url);
+            return specification.Modules.SelectMany(x => x.Resources).Concat(specification.Resources)
+                .SelectMany(x => x.Endpoints).FirstOrDefault(x => x.Url == url);
         }
 
         public static Resource GetResource<T>(this FubuMVC.Swank.Specification.Specification specification)
         {
             var url = typeof(T).GetHandlerUrl(new StackFrame(1).GetMethod().DeclaringType.Namespace);
-            return specification.modules.SelectMany(x => x.resources).Concat(specification.resources)
-                .FirstOrDefault(x => x.endpoints.Any(y => y.url == url));
+            return specification.Modules.SelectMany(x => x.Resources).Concat(specification.Resources)
+                .FirstOrDefault(x => x.Endpoints.Any(y => y.Url == url));
         }
 
         public static bool InNamespace<T>(this Type type)
@@ -136,12 +121,12 @@ namespace Tests
 
         public static FubuMVC.Swank.Specification.Type GetType<TType>(this List<FubuMVC.Swank.Specification.Type> types)
         {
-            return types.Single(x => x.id == typeof(TType).GetHash());
+            return types.Single(x => x.Id == typeof(TType).GetHash());
         }
 
         public static FubuMVC.Swank.Specification.Type GetType<TType, THandler>(this List<FubuMVC.Swank.Specification.Type> types)
         {
-            return types.Single(x => x.id == typeof(TType).GetHash(typeof(THandler).GetExecuteMethod()));
+            return types.Single(x => x.Id == typeof(TType).GetHash(typeof(THandler).GetExecuteMethod()));
         }
 
         public static void ShouldContainOneOutputType<TType>(this List<FubuMVC.Swank.Specification.Type> types)
@@ -176,12 +161,12 @@ namespace Tests
 
         private static void ShouldNotContainAnyType<TType>(this List<FubuMVC.Swank.Specification.Type> types, string id)
         {
-            types.Any(x => x.id == id).ShouldBeFalse("Specification should not contain type {0}.".ToFormat(typeof(TType).Name));
+            types.Any(x => x.Id == id).ShouldBeFalse("Specification should not contain type {0}.".ToFormat(typeof(TType).Name));
         }
 
         private static void ShouldContainOneType<TType>(this List<FubuMVC.Swank.Specification.Type> types, string id)
         {
-            var count = types.Count(x => x.id == id);
+            var count = types.Count(x => x.Id == id);
             (count > 0).ShouldBeTrue("Specification does not contain any types {0}.".ToFormat(typeof(TType).Name));
             (count < 2).ShouldBeTrue("Specification contains more than one types {0}.".ToFormat(typeof(TType).Name));
         }
@@ -193,39 +178,39 @@ namespace Tests
 
         public static void ShouldContainMember(this FubuMVC.Swank.Specification.Type type, string name)
         {
-            type.members.Count(x => x.name == name)
+            type.Members.Count(x => x.Name == name)
                 .ShouldEqual(1, "Should contain member {0}.".ToFormat(name));
         }
 
         public static void ShouldNotContainMember<TType>(this FubuMVC.Swank.Specification.Type type, Expression<Func<TType, object>> member)
         {
-            type.members.Any(x => x.name == member.GetMemberName())
+            type.Members.Any(x => x.Name == member.GetMemberName())
                 .ShouldBeFalse("Should not contain member {0}.".ToFormat(member.GetMemberName()));
         }
 
         public static bool HasUrlParameter<TType>(this Endpoint endpoint, Expression<Func<TType, object>> member)
         {
-            return endpoint.urlParameters.Count(x => x.name == member.GetMemberName()) == 1;
+            return endpoint.UrlParameters.Count(x => x.Name == member.GetMemberName()) == 1;
         }
 
         public static UrlParameter GetUrlParameter<TType>(this Endpoint endpoint, Expression<Func<TType, object>> member)
         {
-            return endpoint.urlParameters.Single(x => x.name == member.GetMemberName());
+            return endpoint.UrlParameters.Single(x => x.Name == member.GetMemberName());
         }
 
         public static bool HasQuerystring<TType>(this Endpoint endpoint, Expression<Func<TType, object>> member)
         {
-            return endpoint.querystringParameters.Count(x => x.name == member.GetMemberName()) == 1;
+            return endpoint.QuerystringParameters.Count(x => x.Name == member.GetMemberName()) == 1;
         }
 
         public static QuerystringParameter GetQuerystring<TType>(this Endpoint endpoint, Expression<Func<TType, object>> member)
         {
-            return endpoint.querystringParameters.Single(x => x.name == member.GetMemberName());
+            return endpoint.QuerystringParameters.Single(x => x.Name == member.GetMemberName());
         }
 
         public static Member GetMember<TType>(this FubuMVC.Swank.Specification.Type type, Expression<Func<TType, object>> member)
         {
-            return type.members.Single(x => x.name == member.GetMemberName());
+            return type.Members.Single(x => x.Name == member.GetMemberName());
         }
 
         private static string GetMemberName<TType>(this Expression<Func<TType, object>> member)

@@ -87,6 +87,8 @@
     <Compile Include="Description\ModuleSourceTests\Handlers.cs" />
     <Compile Include="Description\ResourceSourceTests\Handlers.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Specification\SpecificationServiceTests\Handlers.cs" />
+    <Compile Include="Specification\SpecificationServiceTests\Tests.cs" />
     <Compile Include="Specification\SpecificationServiceMergeTests\Handlers.cs" />
     <Compile Include="Specification\SpecificationServiceMergeTests\Tests.cs" />
     <Compile Include="Specification\SpecificationServiceTypeTests\MemberTests.cs" />
@@ -128,6 +130,7 @@
     <EmbeddedResource Include="Description\EndpointSourceTests\ControllerResource\Controller.md" />
     <EmbeddedResource Include="Description\MarkerSourceTests\MarkerCommentsPriority\Description.md" />
     <EmbeddedResource Include="Description\ResourceSourceTests\ResourceCommentsPriority\Resource.md" />
+    <EmbeddedResource Include="Specification\SpecificationServiceTests\Comments\Comments.md" />
     <None Include="Specification\SpecificationServiceMergeTests\Merge.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

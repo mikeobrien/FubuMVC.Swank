@@ -9,101 +9,101 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
         [Test]
         public void should_set_get_output_type_description()
         {
-            var response = Spec.GetEndpoint<OutputTypeDescriptions.GetHandler>().response;
+            var response = Spec.GetEndpoint<OutputTypeDescriptions.GetHandler>().Response;
 
-            response.name.ShouldEqual("GetResponse");
-            response.comments.ShouldEqual("Some get response description");
-            response.collection.ShouldBeFalse();
+            response.Name.ShouldEqual("GetResponse");
+            response.Comments.ShouldEqual("Some get response description");
+            response.Collection.ShouldBeFalse();
         }
 
         [Test]
         public void should_set_post_output_type_description()
         {
-            var response = Spec.GetEndpoint<OutputTypeDescriptions.PostHandler>().response;
+            var response = Spec.GetEndpoint<OutputTypeDescriptions.PostHandler>().Response;
 
-            response.name.ShouldEqual("PostResponse");
-            response.comments.ShouldEqual("Some post response description");
-            response.collection.ShouldBeFalse();
+            response.Name.ShouldEqual("PostResponse");
+            response.Comments.ShouldEqual("Some post response description");
+            response.Collection.ShouldBeFalse();
         }
 
         [Test]
         public void should_set_put_output_type_description()
         {
-            var response = Spec.GetEndpoint<OutputTypeDescriptions.PutHandler>().response;
+            var response = Spec.GetEndpoint<OutputTypeDescriptions.PutHandler>().Response;
 
-            response.name.ShouldEqual("PutResponse");
-            response.comments.ShouldEqual("Some put response description");
-            response.collection.ShouldBeFalse();
+            response.Name.ShouldEqual("PutResponse");
+            response.Comments.ShouldEqual("Some put response description");
+            response.Collection.ShouldBeFalse();
         }
 
         [Test]
         public void should_set_delete_output_type_description()
         {
-            var response = Spec.GetEndpoint<OutputTypeDescriptions.DeleteHandler>().response;
+            var response = Spec.GetEndpoint<OutputTypeDescriptions.DeleteHandler>().Response;
 
-            response.name.ShouldEqual("DeleteResponse");
-            response.comments.ShouldEqual("Some delete response description");
-            response.collection.ShouldBeFalse();
+            response.Name.ShouldEqual("DeleteResponse");
+            response.Comments.ShouldEqual("Some delete response description");
+            response.Collection.ShouldBeFalse();
         }
 
         [Test]
         public void should_set_the_datatype_for__output_types_to_a_hash_of_the_datatype()
         {
-            Spec.GetEndpoint<OutputTypeDescriptions.GetHandler>().response.type
+            Spec.GetEndpoint<OutputTypeDescriptions.GetHandler>().Response.Type
                 .ShouldEqual(typeof(OutputTypeDescriptions.GetResponse).GetHash());
 
-            Spec.GetEndpoint<OutputTypeDescriptions.PostHandler>().response.type
+            Spec.GetEndpoint<OutputTypeDescriptions.PostHandler>().Response.Type
                 .ShouldEqual(typeof(OutputTypeDescriptions.PostResponse).GetHash());
 
-            Spec.GetEndpoint<OutputTypeDescriptions.PutHandler>().response.type
+            Spec.GetEndpoint<OutputTypeDescriptions.PutHandler>().Response.Type
                 .ShouldEqual(typeof(OutputTypeDescriptions.PutResponse).GetHash());
 
-            Spec.GetEndpoint<OutputTypeDescriptions.DeleteHandler>().response.type
+            Spec.GetEndpoint<OutputTypeDescriptions.DeleteHandler>().Response.Type
                 .ShouldEqual(typeof(OutputTypeDescriptions.DeleteResponse).GetHash());
         }
 
         [Test]
         public void should_set_output_type_default_collection_name_and_datatype_should_be_a_hash_of_the_element_type_and_action()
         {
-            var response = Spec.GetEndpoint<OutputTypeDescriptions.CollectionPostHandler>().response;
+            var response = Spec.GetEndpoint<OutputTypeDescriptions.CollectionPostHandler>().Response;
 
-            response.name.ShouldEqual("ArrayOfResponseItem");
-            response.comments.ShouldBeNull();
-            response.type.ShouldEqual(typeof(OutputTypeDescriptions.ResponseItem).GetHash());
-            response.collection.ShouldBeTrue();
+            response.Name.ShouldEqual("ArrayOfResponseItem");
+            response.Comments.ShouldBeNull();
+            response.Type.ShouldEqual(typeof(OutputTypeDescriptions.ResponseItem).GetHash());
+            response.Collection.ShouldBeTrue();
         }
 
         [Test]
         public void should_set_output_type_default_collection_name_of_inherited_collection_and_datatype_should_be_a_hash_of_the_element_type_and_action()
         {
-            var response = Spec.GetEndpoint<OutputTypeDescriptions.InheritedCollectionPostHandler>().response;
+            var response = Spec.GetEndpoint<OutputTypeDescriptions.InheritedCollectionPostHandler>().Response;
 
-            response.name.ShouldEqual("ArrayOfResponseItem");
-            response.comments.ShouldBeNull();
-            response.type.ShouldEqual(typeof(OutputTypeDescriptions.ResponseItem).GetHash());
-            response.collection.ShouldBeTrue();
+            response.Name.ShouldEqual("ArrayOfResponseItem");
+            response.Comments.ShouldBeNull();
+            response.Type.ShouldEqual(typeof(OutputTypeDescriptions.ResponseItem).GetHash());
+            response.Collection.ShouldBeTrue();
         }
 
         [Test]
         public void should_set_output_type_name_to_the_xml_type_name()
         {
-            var response = Spec.GetEndpoint<OutputTypeDescriptions.OverridenRequestPostHandler>().response;
+            var response = Spec.GetEndpoint<OutputTypeDescriptions.OverridenRequestPostHandler>().Response;
 
-            response.name.ShouldEqual("NewItemName");
-            response.comments.ShouldBeNull();
-            response.type.ShouldEqual(typeof(OutputTypeDescriptions.OverridenResponseItem).GetHash());
-            response.collection.ShouldBeFalse();
+            response.Name.ShouldEqual("NewItemName");
+            response.Comments.ShouldBeNull();
+            response.Type.ShouldEqual(typeof(OutputTypeDescriptions.OverridenResponseItem).GetHash());
+            response.Collection.ShouldBeFalse();
         }
 
         [Test]
         public void should_set_output_type_collection_name_to_the_xml_type_name()
         {
-            var response = Spec.GetEndpoint<OutputTypeDescriptions.OverridenCollectionPostHandler>().response;
+            var response = Spec.GetEndpoint<OutputTypeDescriptions.OverridenCollectionPostHandler>().Response;
 
-            response.name.ShouldEqual("NewCollectionName");
-            response.comments.ShouldBeNull();
-            response.type.ShouldEqual(typeof(OutputTypeDescriptions.OverridenResponseItem).GetHash());
-            response.collection.ShouldBeTrue();
+            response.Name.ShouldEqual("NewCollectionName");
+            response.Comments.ShouldBeNull();
+            response.Type.ShouldEqual(typeof(OutputTypeDescriptions.OverridenResponseItem).GetHash());
+            response.Collection.ShouldBeTrue();
         }
     }
 }

@@ -21,15 +21,15 @@ namespace TestHarness
                 .ConstrainToHttpMethod(action => action.Method.Name.StartsWith("Delete"), "DELETE");
 
             Import<Swank>(x => x
+                .AppliesToThisAssembly()
                 .AtUrl("documentation")
-                .AppliesTo<Conventions>()
-                .Where(y => !y.HasAnyOutputBehavior()));
+                .Named("Test Harness API")
+                .WithCopyright("Copyright &copy; {year} Test Harness")
+                .MergeThisSpecification("~/api.json"));
 
             Views.TryToAttachWithDefaultConventions();
 
-            Media.ApplyContentNegotiationToActions(x => 
-                !x.HasAnyOutputBehavior() && 
-                x.HandlerType.Assembly == GetType().Assembly);
+            Media.ApplyContentNegotiationToActions(x => x.HandlerType.Assembly == GetType().Assembly);
         }
     }
 }

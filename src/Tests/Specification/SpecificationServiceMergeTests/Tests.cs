@@ -33,90 +33,90 @@ namespace Tests.Specification.MergeSpecificationTests
         {
             var spec = BuildSpec<NoHandlers.Marker>();
 
-            spec.types.Count.ShouldEqual(1);
-            var type = spec.types[0];
+            spec.Types.Count.ShouldEqual(1);
+            var type = spec.Types[0];
 
-            type.id.ShouldEqual("Some type id");
-            type.name.ShouldEqual("SomeType");
-            type.comments.ShouldEqual("Some type comments");
-            type.members.Count.ShouldEqual(1);
+            type.Id.ShouldEqual("Some type id");
+            type.Name.ShouldEqual("SomeType");
+            type.Comments.ShouldEqual("Some type comments");
+            type.Members.Count.ShouldEqual(1);
 
-            var member = type.members[0];
-            member.name.ShouldEqual("SomeMember");
-            member.comments.ShouldEqual("Some member comments");
-            member.required.ShouldBeTrue();
-            member.defaultValue.ShouldEqual("some default value");
-            member.type.ShouldEqual("some type");
-            member.collection.ShouldBeTrue();
-            member.options.Count.ShouldEqual(1);
+            var member = type.Members[0];
+            member.Name.ShouldEqual("SomeMember");
+            member.Comments.ShouldEqual("Some member comments");
+            member.Required.ShouldBeTrue();
+            member.DefaultValue.ShouldEqual("some default value");
+            member.Type.ShouldEqual("some type");
+            member.Collection.ShouldBeTrue();
+            member.Options.Count.ShouldEqual(1);
 
-            var option = member.options[0];
-            option.name.ShouldEqual("SomeOption");
-            option.comments.ShouldEqual("Some option comments");
-            option.value.ShouldEqual("Some option value");
+            var option = member.Options[0];
+            option.Name.ShouldEqual("SomeOption");
+            option.Comments.ShouldEqual("Some option comments");
+            option.Value.ShouldEqual("Some option value");
 
-            spec.modules.Count.ShouldEqual(1);
-            var module = spec.modules[0];
+            spec.Modules.Count.ShouldEqual(1);
+            var module = spec.Modules[0];
 
-            module.name.ShouldEqual("Some module");
-            module.comments.ShouldEqual("Some module comments");
-            module.resources.Count.ShouldEqual(1);
+            module.Name.ShouldEqual("Some module");
+            module.Comments.ShouldEqual("Some module comments");
+            module.Resources.Count.ShouldEqual(1);
 
-            var resource = module.resources[0];
+            var resource = module.Resources[0];
 
-            resource.name.ShouldEqual("Some module resource");
-            resource.comments.ShouldEqual("Some module resource comments");
-            resource.endpoints.Count.ShouldEqual(1);
+            resource.Name.ShouldEqual("Some module resource");
+            resource.Comments.ShouldEqual("Some module resource comments");
+            resource.Endpoints.Count.ShouldEqual(1);
 
-            var endpoint = resource.endpoints[0];
+            var endpoint = resource.Endpoints[0];
 
-            endpoint.name.ShouldEqual("Some endpoint");
-            endpoint.comments.ShouldEqual("Some endpoint comments");
-            endpoint.url.ShouldEqual("/some/url");
-            endpoint.method.ShouldEqual("METHOD");
-            endpoint.urlParameters.Count.ShouldEqual(1);
+            endpoint.Name.ShouldEqual("Some endpoint");
+            endpoint.Comments.ShouldEqual("Some endpoint comments");
+            endpoint.Url.ShouldEqual("/some/url");
+            endpoint.Method.ShouldEqual("METHOD");
+            endpoint.UrlParameters.Count.ShouldEqual(1);
 
-            var urlParameter = endpoint.urlParameters[0];
-            urlParameter.name.ShouldEqual("Some url param");
-            urlParameter.comments.ShouldEqual("Some url param comments");
-            urlParameter.type.ShouldEqual("Some type");
-            urlParameter.options.Count.ShouldEqual(1);
+            var urlParameter = endpoint.UrlParameters[0];
+            urlParameter.Name.ShouldEqual("Some url param");
+            urlParameter.Comments.ShouldEqual("Some url param comments");
+            urlParameter.Type.ShouldEqual("Some type");
+            urlParameter.Options.Count.ShouldEqual(1);
 
-            option = urlParameter.options[0];
-            option.name.ShouldEqual("Some option");
-            option.value.ShouldEqual("Some option value");
-            option.comments.ShouldEqual("Some option comments");
+            option = urlParameter.Options[0];
+            option.Name.ShouldEqual("Some option");
+            option.Value.ShouldEqual("Some option value");
+            option.Comments.ShouldEqual("Some option comments");
 
-            endpoint.querystringParameters.Count.ShouldEqual(1);
-            var querystringParameter = endpoint.querystringParameters[0];
-            querystringParameter.name.ShouldEqual("Some querystring");
-            querystringParameter.comments.ShouldEqual("Some querystring comments");
-            querystringParameter.defaultValue.ShouldEqual("Some default value");
-            querystringParameter.multipleAllowed.ShouldBeTrue();
-            querystringParameter.required.ShouldBeTrue();
-            querystringParameter.type.ShouldEqual("Some type");
-            querystringParameter.options.Count.ShouldEqual(1);
+            endpoint.QuerystringParameters.Count.ShouldEqual(1);
+            var querystringParameter = endpoint.QuerystringParameters[0];
+            querystringParameter.Name.ShouldEqual("Some querystring");
+            querystringParameter.Comments.ShouldEqual("Some querystring comments");
+            querystringParameter.DefaultValue.ShouldEqual("Some default value");
+            querystringParameter.MultipleAllowed.ShouldBeTrue();
+            querystringParameter.Required.ShouldBeTrue();
+            querystringParameter.Type.ShouldEqual("Some type");
+            querystringParameter.Options.Count.ShouldEqual(1);
 
-            option = urlParameter.options[0];
-            option.name.ShouldEqual("Some option");
-            option.value.ShouldEqual("Some option value");
-            option.comments.ShouldEqual("Some option comments");
+            option = urlParameter.Options[0];
+            option.Name.ShouldEqual("Some option");
+            option.Value.ShouldEqual("Some option value");
+            option.Comments.ShouldEqual("Some option comments");
 
-            endpoint.errors.Count.ShouldEqual(1);
-            var error = endpoint.errors[0];
-            error.name.ShouldEqual("Some error");
-            error.comments.ShouldEqual("Some error comments");
-            error.status.ShouldEqual(999);
+            endpoint.Errors.Count.ShouldEqual(1);
+            var error = endpoint.Errors[0];
+            error.Name.ShouldEqual("Some error");
+            error.Comments.ShouldEqual("Some error comments");
+            error.Status.ShouldEqual(999);
 
-            endpoint.request.name.ShouldEqual("Some request");
-            endpoint.request.comments.ShouldEqual("Some request comments");
-            endpoint.request.type.ShouldEqual("Some type");
-            endpoint.request.collection.ShouldBeTrue();
+            endpoint.Request.Name.ShouldEqual("Some request");
+            endpoint.Request.Comments.ShouldEqual("Some request comments");
+            endpoint.Request.Type.ShouldEqual("Some type");
+            endpoint.Request.Collection.ShouldBeTrue();
 
-            endpoint.response.name.ShouldEqual("Some response");
-            endpoint.response.comments.ShouldEqual("Some response comments");
-            endpoint.response.type.ShouldEqual("Some type");
-            endpoint.response.collection.ShouldBeTrue();
+            endpoint.Response.Name.ShouldEqual("Some response");
+            endpoint.Response.Comments.ShouldEqual("Some response comments");
+            endpoint.Response.Type.ShouldEqual("Some type");
+            endpoint.Response.Collection.ShouldBeTrue();
         }
 
         [Test]
@@ -124,21 +124,21 @@ namespace Tests.Specification.MergeSpecificationTests
         {
             var spec = BuildSpec<OverlappingModule.GetHandler>();
 
-            spec.modules.Count.ShouldEqual(1);
-            var module = spec.modules[0];
+            spec.Modules.Count.ShouldEqual(1);
+            var module = spec.Modules[0];
 
-            module.name.ShouldEqual("Some module");
-            module.comments.ShouldBeNull();
-            module.resources.Count.ShouldEqual(2);
+            module.Name.ShouldEqual("Some module");
+            module.Comments.ShouldBeNull();
+            module.Resources.Count.ShouldEqual(2);
 
-            var resource = module.resources[0];
-            resource.name.ShouldEqual("overlappingmodule");
-            resource.endpoints.Count.ShouldEqual(1);
+            var resource = module.Resources[0];
+            resource.Name.ShouldEqual("overlappingmodule");
+            resource.Endpoints.Count.ShouldEqual(1);
 
-            resource = module.resources[1];
-            resource.name.ShouldEqual("Some module resource");
-            resource.comments.ShouldEqual("Some module resource comments");
-            resource.endpoints.Count.ShouldEqual(1);
+            resource = module.Resources[1];
+            resource.Name.ShouldEqual("Some module resource");
+            resource.Comments.ShouldEqual("Some module resource comments");
+            resource.Endpoints.Count.ShouldEqual(1);
         }
 
         [Test]
@@ -146,29 +146,29 @@ namespace Tests.Specification.MergeSpecificationTests
         {
             var spec = BuildSpec<OverlappingModuleResource.GetHandler>();
 
-            spec.modules.Count.ShouldEqual(1);
-            var module = spec.modules[0];
+            spec.Modules.Count.ShouldEqual(1);
+            var module = spec.Modules[0];
 
-            module.name.ShouldEqual("Some module");
-            module.comments.ShouldBeNull();
-            module.resources.Count.ShouldEqual(1);
+            module.Name.ShouldEqual("Some module");
+            module.Comments.ShouldBeNull();
+            module.Resources.Count.ShouldEqual(1);
 
-            var resource = module.resources[0];
-            resource.name.ShouldEqual("Some module resource");
-            resource.comments.ShouldBeNull();
-            resource.endpoints.Count.ShouldEqual(2);
+            var resource = module.Resources[0];
+            resource.Name.ShouldEqual("Some module resource");
+            resource.Comments.ShouldBeNull();
+            resource.Endpoints.Count.ShouldEqual(2);
 
-            var endpoint = resource.endpoints[0];
-            endpoint.name.ShouldBeNull();
-            endpoint.comments.ShouldBeNull();
-            endpoint.url.ShouldEqual("/overlappingmoduleresource");
-            endpoint.method.ShouldEqual("GET");
+            var endpoint = resource.Endpoints[0];
+            endpoint.Name.ShouldBeNull();
+            endpoint.Comments.ShouldBeNull();
+            endpoint.Url.ShouldEqual("/overlappingmoduleresource");
+            endpoint.Method.ShouldEqual("GET");
 
-            endpoint = resource.endpoints[1];
-            endpoint.name.ShouldEqual("Some endpoint");
-            endpoint.comments.ShouldEqual("Some endpoint comments");
-            endpoint.url.ShouldEqual("/some/url");
-            endpoint.method.ShouldEqual("METHOD");
+            endpoint = resource.Endpoints[1];
+            endpoint.Name.ShouldEqual("Some endpoint");
+            endpoint.Comments.ShouldEqual("Some endpoint comments");
+            endpoint.Url.ShouldEqual("/some/url");
+            endpoint.Method.ShouldEqual("METHOD");
         }
 
         [Test]
@@ -176,26 +176,26 @@ namespace Tests.Specification.MergeSpecificationTests
         {
             var spec = BuildSpec<OverlappingResource.GetHandler>();
 
-            spec.modules.Count.ShouldEqual(1);
+            spec.Modules.Count.ShouldEqual(1);
 
-            spec.resources.Count.ShouldEqual(1);
+            spec.Resources.Count.ShouldEqual(1);
 
-            var resource = spec.resources[0];
-            resource.name.ShouldEqual("Some resource");
-            resource.comments.ShouldBeNull();
-            resource.endpoints.Count.ShouldEqual(2);
+            var resource = spec.Resources[0];
+            resource.Name.ShouldEqual("Some resource");
+            resource.Comments.ShouldBeNull();
+            resource.Endpoints.Count.ShouldEqual(2);
 
-            var endpoint = resource.endpoints[0];
-            endpoint.name.ShouldBeNull();
-            endpoint.comments.ShouldBeNull();
-            endpoint.url.ShouldEqual("/overlappingresource");
-            endpoint.method.ShouldEqual("GET");
+            var endpoint = resource.Endpoints[0];
+            endpoint.Name.ShouldBeNull();
+            endpoint.Comments.ShouldBeNull();
+            endpoint.Url.ShouldEqual("/overlappingresource");
+            endpoint.Method.ShouldEqual("GET");
 
-            endpoint = resource.endpoints[1];
-            endpoint.name.ShouldEqual("Some endpoint");
-            endpoint.comments.ShouldEqual("Some endpoint comments");
-            endpoint.url.ShouldEqual("/some/url");
-            endpoint.method.ShouldEqual("METHOD");
+            endpoint = resource.Endpoints[1];
+            endpoint.Name.ShouldEqual("Some endpoint");
+            endpoint.Comments.ShouldEqual("Some endpoint comments");
+            endpoint.Url.ShouldEqual("/some/url");
+            endpoint.Method.ShouldEqual("METHOD");
         }
     }
 }

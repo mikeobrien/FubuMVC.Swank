@@ -4,95 +4,98 @@ namespace FubuMVC.Swank.Specification
 {
     public class Specification
     {
-        public List<Type> types { get; set; }
-        public List<Module> modules { get; set; }
-        public List<Resource> resources { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public string Copyright { get; set; }
+        public List<Type> Types { get; set; }
+        public List<Module> Modules { get; set; }
+        public List<Resource> Resources { get; set; }
     }
 
     public class Type
     {
-        public string id { get; set; }
-        public string name { get; set; }
-        public string comments { get; set; }
-        public List<Member> members { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public List<Member> Members { get; set; }
     }
 
     public class Member
     {
-        public string name { get; set; }
-        public string comments { get; set; }
-        public bool required { get; set; }
-        public string defaultValue { get; set; }
-        public bool collection { get; set; }
-        public string type { get; set; }
-        public List<Option> options { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public bool Required { get; set; }
+        public string DefaultValue { get; set; }
+        public bool Collection { get; set; }
+        public string Type { get; set; }
+        public List<Option> Options { get; set; }
     }
 
     public class Option
     {
-        public string name { get; set; }
-        public string comments { get; set; }
-        public string value { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public string Value { get; set; }
     }
 
     public class Module
     {
-        public string name { get; set; }
-        public string comments { get; set; }
-        public List<Resource> resources { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public List<Resource> Resources { get; set; }
     }
 
     public class Resource
     {
-        public string name { get; set; }
-        public string comments { get; set; }
-        public List<Endpoint> endpoints { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public List<Endpoint> Endpoints { get; set; }
     }
 
     public class Endpoint
     {
-        public string name { get; set; }
-        public string comments { get; set; }
-        public string url { get; set; }
-        public string method { get; set; }
-        public List<UrlParameter> urlParameters { get; set; }
-        public List<QuerystringParameter> querystringParameters { get; set; }
-        public List<Error> errors { get; set; }
-        public Data request { get; set; }
-        public Data response { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public string Url { get; set; }
+        public string Method { get; set; }
+        public List<UrlParameter> UrlParameters { get; set; }
+        public List<QuerystringParameter> QuerystringParameters { get; set; }
+        public List<Error> Errors { get; set; }
+        public Data Request { get; set; }
+        public Data Response { get; set; }
     }
 
     public class UrlParameter
     {
-        public string name { get; set; }
-        public string comments { get; set; }
-        public string type { get; set; }
-        public List<Option> options { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public string Type { get; set; }
+        public List<Option> Options { get; set; }
     }
 
     public class QuerystringParameter
     {
-        public string name { get; set; }
-        public string comments { get; set; }
-        public string type { get; set; }
-        public string defaultValue { get; set; }
-        public bool multipleAllowed { get; set; }
-        public bool required { get; set; }
-        public List<Option> options { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public string Type { get; set; }
+        public string DefaultValue { get; set; }
+        public bool MultipleAllowed { get; set; }
+        public bool Required { get; set; }
+        public List<Option> Options { get; set; }
     }
 
     public class Error
     {
-        public string name { get; set; }
-        public string comments { get; set; }
-        public int status { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public int Status { get; set; }
     }
 
     public class Data
     {
-        public string name { get; set; }
-        public string comments { get; set; }
-        public string type { get; set; }
-        public bool collection { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public string Type { get; set; }
+        public bool Collection { get; set; }
     }
 }

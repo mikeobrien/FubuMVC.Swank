@@ -31,10 +31,10 @@ namespace Tests.Specification.SpecificationServiceModuleTests
         {
             var spec = BuildSpec<ModuleDescriptions.NoDescription.GetHandler>();
 
-            var module = spec.modules[0];
+            var module = spec.Modules[0];
 
-            module.name.ShouldBeNull();
-            module.comments.ShouldBeNull();
+            module.Name.ShouldBeNull();
+            module.Comments.ShouldBeNull();
         }
 
         [Test]
@@ -42,10 +42,10 @@ namespace Tests.Specification.SpecificationServiceModuleTests
         {
             var spec = BuildSpec<ModuleDescriptions.Description.GetHandler>();
 
-            var module = spec.modules[0];
+            var module = spec.Modules[0];
 
-            module.name.ShouldEqual("Some Module");
-            module.comments.ShouldEqual("Some comments.");
+            module.Name.ShouldEqual("Some Module");
+            module.Comments.ShouldEqual("Some comments.");
         }
 
         [Test]
@@ -53,10 +53,10 @@ namespace Tests.Specification.SpecificationServiceModuleTests
         {
             var spec = BuildSpec<ModuleDescriptions.EmbeddedTextComments.GetHandler>();
 
-            var module = spec.modules[0];
+            var module = spec.Modules[0];
 
-            module.name.ShouldEqual("Some Text Module");
-            module.comments.ShouldEqual("<b>Some text comments</b>");
+            module.Name.ShouldEqual("Some Text Module");
+            module.Comments.ShouldEqual("<b>Some text comments</b>");
         }
 
         [Test]
@@ -64,10 +64,10 @@ namespace Tests.Specification.SpecificationServiceModuleTests
         {
             var spec = BuildSpec<ModuleDescriptions.EmbeddedMarkdownComments.GetHandler>();
 
-            var module = spec.modules[0];
+            var module = spec.Modules[0];
 
-            module.name.ShouldEqual("Some Markdown Module");
-            module.comments.ShouldEqual("<p><strong>Some markdown comments</strong></p>");
+            module.Name.ShouldEqual("Some Markdown Module");
+            module.Comments.ShouldEqual("<p><strong>Some markdown comments</strong></p>");
         }
 
         [Test]
@@ -75,22 +75,22 @@ namespace Tests.Specification.SpecificationServiceModuleTests
         {
             var spec = BuildSpec<NestedModules.GetHandler>();
 
-            spec.modules.Count.ShouldEqual(2);
-            spec.resources.Count.ShouldEqual(0);
+            spec.Modules.Count.ShouldEqual(2);
+            spec.Resources.Count.ShouldEqual(0);
 
-            var module = spec.modules[0];
-            module.name.ShouldEqual("Nested Module");
-            module.resources.Count.ShouldEqual(1);
-            module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/nestedmodules/nestedmodule");
+            var module = spec.Modules[0];
+            module.Name.ShouldEqual("Nested Module");
+            module.Resources.Count.ShouldEqual(1);
+            module.Resources[0].Endpoints.Count.ShouldEqual(1);
+            module.Resources[0].Endpoints[0].Url.ShouldEqual("/nestedmodules/nestedmodule");
 
-            module = spec.modules[1];
-            module.name.ShouldEqual("Root Module");
-            module.resources.Count.ShouldEqual(2);
-            module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/nestedmodules");
-            module.resources[1].endpoints.Count.ShouldEqual(1);
-            module.resources[1].endpoints[0].url.ShouldEqual("/nestedmodules/nomodule");
+            module = spec.Modules[1];
+            module.Name.ShouldEqual("Root Module");
+            module.Resources.Count.ShouldEqual(2);
+            module.Resources[0].Endpoints.Count.ShouldEqual(1);
+            module.Resources[0].Endpoints[0].Url.ShouldEqual("/nestedmodules");
+            module.Resources[1].Endpoints.Count.ShouldEqual(1);
+            module.Resources[1].Endpoints[0].Url.ShouldEqual("/nestedmodules/nomodule");
         }
 
         [Test]
@@ -98,9 +98,9 @@ namespace Tests.Specification.SpecificationServiceModuleTests
         {
             var spec = BuildSpec<NoModules.GetHandler>();
 
-            spec.modules.Count.ShouldEqual(0);
-            spec.resources.Count.ShouldEqual(1);
-            spec.resources[0].endpoints.Count.ShouldEqual(1);
+            spec.Modules.Count.ShouldEqual(0);
+            spec.Resources.Count.ShouldEqual(1);
+            spec.Resources[0].Endpoints.Count.ShouldEqual(1);
         }
 
         [Test]
@@ -108,18 +108,18 @@ namespace Tests.Specification.SpecificationServiceModuleTests
         {
             var spec = BuildSpec<OneModuleAndOrphanedAction.GetHandler>();
 
-            spec.modules.Count.ShouldEqual(1);
-            spec.resources.Count.ShouldEqual(1);
+            spec.Modules.Count.ShouldEqual(1);
+            spec.Resources.Count.ShouldEqual(1);
 
-            var module = spec.modules[0];
-            module.name.ShouldEqual("Some Module");
-            module.resources.Count.ShouldEqual(1);
-            module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/withmodule/inmodule");
+            var module = spec.Modules[0];
+            module.Name.ShouldEqual("Some Module");
+            module.Resources.Count.ShouldEqual(1);
+            module.Resources[0].Endpoints.Count.ShouldEqual(1);
+            module.Resources[0].Endpoints[0].Url.ShouldEqual("/onemoduleandorphanedaction/withmodule/inmodule");
 
-            var resource = spec.resources[0];
-            resource.endpoints.Count.ShouldEqual(1);
-            resource.endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/orphan");
+            var resource = spec.Resources[0];
+            resource.Endpoints.Count.ShouldEqual(1);
+            resource.Endpoints[0].Url.ShouldEqual("/onemoduleandorphanedaction/orphan");
         }
 
         [Test]
@@ -128,20 +128,20 @@ namespace Tests.Specification.SpecificationServiceModuleTests
             var spec = BuildSpec<OneModuleAndOrphanedAction.GetHandler>(x => x
                     .WithDefaultModule(y => new ModuleDescription { Name = "Default Module" }));
 
-            spec.modules.Count.ShouldEqual(2);
-            spec.resources.Count.ShouldEqual(0);
+            spec.Modules.Count.ShouldEqual(2);
+            spec.Resources.Count.ShouldEqual(0);
 
-            var module = spec.modules[0];
-            module.name.ShouldEqual("Default Module");
-            module.resources.Count.ShouldEqual(1);
-            module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/orphan");
+            var module = spec.Modules[0];
+            module.Name.ShouldEqual("Default Module");
+            module.Resources.Count.ShouldEqual(1);
+            module.Resources[0].Endpoints.Count.ShouldEqual(1);
+            module.Resources[0].Endpoints[0].Url.ShouldEqual("/onemoduleandorphanedaction/orphan");
 
-            module = spec.modules[1];
-            module.name.ShouldEqual("Some Module");
-            module.resources.Count.ShouldEqual(1);
-            module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/withmodule/inmodule");
+            module = spec.Modules[1];
+            module.Name.ShouldEqual("Some Module");
+            module.Resources.Count.ShouldEqual(1);
+            module.Resources[0].Endpoints.Count.ShouldEqual(1);
+            module.Resources[0].Endpoints[0].Url.ShouldEqual("/onemoduleandorphanedaction/withmodule/inmodule");
         }
 
         [Test]
@@ -150,14 +150,14 @@ namespace Tests.Specification.SpecificationServiceModuleTests
             var spec = BuildSpec<OneModuleAndOrphanedAction.GetHandler>(x => x
                     .OnOrphanedModuleAction(OrphanedActions.Exclude));
 
-            spec.modules.Count.ShouldEqual(1);
-            spec.resources.Count.ShouldEqual(0);
+            spec.Modules.Count.ShouldEqual(1);
+            spec.Resources.Count.ShouldEqual(0);
 
-            var module = spec.modules[0];
-            module.name.ShouldEqual("Some Module");
-            module.resources.Count.ShouldEqual(1);
-            module.resources[0].endpoints.Count.ShouldEqual(1);
-            module.resources[0].endpoints[0].url.ShouldEqual("/onemoduleandorphanedaction/withmodule/inmodule");
+            var module = spec.Modules[0];
+            module.Name.ShouldEqual("Some Module");
+            module.Resources.Count.ShouldEqual(1);
+            module.Resources[0].Endpoints.Count.ShouldEqual(1);
+            module.Resources[0].Endpoints[0].Url.ShouldEqual("/onemoduleandorphanedaction/withmodule/inmodule");
         }
 
         [Test]

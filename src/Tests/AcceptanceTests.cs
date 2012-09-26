@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using FubuMVC.Swank;
+﻿using FubuMVC.Swank;
 using NUnit.Framework;
 using Should;
 using System.Web.Script.Serialization;
@@ -15,8 +13,6 @@ namespace Tests
         [TestFixtureSetUp]
         public void Setup()
         {
-            if (!Bottles.Create(Paths.Swank, Path.Combine(Paths.TestHarness, "fubu-content", "fubu-swank.zip"), true, true)) 
-                throw new Exception("Could not create bottle.");
             _testWebsite = new Website();
             _testWebsite.Create(typeof(Swank).Assembly.GetName().Name, Paths.TestHarness);
         }
@@ -37,19 +33,20 @@ namespace Tests
         }
 
         [Test]
-        public void should_return_specification_json()
+        public void should_return_specification_html()
         {
-            var spec = new JavaScriptSerializer().Deserialize<FubuMVC.Swank.Specification.Specification>(
-                _testWebsite.DownloadString("documentation", "application/json"));
-            spec.types.ShouldBeEmpty();
-            spec.modules.ShouldBeEmpty();
-            spec.resources.ShouldBeEmpty();
+            _testWebsite.DownloadString("documentation", "text/html")
+                .ShouldContain("<title>Test Harness API</title>");
         }
 
         [Test]
-        public void should_return_specification_html()
+        public void should_return_specification_json()
         {
-            _testWebsite.DownloadString("documentation", "text/html").ShouldContain("<h3>oh hai</h3>");
+            var spec = new JavaScriptSerializer().Deserialize<FubuMVC.Swank.Specification.Specification>(
+                _testWebsite.DownloadString("documentation/data", "application/json"));
+            spec.Types.ShouldBeEmpty();
+            spec.Modules.ShouldBeEmpty();
+            spec.Resources.ShouldBeEmpty();
         }
 
         [Test]

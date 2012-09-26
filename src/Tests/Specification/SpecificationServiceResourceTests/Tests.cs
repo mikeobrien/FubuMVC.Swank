@@ -32,10 +32,10 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         {
             var spec = BuildSpec<ResourceDescriptions.NoDescription.GetHandler>();
 
-            var resource = spec.resources[0];
+            var resource = spec.Resources[0];
 
-            resource.name.ShouldBeNull();
-            resource.comments.ShouldBeNull();
+            resource.Name.ShouldBeNull();
+            resource.Comments.ShouldBeNull();
         }
 
         [Test]
@@ -43,10 +43,10 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         {
             var spec = BuildSpec<ResourceDescriptions.Description.GetHandler>();
 
-            var resource = spec.resources[0];
+            var resource = spec.Resources[0];
 
-            resource.name.ShouldEqual("Some Resource");
-            resource.comments.ShouldEqual("Some comments.");
+            resource.Name.ShouldEqual("Some Resource");
+            resource.Comments.ShouldEqual("Some comments.");
         }
 
         [Test]
@@ -54,10 +54,10 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         {
             var spec = BuildSpec<ResourceDescriptions.EmbeddedTextComments.GetHandler>();
 
-            var resource = spec.resources[0];
+            var resource = spec.Resources[0];
 
-            resource.name.ShouldEqual("Some Text Resource");
-            resource.comments.ShouldEqual("<b>Some text comments</b>");
+            resource.Name.ShouldEqual("Some Text Resource");
+            resource.Comments.ShouldEqual("<b>Some text comments</b>");
         }
 
         [Test]
@@ -65,10 +65,10 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         {
             var spec = BuildSpec<ResourceDescriptions.EmbeddedMarkdownComments.GetHandler>();
 
-            var resource = spec.resources[0];
+            var resource = spec.Resources[0];
 
-            resource.name.ShouldEqual("Some Markdown Resource");
-            resource.comments.ShouldEqual("<p><strong>Some markdown comments</strong></p>");
+            resource.Name.ShouldEqual("Some Markdown Resource");
+            resource.Comments.ShouldEqual("<p><strong>Some markdown comments</strong></p>");
         }
 
         [Test]
@@ -76,10 +76,10 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         {
             var spec = BuildSpec<AttributeResource.Attribute.Controller>();
 
-            var resource = spec.resources[0];
+            var resource = spec.Resources[0];
 
-            resource.name.ShouldEqual("Some Resource");
-            resource.comments.ShouldEqual("Some resource description");
+            resource.Name.ShouldEqual("Some Resource");
+            resource.Comments.ShouldEqual("Some resource description");
         }
 
         [Test]
@@ -87,10 +87,10 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         {
             var spec = BuildSpec<AttributeResource.EmbeddedTextComments.Controller>();
 
-            var resource = spec.resources[0];
+            var resource = spec.Resources[0];
 
-            resource.name.ShouldEqual("Some Text Resource");
-            resource.comments.ShouldEqual("<b>This is a resource</b>");
+            resource.Name.ShouldEqual("Some Text Resource");
+            resource.Comments.ShouldEqual("<b>This is a resource</b>");
         }
 
         [Test]
@@ -98,10 +98,10 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         {
             var spec = BuildSpec<AttributeResource.EmbeddedMarkdownComments.Controller>();
 
-            var resource = spec.resources[0];
+            var resource = spec.Resources[0];
 
-            resource.name.ShouldEqual("Some Markdown Resource");
-            resource.comments.ShouldEqual("<p><strong>This is a resource</strong></p>");
+            resource.Name.ShouldEqual("Some Markdown Resource");
+            resource.Comments.ShouldEqual("<p><strong>This is a resource</strong></p>");
         }
 
         [Test]
@@ -123,15 +123,15 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         {
             var spec = BuildSpec<SameNamespace.GetHandler>();
 
-            spec.resources.Count.ShouldEqual(1);
+            spec.Resources.Count.ShouldEqual(1);
 
-            var resource = spec.resources[0];
-            resource.endpoints.Count.ShouldEqual(4);
-            resource.name.ShouldEqual("Some Resource");
-            resource.endpoints[0].url.ShouldEqual("/samenamespace");
-            resource.endpoints[1].url.ShouldEqual("/samenamespace/{Id}");
-            resource.endpoints[2].url.ShouldEqual("/samenamespace/widget");
-            resource.endpoints[3].url.ShouldEqual("/samenamespace/widget/{Id}");
+            var resource = spec.Resources[0];
+            resource.Endpoints.Count.ShouldEqual(4);
+            resource.Name.ShouldEqual("Some Resource");
+            resource.Endpoints[0].Url.ShouldEqual("/samenamespace");
+            resource.Endpoints[1].Url.ShouldEqual("/samenamespace/{Id}");
+            resource.Endpoints[2].Url.ShouldEqual("/samenamespace/widget");
+            resource.Endpoints[3].Url.ShouldEqual("/samenamespace/widget/{Id}");
         }
 
         [Test]
@@ -139,15 +139,15 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         {
             var spec = BuildSpec<ChildResources.GetHandler>();
 
-            spec.resources.Count.ShouldEqual(1);
+            spec.Resources.Count.ShouldEqual(1);
 
-            var resource = spec.resources[0];
-            resource.endpoints.Count.ShouldEqual(4);
-            resource.name.ShouldEqual("Some Resource");
-            resource.endpoints[0].url.ShouldEqual("/childresources");
-            resource.endpoints[1].url.ShouldEqual("/childresources/{Id}");
-            resource.endpoints[2].url.ShouldEqual("/childresources/widget");
-            resource.endpoints[3].url.ShouldEqual("/childresources/widget/{Id}");
+            var resource = spec.Resources[0];
+            resource.Endpoints.Count.ShouldEqual(4);
+            resource.Name.ShouldEqual("Some Resource");
+            resource.Endpoints[0].Url.ShouldEqual("/childresources");
+            resource.Endpoints[1].Url.ShouldEqual("/childresources/{Id}");
+            resource.Endpoints[2].Url.ShouldEqual("/childresources/widget");
+            resource.Endpoints[3].Url.ShouldEqual("/childresources/widget/{Id}");
         }
 
         [Test]
@@ -155,19 +155,19 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         {
             var spec = BuildSpec<NestedResources.GetHandler>();
 
-            spec.resources.Count.ShouldEqual(2);
+            spec.Resources.Count.ShouldEqual(2);
 
-            var resource = spec.resources[0];
-            resource.endpoints.Count.ShouldEqual(2);
-            resource.name.ShouldEqual("Another Resource");
-            resource.endpoints[0].url.ShouldEqual("/nestedresources/widget");
-            resource.endpoints[1].url.ShouldEqual("/nestedresources/widget/{Id}");
+            var resource = spec.Resources[0];
+            resource.Endpoints.Count.ShouldEqual(2);
+            resource.Name.ShouldEqual("Another Resource");
+            resource.Endpoints[0].Url.ShouldEqual("/nestedresources/widget");
+            resource.Endpoints[1].Url.ShouldEqual("/nestedresources/widget/{Id}");
 
-            resource = spec.resources[1];
-            resource.endpoints.Count.ShouldEqual(2);
-            resource.name.ShouldEqual("Some Resource");
-            resource.endpoints[0].url.ShouldEqual("/nestedresources");
-            resource.endpoints[1].url.ShouldEqual("/nestedresources/{Id}");
+            resource = spec.Resources[1];
+            resource.Endpoints.Count.ShouldEqual(2);
+            resource.Name.ShouldEqual("Some Resource");
+            resource.Endpoints[0].Url.ShouldEqual("/nestedresources");
+            resource.Endpoints[1].Url.ShouldEqual("/nestedresources/{Id}");
         }
 
         [Test]
@@ -175,19 +175,19 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         {
             var spec = BuildSpec<OrphanedResources.GetHandler>();
 
-            spec.resources.Count.ShouldEqual(2);
+            spec.Resources.Count.ShouldEqual(2);
 
-            var resource = spec.resources[0];
-            resource.endpoints.Count.ShouldEqual(2);
-            resource.name.ShouldEqual("orphanedresources");
-            resource.endpoints[0].url.ShouldEqual("/orphanedresources");
-            resource.endpoints[1].url.ShouldEqual("/orphanedresources/{Id}");
+            var resource = spec.Resources[0];
+            resource.Endpoints.Count.ShouldEqual(2);
+            resource.Name.ShouldEqual("orphanedresources");
+            resource.Endpoints[0].Url.ShouldEqual("/orphanedresources");
+            resource.Endpoints[1].Url.ShouldEqual("/orphanedresources/{Id}");
 
-            resource = spec.resources[1];
-            resource.endpoints.Count.ShouldEqual(2);
-            resource.name.ShouldEqual("orphanedresources/widget");
-            resource.endpoints[0].url.ShouldEqual("/orphanedresources/widget");
-            resource.endpoints[1].url.ShouldEqual("/orphanedresources/widget/{Id}");
+            resource = spec.Resources[1];
+            resource.Endpoints.Count.ShouldEqual(2);
+            resource.Name.ShouldEqual("orphanedresources/widget");
+            resource.Endpoints[0].Url.ShouldEqual("/orphanedresources/widget");
+            resource.Endpoints[1].Url.ShouldEqual("/orphanedresources/widget/{Id}");
         }
 
         [Test]
@@ -196,15 +196,15 @@ namespace Tests.Specification.SpecificationServiceResourceTests
             var spec = BuildSpec<OrphanedResources.GetHandler>(
                 x => x.WithDefaultResource(y => new ResourceDescription{ Name = y.ParentChain().Route.FirstPatternSegment()}));
 
-            spec.resources.Count.ShouldEqual(1);
+            spec.Resources.Count.ShouldEqual(1);
 
-            var resource = spec.resources[0];
-            resource.endpoints.Count.ShouldEqual(4);
-            resource.name.ShouldEqual("orphanedresources");
-            resource.endpoints[0].url.ShouldEqual("/orphanedresources");
-            resource.endpoints[1].url.ShouldEqual("/orphanedresources/{Id}");
-            resource.endpoints[2].url.ShouldEqual("/orphanedresources/widget");
-            resource.endpoints[3].url.ShouldEqual("/orphanedresources/widget/{Id}");
+            var resource = spec.Resources[0];
+            resource.Endpoints.Count.ShouldEqual(4);
+            resource.Name.ShouldEqual("orphanedresources");
+            resource.Endpoints[0].Url.ShouldEqual("/orphanedresources");
+            resource.Endpoints[1].Url.ShouldEqual("/orphanedresources/{Id}");
+            resource.Endpoints[2].Url.ShouldEqual("/orphanedresources/widget");
+            resource.Endpoints[3].Url.ShouldEqual("/orphanedresources/widget/{Id}");
         }
 
         [Test]
@@ -212,19 +212,19 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         {
             var spec = BuildSpec<AppliedToResource.GetHandler>();
 
-            spec.resources.Count.ShouldEqual(2);
+            spec.Resources.Count.ShouldEqual(2);
 
-            var resource = spec.resources[0];
-            resource.endpoints.Count.ShouldEqual(2);
-            resource.name.ShouldEqual("Another Resource");
-            resource.endpoints[0].url.ShouldEqual("/appliedtoresource/widget");
-            resource.endpoints[1].url.ShouldEqual("/appliedtoresource/widget/{Id}");
+            var resource = spec.Resources[0];
+            resource.Endpoints.Count.ShouldEqual(2);
+            resource.Name.ShouldEqual("Another Resource");
+            resource.Endpoints[0].Url.ShouldEqual("/appliedtoresource/widget");
+            resource.Endpoints[1].Url.ShouldEqual("/appliedtoresource/widget/{Id}");
 
-            resource = spec.resources[1];
-            resource.endpoints.Count.ShouldEqual(2);
-            resource.name.ShouldEqual("Some Resource");
-            resource.endpoints[0].url.ShouldEqual("/appliedtoresource");
-            resource.endpoints[1].url.ShouldEqual("/appliedtoresource/{Id}");
+            resource = spec.Resources[1];
+            resource.Endpoints.Count.ShouldEqual(2);
+            resource.Name.ShouldEqual("Some Resource");
+            resource.Endpoints[0].Url.ShouldEqual("/appliedtoresource");
+            resource.Endpoints[1].Url.ShouldEqual("/appliedtoresource/{Id}");
         }
 
         [Test]
@@ -233,13 +233,13 @@ namespace Tests.Specification.SpecificationServiceResourceTests
             var spec = BuildSpec<OrphanedNestedResources.GetHandler>(x => x
                 .OnOrphanedResourceAction(OrphanedActions.Exclude));
 
-            spec.resources.Count.ShouldEqual(1);
+            spec.Resources.Count.ShouldEqual(1);
 
-            var resource = spec.resources[0];
-            resource.endpoints.Count.ShouldEqual(2);
-            resource.name.ShouldEqual("Another Resource");
-            resource.endpoints[0].url.ShouldEqual("/orphanednestedresources/widget");
-            resource.endpoints[1].url.ShouldEqual("/orphanednestedresources/widget/{Id}");
+            var resource = spec.Resources[0];
+            resource.Endpoints.Count.ShouldEqual(2);
+            resource.Name.ShouldEqual("Another Resource");
+            resource.Endpoints[0].Url.ShouldEqual("/orphanednestedresources/widget");
+            resource.Endpoints[1].Url.ShouldEqual("/orphanednestedresources/widget/{Id}");
         }
     }
 }

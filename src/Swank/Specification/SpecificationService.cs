@@ -73,9 +73,13 @@ namespace FubuMVC.Swank.Specification
             var actionMapping = GetActionMapping(_actions.GetActions());
             CheckForOrphanedActions(actionMapping);
             var specification = new Specification {
-                    types = GetTypes(actionMapping.Select(x => x.Action).ToList()),
-                    modules = GetModules(actionMapping.Where(x => x.Module != null).ToList()),
-                    resources = GetResources(actionMapping.Where(x => x.Module == null).ToList())
+                    Name = _configuration.Name,
+                    Comments = actionMapping.Select(x => x.Action.HandlerType.Assembly).Distinct()
+                        .Select(x => x.FindTextResourceNamed("*" + _configuration.Comments)).FirstOrDefault(x => x != null),
+                    Copyright = _configuration.Copyright,
+                    Types = GetTypes(actionMapping.Select(x => x.Action).ToList()),
+                    Modules = GetModules(actionMapping.Where(x => x.Module != null).ToList()),
+                    Resources = GetResources(actionMapping.Where(x => x.Module == null).ToList())
                 };
             if (_configuration.MergeSpecificationPath.IsNotEmpty())
                 MergeSepcification(specification, _configuration.MergeSpecificationPath);
@@ -133,13 +137,13 @@ namespace FubuMVC.Swank.Specification
                     var description = _dataTypes.GetDescription(x.Type);
                     var type = description.WhenNotNull(y => y.Type).Otherwise(x.Type);
                     return new Type {
-                        id = x.Action != null ? type.GetHash(x.Action.Method) : type.GetHash(),
-                        name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
-                        comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                        members = GetMembers(type, x.Action)
+                        Id = x.Action != null ? type.GetHash(x.Action.Method) : type.GetHash(),
+                        Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
+                        Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
+                        Members = GetMembers(type, x.Action)
                     };
                 })
-                .OrderBy(x => x.name).ToList();
+                .OrderBy(x => x.Name).ToList();
         }
 
         private List<TypeDef> GetTypes(TypeDef type)
@@ -170,13 +174,13 @@ namespace FubuMVC.Swank.Specification
                         var description = _members.GetDescription(x);
                         var memberType = description.WhenNotNull(y => y.Type).Otherwise(x.PropertyType.GetListElementType(), x.PropertyType);
                         return new Member {
-                            name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
-                            comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                            defaultValue = description.WhenNotNull(y => y.DefaultValue).WhenNotNull(z => z.ToString()).OtherwiseDefault(),
-                            required = description.WhenNotNull(y => y.Required).OtherwiseDefault(),
-                            type = memberType.IsSystemType() ? memberType.ToFriendlyName() : memberType.GetHash(),
-                            collection = x.PropertyType.IsArray || x.PropertyType.IsList(),
-                            options = GetOptions(x.PropertyType)
+                            Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
+                            Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
+                            DefaultValue = description.WhenNotNull(y => y.DefaultValue).WhenNotNull(z => z.ToString()).OtherwiseDefault(),
+                            Required = description.WhenNotNull(y => y.Required).OtherwiseDefault(),
+                            Type = memberType.IsSystemType() ? memberType.ToFriendlyName() : memberType.GetHash(),
+                            Collection = x.PropertyType.IsArray || x.PropertyType.IsList(),
+                            Options = GetOptions(x.PropertyType)
                         };
                     })
                 .ToList();
@@ -187,11 +191,11 @@ namespace FubuMVC.Swank.Specification
             return actionMapping
                 .GroupBy(x => x.Module)
                 .Select(x => new Module {
-                    name = x.Key.Name,
-                    comments = x.Key.Comments,
-                    resources = GetResources(x.Select(y => y).ToList())
+                    Name = x.Key.Name,
+                    Comments = x.Key.Comments,
+                    Resources = GetResources(x.Select(y => y).ToList())
                 })
-                .OrderBy(x => x.name).ToList();
+                .OrderBy(x => x.Name).ToList();
         }
 
         private List<Resource> GetResources(IEnumerable<ActionMapping> actionMapping)
@@ -199,11 +203,11 @@ namespace FubuMVC.Swank.Specification
             return actionMapping
                 .GroupBy(x => x.Resource)
                 .Select(x => new Resource {
-                    name = x.Key.Name,
-                    comments = x.Key.Comments,
-                    endpoints = GetEndpoints(x.Select(y => y.Action))
+                    Name = x.Key.Name,
+                    Comments = x.Key.Comments,
+                    Endpoints = GetEndpoints(x.Select(y => y.Action))
                 })
-                .OrderBy(x => x.name).ToList();
+                .OrderBy(x => x.Name).ToList();
         }
 
         private List<Endpoint> GetEndpoints(IEnumerable<ActionCall> actions)
@@ -213,17 +217,17 @@ namespace FubuMVC.Swank.Specification
                     var endpoint = _endpoints.GetDescription(x);
                     var route = x.ParentChain().Route;
                     return new Endpoint {
-                        name = endpoint.WhenNotNull(y => y.Name).OtherwiseDefault(),
-                        comments = endpoint.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                        url = route.Pattern,
-                        method = route.AllowedHttpMethods.FirstOrDefault(),
-                        urlParameters = x.HasInput ? GetUrlParameters(x) : null,
-                        querystringParameters = x.HasInput ? GetQuerystringParameters(x) : null,
-                        errors = GetErrors(x),
-                        request = x.HasInput && (route.AllowsPost() || route.AllowsPut()) ? GetData(x.InputType(), x.Method) : null,
-                        response = x.HasOutput ? GetData(x.OutputType()) : null
+                        Name = endpoint.WhenNotNull(y => y.Name).OtherwiseDefault(),
+                        Comments = endpoint.WhenNotNull(y => y.Comments).OtherwiseDefault(),
+                        Url = route.Pattern,
+                        Method = route.AllowedHttpMethods.FirstOrDefault(),
+                        UrlParameters = x.HasInput ? GetUrlParameters(x) : null,
+                        QuerystringParameters = x.HasInput ? GetQuerystringParameters(x) : null,
+                        Errors = GetErrors(x),
+                        Request = x.HasInput && (route.AllowsPost() || route.AllowsPut()) ? GetData(x.InputType(), x.Method) : null,
+                        Response = x.HasOutput ? GetData(x.OutputType()) : null
                     };
-                }).OrderBy(x => x.url).ThenBy(x => x.method).ToList();
+                }).OrderBy(x => x.Url).ThenBy(x => x.Method).ToList();
         }
 
         private List<UrlParameter> GetUrlParameters(ActionCall action)
@@ -234,10 +238,10 @@ namespace FubuMVC.Swank.Specification
                     var property = properties[x.Name];
                     var description = _members.GetDescription(property);
                     return new UrlParameter {
-                            name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
-                            comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                            type = property.PropertyType.ToFriendlyName(),
-                            options = GetOptions(property.PropertyType)
+                            Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
+                            Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
+                            Type = property.PropertyType.ToFriendlyName(),
+                            Options = GetOptions(property.PropertyType)
                         };
                 }).ToList();
         }
@@ -251,25 +255,25 @@ namespace FubuMVC.Swank.Specification
                 .Select(x => {
                     var description = _members.GetDescription(x.Value);
                     return new QuerystringParameter {
-                        name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
-                        comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                        type = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).ToFriendlyName(),
-                        options = GetOptions(x.Value.PropertyType),
-                        defaultValue = description.DefaultValue.WhenNotNull(y => y.ToString()).OtherwiseDefault(),
-                        multipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList(),
-                        required = description.Required
+                        Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
+                        Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
+                        Type = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).ToFriendlyName(),
+                        Options = GetOptions(x.Value.PropertyType),
+                        DefaultValue = description.DefaultValue.WhenNotNull(y => y.ToString()).OtherwiseDefault(),
+                        MultipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList(),
+                        Required = description.Required
                     };
-                }).OrderBy(x => x.name).ToList();
+                }).OrderBy(x => x.Name).ToList();
         }
 
         private List<Error> GetErrors(ActionCall action)
         {
             return _errors.GetDescription(action)
                 .Select(x => new Error {
-                    status = x.Status,
-                    name = x.Name,
-                    comments = x.Comments
-                }).OrderBy(x => x.status).ToList();
+                    Status = x.Status,
+                    Name = x.Name,
+                    Comments = x.Comments
+                }).OrderBy(x => x.Status).ToList();
         }
 
         private Data GetData(System.Type type, MethodInfo action = null)
@@ -278,10 +282,10 @@ namespace FubuMVC.Swank.Specification
             var rootType = dataType.WhenNotNull(x => x.Type).Otherwise(type);
             return new Data
                 {
-                    name = dataType.WhenNotNull(y => y.Name).OtherwiseDefault(),
-                    comments = dataType.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                    type = action.WhenNotNull(rootType.GetHash).Otherwise(rootType.GetHash()),
-                    collection = type.IsArray || type.IsList()
+                    Name = dataType.WhenNotNull(y => y.Name).OtherwiseDefault(),
+                    Comments = dataType.WhenNotNull(y => y.Comments).OtherwiseDefault(),
+                    Type = action.WhenNotNull(rootType.GetHash).Otherwise(rootType.GetHash()),
+                    Collection = type.IsArray || type.IsList()
                 };
         } 
 
@@ -293,11 +297,11 @@ namespace FubuMVC.Swank.Specification
                     .Select(x => {
                         var option = _options.GetDescription(x);
                         return new Option {
-                            name = option.WhenNotNull(y => y.Name).OtherwiseDefault(),
-                            comments = option.WhenNotNull(y => y.Comments).OtherwiseDefault(), 
-                            value = x.Name
+                            Name = option.WhenNotNull(y => y.Name).OtherwiseDefault(),
+                            Comments = option.WhenNotNull(y => y.Comments).OtherwiseDefault(), 
+                            Value = x.Name
                         };
-                    }).OrderBy(x => x.name ?? x.value).ToList();
+                    }).OrderBy(x => x.Name ?? x.Value).ToList();
         }
 
         private void MergeSepcification(Specification specification, string path)
@@ -307,20 +311,20 @@ namespace FubuMVC.Swank.Specification
 
             var mergeSpecification = new JavaScriptSerializer().Deserialize<Specification>(File.ReadAllText(path));
 
-            specification.types.AddRange(mergeSpecification.types.Where(x => specification.types.All(y => y.id != x.id)));
+            specification.Types.AddRange(mergeSpecification.Types.Where(x => specification.Types.All(y => y.Id != x.Id)));
             
-            specification.modules.SelectMany(x => x.resources.Select(y => new { Module = x, Resource = y }))
-                .Join(mergeSpecification.modules.SelectMany(x => x.resources.Select(y => new { Module = x, Resource = y })),
-                        x => x.Module.name + "." + x.Resource.name, x => x.Module.name + "." + x.Resource.name, 
+            specification.Modules.SelectMany(x => x.Resources.Select(y => new { Module = x, Resource = y }))
+                .Join(mergeSpecification.Modules.SelectMany(x => x.Resources.Select(y => new { Module = x, Resource = y })),
+                        x => x.Module.Name + "." + x.Resource.Name, x => x.Module.Name + "." + x.Resource.Name, 
                         (source, merge) => new { Source = source.Resource, Merge = merge.Resource })
-                .ToList().ForEach(x => x.Source.endpoints.AddRange(x.Merge.endpoints.Where(y => x.Source.endpoints.All(z => y.url != z.url))));
-            specification.modules.Join(mergeSpecification.modules, x => x.name, x => x.name, (source, merge) => new { Source = source, Merge = merge})
-                .ToList().ForEach(x => x.Source.resources.AddRange(x.Merge.resources.Where(y => x.Source.resources.All(z => y.name != z.name))));
-            specification.modules.AddRange(mergeSpecification.modules.Where(x => specification.modules.All(y => y.name != x.name)));
+                .ToList().ForEach(x => x.Source.Endpoints.AddRange(x.Merge.Endpoints.Where(y => x.Source.Endpoints.All(z => y.Url != z.Url))));
+            specification.Modules.Join(mergeSpecification.Modules, x => x.Name, x => x.Name, (source, merge) => new { Source = source, Merge = merge})
+                .ToList().ForEach(x => x.Source.Resources.AddRange(x.Merge.Resources.Where(y => x.Source.Resources.All(z => y.Name != z.Name))));
+            specification.Modules.AddRange(mergeSpecification.Modules.Where(x => specification.Modules.All(y => y.Name != x.Name)));
             
-            specification.resources.Join(mergeSpecification.resources, x => x.name, x => x.name, (source, merge) => new { Source = source, Merge = merge })
-                .ToList().ForEach(x => x.Source.endpoints.AddRange(x.Merge.endpoints.Where(y => x.Source.endpoints.All(z => y.url != z.url))));
-            specification.resources.AddRange(mergeSpecification.resources.Where(x => specification.resources.All(y => y.name != x.name)));
+            specification.Resources.Join(mergeSpecification.Resources, x => x.Name, x => x.Name, (source, merge) => new { Source = source, Merge = merge })
+                .ToList().ForEach(x => x.Source.Endpoints.AddRange(x.Merge.Endpoints.Where(y => x.Source.Endpoints.All(z => y.Url != z.Url))));
+            specification.Resources.AddRange(mergeSpecification.Resources.Where(x => specification.Resources.All(y => y.Name != x.Name)));
         }
     }
 }

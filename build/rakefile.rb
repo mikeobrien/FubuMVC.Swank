@@ -66,6 +66,7 @@ task :prepPackage => :unitTests do
 end
 
 create_fubu_bottle :createBottle => :prepPackage do |bottle|
+    bottle.package_type = :zip
     bottle.source_path = 'src/Swank'
     bottle.output_path = File.join(packageContentPath, 'fubu-swank.zip')
     bottle.include_pdb = true
