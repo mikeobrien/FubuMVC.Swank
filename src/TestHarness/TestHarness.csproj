@@ -142,7 +142,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>$(SolutionDir)packages\Bottles.0.9.1.274\tools\BottleRunner.exe create $(SolutionDir)Swank -o $(ProjectDir)fubu-content\fubu-swank.zip -f</PreBuildEvent>
+    <PreBuildEvent>if $(ConfigurationName) == Debug $(SolutionDir)packages\Bottles.0.9.1.274\tools\BottleRunner.exe create $(SolutionDir)Swank -o $(ProjectDir)fubu-content\fubu-swank.zip -f</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

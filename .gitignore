@@ -10,7 +10,7 @@ aspnet_client
 *.userprefs
 *.pidb
 
-# Fubu bottle soruces
+# Fubu bottle sources
 src/*/fubu-content/*
 !src/*/fubu-content/*.zip
 
