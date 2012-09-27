@@ -220,7 +220,7 @@ namespace FubuMVC.Swank.Specification
                     return new Endpoint {
                         Name = endpoint.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = endpoint.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                        Url = "/" + route.Pattern,
+                        Url = route.Pattern.StartsWith("/") ? route.Pattern : "/" + route.Pattern,
                         Method = route.AllowedHttpMethods.FirstOrDefault(),
                         UrlParameters = x.HasInput ? GetUrlParameters(x) : null,
                         QuerystringParameters = x.HasInput ? GetQuerystringParameters(x) : null,
