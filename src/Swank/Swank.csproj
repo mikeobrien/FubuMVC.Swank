@@ -99,6 +99,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Specification\CachedSpecificationService.cs" />
     <Compile Include="Specification\DataHandler.cs" />
     <Compile Include="Specification\ISpecificationService.cs" />
     <Compile Include="Specification\OrphanedModuleActionException.cs" />

@@ -30,7 +30,7 @@ namespace FubuMVC.Swank
             Services(x =>
             {
                 x.AddService(configuration);
-                x.AddService<ISpecificationService, SpecificationService>();
+                x.AddService<ISpecificationService, CachedSpecificationService>();
                 x.AddService<IDescriptionSource<ActionCall, ModuleDescription>>(configuration.ModuleDescriptionSource.Type, configuration.ModuleDescriptionSource.Config);
                 x.AddService<IDescriptionSource<ActionCall, ResourceDescription>>(configuration.ResourceDescriptionSource.Type, configuration.ResourceDescriptionSource.Config);
                 x.AddService<IDescriptionSource<ActionCall, EndpointDescription>>(configuration.EndpointDescriptionSource.Type, configuration.EndpointDescriptionSource.Config);

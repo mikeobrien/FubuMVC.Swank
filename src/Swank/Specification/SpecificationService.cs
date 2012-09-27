@@ -44,7 +44,6 @@ namespace FubuMVC.Swank.Specification
         private readonly IDescriptionSource<FieldInfo, OptionDescription> _options;
         private readonly IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
         private readonly IDescriptionSource<System.Type, DataTypeDescription> _dataTypes;
-        private static Specification _specification;
 
         public SpecificationService(
             Configuration configuration, 
@@ -71,11 +70,6 @@ namespace FubuMVC.Swank.Specification
         }
 
         public Specification Generate()
-        {
-            return _specification ?? (_specification = BuildSpecification());
-        }
-
-        private Specification BuildSpecification()
         {
             var actionMapping = GetActionMapping(_actions.GetActions());
             CheckForOrphanedActions(actionMapping);

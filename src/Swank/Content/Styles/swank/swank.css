@@ -1,4 +1,19 @@
+body {
+    padding-top: 100px;
+}
+
+.sidebar-nav {
+    padding: 9px 0;
+}
+
 .navbar-inner .container {
     width: 100%;
     padding-left: 10px;
+}
+
+.footer {
+    padding: 30px 0;
+    margin-top: 70px;
+    border-top: 1px solid #E5E5E5;
+    background-color: whiteSmoke;
 }
