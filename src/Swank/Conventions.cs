@@ -16,7 +16,7 @@ namespace FubuMVC.Swank
             Actions.IncludeTypesNamed(x => x.EndsWith("Handler"));
             
             Routes
-                .HomeIs<Handler>(x => x.Execute())
+                .HomeIs<ViewHandler>(x => x.Execute())
                 .IgnoreMethodSuffix("Execute")
                 .IgnoreControllerNamesEntirely()
                 .IgnoreControllerNamespaceEntirely()

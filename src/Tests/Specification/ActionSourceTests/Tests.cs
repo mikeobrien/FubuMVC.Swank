@@ -23,19 +23,19 @@ namespace Tests.Specification.ActionSourceTests
         [Test]
         public void should_enumerate_actions_in_all_assemblies_by_default()
         {
-            _graph.AddAction<Handler>("GET");
+            _graph.AddAction<ViewHandler>("GET");
 
             var actions = new ActionSource(_graph, new Configuration()).GetActions();
 
             actions.Count.ShouldEqual(5);
             actions.Count(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldEqual(4);
-            actions.Count(x => x.HandlerType.Assembly == typeof(Handler).Assembly).ShouldEqual(1);
+            actions.Count(x => x.HandlerType.Assembly == typeof(ViewHandler).Assembly).ShouldEqual(1);
         }
 
         [Test]
         public void should_only_enumerate_actions_in_the_specified_assemblies()
         {
-            _graph.AddAction<Handler>("GET");
+            _graph.AddAction<ViewHandler>("GET");
 
             var configuration = Swank.CreateConfig(x => x.AppliesToThisAssembly());
             var actions = new ActionSource(_graph, configuration).GetActions();

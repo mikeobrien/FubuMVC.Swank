@@ -33,26 +33,32 @@ namespace Tests
         }
 
         [Test]
-        public void should_return_specification_html()
+        public void should_return_specification_page()
         {
             _testWebsite.DownloadString("documentation", "text/html")
                 .ShouldContain("<title>Test Harness API</title>");
         }
 
         [Test]
-        public void should_return_specification_json()
+        public void should_return_specification_data()
         {
             var spec = new JavaScriptSerializer().Deserialize<FubuMVC.Swank.Specification.Specification>(
                 _testWebsite.DownloadString("documentation/data", "application/json"));
-            spec.Types.ShouldBeEmpty();
-            spec.Modules.ShouldBeEmpty();
-            spec.Resources.ShouldBeEmpty();
+            spec.Types.ShouldNotBeNull();
+            spec.Modules.ShouldNotBeNull();
+            spec.Resources.ShouldNotBeNull();
         }
 
         [Test]
-        public void should_return_content()
+        public void should_return_style_content()
         {
-            _testWebsite.DownloadString("_content/swank/swank.js").ShouldEqual("{}");
+            _testWebsite.DownloadString("_content/swank/swank.css").ShouldNotBeEmpty();
+        }
+
+        [Test]
+        public void should_return_js_content()
+        {
+            _testWebsite.DownloadString("_content/swank/swank.js").ShouldNotBeEmpty();
         }
     }
 }
