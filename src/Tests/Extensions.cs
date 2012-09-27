@@ -33,6 +33,10 @@ namespace Tests
     {
         public static ActionCall GetAction<T>(this BehaviorGraph graph)
         {
+            if (graph.Actions().All(x => x.HandlerType != typeof(T)))
+                throw new Exception("Could not find handler of type {0} in behaviour graph with {1} actions: {2}"
+                    .ToFormat(typeof(T).Name, graph.Actions().Count(), graph.Actions().Select(x => x.HandlerType.Name)
+                    .Aggregate((a, i) => a + ", " + i)));
             return graph.Actions().First(x => x.HandlerType == typeof(T));
         }
 
