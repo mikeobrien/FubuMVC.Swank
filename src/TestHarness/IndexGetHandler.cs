@@ -5,9 +5,9 @@
         public string Message { get; set; }
     }
 
-    public class IndexHandler
+    public class IndexGetHandler
     {
-        public IndexResponse ExecuteGet()
+        public IndexResponse Execute()
         {
             return new IndexResponse { Message = "oh hai" };
         }

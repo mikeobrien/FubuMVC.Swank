@@ -6,8 +6,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Bottles.Commands;
-using Bottles.Creation;
 using FubuCore;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
@@ -59,11 +57,20 @@ namespace Tests
 
         public static BehaviorGraph AddActionsInThisNamespace(this BehaviorGraph graph)
         {
-            var thisNamespace = new StackFrame(1).GetMethod().DeclaringType.Namespace;
+            return graph.AddActionsInNamespace(new StackFrame(1).GetMethod().DeclaringType);
+        }
+
+        public static BehaviorGraph AddActionsInNamespace<T>(this BehaviorGraph graph)
+        {
+            return graph.AddActionsInNamespace(typeof (T));
+        }
+
+        public static BehaviorGraph AddActionsInNamespace(this BehaviorGraph graph, Type type)
+        {
             Assembly.GetCallingAssembly().GetTypes()
-                .Where(x => x.Namespace.StartsWith(thisNamespace) && (x.Name.EndsWith("Handler") || x.Name.EndsWith("Controller")))
+                .Where(x => x.Namespace.StartsWith(type.Namespace) && (x.Name.EndsWith("Handler") || x.Name.EndsWith("Controller")))
                 .ToList()
-                .ForEach(x => AddAction(graph, x, thisNamespace: thisNamespace));
+                .ForEach(x => AddAction(graph, x, thisNamespace: type.Namespace));
             return graph;
         }
 
@@ -74,13 +81,15 @@ namespace Tests
 
         public static string GetHandlerUrl(this Type handlerType, string rootNamespace)
         {
-            var url = '/' + handlerType.Namespace.Replace(rootNamespace + ".", "").Replace('.', '/').ToLower();
+            var url = handlerType.Namespace == rootNamespace ? "/" : 
+                '/' + handlerType.Namespace.Replace(rootNamespace + ".", "").Replace('.', '/').ToLower();
             var handlerMethod = handlerType.GetExecuteMethod();
             var inputType = handlerMethod.GetParameters().Select(x => x.ParameterType).FirstOrDefault();
-            return url + (inputType != null ? inputType
+            url = url + (inputType != null ? inputType
                 .GetProperties()
                 .Aggregate(handlerMethod.Name.Replace("Execute", "").Replace("_", "/").ToLower() + '/',
                 (a, i) => Regex.Replace(a, "/" + i.Name + "/", "/{" + i.Name + "}/", RegexOptions.IgnoreCase)).TrimEnd('/') : "");
+            return "/" + url.Split(new [] {"/"}, StringSplitOptions.RemoveEmptyEntries).Join("/");
         }
 
         public static string GetHandlerVerb(this Type handlerType)

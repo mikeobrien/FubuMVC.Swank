@@ -12,13 +12,11 @@ namespace TestHarness
             Actions.IncludeTypesNamed(x => x.EndsWith("Handler"));
             
             Routes
-                .HomeIs<IndexHandler>(x => x.ExecuteGet())
+                .HomeIs<IndexGetHandler>(x => x.Execute())
                 .IgnoreNamespaceForUrlFrom<Conventions>()
                 .IgnoreMethodSuffix("Execute")
-                .ConstrainToHttpMethod(action => action.Method.Name.EndsWith("Get"), "GET")
-                .ConstrainToHttpMethod(action => action.Method.Name.EndsWith("Post"), "POST")
-                .ConstrainToHttpMethod(action => action.Method.Name.StartsWith("Put"), "PUT")
-                .ConstrainToHttpMethod(action => action.Method.Name.StartsWith("Delete"), "DELETE");
+                .IgnoreControllerNamesEntirely()
+                .ConstrainToHttpMethod(action => action.HandlerType.Name.EndsWith("GetHandler"), "GET");
 
             Import<Swank>(x => x
                 .AppliesToThisAssembly()

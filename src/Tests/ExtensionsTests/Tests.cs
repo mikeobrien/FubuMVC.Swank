@@ -16,7 +16,10 @@ namespace Tests.ExtensionsTests
         {
             var route = Substitute.For<IRouteDefinition>();
             route.Pattern.Returns("{Yada}/books/{Id}/categories/{CategoryId}/classification/{ClassId}");
-            route.GetRouteResource().ShouldEqual("books/categories/classification");
+            route.GetRouteResource().ShouldEqual("/books/categories/classification");
+
+            route.Pattern.Returns("{Yada}");
+            route.GetRouteResource().ShouldEqual("/");
         }
 
         [Test]

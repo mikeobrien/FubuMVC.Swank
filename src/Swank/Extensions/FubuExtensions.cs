@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
+using FubuCore;
 using FubuCore.Reflection;
 using FubuMVC.Core;
 using FubuMVC.Core.Http.AspNet;
@@ -18,7 +19,7 @@ namespace FubuMVC.Swank.Extensions
     {
         public static string GetRouteResource(this IRouteDefinition route)
         {
-            return Regex.Replace(route.Pattern, "/*\\{.*?\\}", "").Trim('/');
+            return "/" + Regex.Replace(route.Pattern, "/*\\{.*?\\}", "").Trim('/');
         }
 
         public static string FirstPatternSegment(this IRouteDefinition route)

@@ -101,7 +101,8 @@
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Conventions.cs" />
-    <Compile Include="IndexHandler.cs" />
+    <Compile Include="ItemGetHandler.cs" />
+    <Compile Include="IndexGetHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

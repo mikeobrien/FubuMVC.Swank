@@ -12,9 +12,9 @@ namespace Tests.Specification.SpecificationServiceResourceTests
     [TestFixture]
     public class Tests
     {
-        private FubuMVC.Swank.Specification.Specification BuildSpec<TNamespace>(Action<Swank> configure = null)
+        private FubuMVC.Swank.Specification.Specification BuildSpec<TNamespace>(Action<Swank> configure = null, System.Type rootType = null)
         {
-            var graph = Behavior.BuildGraph().AddActionsInThisNamespace();
+            var graph = rootType == null ? Behavior.BuildGraph().AddActionsInThisNamespace() : Behavior.BuildGraph().AddActionsInNamespace(rootType);
             var moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
             var resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
@@ -173,21 +173,21 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         [Test]
         public void should_group_orphaned_actions_into_default_resources()
         {
-            var spec = BuildSpec<OrphanedResources.GetHandler>();
+            var spec = BuildSpec<OrphanedResources.GetHandler>(rootType: typeof(OrphanedResources.GetHandler));
 
             spec.Resources.Count.ShouldEqual(2);
 
             var resource = spec.Resources[0];
             resource.Endpoints.Count.ShouldEqual(2);
-            resource.Name.ShouldEqual("orphanedresources");
-            resource.Endpoints[0].Url.ShouldEqual("/orphanedresources");
-            resource.Endpoints[1].Url.ShouldEqual("/orphanedresources/{Id}");
+            resource.Name.ShouldEqual("/");
+            resource.Endpoints[0].Url.ShouldEqual("/");
+            resource.Endpoints[1].Url.ShouldEqual("/{Id}");
 
             resource = spec.Resources[1];
             resource.Endpoints.Count.ShouldEqual(2);
-            resource.Name.ShouldEqual("orphanedresources/widget");
-            resource.Endpoints[0].Url.ShouldEqual("/orphanedresources/widget");
-            resource.Endpoints[1].Url.ShouldEqual("/orphanedresources/widget/{Id}");
+            resource.Name.ShouldEqual("/widget");
+            resource.Endpoints[0].Url.ShouldEqual("/widget");
+            resource.Endpoints[1].Url.ShouldEqual("/widget/{Id}");
         }
 
         [Test]

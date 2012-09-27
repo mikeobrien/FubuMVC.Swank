@@ -132,7 +132,7 @@ namespace Tests.Specification.MergeSpecificationTests
             module.Resources.Count.ShouldEqual(2);
 
             var resource = module.Resources[0];
-            resource.Name.ShouldEqual("overlappingmodule");
+            resource.Name.ShouldEqual("/overlappingmodule");
             resource.Endpoints.Count.ShouldEqual(1);
 
             resource = module.Resources[1];
