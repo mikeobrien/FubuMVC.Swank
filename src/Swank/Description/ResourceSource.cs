@@ -26,7 +26,8 @@ namespace FubuMVC.Swank.Description
                 var resource = action.HandlerType.GetCustomAttribute<ResourceAttribute>();
                 return new ResourceDescription {
                         Name = resource.Name,
-                        Comments = resource.Comments ?? action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName)
+                        Comments = resource.Comments ??
+                            action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName)
                     };
             }
             return _descriptions.GetDescriptions(action.HandlerType.Assembly)

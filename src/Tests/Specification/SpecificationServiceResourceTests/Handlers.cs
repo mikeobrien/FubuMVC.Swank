@@ -28,6 +28,11 @@ namespace Tests.Specification.SpecificationServiceResourceTests
             public class Resource : ResourceDescription { public Resource() { Name = "Some Markdown Resource"; } }
             public class GetHandler { public object Execute(object request) { return null; } }
         }
+
+        namespace OrphanedEmbeddedMarkdown
+        {
+            public class GetHandler { public object Execute(object request) { return null; } }
+        }
     }
 
     namespace AttributeResource

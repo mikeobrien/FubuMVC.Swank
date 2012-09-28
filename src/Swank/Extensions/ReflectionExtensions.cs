@@ -91,7 +91,8 @@ namespace FubuMVC.Swank.Extensions
             var textResources = names.Select(x => new[] { ".txt", ".html", ".md" }
                 .Select(y => x + y)).SelectMany(x => x).ToList();
             var resourceName = GetEmbeddedResources(assembly)
-                .FirstOrDefault(x => textResources.Any(y => y.StartsWith("*") ? x.EndsWith(y.Substring(1)) : y.Equals(x)));
+                .FirstOrDefault(x => textResources.Any(y => y.StartsWith("*") ? x.EndsWith(y.Substring(1)) 
+                        : y.Equals(x, StringComparison.OrdinalIgnoreCase)));
             if (resourceName == null) return null;
             var text = assembly.GetManifestResourceStream(resourceName).ReadToEnd();
             return resourceName.EndsWith(".md") ? new Markdown().Transform(text).Trim() : text;

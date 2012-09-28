@@ -205,7 +205,8 @@ namespace FubuMVC.Swank.Specification
                 .GroupBy(x => x.Resource)
                 .Select(x => new Resource {
                     Name = x.Key.Name,
-                    Comments = x.Key.Comments,
+                    Comments = x.Key.Comments ?? x.First().Action.HandlerType.Assembly
+                        .FindTextResourceNamed(x.First().Action.HandlerType.Namespace + ".resource"),
                     Endpoints = GetEndpoints(x.Select(y => y.Action))
                 })
                 .OrderBy(x => x.Name).ToList();

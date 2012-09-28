@@ -72,6 +72,17 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         }
 
         [Test]
+        public void should_set_markdown_embedded_resource_comments_when_resource_file_is_defined()
+        {
+            var spec = BuildSpec<ResourceDescriptions.OrphanedEmbeddedMarkdown.GetHandler>();
+
+            var resource = spec.Resources[0];
+
+            resource.Name.ShouldEqual("/resourcedescriptions/orphanedembeddedmarkdown");
+            resource.Comments.ShouldEqual("<p><strong>Some markdown comments</strong></p>");
+        }
+
+        [Test]
         public void should_set_description_when_attribute_is_applied()
         {
             var spec = BuildSpec<AttributeResource.Attribute.Controller>();

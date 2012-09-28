@@ -141,6 +141,7 @@
     <EmbeddedResource Include="Specification\SpecificationServiceResourceTests\ResourceDescriptions\EmbeddedMarkdownComments\Resource.md" />
     <EmbeddedResource Include="Specification\SpecificationServiceEndpointTests\ControllerResource\Controller.md" />
     <EmbeddedResource Include="Specification\SpecificationServiceResourceTests\AttributeResource\EmbeddedMarkdownComments\Controller.md" />
+    <EmbeddedResource Include="Specification\SpecificationServiceResourceTests\ResourceDescriptions\OrphanedEmbeddedMarkdown\Resource.md" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Specification\SpecificationServiceEndpointTests\EndpointDescriptions\HandlerDescription\EmbeddedDescriptionGetHandler.html" />
