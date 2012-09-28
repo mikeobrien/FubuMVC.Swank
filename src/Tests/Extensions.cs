@@ -60,7 +60,13 @@ namespace Tests
 
         public static BehaviorGraph AddActionsInThisNamespace(this BehaviorGraph graph)
         {
-            return graph.AddActionsInNamespace(new StackFrame(1).GetMethod().DeclaringType);
+            return graph.AddActionsInNamespace(MethodBase.GetCurrentMethod().GetCallingType());
+        }
+
+        public static Type GetCallingType(this MethodBase method)
+        {
+            return new StackTrace().GetFrames().Select(x => x.GetMethod().DeclaringType)
+                .First(x => x != method.DeclaringType);
         }
 
         public static BehaviorGraph AddActionsInNamespace<T>(this BehaviorGraph graph)
@@ -70,10 +76,10 @@ namespace Tests
 
         public static BehaviorGraph AddActionsInNamespace(this BehaviorGraph graph, Type type)
         {
+            var rootNamespace = type.Namespace;
             Assembly.GetCallingAssembly().GetTypes()
-                .Where(x => x.Namespace.StartsWith(type.Namespace) && (x.Name.EndsWith("Handler") || x.Name.EndsWith("Controller")))
-                .ToList()
-                .ForEach(x => AddAction(graph, x, thisNamespace: type.Namespace));
+                .Where(x => x.Namespace.StartsWith(rootNamespace) && (x.Name.EndsWith("Handler") || x.Name.EndsWith("Controller")))
+                .ToList().ForEach(x => AddAction(graph, x, thisNamespace: rootNamespace));
             return graph;
         }
 
