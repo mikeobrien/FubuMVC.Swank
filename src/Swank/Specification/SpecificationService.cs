@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Web;
-using System.Web.Script.Serialization;
 using FubuCore;
 using FubuCore.Reflection;
 using FubuMVC.Core.Registration.Nodes;
@@ -43,6 +40,7 @@ namespace FubuMVC.Swank.Specification
         private readonly IDescriptionSource<FieldInfo, OptionDescription> _options;
         private readonly IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
         private readonly IDescriptionSource<System.Type, DataTypeDescription> _dataTypes;
+        private readonly MergeService _mergeService;
 
         public SpecificationService(
             Configuration configuration, 
@@ -54,7 +52,8 @@ namespace FubuMVC.Swank.Specification
             IDescriptionSource<PropertyInfo, MemberDescription> members,
             IDescriptionSource<FieldInfo, OptionDescription> options,
             IDescriptionSource<ActionCall, List<ErrorDescription>> errors,
-            IDescriptionSource<System.Type, DataTypeDescription> dataTypes)
+            IDescriptionSource<System.Type, DataTypeDescription> dataTypes,
+            MergeService mergeService)
         {
             _configuration = configuration;
             _actions = actions;
@@ -66,6 +65,7 @@ namespace FubuMVC.Swank.Specification
             _options = options;
             _errors = errors;
             _dataTypes = dataTypes;
+            _mergeService = mergeService;
         }
 
         public Specification Generate()
@@ -82,7 +82,7 @@ namespace FubuMVC.Swank.Specification
                     Resources = GetResources(actionMapping.Where(x => x.Module == null).ToList())
                 };
             if (_configuration.MergeSpecificationPath.IsNotEmpty())
-                MergeSepcification(specification, _configuration.MergeSpecificationPath);
+                specification = _mergeService.Merge(specification, _configuration.MergeSpecificationPath);
             return specification;
         }
 
@@ -303,53 +303,6 @@ namespace FubuMVC.Swank.Specification
                             Value = x.Name
                         };
                     }).OrderBy(x => x.Name ?? x.Value).ToList();
-        }
-
-        private void MergeSepcification(Specification specification, string path)
-        {
-            if (!Path.IsPathRooted(path))
-                path = HttpContext.Current.WhenNotNull(x => x.Server.MapPath(path)).Otherwise(Path.GetFullPath(path));
-
-            var mergeSpecification = new JavaScriptSerializer().Deserialize<Specification>(File.ReadAllText(path));
-
-            if (mergeSpecification.Types != null && mergeSpecification.Types.Any())
-            {
-                var newTypes = mergeSpecification.Types.Where(x => specification.Types.All(y => y.Id != x.Id)).ToList();
-                if (newTypes.Any()) specification.Types.AddRange(newTypes);
-            }
-
-            if (mergeSpecification.Modules != null && mergeSpecification.Modules.Any())
-            {
-                specification.Modules.SelectMany(x => x.Resources.Select(y => new { Module = x, Resource = y }))
-                    .Join(mergeSpecification.Modules.SelectMany(x => x.Resources.Select(y => new { Module = x, Resource = y })),
-                            x => x.Module.Name + "." + x.Resource.Name, x => x.Module.Name + "." + x.Resource.Name, (source, merge) => 
-                                new { Source = source.Resource, MergeEndpoints = merge.Resource.Endpoints.Where(y => source.Resource.Endpoints.All(z => y.Url != z.Url)).ToList() })
-                    .Where(x => x.MergeEndpoints.Any())
-                    .ToList()
-                    .ForEach(x => x.Source.Endpoints.AddRange(x.MergeEndpoints));
-
-                specification.Modules
-                    .Join(mergeSpecification.Modules, x => x.Name, x => x.Name, (source, merge) => 
-                        new { Source = source, MergeResources = merge.Resources.Where(y => source.Resources.All(z => y.Name != z.Name)).ToList() })
-                    .Where(x => x.MergeResources.Any())
-                    .ToList()
-                    .ForEach(x => x.Source.Resources.AddRange(x.MergeResources));
-
-                var newModules = mergeSpecification.Modules.Where(x => specification.Modules.All(y => y.Name != x.Name)).ToList();
-                if (newModules.Any()) specification.Modules.AddRange(newModules);
-            }
-
-            if (mergeSpecification.Resources != null && mergeSpecification.Resources.Any())
-            {
-                specification.Resources
-                    .Join(mergeSpecification.Resources, x => x.Name, x => x.Name, (source, merge) => 
-                        new { Source = source, MergeEndpoints = merge.Endpoints.Where(y => source.Endpoints.All(z => y.Url != z.Url)).ToList() })
-                    .Where(x => x.MergeEndpoints.Any())
-                    .ToList()
-                    .ForEach(x => x.Source.Endpoints.AddRange(x.MergeEndpoints));
-                var newResources = mergeSpecification.Resources.Where(x => specification.Resources.All(y => y.Name != x.Name)).ToList();
-                if (newResources.Any()) specification.Resources.AddRange(newResources);
-            }
         }
     }
 }

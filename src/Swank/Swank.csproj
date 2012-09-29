@@ -102,6 +102,7 @@
     <Compile Include="Specification\CachedSpecificationService.cs" />
     <Compile Include="Specification\DataHandler.cs" />
     <Compile Include="Specification\ISpecificationService.cs" />
+    <Compile Include="Specification\MergeService.cs" />
     <Compile Include="Specification\OrphanedModuleActionException.cs" />
     <Compile Include="Specification\OrphanedResourceActionException.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
