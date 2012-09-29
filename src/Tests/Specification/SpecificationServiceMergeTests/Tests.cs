@@ -6,7 +6,7 @@ using FubuMVC.Swank.Specification;
 using NUnit.Framework;
 using Should;
 
-namespace Tests.Specification.MergeSpecificationTests
+namespace Tests.Specification.SpecificationServiceMergeTests
 {
     [TestFixture]
     public class Tests

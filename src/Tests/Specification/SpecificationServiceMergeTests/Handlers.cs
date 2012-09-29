@@ -1,6 +1,6 @@
 ﻿using FubuMVC.Swank.Description;
 
-namespace Tests.Specification.MergeSpecificationTests
+namespace Tests.Specification.SpecificationServiceMergeTests
 {
     namespace NoHandlers { public class Marker { } }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -314,25 +313,42 @@ namespace FubuMVC.Swank.Specification
             var mergeSpecification = new JavaScriptSerializer().Deserialize<Specification>(File.ReadAllText(path));
 
             if (mergeSpecification.Types.Any())
-                specification.Types.AddRange(mergeSpecification.Types.Where(x => specification.Types.All(y => y.Id != x.Id)));
+            {
+                var newTypes = mergeSpecification.Types.Where(x => specification.Types.All(y => y.Id != x.Id)).ToList();
+                if (newTypes.Any()) specification.Types.AddRange(newTypes);
+            }
 
             if (mergeSpecification.Modules.Any())
             {
                 specification.Modules.SelectMany(x => x.Resources.Select(y => new { Module = x, Resource = y }))
                     .Join(mergeSpecification.Modules.SelectMany(x => x.Resources.Select(y => new { Module = x, Resource = y })),
-                            x => x.Module.Name + "." + x.Resource.Name, x => x.Module.Name + "." + x.Resource.Name, 
-                            (source, merge) => new { Source = source.Resource, Merge = merge.Resource })
-                    .ToList().ForEach(x => x.Source.Endpoints.AddRange(x.Merge.Endpoints.Where(y => x.Source.Endpoints.All(z => y.Url != z.Url))));
-                specification.Modules.Join(mergeSpecification.Modules, x => x.Name, x => x.Name, (source, merge) => new { Source = source, Merge = merge})
-                    .ToList().ForEach(x => x.Source.Resources.AddRange(x.Merge.Resources.Where(y => x.Source.Resources.All(z => y.Name != z.Name))));
-                specification.Modules.AddRange(mergeSpecification.Modules.Where(x => specification.Modules.All(y => y.Name != x.Name)));
+                            x => x.Module.Name + "." + x.Resource.Name, x => x.Module.Name + "." + x.Resource.Name, (source, merge) => 
+                                new { Source = source.Resource, MergeEndpoints = merge.Resource.Endpoints.Where(y => source.Resource.Endpoints.All(z => y.Url != z.Url)).ToList() })
+                    .Where(x => x.MergeEndpoints.Any())
+                    .ToList()
+                    .ForEach(x => x.Source.Endpoints.AddRange(x.MergeEndpoints));
+
+                specification.Modules
+                    .Join(mergeSpecification.Modules, x => x.Name, x => x.Name, (source, merge) => 
+                        new { Source = source, MergeResources = merge.Resources.Where(y => source.Resources.All(z => y.Name != z.Name)).ToList() })
+                    .Where(x => x.MergeResources.Any())
+                    .ToList()
+                    .ForEach(x => x.Source.Resources.AddRange(x.MergeResources));
+
+                var newModules = mergeSpecification.Modules.Where(x => specification.Modules.All(y => y.Name != x.Name)).ToList();
+                if (newModules.Any()) specification.Modules.AddRange(newModules);
             }
 
             if (mergeSpecification.Resources.Any())
             {
-                specification.Resources.Join(mergeSpecification.Resources, x => x.Name, x => x.Name, (source, merge) => new { Source = source, Merge = merge })
-                    .ToList().ForEach(x => x.Source.Endpoints.AddRange(x.Merge.Endpoints.Where(y => x.Source.Endpoints.All(z => y.Url != z.Url))));
-                specification.Resources.AddRange(mergeSpecification.Resources.Where(x => specification.Resources.All(y => y.Name != x.Name)));
+                specification.Resources
+                    .Join(mergeSpecification.Resources, x => x.Name, x => x.Name, (source, merge) => 
+                        new { Source = source, MergeEndpoints = merge.Endpoints.Where(y => source.Endpoints.All(z => y.Url != z.Url)).ToList() })
+                    .Where(x => x.MergeEndpoints.Any())
+                    .ToList()
+                    .ForEach(x => x.Source.Endpoints.AddRange(x.MergeEndpoints));
+                var newResources = mergeSpecification.Resources.Where(x => specification.Resources.All(y => y.Name != x.Name)).ToList();
+                if (newResources.Any()) specification.Resources.AddRange(newResources);
             }
         }
     }
