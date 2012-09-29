@@ -312,13 +312,13 @@ namespace FubuMVC.Swank.Specification
 
             var mergeSpecification = new JavaScriptSerializer().Deserialize<Specification>(File.ReadAllText(path));
 
-            if (mergeSpecification.Types.Any())
+            if (mergeSpecification.Types != null && mergeSpecification.Types.Any())
             {
                 var newTypes = mergeSpecification.Types.Where(x => specification.Types.All(y => y.Id != x.Id)).ToList();
                 if (newTypes.Any()) specification.Types.AddRange(newTypes);
             }
 
-            if (mergeSpecification.Modules.Any())
+            if (mergeSpecification.Modules != null && mergeSpecification.Modules.Any())
             {
                 specification.Modules.SelectMany(x => x.Resources.Select(y => new { Module = x, Resource = y }))
                     .Join(mergeSpecification.Modules.SelectMany(x => x.Resources.Select(y => new { Module = x, Resource = y })),
@@ -339,7 +339,7 @@ namespace FubuMVC.Swank.Specification
                 if (newModules.Any()) specification.Modules.AddRange(newModules);
             }
 
-            if (mergeSpecification.Resources.Any())
+            if (mergeSpecification.Resources != null && mergeSpecification.Resources.Any())
             {
                 specification.Resources
                     .Join(mergeSpecification.Resources, x => x.Name, x => x.Name, (source, merge) => 
