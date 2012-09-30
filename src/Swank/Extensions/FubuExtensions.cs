@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using FubuCore;
 using FubuCore.Reflection;
 using FubuMVC.Core;
+using FubuMVC.Core.Assets.Http;
 using FubuMVC.Core.Http.AspNet;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
@@ -17,9 +18,14 @@ namespace FubuMVC.Swank.Extensions
 {
     public static class FubuExtensions
     {
-        public static bool IsSwankAction(this ActionCall action)
+        public static bool IsSwank(this ActionCall action)
         {
             return action.HandlerType.Assembly == Assembly.GetExecutingAssembly();
+        }
+
+        public static bool IsContent(this ActionCall action)
+        {
+            return action.HandlerType == typeof (AssetWriter);
         }
 
         public static string GetRouteResource(this IRouteDefinition route)
