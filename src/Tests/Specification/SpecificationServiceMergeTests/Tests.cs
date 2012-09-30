@@ -8,6 +8,8 @@ using Should;
 
 namespace Tests.Specification.SpecificationServiceMergeTests
 {
+    namespace NoHandlers { public class Marker { } }
+
     [TestFixture]
     public class Tests
     {
@@ -25,7 +27,8 @@ namespace Tests.Specification.SpecificationServiceMergeTests
                     .MergeThisSpecification(@"Specification\SpecificationServiceMergeTests\Merge.json");
                 });
             return new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleSource, resourceSource, new EndpointSource(), new MemberSource(), new OptionSource(), new ErrorSource(), new TypeSource()).Generate();
+                moduleSource, resourceSource, new EndpointSource(), new MemberSource(), new OptionSource(), new ErrorSource(), 
+                new TypeSource(), new MergeService()).Generate();
         }
 
         [Test]
@@ -117,85 +120,6 @@ namespace Tests.Specification.SpecificationServiceMergeTests
             endpoint.Response.Comments.ShouldEqual("Some response comments");
             endpoint.Response.Type.ShouldEqual("Some type");
             endpoint.Response.Collection.ShouldBeTrue();
-        }
-
-        [Test]
-        public void should_merge_overlapping_modules()
-        {
-            var spec = BuildSpec<OverlappingModule.GetHandler>();
-
-            spec.Modules.Count.ShouldEqual(1);
-            var module = spec.Modules[0];
-
-            module.Name.ShouldEqual("Some module");
-            module.Comments.ShouldBeNull();
-            module.Resources.Count.ShouldEqual(2);
-
-            var resource = module.Resources[0];
-            resource.Name.ShouldEqual("/overlappingmodule");
-            resource.Endpoints.Count.ShouldEqual(1);
-
-            resource = module.Resources[1];
-            resource.Name.ShouldEqual("Some module resource");
-            resource.Comments.ShouldEqual("Some module resource comments");
-            resource.Endpoints.Count.ShouldEqual(1);
-        }
-
-        [Test]
-        public void should_merge_overlapping_resource_modules()
-        {
-            var spec = BuildSpec<OverlappingModuleResource.GetHandler>();
-
-            spec.Modules.Count.ShouldEqual(1);
-            var module = spec.Modules[0];
-
-            module.Name.ShouldEqual("Some module");
-            module.Comments.ShouldBeNull();
-            module.Resources.Count.ShouldEqual(1);
-
-            var resource = module.Resources[0];
-            resource.Name.ShouldEqual("Some module resource");
-            resource.Comments.ShouldBeNull();
-            resource.Endpoints.Count.ShouldEqual(2);
-
-            var endpoint = resource.Endpoints[0];
-            endpoint.Name.ShouldBeNull();
-            endpoint.Comments.ShouldBeNull();
-            endpoint.Url.ShouldEqual("/overlappingmoduleresource");
-            endpoint.Method.ShouldEqual("GET");
-
-            endpoint = resource.Endpoints[1];
-            endpoint.Name.ShouldEqual("Some endpoint");
-            endpoint.Comments.ShouldEqual("Some endpoint comments");
-            endpoint.Url.ShouldEqual("/some/url");
-            endpoint.Method.ShouldEqual("METHOD");
-        }
-
-        [Test]
-        public void should_merge_overlapping_resources()
-        {
-            var spec = BuildSpec<OverlappingResource.GetHandler>();
-
-            spec.Modules.Count.ShouldEqual(1);
-
-            spec.Resources.Count.ShouldEqual(1);
-
-            var resource = spec.Resources[0];
-            resource.Name.ShouldEqual("Some resource");
-            resource.Comments.ShouldBeNull();
-            resource.Endpoints.Count.ShouldEqual(2);
-
-            var endpoint = resource.Endpoints[0];
-            endpoint.Name.ShouldBeNull();
-            endpoint.Comments.ShouldBeNull();
-            endpoint.Url.ShouldEqual("/overlappingresource");
-            endpoint.Method.ShouldEqual("GET");
-
-            endpoint = resource.Endpoints[1];
-            endpoint.Name.ShouldEqual("Some endpoint");
-            endpoint.Comments.ShouldEqual("Some endpoint comments");
-            endpoint.Url.ShouldEqual("/some/url");
-            endpoint.Method.ShouldEqual("METHOD");
         }
     }
 }

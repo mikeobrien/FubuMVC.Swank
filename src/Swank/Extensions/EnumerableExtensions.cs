@@ -23,5 +23,13 @@ namespace FubuMVC.Swank.Extensions
         {
             return source.GroupBy(compare1).SelectMany(x => x.GroupBy(compare2).Select(y => y.First()));
         }
+
+        public static IEnumerable<TResult> OuterJoin<TItem, TKey, TResult>(
+            this IEnumerable<TItem> join1, 
+            IEnumerable<TItem> join2, 
+            Func<TItem, TKey> key, Func<TKey, IEnumerable<TItem>, TResult> selector)
+        {
+            return (join1 ?? Enumerable.Empty<TItem>()).Concat(join2 ?? Enumerable.Empty<TItem>()).GroupBy(key, selector);
+        }
     }
 }

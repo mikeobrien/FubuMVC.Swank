@@ -23,14 +23,10 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
             var resourceSource = new ResourceSource(
                 new MarkerSource<ResourceDescription>(),
                 new ActionSource(graph, Swank.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter))));
-            var endpointSource = new EndpointSource();
-            var memberSource = new MemberSource();
-            var optionSource = new OptionSource();
-            var errors = new ErrorSource();
-            var dataTypes = new TypeSource();
             var configuration = Swank.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter));
             var specBuilder = new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleSource, resourceSource, endpointSource, memberSource, optionSource, errors, dataTypes);
+                moduleSource, resourceSource, new EndpointSource(), new MemberSource(), new OptionSource(), new ErrorSource(), 
+                new TypeSource(), new MergeService());
             Spec = specBuilder.Generate();
         }
     }

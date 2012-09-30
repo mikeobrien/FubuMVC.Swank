@@ -78,7 +78,7 @@ namespace Tests
         {
             var rootNamespace = type.Namespace;
             Assembly.GetCallingAssembly().GetTypes()
-                .Where(x => x.Namespace.StartsWith(rootNamespace) && (x.Name.EndsWith("Handler") || x.Name.EndsWith("Controller")))
+                .Where(x => !x.Namespace.IsEmpty() && x.Namespace.StartsWith(rootNamespace) && (x.Name.EndsWith("Handler") || x.Name.EndsWith("Controller")))
                 .ToList().ForEach(x => AddAction(graph, x, thisNamespace: rootNamespace));
             return graph;
         }

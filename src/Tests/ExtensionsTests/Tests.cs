@@ -5,6 +5,7 @@ using FubuMVC.Swank.Extensions;
 using NSubstitute;
 using NUnit.Framework;
 using Should;
+using System.Linq;
 
 namespace Tests.ExtensionsTests
 {
@@ -103,6 +104,26 @@ namespace Tests.ExtensionsTests
             typeof(Widgets<string>).GetListElementType().ShouldEqual(typeof(string));
             typeof(string[]).GetListElementType().ShouldEqual(typeof(string));
             typeof(string).GetListElementType().ShouldBeNull();
+        }
+
+        [Test]
+        public void should_outer_join()
+        {
+            var result = new[] {1, 2, 3}.OuterJoin(new[] {2, 3, 4}, x => x, (k, i) => i).ToList();
+
+            result.Count.ShouldEqual(4);
+
+            result[0].Count().ShouldEqual(1);
+            result[0].First().ShouldEqual(1);
+
+            result[1].Count().ShouldEqual(2);
+            result[1].All(x => x == 2).ShouldBeTrue();
+
+            result[2].Count().ShouldEqual(2);
+            result[2].All(x => x == 3).ShouldBeTrue();
+
+            result[3].Count().ShouldEqual(1);
+            result[3].First().ShouldEqual(4);
         }
     }
 }

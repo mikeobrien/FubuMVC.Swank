@@ -24,7 +24,8 @@ namespace Tests.Specification.SpecificationServiceResourceTests
             var configuration = Swank.CreateConfig(x => 
             { if (configure != null) configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<TNamespace>()); });
             return new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleSource, resourceSource, new EndpointSource(), new MemberSource(), new OptionSource(), new ErrorSource(), new TypeSource()).Generate();
+                moduleSource, resourceSource, new EndpointSource(), new MemberSource(), new OptionSource(), new ErrorSource(),
+                new TypeSource(), new MergeService()).Generate();
         }
 
         [Test]

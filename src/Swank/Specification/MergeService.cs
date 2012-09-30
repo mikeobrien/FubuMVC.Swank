@@ -7,68 +7,51 @@ using FubuMVC.Swank.Extensions;
 namespace FubuMVC.Swank.Specification
 {
     public class MergeService
-    {
-        public Specification Merge(Specification specification, string path)
+    {  
+        public Specification Merge(Specification specification, string specificationPath)
         {
-            if (!Path.IsPathRooted(path))
-                path = HttpContext.Current.WhenNotNull(x => x.Server.MapPath(path)).Otherwise(Path.GetFullPath(path));
+            if (!Path.IsPathRooted(specificationPath))
+                specificationPath = HttpContext.Current.WhenNotNull(x => x.Server.MapPath(specificationPath))
+                    .Otherwise(Path.GetFullPath(specificationPath));
 
-            var mergeSpecification = new JavaScriptSerializer().Deserialize<Specification>(File.ReadAllText(path));
+            return Merge(specification, new JavaScriptSerializer().Deserialize<Specification>(File.ReadAllText(specificationPath)));
+        }
 
-            if (mergeSpecification.Types != null && mergeSpecification.Types.Any())
-            {
-                var newTypes = mergeSpecification.Types.Where(x => specification.Types.All(y => y.Id != x.Id)).ToList();
-                if (newTypes.Any()) specification.Types.AddRange(newTypes);
-                specification.Types.Sort((a, b) => a.Name.CompareTo(b.Name));
-            }
-
-            if (mergeSpecification.Modules != null && mergeSpecification.Modules.Any())
-            {
-                specification.Modules.SelectMany(x => x.Resources.Select(y => new { Module = x, Resource = y }))
-                    .Join(mergeSpecification.Modules.SelectMany(x => x.Resources.Select(y => new { Module = x, Resource = y })),
-                            x => x.Module.Name + "." + x.Resource.Name, x => x.Module.Name + "." + x.Resource.Name, (source, merge) =>
-                                new
-                                {
-                                    Source = source.Resource,
-                                    MergeEndpoints = merge.Resource.Endpoints.Where(y => source.Resource.Endpoints.All(z => y.Url != z.Url)).ToList()
-                                })
-                    .Where(x => x.MergeEndpoints.Any())
-                    .ToList()
-                    .ForEach(x =>
-                    {
-                        x.Source.Endpoints.AddRange(x.MergeEndpoints);
-                        x.Source.Endpoints.Sort((a, b) => (a.Name ?? a.Url).CompareTo(b.Name ?? b.Url));
-                    });
-
-                specification.Modules
-                    .Join(mergeSpecification.Modules, x => x.Name, x => x.Name, (source, merge) =>
-                        new { Source = source, MergeResources = merge.Resources.Where(y => source.Resources.All(z => y.Name != z.Name)).ToList() })
-                    .Where(x => x.MergeResources.Any())
-                    .ToList()
-                    .ForEach(x =>
-                    {
-                        x.Source.Resources.AddRange(x.MergeResources);
-                        x.Source.Resources.Sort((a, b) => a.Name.CompareTo(b.Name));
-                    });
-
-                var newModules = mergeSpecification.Modules.Where(x => specification.Modules.All(y => y.Name != x.Name)).ToList();
-                if (newModules.Any()) specification.Modules.AddRange(newModules);
-                specification.Modules.Sort((a, b) => a.Name.CompareTo(b.Name));
-            }
-
-            if (mergeSpecification.Resources != null && mergeSpecification.Resources.Any())
-            {
-                specification.Resources
-                    .Join(mergeSpecification.Resources, x => x.Name, x => x.Name, (source, merge) =>
-                        new { Source = source, MergeEndpoints = merge.Endpoints.Where(y => source.Endpoints.All(z => y.Url != z.Url)).ToList() })
-                    .Where(x => x.MergeEndpoints.Any())
-                    .ToList()
-                    .ForEach(x => x.Source.Endpoints.AddRange(x.MergeEndpoints));
-                var newResources = mergeSpecification.Resources.Where(x => specification.Resources.All(y => y.Name != x.Name)).ToList();
-                if (newResources.Any()) specification.Resources.AddRange(newResources);
-                specification.Resources.Sort((a, b) => a.Name.CompareTo(b.Name));
-            }
-            return specification;
+        public Specification Merge(Specification specification1, Specification specification2)
+        {
+            return new Specification
+                {
+                    Name = specification1.Name ?? specification2.Name,
+                    Comments = specification1.Comments ?? specification2.Comments,
+                    Copyright = specification1.Copyright ?? specification2.Copyright,
+                    Types = specification1.Types.OuterJoin(specification2.Types, x => x.Id ?? x.Name,
+                        (key, types) => new Type {
+                                Id = types.Select(y => y.Id).FirstOrDefault(),
+                                Name = types.Select(y => y.Name).FirstOrDefault(),
+                                Comments = types.Select(y => y.Comments).FirstOrDefault(),
+                                Members = types.Select(y => y.Members).FirstOrDefault(y => y != null && y.Any())
+                            })
+                        .OrderBy(x => x.Name).ToList(),
+                    Modules = specification1.Modules.OuterJoin(specification2.Modules, x => x.Name, 
+                        (moduleKey, modules) => new Module {
+                                Name = modules.Select(y => y.Name).FirstOrDefault(),
+                                Comments = modules.Select(y => y.Comments).FirstOrDefault(),
+                                Resources = modules.SelectMany(x => x.Resources).GroupBy(x => x.Name, x => x, 
+                                    (resourceKey, resources) => new Resource {
+                                        Name = resources.Select(y => y.Name).FirstOrDefault(),
+                                        Comments = resources.Select(y => y.Comments).FirstOrDefault(),
+                                        Endpoints = resources.SelectMany(x => x.Endpoints).GroupBy(x => x.Name ?? x.Url, x => x, 
+                                            (endpointKey, endpoints) => endpoints.First()).OrderBy(x => x.Name ?? x.Url).ToList()
+                                    }).OrderBy(x => x.Name).ToList()
+                            }).OrderBy(x => x.Name).ToList(),
+                    Resources = specification1.Resources.OuterJoin(specification2.Resources, x => x.Name, 
+                        (resourceKey, resources) => new Resource {
+                                Name = resources.Select(y => y.Name).FirstOrDefault(),
+                                Comments = resources.Select(y => y.Comments).FirstOrDefault(),
+                                Endpoints = resources.SelectMany(x => x.Endpoints).GroupBy(x => x.Name ?? x.Url, x => x, 
+                                    (endpointKey, endpoints) => endpoints.First()).OrderBy(x => x.Name ?? x.Url).ToList()
+                            }).OrderBy(x => x.Name).ToList()
+                };
         }
     }
 }
