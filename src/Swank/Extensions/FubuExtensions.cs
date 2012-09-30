@@ -17,6 +17,11 @@ namespace FubuMVC.Swank.Extensions
 {
     public static class FubuExtensions
     {
+        public static bool IsSwankAction(this ActionCall action)
+        {
+            return action.HandlerType.Assembly == Assembly.GetExecutingAssembly();
+        }
+
         public static string GetRouteResource(this IRouteDefinition route)
         {
             return "/" + Regex.Replace(route.Pattern, "/*\\{.*?\\}", "").Trim('/');
