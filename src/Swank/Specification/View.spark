@@ -1,19 +1,17 @@
-﻿<viewdata model="FubuMVC.Swank.Specification.HandlerResponse" />
+﻿<use namespace="FubuMVC.Swank.Extensions" />
+<viewdata model="FubuMVC.Swank.Specification.HandlerResponse" />
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <title>!{Model.Specification.Name}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="${Model.Specification.Name}">
+    <meta name="author" content="${Model.Specification.Copyright}">
 
-    <!-- Le styles -->
     <link href="~/_content/swank/bootstrap.css" rel="stylesheet">
     <link href="~/_content/swank/swank.css" rel="stylesheet">
-    <style type="text/css">
-    </style>
-
+      
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -28,17 +26,17 @@
           <a class="brand" href="#">!{Model.Specification.Name}</a>
             <ul class="nav">
               <if condition='Model.Specification.Resources.Count > 0'>
-                <li class="dropdown">
+                <li class="dropdown" data-module="Resources">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resources<b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     <for each="var resource in Model.Specification.Resources">
-                      <li><a href="#${resource.Name}">${resource.Name}</a></li>
+                      <li><a href="#/Resources${resource.Name}">${resource.Name}</a></li>
                     </for>
                   </ul>
                 </li>
               </if>
               <for each="var module in Model.Specification.Modules">
-                <li class="dropdown">
+                <li class="dropdown" data-module="${module.Name}">
                   <a href="#${module.Name}" class="dropdown-toggle" data-toggle="dropdown">${module.Name}<b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     <for each="var resource in module.Resources">
@@ -52,18 +50,23 @@
       </div>
     </div>
 
-    <div class="container">
-
-      !{Model.Specification.Comments}
-      
-    </div> <!-- /container -->
+    <div class="container" id="content">!{Model.Specification.Comments}</div>
 
     <footer class="footer">
       <div class="container">
         <p>!{Model.Specification.Copyright}</p>
       </div>
     </footer>
+
+    <script type="text/html" id="swank-resource-template">
+      <h3>{{Name}}</h3>
+    </script>
+    
     <script src="~/_content/swank/jquery.js"></script>
     <script src="~/_content/swank/bootstrap.js"></script>
+    <script src="~/_content/swank/mustache.js"></script>
+    <script src="~/_content/swank/swank.js"></script>
+    <script language="javascript"> window.Swank.Specification = !{Model.Specification.SerializeJson()}; </script>
+    
   </body>
 </html>

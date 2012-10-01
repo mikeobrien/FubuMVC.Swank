@@ -23,7 +23,7 @@ namespace TestHarness
                 .AtUrl("documentation")
                 .Named("Test Harness API")
                 .WithCopyright("Copyright &copy; {year} Test Harness")
-                .MergeThisSpecification("~/api.json"));
+                .MergeThisSpecification("~/spec.json"));
 
             Views.TryToAttachWithDefaultConventions();
 

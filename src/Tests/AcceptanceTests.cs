@@ -1,4 +1,5 @@
 ﻿using FubuMVC.Swank;
+using FubuMVC.Swank.Extensions;
 using NUnit.Framework;
 using Should;
 using System.Web.Script.Serialization;
@@ -28,7 +29,7 @@ namespace Tests
         [Test]
         public void should_have_connectivity_to_the_test_harness_site()
         {
-            new JavaScriptSerializer().Deserialize<IndexModel>(_testWebsite.DownloadString("", "application/json"))
+            _testWebsite.DownloadString("", "application/json").DeserializeJson<IndexModel>()
                 .Message.ShouldEqual("oh hai");
         }
 
@@ -42,8 +43,8 @@ namespace Tests
         [Test]
         public void should_return_specification_data()
         {
-            var spec = new JavaScriptSerializer().Deserialize<FubuMVC.Swank.Specification.Specification>(
-                _testWebsite.DownloadString("documentation/data", "application/json"));
+            var spec = _testWebsite.DownloadString("documentation/data", "application/json")
+                .DeserializeJson<FubuMVC.Swank.Specification.Specification>();
             spec.Types.ShouldNotBeNull();
             spec.Modules.ShouldNotBeNull();
             spec.Resources.ShouldNotBeNull();

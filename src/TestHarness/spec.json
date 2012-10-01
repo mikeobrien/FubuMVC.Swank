@@ -4202,13 +4202,13 @@
             ]
         }
     ],
-    "Modules": [
+    "Modules": [	
         {      
             "Name": "Administration",
             "Comments": "",
             "Resources": [
                 {
-                    "Name": "/addresses",
+                    "Name": "/Administration/v1/addresses",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4234,7 +4234,7 @@
                     ]
                 },
                 {
-                    "Name": "/users/current",
+                    "Name": "/Administration/v1/users/current",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4254,13 +4254,13 @@
                     ]
                 }
             ]
-        },
+        },	
         {      
             "Name": "Campaigns",
             "Comments": "",
             "Resources": [
                 {
-                    "Name": "/queue",
+                    "Name": "/Campaigns/v1/queue",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4292,13 +4292,13 @@
                     ]
                 }
             ]
-        },
+        },	
         {      
             "Name": "Contacts",
             "Comments": "This service enables you to work with lists.",
             "Resources": [
                 {
-                    "Name": "/lists",
+                    "Name": "/Contacts/v1/lists",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4399,7 +4399,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/export",
+                    "Name": "/Contacts/v1/lists/export",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4436,7 +4436,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/export/status",
+                    "Name": "/Contacts/v1/lists/export/status",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4467,7 +4467,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/fields",
+                    "Name": "/Contacts/v1/lists/fields",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4493,7 +4493,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/groups",
+                    "Name": "/Contacts/v1/lists/groups",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4614,7 +4614,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/import",
+                    "Name": "/Contacts/v1/lists/import",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4651,7 +4651,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/import/status",
+                    "Name": "/Contacts/v1/lists/import/status",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4682,7 +4682,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/optin",
+                    "Name": "/Contacts/v1/lists/optin",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4722,7 +4722,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/optout",
+                    "Name": "/Contacts/v1/lists/optout",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4762,7 +4762,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/query",
+                    "Name": "/Contacts/v1/lists/query",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4794,7 +4794,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/recipients",
+                    "Name": "/Contacts/v1/lists/recipients",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4918,7 +4918,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/recipients/find",
+                    "Name": "/Contacts/v1/lists/recipients/find",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4955,7 +4955,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/recipients/find/delete",
+                    "Name": "/Contacts/v1/lists/recipients/find/delete",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -4986,7 +4986,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/recipients/find/modify",
+                    "Name": "/Contacts/v1/lists/recipients/find/modify",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5026,7 +5026,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/recipients/query",
+                    "Name": "/Contacts/v1/lists/recipients/query",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5063,7 +5063,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/recipients/query/delete",
+                    "Name": "/Contacts/v1/lists/recipients/query/delete",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5094,7 +5094,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/recipients/query/modify",
+                    "Name": "/Contacts/v1/lists/recipients/query/modify",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5125,7 +5125,7 @@
                     ]
                 },
                 {
-                    "Name": "/lists/recipients/subscribe",
+                    "Name": "/Contacts/v1/lists/recipients/subscribe",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5165,7 +5165,7 @@
                     ]
                 },
                 {
-                    "Name": "/optin",
+                    "Name": "/Contacts/v1/optin",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5200,7 +5200,7 @@
                     ]
                 },
                 {
-                    "Name": "/optout",
+                    "Name": "/Contacts/v1/optout",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5235,13 +5235,13 @@
                     ]
                 }
             ]
-        },
+        },	
         {      
             "Name": "Content Library",
             "Comments": "",
             "Resources": [
                 {
-                    "Name": "/files",
+                    "Name": "/Content/Library/files",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5347,7 +5347,7 @@
                     ]
                 },
                 {
-                    "Name": "/files/query",
+                    "Name": "/Content/Library/files/query",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5379,7 +5379,7 @@
                     ]
                 },
                 {
-                    "Name": "/folders",
+                    "Name": "/Content/Library/folders",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5489,7 +5489,7 @@
                     ]
                 },
                 {
-                    "Name": "/folders/query",
+                    "Name": "/Content/Library/folders/query",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5521,13 +5521,13 @@
                     ]
                 }
             ]
-        },
+        },	
         {      
             "Name": "Mailings",
             "Comments": "",
             "Resources": [
                 {
-                    "Name": "/",
+                    "Name": "/Content/Mailings/v1/",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5628,7 +5628,7 @@
                     ]
                 },
                 {
-                    "Name": "/groups",
+                    "Name": "/Content/Mailings/v1/groups",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5749,7 +5749,7 @@
                     ]
                 },
                 {
-                    "Name": "/query",
+                    "Name": "/Content/Mailings/v1/query",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5781,7 +5781,7 @@
                     ]
                 },
                 {
-                    "Name": "/templates",
+                    "Name": "/Content/Mailings/v1/templates",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -5882,7 +5882,7 @@
                     ]
                 },
                 {
-                    "Name": "/templates/groups",
+                    "Name": "/Content/Mailings/v1/templates/groups",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -6003,7 +6003,7 @@
                     ]
                 },
                 {
-                    "Name": "/templates/query",
+                    "Name": "/Content/Mailings/v1/templates/query",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -6035,13 +6035,13 @@
                     ]
                 }
             ]
-        },
+        },	
         {      
             "Name": "Data",
             "Comments": "",
             "Resources": [
                 {
-                    "Name": "/",
+                    "Name": "/Data/",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -6112,7 +6112,7 @@
                     ]
                 },
                 {
-                    "Name": "/exists",
+                    "Name": "/Data/exists",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -6138,13 +6138,13 @@
                     ]
                 }
             ]
-        },
+        },	
         {      
             "Name": "Reports",
             "Comments": "",
             "Resources": [
                 {
-                    "Name": "/details/mailings/bounces",
+                    "Name": "/Reports/v1/details/mailings/bounces",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -6181,7 +6181,7 @@
                     ]
                 },
                 {
-                    "Name": "/details/mailings/optouts",
+                    "Name": "/Reports/v1/details/mailings/optouts",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -6218,7 +6218,7 @@
                     ]
                 },
                 {
-                    "Name": "/details/mailings/reads",
+                    "Name": "/Reports/v1/details/mailings/reads",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -6255,7 +6255,7 @@
                     ]
                 },
                 {
-                    "Name": "/details/mailings/trackedLinks",
+                    "Name": "/Reports/v1/details/mailings/trackedLinks",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -6292,7 +6292,7 @@
                     ]
                 },
                 {
-                    "Name": "/mailings",
+                    "Name": "/Reports/v1/mailings",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -6323,7 +6323,7 @@
                     ]
                 },
                 {
-                    "Name": "/mailings/query",
+                    "Name": "/Reports/v1/mailings/query",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -6355,7 +6355,7 @@
                     ]
                 },
                 {
-                    "Name": "/mailings/trackedLinks",
+                    "Name": "/Reports/v1/mailings/trackedLinks",
                     "Comments": "",
                     "Endpoints": [	
                         {
@@ -6414,54 +6414,6 @@
                             }
                         }
                     ]
-                }
-            ]
-        }
-    ],
-    "Resources": [
-        {
-            "Name": "/addresses",
-            "Comments": "",
-            "Endpoints": [	
-                {
-                    "Url": "/Rest/Administration/v1/addresses/{accountId}",
-                    "Method": "GET",
-                    "Comments": "",
-                    "UrlParameters": [
-                        {
-                            "Name": "accountId",
-                            "Comments": "",
-                            "Type": "string"
-                        }
-                    ],
-                    "QuerystringParameters": [],
-                    "Errors": [],
-                    "Response": {
-                        "Name": "Addresses",
-                        "Type": "DA068AD3D3B7F268A8556D83FF19F85F",
-                        "Collection": true,
-                        "Comments": ""
-                    }
-                }
-            ]
-        },
-        {
-            "Name": "/users/current",
-            "Comments": "",
-            "Endpoints": [	
-                {
-                    "Url": "/Rest/Administration/v1/users/current",
-                    "Method": "GET",
-                    "Comments": "",
-                    "UrlParameters": [],
-                    "QuerystringParameters": [],
-                    "Errors": [],
-                    "Response": {
-                        "Name": "User",
-                        "Type": "194C59AD29E931AA75D8F921A81152BA",
-                        "Collection": false,
-                        "Comments": ""
-                    }
                 }
             ]
         }

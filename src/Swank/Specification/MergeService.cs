@@ -14,7 +14,7 @@ namespace FubuMVC.Swank.Specification
                 specificationPath = HttpContext.Current.WhenNotNull(x => x.Server.MapPath(specificationPath))
                     .Otherwise(Path.GetFullPath(specificationPath));
 
-            return Merge(specification, new JavaScriptSerializer().Deserialize<Specification>(File.ReadAllText(specificationPath)));
+            return Merge(specification, File.ReadAllText(specificationPath).DeserializeJson<Specification>());
         }
 
         public Specification Merge(Specification specification1, Specification specification2)

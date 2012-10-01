@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Web.Script.Serialization;
+using FubuMVC.Swank.Extensions;
 using FubuMVC.Swank.Specification;
 using NUnit.Framework;
 using Should;
@@ -16,7 +17,7 @@ namespace Tests.Specification.MergeServiceTests
         [SetUp]
         public void Setup()
         {
-            _spec1 = new JavaScriptSerializer().Deserialize<FubuMVC.Swank.Specification.Specification>(File.ReadAllText(JsonPath));
+            _spec1 = File.ReadAllText(JsonPath).DeserializeJson<FubuMVC.Swank.Specification.Specification>();
         }
 
         [Test]
