@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Script.Serialization;
+using FubuCore;
 using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank.Specification
@@ -19,6 +21,16 @@ namespace FubuMVC.Swank.Specification
 
         public Specification Merge(Specification specification1, Specification specification2)
         {
+            Func<string, IEnumerable<Resource>, Resource> mergeResources = 
+                (resourceKey, resources) => new Resource
+                {
+                    Name = resources.Select(y => y.Name).FirstOrDefault(),
+                    Comments = resources.Select(y => y.Comments).FirstOrDefault(),
+                    Endpoints = resources.SelectMany(x => x.Endpoints).GroupBy(
+                        x => x.Name ?? ("{0}:{1}".ToFormat(x.Method, x.Url)), x => x,
+                        (endpointKey, endpoints) => endpoints.First()).OrderBy(x => x.Name ?? x.Url)
+                                .ThenBy(x => SpecificationService.HttpVerbRank(x.Method)).ToList()
+                };
             return new Specification
                 {
                     Name = specification1.Name ?? specification2.Name,
@@ -36,21 +48,13 @@ namespace FubuMVC.Swank.Specification
                         (moduleKey, modules) => new Module {
                                 Name = modules.Select(y => y.Name).FirstOrDefault(),
                                 Comments = modules.Select(y => y.Comments).FirstOrDefault(),
-                                Resources = modules.SelectMany(x => x.Resources).GroupBy(x => x.Name, x => x, 
-                                    (resourceKey, resources) => new Resource {
-                                        Name = resources.Select(y => y.Name).FirstOrDefault(),
-                                        Comments = resources.Select(y => y.Comments).FirstOrDefault(),
-                                        Endpoints = resources.SelectMany(x => x.Endpoints).GroupBy(x => x.Name ?? x.Url, x => x, 
-                                            (endpointKey, endpoints) => endpoints.First()).OrderBy(x => x.Name ?? x.Url).ToList()
-                                    }).OrderBy(x => x.Name).ToList()
+                                Resources = modules.SelectMany(x => x.Resources)
+                                    .GroupBy(x => x.Name, x => x, mergeResources)
+                                    .OrderBy(x => x.Name).ToList()
                             }).OrderBy(x => x.Name).ToList(),
-                    Resources = specification1.Resources.OuterJoin(specification2.Resources, x => x.Name, 
-                        (resourceKey, resources) => new Resource {
-                                Name = resources.Select(y => y.Name).FirstOrDefault(),
-                                Comments = resources.Select(y => y.Comments).FirstOrDefault(),
-                                Endpoints = resources.SelectMany(x => x.Endpoints).GroupBy(x => x.Name ?? x.Url, x => x, 
-                                    (endpointKey, endpoints) => endpoints.First()).OrderBy(x => x.Name ?? x.Url).ToList()
-                            }).OrderBy(x => x.Name).ToList()
+                    Resources = specification1.Resources
+                                    .OuterJoin(specification2.Resources, x => x.Name, mergeResources)
+                                    .OrderBy(x => x.Name).ToList()
                 };
         }
     }

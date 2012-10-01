@@ -4205,11 +4205,11 @@
     "Modules": [	
         {      
             "Name": "Administration",
-            "Comments": "",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
             "Resources": [
                 {
                     "Name": "/Administration/v1/addresses",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Administration/v1/addresses/{accountId}",
@@ -4235,7 +4235,7 @@
                 },
                 {
                     "Name": "/Administration/v1/users/current",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Administration/v1/users/current",
@@ -4257,11 +4257,11 @@
         },	
         {      
             "Name": "Campaigns",
-            "Comments": "",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
             "Resources": [
                 {
                     "Name": "/Campaigns/v1/queue",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Campaigns/v1/{accountId}/queue",
@@ -4295,12 +4295,37 @@
         },	
         {      
             "Name": "Contacts",
-            "Comments": "This service enables you to work with lists.",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
             "Resources": [
                 {
+                    "Name": "/",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
+                    "Endpoints": []
+                },
+                {
                     "Name": "/Contacts/v1/lists",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
+                        {
+                            "Url": "/Rest/Contacts/v1/lists/{accountId}",
+                            "Method": "GET",
+                            "Comments": "",
+                            "UrlParameters": [
+                                {
+                                    "Name": "accountId",
+                                    "Comments": "",
+                                    "Type": "string"
+                                }
+                            ],
+                            "QuerystringParameters": [],
+                            "Errors": [],
+                            "Response": {
+                                "Name": "List",
+                                "Type": "3838341440303F806C30B5997EC2B1F7",
+                                "Collection": true,
+                                "Comments": ""
+                            }
+                        },
                         {
                             "Url": "/Rest/Contacts/v1/lists/{accountId}/{listId}",
                             "Method": "GET",
@@ -4400,7 +4425,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/export",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/export/{accountId}/{listId}",
@@ -4437,7 +4462,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/export/status",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/export/status/{accountId}/{exportId}",
@@ -4468,7 +4493,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/fields",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/fields/{accountId}",
@@ -4494,7 +4519,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/groups",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/groups/{accountId}",
@@ -4615,7 +4640,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/import",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/import/{accountId}/{listId}",
@@ -4652,7 +4677,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/import/status",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/import/status/{accountId}/{importId}",
@@ -4683,7 +4708,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/optin",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/optin/{accountId}/{listId}?redirecturl={redirectUrl}",
@@ -4723,7 +4748,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/optout",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/optout/{accountId}/{listId}?redirecturl={redirectUrl}",
@@ -4763,7 +4788,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/query",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/query/{accountId}",
@@ -4795,7 +4820,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/recipients",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/recipients/{accountId}/{listId}/{email}",
@@ -4919,7 +4944,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/recipients/find",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/recipients/find/{accountId}/{listId}",
@@ -4956,7 +4981,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/recipients/find/delete",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/recipients/find/delete/{accountId}/{listId}",
@@ -4987,7 +5012,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/recipients/find/modify",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/recipients/find/modify/{accountId}/{listId}?redirecturl={redirectUrl}",
@@ -5027,7 +5052,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/recipients/query",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/recipients/query/{accountId}/{listId}",
@@ -5064,7 +5089,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/recipients/query/delete",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/recipients/query/delete/{accountId}/{listId}",
@@ -5095,7 +5120,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/recipients/query/modify",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/recipients/query/modify/{accountId}/{listId}",
@@ -5126,7 +5151,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/lists/recipients/subscribe",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/lists/recipients/subscribe/{accountId}/{listId}?redirecturl={redirectUrl}",
@@ -5166,7 +5191,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/optin",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/optin/{accountId}?redirecturl={redirectUrl}",
@@ -5201,7 +5226,7 @@
                 },
                 {
                     "Name": "/Contacts/v1/optout",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Contacts/v1/optout/{accountId}?redirecturl={redirectUrl}",
@@ -5238,11 +5263,11 @@
         },	
         {      
             "Name": "Content Library",
-            "Comments": "",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
             "Resources": [
                 {
                     "Name": "/Content/Library/files",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Content/Library/files/{accountId}/{fileId}",
@@ -5348,7 +5373,7 @@
                 },
                 {
                     "Name": "/Content/Library/files/query",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Content/Library/files/query/{accountId}",
@@ -5380,7 +5405,7 @@
                 },
                 {
                     "Name": "/Content/Library/folders",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Content/Library/folders/{accountId}/{folderId}",
@@ -5490,7 +5515,7 @@
                 },
                 {
                     "Name": "/Content/Library/folders/query",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Content/Library/folders/query/{accountId}",
@@ -5524,11 +5549,11 @@
         },	
         {      
             "Name": "Mailings",
-            "Comments": "",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
             "Resources": [
                 {
                     "Name": "/Content/Mailings/v1/",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Content/Mailings/v1/{accountId}/{mailingId}",
@@ -5629,7 +5654,7 @@
                 },
                 {
                     "Name": "/Content/Mailings/v1/groups",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Content/Mailings/v1/groups/{accountId}",
@@ -5750,7 +5775,7 @@
                 },
                 {
                     "Name": "/Content/Mailings/v1/query",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Content/Mailings/v1/query/{accountId}",
@@ -5782,7 +5807,7 @@
                 },
                 {
                     "Name": "/Content/Mailings/v1/templates",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Content/Mailings/v1/templates/{accountId}/{templateId}",
@@ -5883,7 +5908,7 @@
                 },
                 {
                     "Name": "/Content/Mailings/v1/templates/groups",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Content/Mailings/v1/templates/groups/{accountId}",
@@ -6004,7 +6029,7 @@
                 },
                 {
                     "Name": "/Content/Mailings/v1/templates/query",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Content/Mailings/v1/templates/query/{accountId}",
@@ -6038,11 +6063,11 @@
         },	
         {      
             "Name": "Data",
-            "Comments": "",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
             "Resources": [
                 {
                     "Name": "/Data/",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Data/{id}",
@@ -6113,7 +6138,7 @@
                 },
                 {
                     "Name": "/Data/exists",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Data/exists/{id}",
@@ -6141,11 +6166,11 @@
         },	
         {      
             "Name": "Reports",
-            "Comments": "",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
             "Resources": [
                 {
                     "Name": "/Reports/v1/details/mailings/bounces",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Reports/v1/details/mailings/bounces/{accountId}/{mailingId}",
@@ -6182,7 +6207,7 @@
                 },
                 {
                     "Name": "/Reports/v1/details/mailings/optouts",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Reports/v1/details/mailings/optouts/{accountId}/{mailingId}",
@@ -6219,7 +6244,7 @@
                 },
                 {
                     "Name": "/Reports/v1/details/mailings/reads",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Reports/v1/details/mailings/reads/{accountId}/{mailingId}",
@@ -6256,7 +6281,7 @@
                 },
                 {
                     "Name": "/Reports/v1/details/mailings/trackedLinks",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Reports/v1/details/mailings/trackedLinks/{accountId}/{mailingId}",
@@ -6293,7 +6318,7 @@
                 },
                 {
                     "Name": "/Reports/v1/mailings",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Reports/v1/mailings/{accountId}/{mailingId}",
@@ -6324,7 +6349,7 @@
                 },
                 {
                     "Name": "/Reports/v1/mailings/query",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Reports/v1/mailings/query/{accountId}",
@@ -6356,7 +6381,7 @@
                 },
                 {
                     "Name": "/Reports/v1/mailings/trackedLinks",
-                    "Comments": "",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
                             "Url": "/Rest/Reports/v1/mailings/trackedLinks/{accountId}/{mailingId}",

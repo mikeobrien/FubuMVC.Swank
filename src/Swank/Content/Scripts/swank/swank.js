@@ -1,38 +1,44 @@
-﻿Swank = (function() {
+﻿$(function () {
+    
+    Swank.ModuleTemplate = $('#swank-module-template').html();
+    Swank.ResourceTemplate = $('#swank-resource-template').html();
 
-    var swank = {};
-
-    swank.ResourceTemplate = $('#swank-resource-template').html();
-
-    swank.render = function(id) {
+    Swank.render = function (id) {
+            
         $('.nav').find('li').removeClass('active');
         
         var content = $('#content');
         content.empty();
         
         if (!id) {
-            content.html(swank.Specification.Comments);
+            content.html(Swank.Specification.Comments);
             return;
         }
         
-        var idParts = id.split(/^\/(.*?)(\/.*)$/, 3);
-        var module = idParts[1];
-        var resource = idParts[2];
+        var idParts = id.split(/(.*?)(\/.*)/).filter(function (x) { return x; });
+        var moduleName = idParts[0];
+        var resourceName = idParts[1];
+
+        var module = Swank.Specification.Modules
+                            .filter(function (x) { return x.Name === moduleName; })[0];
+        var resource = (!module ? Swank.Specification.Resources : module.Resources)
+                            .filter(function (x) { return x.Name === resourceName; })[0];
+
+        $('.nav').find("li[data-module='" + moduleName + "']").addClass('active');
         
-        $('.nav').find("li[data-module='" + module + "']").addClass('active');
-        
-        content.html(Mustache.render(this.ResourceTemplate, { Name: resource }));
+        if (module && !resource) {
+            content.html(Mustache.render(this.ModuleTemplate, module));
+        } else if (resource) {
+            content.html(Mustache.render(this.ResourceTemplate, resource));
+        } else {
+            content.html('No module our resource specified.');
+        }
     };
 
-    var getHash = function() {
-        return window.location.hash.replace(/^#/, '');
-    };
+    var getHash = function() { return window.location.hash.replace(/^#/, ''); };
 
-    $(window).bind('hashchange', function() {
-        swank.render(getHash());
-    });
+    $(window).bind('hashchange', function () { Swank.render(getHash()); });
     
     if (getHash()) $(window).trigger('hashchange');
-
-    return swank;
-})();
+    
+});

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Web.Script.Serialization;
 using FubuMVC.Swank.Extensions;
 using FubuMVC.Swank.Specification;
 using NUnit.Framework;
@@ -154,10 +153,16 @@ namespace Tests.Specification.MergeServiceTests
                         Name = "Some module", 
                         Resources = new List<Resource> { new Resource {
                             Name = "Some module resource",
-                            Endpoints = new List<Endpoint> { new Endpoint {
-                                Url = "/overlappingmoduleresource",
-                                Method = "GET"
-                            }}
+                            Endpoints = new List<Endpoint> { 
+                                new Endpoint {
+                                    Url = "/overlappingmoduleresource",
+                                    Method = "POST"
+                                },
+                                new Endpoint {
+                                    Url = "/overlappingmoduleresource",
+                                    Method = "GET"
+                                }
+                            }
                         }}
                     }}
                 };
@@ -174,7 +179,7 @@ namespace Tests.Specification.MergeServiceTests
             var resource = module.Resources[0];
             resource.Name.ShouldEqual("Some module resource");
             resource.Comments.ShouldEqual("Some module resource comments");
-            resource.Endpoints.Count.ShouldEqual(2);
+            resource.Endpoints.Count.ShouldEqual(3);
 
             var endpoint = resource.Endpoints[0];
             endpoint.Name.ShouldBeNull();
@@ -183,6 +188,12 @@ namespace Tests.Specification.MergeServiceTests
             endpoint.Method.ShouldEqual("GET");
 
             endpoint = resource.Endpoints[1];
+            endpoint.Name.ShouldBeNull();
+            endpoint.Comments.ShouldBeNull();
+            endpoint.Url.ShouldEqual("/overlappingmoduleresource");
+            endpoint.Method.ShouldEqual("POST");
+
+            endpoint = resource.Endpoints[2];
             endpoint.Name.ShouldEqual("Some endpoint");
             endpoint.Comments.ShouldEqual("Some endpoint comments");
             endpoint.Url.ShouldEqual("/some/url");
@@ -195,10 +206,16 @@ namespace Tests.Specification.MergeServiceTests
             var spec2 = new FubuMVC.Swank.Specification.Specification {
                     Resources = new List<Resource> { new Resource {
                         Name = "Some resource",
-                        Endpoints = new List<Endpoint> { new Endpoint {
-                            Url = "/overlappingresource",
-                            Method = "GET"
-                        }}
+                        Endpoints = new List<Endpoint> { 
+                            new Endpoint {
+                                Url = "/overlappingresource",
+                                Method = "POST"
+                            },
+                            new Endpoint {
+                                Url = "/overlappingresource",
+                                Method = "GET"
+                            }
+                        }
                     }}
                 };
 
@@ -211,7 +228,7 @@ namespace Tests.Specification.MergeServiceTests
             var resource = spec.Resources[0];
             resource.Name.ShouldEqual("Some resource");
             resource.Comments.ShouldEqual("Some resource comments");
-            resource.Endpoints.Count.ShouldEqual(2);
+            resource.Endpoints.Count.ShouldEqual(3);
 
             var endpoint = resource.Endpoints[0];
             endpoint.Name.ShouldBeNull();
@@ -220,6 +237,12 @@ namespace Tests.Specification.MergeServiceTests
             endpoint.Method.ShouldEqual("GET");
 
             endpoint = resource.Endpoints[1];
+            endpoint.Name.ShouldBeNull();
+            endpoint.Comments.ShouldBeNull();
+            endpoint.Url.ShouldEqual("/overlappingresource");
+            endpoint.Method.ShouldEqual("POST");
+
+            endpoint = resource.Endpoints[2];
             endpoint.Name.ShouldEqual("Some endpoint");
             endpoint.Comments.ShouldEqual("Some endpoint comments");
             endpoint.Url.ShouldEqual("/some/url");

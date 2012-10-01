@@ -26,11 +26,11 @@
           <a class="brand" href="#">!{Model.Specification.Name}</a>
             <ul class="nav">
               <if condition='Model.Specification.Resources.Count > 0'>
-                <li class="dropdown" data-module="Resources">
+                <li class="dropdown" data-module="_Resources">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resources<b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     <for each="var resource in Model.Specification.Resources">
-                      <li><a href="#/Resources${resource.Name}">${resource.Name}</a></li>
+                      <li><a href="#_Resources${resource.Name}"><i class="icon-cog"></i> ${resource.Name}</a></li>
                     </for>
                   </ul>
                 </li>
@@ -39,8 +39,12 @@
                 <li class="dropdown" data-module="${module.Name}">
                   <a href="#${module.Name}" class="dropdown-toggle" data-toggle="dropdown">${module.Name}<b class="caret"></b></a>
                   <ul class="dropdown-menu">
+                    <if condition='!string.IsNullOrEmpty(module.Comments)'>
+                        <li><a href="#${module.Name}"><i class="icon-home"></i> Overview</a></li>
+                        <li class="divider"></li>
+                    </if>
                     <for each="var resource in module.Resources">
-                      <li><a href="#/${module.Name}${resource.Name}">${resource.Name}</a></li>
+                      <li><a href="#${module.Name}${resource.Name}"><i class="icon-cog"></i> ${resource.Name}</a></li>
                     </for>
                   </ul>
                 </li>
@@ -58,15 +62,29 @@
       </div>
     </footer>
 
+    <script type="text/html" id="swank-module-template">
+      <h3>{{Name}}</h3>
+      <div>{{Comments}}</div>
+    </script>
+
     <script type="text/html" id="swank-resource-template">
       <h3>{{Name}}</h3>
+      <div>{{Comments}}</div>
+      <hr/>
+      {{#Endpoints}}
+      <h4>{{Url}}</h4>
+      <span>{{Method}}</span>
+      <div>{{Comments}}</div>
+      {{/Endpoints}}
     </script>
+  
+    <script language="javascript"> window.Swank = { Specification: !{Model.Specification.SerializeJson()} }; </script>
     
+    <script src="~/_content/swank/es5-shim.js"></script>
     <script src="~/_content/swank/jquery.js"></script>
     <script src="~/_content/swank/bootstrap.js"></script>
     <script src="~/_content/swank/mustache.js"></script>
     <script src="~/_content/swank/swank.js"></script>
-    <script language="javascript"> window.Swank.Specification = !{Model.Specification.SerializeJson()}; </script>
     
   </body>
 </html>

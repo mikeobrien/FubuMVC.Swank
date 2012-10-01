@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FubuCore;
@@ -29,6 +30,10 @@ namespace FubuMVC.Swank.Specification
             public System.Type Type { get; private set; }
             public ActionCall Action { get; private set; }
         }
+
+        public static readonly Func<string, int> HttpVerbRank = x => { switch (x.IsEmpty() ? null : x.ToLower()) 
+            { case "get": return 0; case "post": return 1; case "put": return 2; 
+              case "update": return 3; case "delete": return 5; default: return 4; } };
 
         private readonly Configuration _configuration;
         private readonly ActionSource _actions;
@@ -228,7 +233,7 @@ namespace FubuMVC.Swank.Specification
                         Request = x.HasInput && (route.AllowsPost() || route.AllowsPut()) ? GetData(x.InputType(), x.Method) : null,
                         Response = x.HasOutput ? GetData(x.OutputType()) : null
                     };
-                }).OrderBy(x => x.Url).ThenBy(x => x.Method).ToList();
+                }).OrderBy(x => x.Name ?? x.Url).ThenBy(x => HttpVerbRank(x.Method)).ToList();
         }
 
         private List<UrlParameter> GetUrlParameters(ActionCall action)

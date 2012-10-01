@@ -1,157 +1,58 @@
-﻿Test Harness API
-================================
+﻿## Test Harness API
 
-Let's get the whole "linebreak" thing out of the way. The next paragraph contains two phrases separated by a single newline character:
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu.
 
-Roses are red
-Violets are blue
+In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.
 
-The next paragraph has the same phrases, but now they are separated by two spaces and a newline character:
+### Lorem ipsum dolor
 
-Roses are red  
-Violets are blue
+In volutpat tortor quis mauris blandit non viverra tellus mollis:
 
-Oh, and one thing I cannot stand is the mangling of words with multiple underscores in them like perform_complicated_task or do_this_and_do_that_and_another_thing.
+* Vivamus convallis
+* Pellentesque id neque
+* Nullam ac nulla
 
-A bit of the GitHub spice
--------------------------
+Sed tincidunt massa ut mauris:
 
-In addition to the changes in the previous section, certain references are auto-linked:
+1.  In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet.
 
-* SHA: be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2
-* User@SHA ref: mojombo@be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2
-* User/Project@SHA: mojombo/god@be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2
-* \#Num: #1
-* User/#Num: mojombo#1
-* User/Project#Num: mojombo/god#1
-
-These are dangerous goodies though, and we need to make sure email addresses don't get mangled:
-
-My email addy is tom@github.com.
-
-Math is hard, let's go shopping
--------------------------------
-
-In first grade I learned that 5 > 3 and 2 < 7. Maybe some arrows. 1 -> 2 -> 3. 9 <- 8 <- 7.
-
-Triangles man! a^2 + b^2 = c^2
-
-We all like making lists
-------------------------
-
-The above header should be an H2 tag. Now, for a list of fruits:
-
-* Red Apples
-* Purple Grapes
-* Green Kiwifruits
-
-Let's get crazy:
-
-1.  This is a list item with two paragraphs. Lorem ipsum dolor
-    sit amet, consectetuer adipiscing elit. Aliquam hendrerit
-    mi posuere lectus.
-
-    Vestibulum enim wisi, viverra nec, fringilla in, laoreet
-    vitae, risus. Donec sit amet nisl. Aliquam semper ipsum
-    sit amet velit.
+    Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus. Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
 
 2.  Suspendisse id sem consectetuer libero luctus adipiscing.
 
-What about some code **in** a list? That's insane, right?
+### Mauris venenatis volutpat fringilla
 
-1. In Ruby you can map like this:
+Suspendisse potenti. Sed tincidunt massa ut mauris vestibulum sed porttitor erat pellentesque. Sed vitae ullamcorper massa. Cras in nulla odio, et ornare nulla. Nullam non neque at risus mattis tincidunt in id metus. Sed porta eros lobortis nibh lacinia in gravida elit adipiscing. Sed interdum, lectus eget scelerisque elementum, massa dui ultricies felis, non vulputate justo est quis ipsum. Ut cursus eros eu felis iaculis dignissim. Nullam porttitor nibh sit amet dolor placerat aliquam. Nulla at diam ac turpis tincidunt ullamcorper. Fusce congue aliquam lacus. Sed lectus dui, laoreet ac ornare sed, laoreet non ante. Proin vitae est turpis. Quisque eros arcu, pulvinar nec cursus sit amet, vulputate et eros.
 
-        ['a', 'b'].map { |x| x.uppercase }
+1. Suspendisse id sem consectetuer libero luctus adipiscing:
 
-2. In Rails, you can do a shortcut:
+        let array = new BitArray(max, true);
 
-        ['a', 'b'].map(&:uppercase)
+2. Mauris venenatis volutpat:
 
-Some people seem to like definition lists
+        let lastp = Math.Sqrt(float max) |> int
 
-<dl>
-  <dt>Lower cost</dt>
-  <dd>The new version of this product costs significantly less than the previous one!</dd>
-  <dt>Easier to use</dt>
-  <dd>We've changed the product so that it's much easier to use!</dd>
-</dl>
+Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet.
 
-I am a robot
-------------
+    let rec fibsRec a b =
+      if a + b < 400 then
+        let current = a + b
+        let rest = fibsRec b current  
+        current :: rest
+      else 
+        []
+        
+    let fibs = 1::2::(fibsRec 1 2)
 
-Maybe you want to print `robot` to the console 1000 times. Why not?
+### Suspendisse hendrerit purus
 
-    def robot_invasion
-      puts("robot " * 1000)
-    end
+Nulla leo odio, luctus et cursus tristique, porta et orci. Nulla pellentesque magna a tortor ultrices auctor. Proin vehicula vulputate quam, eu tempor urna faucibus eget. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas scelerisque sapien nec odio pharetra ut bibendum metus semper. Quisque pulvinar turpis a nisl imperdiet tristique. Duis consequat, nibh et malesuada sagittis, quam libero auctor quam, id ultrices erat nisi ut odio. Proin adipiscing turpis id nibh blandit id mollis risus semper. Integer vel volutpat tellus. Curabitur vehicula volutpat tempus. Sed volutpat eros vitae purus imperdiet id eleifend lorem eleifend.
 
-You see, that was formatted as code because it's been indented by four spaces.
+> Sometimes the only way you can feel good about yourself is by making someone else look bad. And I'm tired of making other people feel good about themselves.
+> ~Homer Simpson
 
-How about we throw some angle braces and ampersands in there?
+I really like [Real World Functional Programming] [1] as well as [Expert F#] [2] for learning F#. Now I'm going to read [Learn You a Haskell] [3].
 
-    <div class="footer">
-        &copy; 2004 Foo Corporation
-    </div>
-
-Set in stone
-------------
-
-Preformatted blocks are useful for ASCII art:
-
-<pre>
-             ,-. 
-    ,     ,-.   ,-. 
-   / \   (   )-(   ) 
-   \ |  ,.>-(   )-< 
-    \|,' (   )-(   ) 
-     Y ___`-'   `-' 
-     |/__/   `-' 
-     | 
-     | 
-     |    -hrr- 
-  ___|_____________ 
-</pre>
-
-Playing the blame game
-----------------------
-
-If you need to blame someone, the best way to do so is by quoting them:
-
-> I, at any rate, am convinced that He does not throw dice.
-
-Or perhaps someone a little less eloquent:
-
-> I wish you'd have given me this written question ahead of time so I
-> could plan for it... I'm sure something will pop into my head here in
-> the midst of this press conference, with all the pressure of trying to
-> come up with answer, but it hadn't yet...
->
-> I don't want to sound like
-> I have made no mistakes. I'm confident I have. I just haven't - you
-> just put me under the spot here, and maybe I'm not as quick on my feet
-> as I should be in coming up with one.
-
-Table for two
--------------
-
-<table>
-  <tr>
-    <th>ID</th><th>Name</th><th>Rank</th>
-  </tr>
-  <tr>
-    <td>1</td><td>Tom Preston-Werner</td><td>Awesome</td>
-  </tr>
-  <tr>
-    <td>2</td><td>Albert Einstein</td><td>Nearly as awesome</td>
-  </tr>
-</table>
-
-Crazy linking action
---------------------
-
-I get 10 times more traffic from [Google] [1] than from
-[Yahoo] [2] or [MSN] [3].
-
-  [1]: http://google.com/        "Google"
-  [2]: http://search.yahoo.com/  "Yahoo Search"
-  [3]: http://search.msn.com/    "MSN Search"
+  [1]: http://www.amazon.com/Real-World-Functional-Programming-Examples/dp/1933988924       "Real World Functional Programming"
+  [2]: http://www.amazon.com/Expert-F-3-0-Don-Syme/dp/1430246502  "Expert F#"
+  [3]: http://www.amazon.com/Learn-You-Haskell-Great-Good/dp/1593272839    "Learn You a Haskell"
