@@ -101,6 +101,26 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
+        /// The copyright which is displayed in the footer of the documentaion page. 
+        /// The token {year} is replaced by the current year for use in a copyright.
+        /// </summary>
+        public Swank WithStylesheets(params string[] urls)
+        {
+            _configuration.Stylesheets.AddRange(urls);
+            return this;
+        }
+
+        /// <summary>
+        /// The copyright which is displayed in the footer of the documentaion page. 
+        /// The token {year} is replaced by the current year for use in a copyright.
+        /// </summary>
+        public Swank WithScripts(params string[] urls)
+        {
+            _configuration.Scripts.AddRange(urls);
+            return this;
+        }
+
+        /// <summary>
         /// This filters the actions included in the specification.
         /// </summary>
         public Swank Where(Func<ActionCall, bool> filter)

@@ -17,3 +17,119 @@ body {
     border-top: 1px solid #E5E5E5;
     background-color: whiteSmoke;
 }
+
+.resource-divider {
+    margin: 20px 0 25px;
+}
+
+/* Endpoint styles totally lifted from the Swagger UI, props. */
+
+.endpoint-yellow .endpoint-well {
+    background-color: #FAF5EE;
+    border-color: #F0E0CA;
+}
+
+.endpoint-blue .endpoint-well {
+    background-color: #EBF3F9;
+    border-color: #C3D9EC;
+}
+
+.endpoint-red .endpoint-well {
+    background-color: #F7EDED;
+    border-color: #E8C6C7;
+}
+
+.endpoint-green .endpoint-well {
+    background-color: #EBF7F0;
+    border-color: #C3E8D1;
+}
+
+.endpoint-yellow .highlight-text {
+    color: #C5862B;
+}
+
+.endpoint-blue .highlight-text {
+    color: #0F6AB4;
+}
+
+.endpoint-red .highlight-text {
+    color: #A41E22;
+}
+
+.endpoint-green .highlight-text {
+    color: #10A54A;
+}
+
+.endpoint-yellow .highlight-background {
+    background-color: #C5862B;
+}
+
+.endpoint-blue .highlight-background {
+    background-color: #0F6AB4;
+}
+
+.endpoint-red .highlight-background {
+    background-color: #A41E22;
+}
+
+.endpoint-green .highlight-background {
+    background-color: #10A54A;
+}
+
+.endpoint-header {
+    margin-top: 20px;
+    border-width: 1px;
+    border-style: solid;
+    cursor: hand;
+    cursor: pointer;
+}
+
+.endpoint-method {
+    text-transform: uppercase;
+    color: white;
+    font-size: 0.7em;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px 0 5px 0;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -o-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.endpoint-url {
+    display: inline-block;
+    padding: 6px 0 3px 10px;
+    vertical-align: middle;
+    font-size: 17px;
+    margin: 0;
+}
+
+.endpoint-name {
+    float: right;
+    margin: 5px 10px 0 0;
+}
+
+.endpoint-body {
+    display: none;
+    border-width: 0 1px 1px 1px;
+    border-style: solid;
+    padding: 10px;
+    -moz-border-radius-bottomleft: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -o-border-bottom-left-radius: 6px;
+    -ms-border-bottom-left-radius: 6px;
+    -khtml-border-bottom-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    -moz-border-radius-bottomright: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -o-border-bottom-right-radius: 6px;
+    -ms-border-bottom-right-radius: 6px;
+    -khtml-border-bottom-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    margin: 0 0 20px 0;
+}

@@ -28,14 +28,13 @@ namespace FubuMVC.Swank.Specification
                     Comments = resources.Select(y => y.Comments).FirstOrDefault(),
                     Endpoints = resources.SelectMany(x => x.Endpoints).GroupBy(
                         x => x.Name ?? ("{0}:{1}".ToFormat(x.Method, x.Url)), x => x,
-                        (endpointKey, endpoints) => endpoints.First()).OrderBy(x => x.Name ?? x.Url)
+                        (endpointKey, endpoints) => endpoints.First()).OrderBy(x => x.Url.Split('?').First())
                                 .ThenBy(x => SpecificationService.HttpVerbRank(x.Method)).ToList()
                 };
             return new Specification
                 {
                     Name = specification1.Name ?? specification2.Name,
                     Comments = specification1.Comments ?? specification2.Comments,
-                    Copyright = specification1.Copyright ?? specification2.Copyright,
                     Types = specification1.Types.OuterJoin(specification2.Types, x => x.Id ?? x.Name,
                         (key, types) => new Type {
                                 Id = types.Select(y => y.Id).FirstOrDefault(),

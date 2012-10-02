@@ -1,7 +1,22 @@
 ﻿$(function () {
-    
-    Swank.ModuleTemplate = $('#swank-module-template').html();
-    Swank.ResourceTemplate = $('#swank-resource-template').html();
+
+    Handlebars.registerHelper('methodColor', function (method) {
+        switch (method.toLowerCase()) {
+            case 'get': return 'blue';
+            case 'post': return 'green';
+            case 'put': return 'yellow';
+            case 'update': return 'yellow';
+            case 'delete': return 'red';
+            default: return 'blue';
+        }
+    });
+
+    Handlebars.registerHelper('formatUrl', function (url) {
+        return url.replace(/(\{.*?\})/g, '<span class="highlight-text"><b>$1</b></span>');
+    });
+
+    Swank.ModuleTemplate = Handlebars.compile($('#swank-module-template').html());
+    Swank.ResourceTemplate = Handlebars.compile($('#swank-resource-template').html());
 
     Swank.render = function (id) {
             
@@ -27,9 +42,10 @@
         $('.nav').find("li[data-module='" + moduleName + "']").addClass('active');
         
         if (module && !resource) {
-            content.html(Mustache.render(this.ModuleTemplate, module));
+            content.html(this.ModuleTemplate(module));
         } else if (resource) {
-            content.html(Mustache.render(this.ResourceTemplate, resource));
+            content.html(this.ResourceTemplate(resource));
+            $('.endpoint-header').click(function () { $(this).next(".endpoint-body").slideToggle(500); });
         } else {
             content.html('No module our resource specified.');
         }

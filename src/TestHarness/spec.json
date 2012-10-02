@@ -4307,6 +4307,7 @@
                     "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu. In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.",
                     "Endpoints": [	
                         {
+                            "Name": "Enumerate Lists",
                             "Url": "/Rest/Contacts/v1/lists/{accountId}",
                             "Method": "GET",
                             "Comments": "",
@@ -4327,6 +4328,7 @@
                             }
                         },
                         {
+                            "Name": "Get a List",
                             "Url": "/Rest/Contacts/v1/lists/{accountId}/{listId}",
                             "Method": "GET",
                             "Comments": "",
@@ -4352,6 +4354,7 @@
                             }
                         },	
                         {
+                            "Name": "Add a List",
                             "Url": "/Rest/Contacts/v1/lists/{accountId}",
                             "Method": "POST",
                             "Comments": "",
@@ -4378,6 +4381,7 @@
                             }
                         },	
                         {
+                            "Name": "Update a List",
                             "Url": "/Rest/Contacts/v1/lists/{accountId}/{listId}",
                             "Method": "PUT",
                             "Comments": "",
@@ -4403,6 +4407,7 @@
                             }
                         },	
                         {
+                            "Name": "Delete a List",
                             "Url": "/Rest/Contacts/v1/lists/{accountId}/{listId}",
                             "Method": "DELETE",
                             "Comments": "",

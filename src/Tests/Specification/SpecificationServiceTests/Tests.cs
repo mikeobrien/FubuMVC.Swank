@@ -31,7 +31,6 @@ namespace Tests.Specification.SpecificationServiceTests
             var spec = BuildSpec(x => x.Named("Some API").WithCopyright("Copyright Now"));
 
             spec.Name.ShouldEqual("Some API");
-            spec.Copyright.ShouldEqual("Copyright Now");
             spec.Comments.ShouldEqual("<p><strong>Some markdown comments</strong></p>");
         }
     }

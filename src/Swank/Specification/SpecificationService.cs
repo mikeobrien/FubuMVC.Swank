@@ -81,7 +81,6 @@ namespace FubuMVC.Swank.Specification
                     Name = _configuration.Name,
                     Comments = actionMapping.Select(x => x.Action.HandlerType.Assembly).Distinct()
                         .Select(x => x.FindTextResourceNamed("*" + _configuration.Comments)).FirstOrDefault(x => x != null),
-                    Copyright = _configuration.Copyright,
                     Types = GetTypes(actionMapping.Select(x => x.Action).ToList()),
                     Modules = GetModules(actionMapping.Where(x => x.Module != null).ToList()),
                     Resources = GetResources(actionMapping.Where(x => x.Module == null).ToList())
@@ -233,7 +232,7 @@ namespace FubuMVC.Swank.Specification
                         Request = x.HasInput && (route.AllowsPost() || route.AllowsPut()) ? GetData(x.InputType(), x.Method) : null,
                         Response = x.HasOutput ? GetData(x.OutputType()) : null
                     };
-                }).OrderBy(x => x.Name ?? x.Url).ThenBy(x => HttpVerbRank(x.Method)).ToList();
+                }).OrderBy(x => x.Url.Split('?').First()).ThenBy(x => HttpVerbRank(x.Method)).ToList();
         }
 
         private List<UrlParameter> GetUrlParameters(ActionCall action)
