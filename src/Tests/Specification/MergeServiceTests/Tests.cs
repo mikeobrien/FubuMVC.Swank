@@ -120,7 +120,7 @@ namespace Tests.Specification.MergeServiceTests
                         Name = "Some module", 
                         Resources = new List<Resource> { new Resource {
                             Name = "/overlappingmodule",
-                            Endpoints = new List<Endpoint> { new Endpoint()}
+                            Endpoints = new List<Endpoint> { new Endpoint { Url = ""}}
                         }}
                     }}
                 };
