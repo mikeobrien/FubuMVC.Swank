@@ -85,7 +85,140 @@
         </div>
 
         <div class="endpoint-body endpoint-well">
-          {{{Comments}}}
+          <p>{{{Comments}}}</p>
+
+          {{#if UrlParameters}}
+          <h4>Url Parameters</h4>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Options</th>
+                <th>Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+            {{#UrlParameters}}
+              <tr>
+                <td>{{{Name}}}</td>
+                <td>{{{Type}}}</td>
+                <td>
+                  {{#if Options}}
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th>Comments</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {{#Options}}
+                        <tr>
+                          <td>{{{Name}}}</td>
+                          <td>{{{Value}}}</td>
+                          <td>{{{Comments}}}</td>
+                        </tr>
+                    {{/Options}}
+                    </tbody>
+                  </table>
+                  {{/if}}
+                </td>
+                <td>{{{Comments}}}</td>
+              </tr>
+              {{/UrlParameters}}
+            </tbody>
+          </table>
+          {{/if}}
+
+          {{#if QuerystringParameters}}
+          <h4>Querystring</h4>
+          <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Options</th>
+                  <th>Default Value</th>
+                  <th>Required</th>
+                  <th>Multiple Allowed</th>
+                  <th>Comments</th>
+                </tr>
+              </thead>
+              <tbody>              
+              {{#QuerystringParameters}}
+              <tr>
+                <td>{{{Name}}}</td>
+                <td>{{{Type}}}</td>
+                <td>
+                  {{#if Options}}
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th>Comments</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {{#Options}}
+                      <tr>
+                        <td>{{{Name}}}</td>
+                        <td>{{{Value}}}</td>
+                        <td>{{{Comments}}}</td>
+                      </tr>
+                      {{/Options}}
+                    </tbody>
+                  </table>
+                  {{/if}}
+                </td>
+                <td>{{{DefaultValue}}}</td>
+                <td>{{yesNo Required}}</td>
+                <td>{{yesNo MultipleAllowed}}</td>
+                <td>{{{Comments}}}</td>
+              </tr>
+              {{/QuerystringParameters}}
+            </tbody>
+          </table>
+          {{/if}}
+
+          {{#if Errors}}
+          <h4>Errors</h4>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Name</th>
+                <th>Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#Errors}}
+              <tr>
+                <td>{{{Status}}}</td>
+                <td nowrap="nowrap">{{{Name}}}</td>
+                <td>{{{Comments}}}</td>
+              </tr>
+              {{/Errors}}
+            </tbody>
+          </table>
+          {{/if}}
+
+          {{#if Request}}
+          <h4>Request</h4>
+          {{#with Request}}
+            <p>{{{Comments}}}</p>
+          {{/with}}
+          {{/if}}
+
+          {{#if Response}}
+          <h4>Response</h4>
+          {{#with Response}}
+          <p>{{{Comments}}}</p>
+          {{/with}}
+          {{/if}}
+
         </div>
 
       </div>

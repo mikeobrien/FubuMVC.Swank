@@ -15,6 +15,10 @@
         return url.replace(/(\{.*?\})/g, '<span class="highlight-text"><b>$1</b></span>');
     });
 
+    Handlebars.registerHelper('yesNo', function (bool) {
+        return bool ? 'Yes' : 'No';
+    });
+
     Swank.ModuleTemplate = Handlebars.compile($('#swank-module-template').html());
     Swank.ResourceTemplate = Handlebars.compile($('#swank-resource-template').html());
 

@@ -1,5 +1,9 @@
 body {
-    padding-top: 100px;
+    padding-top: 80px;
+}
+
+#content {
+    min-height: 600px;
 }
 
 .sidebar-nav {
