@@ -101,8 +101,8 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// The copyright which is displayed in the footer of the documentaion page. 
-        /// The token {year} is replaced by the current year for use in a copyright.
+        /// Specify stylesheets to be included in the documentation page.
+        /// This can be used to override the appearance of the page.
         /// </summary>
         public Swank WithStylesheets(params string[] urls)
         {
@@ -111,8 +111,8 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// The copyright which is displayed in the footer of the documentaion page. 
-        /// The token {year} is replaced by the current year for use in a copyright.
+        /// Specify scripts to be included in the documentation page.
+        /// This can be used to override the behavior of the page.
         /// </summary>
         public Swank WithScripts(params string[] urls)
         {
