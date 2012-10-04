@@ -15,6 +15,23 @@ body {
     padding-left: 10px;
 }
 
+.table {
+    background-color: #fff;
+}
+
+.table thead tr {
+    padding: 4px;
+    color: #fff;
+}
+
+.table-zebra > tbody > tr:nth-child(odd) > td {
+    background-color: #F9F9F9;
+}
+
+.table-options {
+    margin-bottom: 0;
+}
+
 .footer {
     padding: 30px 0;
     margin-top: 70px;

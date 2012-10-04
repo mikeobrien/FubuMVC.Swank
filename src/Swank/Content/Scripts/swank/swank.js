@@ -1,7 +1,7 @@
 ﻿$(function () {
 
-    Handlebars.registerHelper('methodColor', function (method) {
-        switch (method.toLowerCase()) {
+    Handlebars.registerHelper('methodColor', function (context) {
+        switch (context.toLowerCase()) {
             case 'get': return 'blue';
             case 'post': return 'green';
             case 'put': return 'yellow';
@@ -11,12 +11,12 @@
         }
     });
 
-    Handlebars.registerHelper('formatUrl', function (url) {
-        return url.replace(/(\{.*?\})/g, '<span class="highlight-text"><b>$1</b></span>');
+    Handlebars.registerHelper('formatUrl', function (context) {
+        return context.replace(/(\{.*?\})/g, '<span class="highlight-text"><b>$1</b></span>');
     });
 
-    Handlebars.registerHelper('yesNo', function (bool) {
-        return bool ? 'Yes' : 'No';
+    Handlebars.registerHelper('yesNo', function (context) {
+        return context ? 'Yes' : 'No';
     });
 
     Swank.ModuleTemplate = Handlebars.compile($('#swank-module-template').html());

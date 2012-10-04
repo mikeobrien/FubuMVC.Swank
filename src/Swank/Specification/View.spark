@@ -89,73 +89,26 @@
 
           {{#if UrlParameters}}
           <h4>Url Parameters</h4>
-          <table class="table table-bordered table-striped">
+          <table class="table table-bordered table-zebra">
             <thead>
-              <tr>
+              <tr class="highlight-background">
                 <th>Name</th>
                 <th>Type</th>
-                <th>Options</th>
                 <th>Comments</th>
               </tr>
             </thead>
             <tbody>
             {{#UrlParameters}}
               <tr>
-                <td>{{{Name}}}</td>
+                <td><strong>{{{Name}}}</strong></td>
                 <td>{{{Type}}}</td>
                 <td>
+                  {{{Comments}}}
                   {{#if Options}}
-                  <table class="table table-bordered table-striped">
+                  <h5>Possible Values</h5>
+                  <table class="table table-bordered table-zebra table-options">
                     <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Value</th>
-                        <th>Comments</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    {{#Options}}
-                        <tr>
-                          <td>{{{Name}}}</td>
-                          <td>{{{Value}}}</td>
-                          <td>{{{Comments}}}</td>
-                        </tr>
-                    {{/Options}}
-                    </tbody>
-                  </table>
-                  {{/if}}
-                </td>
-                <td>{{{Comments}}}</td>
-              </tr>
-              {{/UrlParameters}}
-            </tbody>
-          </table>
-          {{/if}}
-
-          {{#if QuerystringParameters}}
-          <h4>Querystring</h4>
-          <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th>Options</th>
-                  <th>Default Value</th>
-                  <th>Required</th>
-                  <th>Multiple Allowed</th>
-                  <th>Comments</th>
-                </tr>
-              </thead>
-              <tbody>              
-              {{#QuerystringParameters}}
-              <tr>
-                <td>{{{Name}}}</td>
-                <td>{{{Type}}}</td>
-                <td>
-                  {{#if Options}}
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
+                      <tr class="highlight-background">
                         <th>Name</th>
                         <th>Value</th>
                         <th>Comments</th>
@@ -165,7 +118,7 @@
                       {{#Options}}
                       <tr>
                         <td>{{{Name}}}</td>
-                        <td>{{{Value}}}</td>
+                        <td><strong>{{{Value}}}</strong></td>
                         <td>{{{Comments}}}</td>
                       </tr>
                       {{/Options}}
@@ -173,10 +126,57 @@
                   </table>
                   {{/if}}
                 </td>
+              </tr>
+              {{/UrlParameters}}
+            </tbody>
+          </table>
+          {{/if}}
+
+          {{#if QuerystringParameters}}
+          <h4>Querystring</h4>
+          <table class="table table-bordered table-zebra">
+              <thead>
+                <tr class="highlight-background">
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Default</th>
+                  <th>Required</th>
+                  <th>Multiple</th>
+                  <th>Comments</th>
+                </tr>
+              </thead>
+              <tbody>              
+              {{#QuerystringParameters}}
+              <tr>
+                <td><strong>{{{Name}}}</strong></td>
+                <td>{{{Type}}}</td>
                 <td>{{{DefaultValue}}}</td>
                 <td>{{yesNo Required}}</td>
                 <td>{{yesNo MultipleAllowed}}</td>
-                <td>{{{Comments}}}</td>
+                <td>
+                  {{{Comments}}}
+                  {{#if Options}}
+                    <h5>Possible Values</h5>
+                    <table class="table table-bordered table-zebra table-options">
+                      <thead>
+                        <tr class="highlight-background">
+                          <th>Name</th>
+                          <th>Value</th>
+                          <th>Comments</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {{#Options}}
+                        <tr>
+                          <td>{{{Name}}}</td>
+                          <td><strong>{{{Value}}}</strong></td>
+                          <td>{{{Comments}}}</td>
+                        </tr>
+                        {{/Options}}
+                      </tbody>
+                    </table>
+                  {{/if}}
+                </td>
               </tr>
               {{/QuerystringParameters}}
             </tbody>
@@ -187,7 +187,7 @@
           <h4>Errors</h4>
           <table class="table table-bordered table-striped">
             <thead>
-              <tr>
+              <tr class="highlight-background">
                 <th>Status</th>
                 <th>Name</th>
                 <th>Comments</th>

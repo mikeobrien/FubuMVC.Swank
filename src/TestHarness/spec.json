@@ -4360,6 +4360,14 @@
                                             "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                                         }
                                     ]
+                                },
+                                {
+                                    "Name": "sort",
+                                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus.",
+                                    "DefaultValue": "Asc",
+                                    "MultipleAllowed": false,
+                                    "Required": false,
+                                    "Type": "enum"
                                 }
                             ],
                             "Errors": [
