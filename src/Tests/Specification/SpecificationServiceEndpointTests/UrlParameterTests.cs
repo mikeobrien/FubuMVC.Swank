@@ -23,7 +23,7 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
                 .GetUrlParameter<UrlParameters.Request>(x => x.WidgetId);
 
             parameter.Name.ShouldEqual("WidgetId");
-            parameter.Type.ShouldEqual("uuid");
+            parameter.Type.ShouldEqual("guid");
             parameter.Comments.ShouldBeNull();
             parameter.Options.ShouldBeEmpty();
         }

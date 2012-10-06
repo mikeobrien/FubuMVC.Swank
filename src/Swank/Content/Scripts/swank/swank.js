@@ -55,6 +55,133 @@
         }
     };
 
+    var pad = function (x) { return new Array((x * 4) + 1).join(' '); };
+
+    var getDefaultValue = function (member) {
+        if (member.Type == 'decimal' ||
+            member.Type == 'double' ||
+            member.Type == 'float' ||
+            member.Type == 'unsignedByte' ||
+            member.Type == 'byte' ||
+            member.Type == 'short' ||
+            member.Type == 'unsignedShort' ||
+            member.Type == 'int' ||
+            member.Type == 'unsignedInt' ||
+            member.Type == 'long' ||
+            member.Type == 'unsignedLong') return member.DefaultValue || '0';
+        else if (member.Type == 'boolean') return member.DefaultValue || 'false';
+        else if (member.Type == 'guid') return member.DefaultValue || '\"00000000-0000-0000-0000-000000000000\"';
+        else if (member.Type == 'dateTime') return member.DefaultValue || '\"10/26/1985 1:21:00 AM\"';
+        else return '\"' + (member.DefaultValue || '') + '\"';
+    };
+
+    var getTypeDescription = function(id, name, collection, depth, member, last) {
+        var type = Swank.Specification.Types.filter(function(x) { return x.Id === id; })[0];
+        last = typeof last != 'undefined' ? last : true;
+        var definition = [];
+        depth = depth || 0;
+
+        if (collection && type) {
+            definition.push({
+                name: name,
+                opening: true,
+                collection: true,
+                depth: depth,
+                member: member
+            });
+            definition = definition.concat(getTypeDescription(id, null, false, depth + 1));
+            definition.push({
+                name: name,
+                closing: true,
+                collection: true,
+                depth: depth,
+                last: last
+            });
+            return definition;
+        } else if (collection) {
+            definition.push({
+                name: name,
+                itemName: id,
+                opening: true,
+                closing: true,
+                collection: true,
+                depth: depth,
+                member: member,
+                defaultValue: getDefaultValue(member)
+            });
+            return definition;
+        }
+
+        if (type) {
+            definition.push({
+                name: name || type.Name,
+                opening: true,
+                depth: depth,
+                member: member
+            });
+            for (member in type.Members) {
+                var lastMember = member == (type.Members.length - 1);
+                var typeMember = type.Members[member];
+                definition = definition
+                    .concat(getTypeDescription(typeMember.Type, typeMember.Name,
+                                typeMember.Collection, depth + 1, typeMember, lastMember));
+            }
+            definition.push({
+                name: name || type.Name,
+                closing: true,
+                depth: depth,
+                last: last
+            });
+        } else {
+            definition.push({
+                name: name || id,
+                depth: depth,
+                member: member,
+                last: last,
+                defaultValue: getDefaultValue(member)
+            });
+        }
+        return definition;
+    };
+
+    var getXmlDescription = function(description) {
+        var defaultValue = description.defaultValue ? description.defaultValue.replace(/\"/g, '') : '';
+        var element = '';
+        if (!description.closing || (description.opening && description.closing)) {
+            element += '&lt;' + description.name + '&gt;';
+        }
+        if (!description.opening && !description.closing) element += defaultValue;
+        if (description.opening && description.closing) {
+            element += '&lt;' + description.itemName + '&gt;' + defaultValue + '&lt;/' + description.itemName + '&gt;';
+        }
+        if (!description.opening || (description.opening && description.closing)) {
+            element += '&lt;/' + description.name + '&gt;';
+        }
+        return pad(description.depth) + element;
+    };
+
+    var getJsonDescription = function(description) {
+        var quote = function(x) { return "\"" + x + "\": "; };
+        var element = '';
+        if (description.opening) {
+            if (description.depth > 0 && description.member) element += quote(description.name);
+            element += description.collection ? '[' : '{';
+        }
+        if (description.opening && description.closing) {
+            element += description.defaultValue;
+        }
+        if (description.closing) {
+            element += description.collection ? ']' : '}';
+            if (!description.last) element += ',';
+        }
+        if (!description.opening && !description.closing) {
+            element += quote(description.name);
+            element += description.defaultValue;
+            if (!description.last) element += ',';
+        }
+        return pad(description.depth) + element;
+    };
+
     var getHash = function() { return window.location.hash.replace(/^#/, ''); };
 
     $(window).bind('hashchange', function () { Swank.render(getHash()); });

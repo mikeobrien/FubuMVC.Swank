@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using FubuMVC.Swank.Description;
 using NUnit.Framework;
@@ -78,6 +79,14 @@ namespace Tests.Description
             description.Type.ShouldEqual(typeof(SomeType));
             description.Name.ShouldEqual("SomeTypes");
             description.Comments.ShouldEqual("These are some moar types.");
+        }
+
+        [Test]
+        public void should_initial_cap_list_primitive_type_name()
+        {
+            var description = new TypeSource().GetDescription(typeof(List<Int64>));
+            description.Type.ShouldEqual(typeof(Int64));
+            description.Name.ShouldEqual("ArrayOfLong");
         }
     }
 }

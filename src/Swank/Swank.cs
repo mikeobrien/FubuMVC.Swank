@@ -252,7 +252,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// This allows you to set the type description source.
         /// </summary>
-        public Swank WithTypeDescriptionSource<T>() where T : IDescriptionSource<Type, DataTypeDescription>
+        public Swank WithTypeDescriptionSource<T>() where T : IDescriptionSource<Type, TypeDescription>
         {
             return WithTypeDescriptionSource<T, object>(null);
         }
@@ -261,7 +261,7 @@ namespace FubuMVC.Swank
         /// This allows you to set the type description source as well as pass in configuration.
         /// </summary>
         public Swank WithTypeDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<Type, DataTypeDescription>
+            where T : IDescriptionSource<Type, TypeDescription>
             where TConfig : class, new()
         {
             _configuration.TypeDescriptionSource.Type = typeof(T);

@@ -44,7 +44,7 @@ namespace FubuMVC.Swank.Specification
         private readonly IDescriptionSource<PropertyInfo, MemberDescription> _members;
         private readonly IDescriptionSource<FieldInfo, OptionDescription> _options;
         private readonly IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
-        private readonly IDescriptionSource<System.Type, DataTypeDescription> _dataTypes;
+        private readonly IDescriptionSource<System.Type, TypeDescription> _types;
         private readonly MergeService _mergeService;
 
         public SpecificationService(
@@ -57,7 +57,7 @@ namespace FubuMVC.Swank.Specification
             IDescriptionSource<PropertyInfo, MemberDescription> members,
             IDescriptionSource<FieldInfo, OptionDescription> options,
             IDescriptionSource<ActionCall, List<ErrorDescription>> errors,
-            IDescriptionSource<System.Type, DataTypeDescription> dataTypes,
+            IDescriptionSource<System.Type, TypeDescription> types,
             MergeService mergeService)
         {
             _configuration = configuration;
@@ -69,7 +69,7 @@ namespace FubuMVC.Swank.Specification
             _members = members;
             _options = options;
             _errors = errors;
-            _dataTypes = dataTypes;
+            _types = types;
             _mergeService = mergeService;
         }
 
@@ -138,7 +138,7 @@ namespace FubuMVC.Swank.Specification
                 .Concat(rootTypes.SelectMany(GetTypes))
                 .DistinctBy(x => x.Type, x => x.Action)
                 .Select(x => {
-                    var description = _dataTypes.GetDescription(x.Type);
+                    var description = _types.GetDescription(x.Type);
                     var type = description.WhenNotNull(y => y.Type).Otherwise(x.Type);
                     return new Type {
                         Id = x.Action != null ? type.GetHash(x.Action.Method) : type.GetHash(),
@@ -182,7 +182,7 @@ namespace FubuMVC.Swank.Specification
                             Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                             DefaultValue = description.WhenNotNull(y => y.DefaultValue).WhenNotNull(z => z.ToString()).OtherwiseDefault(),
                             Required = description.WhenNotNull(y => y.Required).OtherwiseDefault(),
-                            Type = memberType.IsSystemType() ? memberType.ToFriendlyName() : memberType.GetHash(),
+                            Type = memberType.IsSystemType() ? memberType.GetXmlName() : memberType.GetHash(),
                             Collection = x.PropertyType.IsArray || x.PropertyType.IsList(),
                             Options = GetOptions(x.PropertyType)
                         };
@@ -245,7 +245,7 @@ namespace FubuMVC.Swank.Specification
                     return new UrlParameter {
                             Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                            Type = property.PropertyType.ToFriendlyName(),
+                            Type = property.PropertyType.GetXmlName(),
                             Options = GetOptions(property.PropertyType)
                         };
                 }).ToList();
@@ -262,7 +262,7 @@ namespace FubuMVC.Swank.Specification
                     return new QuerystringParameter {
                         Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                        Type = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).ToFriendlyName(),
+                        Type = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).GetXmlName(),
                         Options = GetOptions(x.Value.PropertyType),
                         DefaultValue = description.DefaultValue.WhenNotNull(y => y.ToString()).OtherwiseDefault(),
                         MultipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList(),
@@ -283,7 +283,7 @@ namespace FubuMVC.Swank.Specification
 
         private Data GetData(System.Type type, MethodInfo action = null)
         {
-            var dataType = _dataTypes.GetDescription(type);
+            var dataType = _types.GetDescription(type);
             var rootType = dataType.WhenNotNull(x => x.Type).Otherwise(type);
             return new Data
                 {

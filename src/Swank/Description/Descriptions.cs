@@ -24,7 +24,7 @@
         public int Status { get; set; }
     }
 
-    public class DataTypeDescription : DescriptionBase
+    public class TypeDescription : DescriptionBase
     {
         public System.Type Type { get; set; }
     }

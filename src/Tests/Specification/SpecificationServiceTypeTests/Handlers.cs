@@ -164,5 +164,6 @@ namespace Tests.Specification.SpecificationServiceTypeTests
         public class Response { }
 
         public class PutHandler { public Response Execute(Request request) { return null; } }
+        public class PostHandler { public Response Execute(List<int> request) { return null; } }
     }
 }

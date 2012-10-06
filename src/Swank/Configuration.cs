@@ -38,7 +38,7 @@ namespace FubuMVC.Swank
             MemberDescriptionSource = new Service<IDescriptionSource<PropertyInfo, MemberDescription>> { Type = typeof(MemberSource) };
             OptionDescriptionSource = new Service<IDescriptionSource<FieldInfo, OptionDescription>> { Type = typeof(OptionSource) };
             ErrorDescriptionSource = new Service<IDescriptionSource<ActionCall, List<ErrorDescription>>> { Type = typeof(ErrorSource) };
-            TypeDescriptionSource = new Service<IDescriptionSource<Type, DataTypeDescription>> { Type = typeof(TypeSource) };
+            TypeDescriptionSource = new Service<IDescriptionSource<Type, TypeDescription>> { Type = typeof(TypeSource) };
         }
         
         public string Url { get; set; }
@@ -60,6 +60,6 @@ namespace FubuMVC.Swank
         public Service<IDescriptionSource<PropertyInfo, MemberDescription>> MemberDescriptionSource { get; set; }
         public Service<IDescriptionSource<FieldInfo, OptionDescription>> OptionDescriptionSource { get; set; }
         public Service<IDescriptionSource<ActionCall, List<ErrorDescription>>> ErrorDescriptionSource { get; set; }
-        public Service<IDescriptionSource<Type, DataTypeDescription>> TypeDescriptionSource { get; set; }
+        public Service<IDescriptionSource<Type, TypeDescription>> TypeDescriptionSource { get; set; }
     }
 }

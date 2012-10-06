@@ -21,59 +21,59 @@ namespace FubuMVC.Swank.Extensions
             return memberInfo.GetCustomAttributes(true).OfType<T>();
         }
 
-        public static string GetHash(this System.Type type)
+        public static string GetHash(this Type type)
         {
             return type.FullName.Hash();
         }
 
-        public static string GetHash(this System.Type type, MethodInfo method)
+        public static string GetHash(this Type type, MethodInfo method)
         {
             return (method.DeclaringType.FullName + "." + method.Name + "." + type.FullName).Hash();
         }
 
-        public static bool IsSystemType(this System.Type type)
+        public static bool IsSystemType(this Type type)
         {
             return type.FullName.StartsWith("System.");
         }
 
-        private static readonly System.Type[] ListTypes = new[] { typeof(IList<>), typeof(List<>) };
+        private static readonly Type[] ListTypes = new[] { typeof(IList<>), typeof(List<>) };
 
-        public static bool IsListType(this System.Type type)
+        public static bool IsListType(this Type type)
         {
             var genericTypeDef = type.IsGenericType ? type.GetGenericTypeDefinition() : null;
             return ListTypes.Any(x => genericTypeDef == x);
         }
 
-        public static bool ImplementsListType(this System.Type type)
+        public static bool ImplementsListType(this Type type)
         {
             return type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>));
         }
 
-        public static bool InheritsFromListType(this System.Type type)
+        public static bool InheritsFromListType(this Type type)
         {
             return !type.IsListType() && type.ImplementsListType();
         }
 
-        public static bool IsList(this System.Type type)
+        public static bool IsList(this Type type)
         {
             return type.IsListType() || type.ImplementsListType();
         }
 
-        public static System.Type GetListInterface(this System.Type type)
+        public static Type GetListInterface(this Type type)
         {
             return (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IList<>)) ? type :
                    type.GetInterfaces().First(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>));
         }
 
-        public static System.Type GetListElementType(this System.Type type)
+        public static Type GetListElementType(this Type type)
         {
             return type.IsArray ? type.GetElementType() : type.IsList() ? type.GetListInterface().GetGenericArguments()[0] : null;
         }
 
-        private static readonly Func<System.Type, FieldInfo[]> CachedEnumValues =
-            Func.Memoize<System.Type, FieldInfo[]>(x => x.GetFields(BindingFlags.Public | BindingFlags.Static));
+        private static readonly Func<Type, FieldInfo[]> CachedEnumValues =
+            Func.Memoize<Type, FieldInfo[]>(x => x.GetFields(BindingFlags.Public | BindingFlags.Static));
 
-        public static FieldInfo[] GetCachedEnumValues(this System.Type type)
+        public static FieldInfo[] GetCachedEnumValues(this Type type)
         {
             return CachedEnumValues(type);
         }
@@ -107,28 +107,28 @@ namespace FubuMVC.Swank.Extensions
             }
         }
 
-        public static string ToFriendlyName(this System.Type type)
+        public static string GetXmlName(this Type type)
         {
+            if (type == typeof(Boolean)) return "boolean";
             if (type == typeof(Decimal)) return "decimal";
             if (type == typeof(Double)) return "double";
             if (type == typeof(Single)) return "float";
-            if (type == typeof(Byte)) return "byte";
-            if (type == typeof(SByte)) return "sbyte";
+            if (type == typeof(Byte)) return "unsignedByte";
+            if (type == typeof(SByte)) return "byte";
             if (type == typeof(Int16)) return "short";
-            if (type == typeof(UInt16)) return "ushort";
+            if (type == typeof(UInt16)) return "unsignedShort";
             if (type == typeof(Int32)) return "int";
-            if (type == typeof(UInt32)) return "uint";
+            if (type == typeof(UInt32)) return "unsignedInt";
             if (type == typeof(Int64)) return "long";
-            if (type == typeof(UInt64)) return "ulong";
+            if (type == typeof(UInt64)) return "unsignedLong";
             if (type == typeof(String)) return "string";
-            if (type == typeof(Boolean)) return "boolean";
-            if (type == typeof(DateTime)) return "datetime";
-            if (type == typeof(TimeSpan)) return "duration";
-            if (type == typeof(Guid)) return "uuid";
+            if (type == typeof(DateTime)) return "dateTime";
+            if (type == typeof(Guid)) return "guid";
             if (type == typeof(Char)) return "char";
-            if (type == typeof(byte[])) return "binary";
-            if (type.IsEnum) return "enum";
-            return null;
+            if (type == typeof(byte[])) return "base64Binary";
+            if (type.IsArray || type.IsList()) return 
+                "ArrayOf" + type.GetListElementType().GetXmlName().InitialCap();
+            return type.Name;
         }
 
         public static string Hash(this string value)
@@ -137,7 +137,7 @@ namespace FubuMVC.Swank.Extensions
                 return hash.ComputeHash(Encoding.Unicode.GetBytes(value)).ToHex();
         }
         
-        private static string ToHex(this byte[] bytes)
+        private static string ToHex(this IEnumerable<byte> bytes)
         {
             return bytes.Select(b => string.Format("{0:X2}", b)).Aggregate((a, i) => a + i);
         }

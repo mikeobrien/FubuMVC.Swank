@@ -37,7 +37,7 @@ namespace FubuMVC.Swank
                 x.AddService<IDescriptionSource<PropertyInfo, MemberDescription>>(configuration.MemberDescriptionSource.Type, configuration.MemberDescriptionSource.Config);
                 x.AddService<IDescriptionSource<FieldInfo, OptionDescription>>(configuration.OptionDescriptionSource.Type, configuration.OptionDescriptionSource.Config);
                 x.AddService<IDescriptionSource<ActionCall, List<ErrorDescription>>>(configuration.ErrorDescriptionSource.Type, configuration.ErrorDescriptionSource.Config);
-                x.AddService<IDescriptionSource<System.Type, DataTypeDescription>>(configuration.TypeDescriptionSource.Type, configuration.TypeDescriptionSource.Config);
+                x.AddService<IDescriptionSource<System.Type, TypeDescription>>(configuration.TypeDescriptionSource.Type, configuration.TypeDescriptionSource.Config);
             });
         }
     }
