@@ -89,7 +89,7 @@
 
           {{#if UrlParameters}}
           <h4>Url Parameters</h4>
-          <table class="table table-bordered table-zebra">
+          <table class="table table-bordered table-zebra table-condensed">
             <thead>
               <tr class="highlight-background">
                 <th>Name</th>
@@ -106,7 +106,7 @@
                   {{{Comments}}}
                   {{#if Options}}
                   <h5>Possible Values</h5>
-                  <table class="table table-bordered table-zebra table-options">
+                  <table class="table table-bordered table-zebra table-options table-condensed">
                     <thead>
                       <tr class="highlight-background">
                         <th>Name</th>
@@ -134,7 +134,7 @@
 
           {{#if QuerystringParameters}}
           <h4>Querystring</h4>
-          <table class="table table-bordered table-zebra">
+          <table class="table table-bordered table-zebra table-condensed">
               <thead>
                 <tr class="highlight-background">
                   <th>Name</th>
@@ -157,7 +157,7 @@
                   {{{Comments}}}
                   {{#if Options}}
                     <h5>Possible Values</h5>
-                    <table class="table table-bordered table-zebra table-options">
+                    <table class="table table-bordered table-zebra table-options table-condensed">
                       <thead>
                         <tr class="highlight-background">
                           <th>Name</th>
@@ -185,7 +185,7 @@
 
           {{#if Errors}}
           <h4>Errors</h4>
-          <table class="table table-bordered table-striped">
+          <table class="table table-bordered table-striped table-condensed">
             <thead>
               <tr class="highlight-background">
                 <th>Status</th>
@@ -209,13 +209,44 @@
           <h4>Request</h4>
           {{#with Request}}
             <p>{{{Comments}}}</p>
+            {{#typeDescription}}
+              oh hai
+            {{/typeDescription}}
           {{/with}}
           {{/if}}
 
           {{#if Response}}
           <h4>Response</h4>
           {{#with Response}}
-          <p>{{{Comments}}}</p>
+            <p>{{{Comments}}}</p>
+            <table class="table table-condensed table-bordered">
+              <tr>
+                <td colspan="3">
+                  <div class="code-controls">
+                    <a href="#" class="show-json">json</a> | 
+                    <a href="#" class="show-xml">xml</a>
+                  </div>
+                </td>
+              </tr>
+              {{#typeDescription}}
+              <tr>
+                <td class="code json">{{json}}</td>
+                <td class="code xml" style="display: none">{{xml}}</td>
+                <td>
+                  {{#if member}}
+                    {{#with member}}
+                      {{Comments}}
+                    {{/with}}
+                  {{/if}}
+                  {{#if type}}
+                    {{#with type}}
+                      {{Comments}}
+                    {{/with}}
+                  {{/if}}
+                </td>
+              </tr>
+              {{/typeDescription}}
+            </table>
           {{/with}}
           {{/if}}
 
