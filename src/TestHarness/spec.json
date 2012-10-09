@@ -901,7 +901,6 @@
             "Members": [
                 {
                     "Name": "CreateDate",
-                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus.",
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",

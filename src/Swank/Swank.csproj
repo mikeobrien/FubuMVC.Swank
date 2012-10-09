@@ -139,7 +139,9 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Specification\View.spark" />
+    <Content Include="Specification\View.spark">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

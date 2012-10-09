@@ -1,5 +1,4 @@
 ﻿$(function () {
-
     Handlebars.registerHelper('methodColor', function (context) {
         switch (context.toLowerCase()) {
             case 'get': return 'blue';
@@ -10,13 +9,23 @@
             default: return 'blue';
         }
     });
-
+    
     Handlebars.registerHelper('formatUrl', function (context) {
         return context.replace(/(\{.*?\})/g, '<span class="highlight-text"><b>$1</b></span>');
     });
 
-    Handlebars.registerHelper('yesNo', function (context) {
-        return context ? 'Yes' : 'No';
+    Handlebars.registerHelper('when', function (predicate, options) {
+        var declarations = '';
+        for (var field in this) declarations += field + ' = this.' + field + ',';
+        if (eval(declarations + predicate)) { return options.fn(this); }
+    });
+    
+    Handlebars.registerHelper('colorizeJson', function (context) {
+        return context.replace(/(\".*?\")/g, '<span style="color: #A31515">$1</span>');
+    });
+
+    Handlebars.registerHelper('colorizeXml', function (context) {
+        return context.replace(/(\<)(.*?)(\>)/g, '<span style="color: #0000FF">$1</span><span style="color: #A31515">$2</span><span style="color: #0000FF">$3</span>');
     });
 
     Swank.ModuleTemplate = Handlebars.compile($('#swank-module-template').html());
@@ -49,9 +58,25 @@
             content.html(this.ModuleTemplate(module));
         } else if (resource) {
             content.html(this.ResourceTemplate(resource));
-            $('.endpoint-header').click(function () { $(this).next(".endpoint-body").slideToggle(500); });
-            $('.show-json').click(function () { $(content).find(".json").show(); $(content).find(".xml").hide(); return false; });
-            $('.show-xml').click(function () { $(content).find(".xml").show(); $(content).find(".json").hide(); return false; });
+            $('.endpoint-header').click(function () {
+                $(this).next(".endpoint-body").slideToggle(500);
+            });
+            
+            $('.show-json').click(function () {
+                $(this).toggleClass('active');
+                $('.show-xml').toggleClass('active');
+                $(content).find(".json").show();
+                $(content).find(".xml").hide();
+                return false;
+            });
+            
+            $('.show-xml').click(function () {
+                $(this).toggleClass('active');
+                $('.show-json').toggleClass('active');
+                $(content).find(".xml").show();
+                $(content).find(".json").hide();
+                return false;
+            });
             
             //$('.copy-code').click(function () {
             //    console.log(window.clipboardData);
@@ -97,7 +122,8 @@
                 opening: true,
                 collection: true,
                 depth: depth,
-                member: member
+                member: member,
+                type: type
             });
             definition = definition.concat(getTypeDefinition(id, null, false, depth + 1));
             definition.push({
@@ -199,6 +225,7 @@
         return getTypeDefinition(data.Type, data.Name, data.Collection)
             .map(function (description) {
                 return {
+                    collection: description.collection,
                     member: description.member,
                     type: description.type,
                     json: getJsonFragment(description),
