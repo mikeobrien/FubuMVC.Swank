@@ -18,7 +18,7 @@
       
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="~/_content/swank/html5.js"></script>
     <![endif]-->
   </head>
 
@@ -106,7 +106,7 @@
                   {{{Comments}}}
                   {{#if Options}}
                   <h5>Possible Values</h5>
-                  <table class="table table-bordered table-zebra table-options table-condensed">
+                  <table class="table table-bordered table-zebra table-condensed">
                     <thead>
                       <tr class="highlight-background">
                         <th>Name</th>
@@ -117,8 +117,8 @@
                     <tbody>
                       {{#Options}}
                       <tr>
-                        <td>{{{Name}}}</td>
-                        <td><strong>{{{Value}}}</strong></td>
+                        <td nowrap="nowrap">{{{Name}}}</td>
+                        <td nowrap="nowrap"><strong>{{{Value}}}</strong></td>
                         <td>{{{Comments}}}</td>
                       </tr>
                       {{/Options}}
@@ -139,7 +139,6 @@
                 <tr class="highlight-background">
                   <th>Name</th>
                   <th>Type</th>
-                  <th>Default</th>
                   <th>Comments</th>
                 </tr>
               </thead>
@@ -148,14 +147,15 @@
               <tr>
                 <td><strong>{{{Name}}}</strong></td>
                 <td>{{{Type}}}</td>
-                <td>{{{DefaultValue}}}</td>
                 <td>
+                  {{{Comments}}}
                   {{#if Required}}<span class="label label-important">Required</span>{{/if}}
                   {{#if MultipleAllowed}}<span class="label label-info">Multiple Allowed</span>{{/if}}
-                  {{{Comments}}}
+                  {{#when '!Required && DefaultValue'}}
+                    <span class="badge badge-inverse">Default: {{{DefaultValue}}}</span>{{/when}}
                   {{#if Options}}
-                    <h5>Possible Values</h5>
-                    <table class="table table-bordered table-zebra table-options table-condensed">
+                  <h5>Possible Values</h5>
+                    <table class="table table-bordered table-zebra table-condensed">
                       <thead>
                         <tr class="highlight-background">
                           <th>Name</th>
@@ -166,8 +166,8 @@
                       <tbody>
                         {{#Options}}
                         <tr>
-                          <td>{{{Name}}}</td>
-                          <td><strong>{{{Value}}}</strong></td>
+                          <td nowrap="nowrap">{{{Name}}}</td>
+                          <td nowrap="nowrap"><strong>{{{Value}}}</strong></td>
                           <td>{{{Comments}}}</td>
                         </tr>
                         {{/Options}}
@@ -207,9 +207,87 @@
           <h4>Request</h4>
           {{#with Request}}
             <p>{{{Comments}}}</p>
-            {{#typeDescription}}
-              oh hai
-            {{/typeDescription}}
+            {{#hasTypeDescription}}
+              <table class="table table-condensed table-bordered table-zebra-double">
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="btn-group">
+                        <button class="btn show-json active">json</button>
+                        <button class="btn show-xml">xml</button>
+                          <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="20" height="20" id="clippy" >
+                            <param name="movie" value="~/_content/swank/clippy.swf"/>
+                            <param name="allowScriptAccess" value="always" />
+                            <param name="quality" value="high" />
+                            <param name="scale" value="noscale" />
+                            <param NAME="FlashVars" value="text=yada yada yada" />
+                            <param name="bgcolor" value="#F0F0F0" />
+                            <embed src="~/_content/swank/clippy.swf"
+                                    width="110"
+                                    height="14"
+                                    name="clippy"
+                                    quality="high"
+                                    allowScriptAccess="always"
+                                    type="application/x-shockwave-flash"
+                                    pluginspage="http://www.macromedia.com/go/getflashplayer"
+                                    FlashVars="text=yada yada yada"
+                                    bgcolor="#F0F0F0" />
+                          </object>
+                      </div>
+                    </th>
+                    <th>Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {{#typeDescription}}
+                <tr>
+                  <td class="code json" rowspan="2">{{{colorizeJson json}}}</td>
+                  <td class="code xml" style="display: none" rowspan="2">{{{colorizeXml xml}}}</td>
+                  {{#if description}}
+                    <td>
+                      <strong>{{{description.type}}}</strong>
+                      {{#if description.required}}<span class="label label-important">Required</span>{{/if}}
+                      {{#if description.optional}}<span class="label label-success">Optional</span>{{/if}}
+                      {{#when 'description.optional && description.defaultValue'}}
+                          <span class="badge badge-inverse">Default: {{{description.defaultValue}}}</span>{{/when}}
+                      {{#if description.collection}}<span class="label label-info">Collection</span>{{/if}}
+                    </td>
+                  {{else}}
+                    <td rowspan="2"></td>
+                  {{/if}}
+                </tr>
+                <tr>
+                  {{#when 'description && (description.comments || description.options)'}}
+                    <td>
+                      {{{description.comments}}}
+                      {{#if description.options}}
+                        <h5>Possible Values</h5>
+                          <table class="table table-bordered table-zebra table-condensed">
+                            <thead>
+                              <tr>
+                                <th>Name</th>
+                                <th>Value</th>
+                                <th>Comments</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {{#description.options}}
+                              <tr>
+                                <td nowrap="nowrap">{{{Name}}}</td>
+                                <td nowrap="nowrap"><strong>{{{Value}}}</strong></td>
+                                <td>{{{Comments}}}</td>
+                              </tr>
+                              {{/description.options}}
+                            </tbody>
+                          </table>
+                        {{/if}}
+                      </td>
+                    {{/when}}
+                </tr>
+                {{/typeDescription}}
+                </tbody>
+              </table>
+            {{/hasTypeDescription}}
           {{/with}}
           {{/if}}
 
@@ -217,69 +295,65 @@
           <h4>Response</h4>
           {{#with Response}}
             <p>{{{Comments}}}</p>
-            <table class="table table-condensed table-bordered table-zebra-double">
-              <thead>
+            {{#hasTypeDescription}}
+              <table class="table table-condensed table-bordered table-zebra-double table-last">
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="btn-group">
+                        <button class="btn show-json active">json</button>
+                        <button class="btn show-xml">xml</button>
+                      </div>
+                    </th>
+                    <th>Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {{#typeDescription}}
                 <tr>
-                  <th>
-                    <div class="btn-group">
-                      <button class="btn show-json active">json</button>
-                      <button class="btn show-xml">xml</button>
-                    </div>
-                  </th>
-                  <th>Type</th>
-                  <th>Default</th>
-                </tr>
-              </thead>
-              <tbody>
-              {{#typeDescription}}
-              <tr>
-                <td class="code json" rowspan="2">{{{colorizeJson json}}}</td>
-                <td class="code xml" style="display: none" rowspan="2">{{{colorizeXml xml}}}</td>
-                {{#if description}}
-                  <td {{#when '!description.optional'}}colspan='2'{{/when}}>
-                    <strong>{{{description.type}}}</strong>
-                    {{#if description.required}}<span class="label label-important">Required</span>{{/if}}
-                    {{#if description.optional}}<span class="label label-success">Optional</span>{{/if}}
-                    {{#if description.collection}}<span class="label label-info">Collection</span>{{/if}}
-                  </td>
-                  {{#if description.optional}}
-                    <td>{{{description.defaultValue}}}</td>
-                  {{/if}}
-                {{else}}
-                  <td colspan="2" rowspan="2"></td>
-                {{/if}}
-              </tr>
-              <tr>
-                {{#when 'description && (description.comments || description.options)'}}
-                  <td colspan="2">
-                    {{{description.comments}}}
-                    {{#if description.options}}
-                      <h5>Possible Values</h5>
-                        <table class="table table-bordered table-zebra table-options table-condensed">
-                          <thead>
-                            <tr>
-                              <th>Name</th>
-                              <th>Value</th>
-                              <th>Comments</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {{#description.options}}
-                            <tr>
-                              <td>{{{Name}}}</td>
-                              <td><strong>{{{Value}}}</strong></td>
-                              <td>{{{Comments}}}</td>
-                            </tr>
-                            {{/description.options}}
-                          </tbody>
-                        </table>
-                      {{/if}}
+                  <td class="code json" rowspan="2">{{{colorizeJson json}}}</td>
+                  <td class="code xml" style="display: none" rowspan="2">{{{colorizeXml xml}}}</td>
+                  {{#if description}}
+                    <td>
+                      <strong>{{{description.type}}}</strong>
+                      {{#if description.collection}}<span class="label label-info">Collection</span>{{/if}}
                     </td>
-                  {{/when}}
-              </tr>
-              {{/typeDescription}}
-              </tbody>
-            </table>
+                  {{else}}
+                    <td rowspan="2"></td>
+                  {{/if}}
+                </tr>
+                <tr>
+                  {{#when 'description && (description.comments || description.options)'}}
+                    <td>
+                      {{{description.comments}}}
+                      {{#if description.options}}
+                        <h5>Possible Values</h5>
+                          <table class="table table-bordered table-zebra table-condensed">
+                            <thead>
+                              <tr>
+                                <th>Name</th>
+                                <th>Value</th>
+                                <th>Comments</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {{#description.options}}
+                              <tr>
+                                <td nowrap="nowrap">{{{Name}}}</td>
+                                <td nowrap="nowrap"><strong>{{{Value}}}</strong></td>
+                                <td>{{{Comments}}}</td>
+                              </tr>
+                              {{/description.options}}
+                            </tbody>
+                          </table>
+                        {{/if}}
+                      </td>
+                    {{/when}}
+                </tr>
+                {{/typeDescription}}
+                </tbody>
+              </table>
+            {{/hasTypeDescription}}
           {{/with}}
           {{/if}}
 

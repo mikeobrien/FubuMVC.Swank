@@ -18,6 +18,7 @@ body {
 
 .table {
     background-color: #fff;
+    margin-bottom: 0;
 }
 
 .table thead th {
@@ -49,10 +50,6 @@ body {
 
 .table-zebra-double > tbody > tr:nth-child(4n+4) {
     background-color: #F9F9F9;
-}
-
-.table-options {
-    margin-bottom: 0;
 }
 
 .code-controls {

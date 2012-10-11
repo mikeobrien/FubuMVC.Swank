@@ -63,16 +63,16 @@
             });
             
             $('.show-json').click(function () {
-                $(this).toggleClass('active');
-                $('.show-xml').toggleClass('active');
+                $('.show-json').addClass('active');
+                $('.show-xml').removeClass('active');
                 $(content).find(".json").show();
                 $(content).find(".xml").hide();
                 return false;
             });
             
             $('.show-xml').click(function () {
-                $(this).toggleClass('active');
-                $('.show-json').toggleClass('active');
+                $('.show-xml').addClass('active');
+                $('.show-json').removeClass('active');
                 $(content).find(".xml").show();
                 $(content).find(".json").hide();
                 return false;
@@ -133,7 +133,8 @@
             optional: description.member ? !description.member.Required : null,
             comments: description.member ? description.member.Comments :
                         (description.type && !description.collection ? description.type.Comments : ''),
-            options: description.member ? description.member.Options : null
+            options: description.member && description.member.Options &&
+                description.member.Options.length > 0 ? description.member.Options : null
         } : null;
     };
 
@@ -211,8 +212,13 @@
             });
     };
 
-    Handlebars.registerHelper('typeDescription', function (context, options) {
+    Handlebars.registerHelper('typeDescription', function (context) {
         return getTypeDescription(this).map(function (x) { return context.fn(x); }).join('');
+    });
+
+    Handlebars.registerHelper('hasTypeDescription', function (context) {
+        var data = this;
+        return Swank.Specification.Types.filter(function (x) { return x.Id === data.Type; }).length > 0 ? context.fn(data) : '';
     });
 
     var getHash = function() { return window.location.hash.replace(/^#/, ''); };
