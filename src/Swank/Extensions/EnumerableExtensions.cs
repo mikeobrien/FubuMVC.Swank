@@ -31,5 +31,16 @@ namespace FubuMVC.Swank.Extensions
         {
             return (join1 ?? Enumerable.Empty<TItem>()).Concat(join2 ?? Enumerable.Empty<TItem>()).GroupBy(key, selector);
         }
+
+        public static IEnumerable<T> Traverse<T>(this T source, Func<T, T> result)
+            where T : class
+        {
+            var node = source;
+            while (node != null)
+            {
+                yield return node;
+                node = result(node);
+            }
+        }
     }
 }

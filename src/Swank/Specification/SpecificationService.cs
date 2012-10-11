@@ -21,13 +21,15 @@ namespace FubuMVC.Swank.Specification
 
         private class TypeDef
         {
-            public TypeDef(System.Type type, ActionCall action = null)
+            public TypeDef(System.Type type, TypeDef parent = null, ActionCall action = null)
             {
                 Type = type;
                 Action = action;
+                Parent = parent;
             }
 
             public System.Type Type { get; private set; }
+            public TypeDef Parent { get; private set; }
             public ActionCall Action { get; private set; }
         }
 
@@ -129,7 +131,7 @@ namespace FubuMVC.Swank.Specification
         {
             var rootTypes = actions
                 .Where(x => x.HasInput && !x.ParentChain().Route.AllowsGet() && !x.ParentChain().Route.AllowsDelete())
-                .Select(x => new TypeDef(x.InputType().GetListElementType() ?? x.InputType(), x))
+                .Select(x => new TypeDef(x.InputType().GetListElementType() ?? x.InputType(), null, x))
                 .Concat(actions.Where(x => x.HasOutput)
                                .SelectDistinct(x => x.OutputType())
                                .Select(x => new TypeDef(x.GetListElementType() ?? x)))
@@ -157,12 +159,12 @@ namespace FubuMVC.Swank.Specification
                             !(x.PropertyType.GetListElementType() ?? x.PropertyType).IsSystemType() && 
                             !x.PropertyType.IsEnum &&
                             !x.IsAutoBound())
-                .Select(x => x.PropertyType.GetListElementType() ?? x.PropertyType)
+                .Select(x => new TypeDef(x.PropertyType.GetListElementType() ?? x.PropertyType, type))
                 .Distinct()
                 .ToList();
-            return types.Select(x => new TypeDef(x))
-                        .Concat(types.Select(x => new TypeDef(x))
-                        .SelectMany(GetTypes))
+            return types.Concat(types
+                            .Where(x => type.Traverse(y => y.Parent).All(y => y.Type != x.Type))
+                            .SelectMany(GetTypes))
                         .Distinct()
                         .ToList();
         }

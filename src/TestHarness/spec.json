@@ -2,6 +2,37 @@
 {
     "Types" : [
         {
+            "Id": "NODE841806A33469AEE27C3221B1B78B",
+            "Name": "Node",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus.",
+            "Members": [
+                {
+                    "Name": "Name",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus.",
+                    "Required": true,
+                    "DefaultValue": "",
+                    "Type": "string",
+                    "Collection": false
+                },
+                {
+                    "Name": "Child",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus.",
+                    "Required": true,
+                    "DefaultValue": "",
+                    "Type": "NODE841806A33469AEE27C3221B1B78B",
+                    "Collection": false
+                },
+                {
+                    "Name": "Children",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus.",
+                    "Required": true,
+                    "DefaultValue": "",
+                    "Type": "NODE841806A33469AEE27C3221B1B78B",
+                    "Collection": true
+                }
+            ]
+        },
+        {
             "Id": "4C9267680DFBFD93AB60403571B5D310",
             "Name": "Property",
             "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus.",
@@ -913,6 +944,14 @@
                     "DefaultValue": "",
                     "Type": "7C56841806A33469AEE27C3221B1B78B",
                     "Collection": true
+                },
+                {
+                    "Name": "Tree",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus.",
+                    "Required": true,
+                    "DefaultValue": "",
+                    "Type": "NODE841806A33469AEE27C3221B1B78B",
+                    "Collection": false
                 },
                 {
                     "Name": "GroupId",

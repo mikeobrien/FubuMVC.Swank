@@ -125,5 +125,21 @@ namespace Tests.ExtensionsTests
             result[3].Count().ShouldEqual(1);
             result[3].First().ShouldEqual(4);
         }
+
+        class Node { 
+            public Node Parent { get; set; } 
+            public int Index { get; set; } 
+        }
+
+        [Test]
+        public void should_traverse()
+        {
+            var tip = new Node { Index = 2, Parent = new Node { Index = 1, Parent = new Node { Index = 0 }}};
+            var traversal = tip.Traverse(x => x.Parent).ToList();
+            traversal.Count.ShouldEqual(3);
+            traversal[0].Index.ShouldEqual(2);
+            traversal[1].Index.ShouldEqual(1);
+            traversal[2].Index.ShouldEqual(0);
+        }
     }
 }

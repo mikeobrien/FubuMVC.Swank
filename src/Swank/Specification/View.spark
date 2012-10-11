@@ -235,75 +235,47 @@
               <tr>
                 <td class="code json" rowspan="2">{{{colorizeJson json}}}</td>
                 <td class="code xml" style="display: none" rowspan="2">{{{colorizeXml xml}}}</td>
-                {{#if member}}
-                    <td>
-                      <strong>
-                        {{#if collection}}
-                          {{{type.Name}}}[...]
-                        {{else}}
-                          {{{member.Type}}}
-                        {{/if}}
-                      </strong>
-                      {{#if member.Required}}<span class="label label-important">Required</span>{{/if}}
-                      {{#if member.Collection}}<span class="label label-info">Collection</span>{{/if}}
-                    </td>
-                    <td>{{{member.DefaultValue}}}</td>
-                {{else}}
-                  {{#if type}}
-                    <td>
-                      <strong>{{{type.Name}}}{{#if collection}}[...]{{/if}}</strong>
-                      {{#if collection}}<span class="label label-info">Collection</span>{{/if}}
-                    </td>
-                    <td></td>
+                {{#if description}}
+                  <td {{#when '!description.optional'}}colspan='2'{{/when}}>
+                    <strong>{{{description.type}}}</strong>
+                    {{#if description.required}}<span class="label label-important">Required</span>{{/if}}
+                    {{#if description.optional}}<span class="label label-success">Optional</span>{{/if}}
+                    {{#if description.collection}}<span class="label label-info">Collection</span>{{/if}}
+                  </td>
+                  {{#if description.optional}}
+                    <td>{{{description.defaultValue}}}</td>
                   {{/if}}
+                {{else}}
+                  <td colspan="2" rowspan="2"></td>
                 {{/if}}
               </tr>
               <tr>
-                  {{#if member}}
-                    {{#when 'member.Comments || member.Options'}}
-                      <td colspan="3">
-                        {{{member.Comments}}}
-                        {{#if member.Options}}
-                        <h5>Possible Values</h5>
-                          <table class="table table-bordered table-zebra table-options table-condensed">
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Value</th>
-                                <th>Comments</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {{#member.Options}}
-                              <tr>
-                                <td>{{{Name}}}</td>
-                                <td><strong>{{{Value}}}</strong></td>
-                                <td>{{{Comments}}}</td>
-                              </tr>
-                              {{/member.Options}}
-                            </tbody>
-                          </table>
-                        {{/if}}
-                      </td>
-                  {{/when}}
-                {{else}}
-                  {{#if collection}}
-                    {{#if type}}
-                    {{else}}
-                      <td colspan="2"/>
-                    {{/if}}
-                  {{else}}
-                    {{#if type}}
-                      {{#if type.Comments}}
-                        <td colspan="2">
-                          {{{type.Comments}}}
-                        </td>
+                {{#when 'description && (description.comments || description.options)'}}
+                  <td colspan="2">
+                    {{{description.comments}}}
+                    {{#if description.options}}
+                      <h5>Possible Values</h5>
+                        <table class="table table-bordered table-zebra table-options table-condensed">
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Value</th>
+                              <th>Comments</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {{#description.options}}
+                            <tr>
+                              <td>{{{Name}}}</td>
+                              <td><strong>{{{Value}}}</strong></td>
+                              <td>{{{Comments}}}</td>
+                            </tr>
+                            {{/description.options}}
+                          </tbody>
+                        </table>
                       {{/if}}
-                    {{else}}
-                      <td colspan="2"/>
-                    {{/if}}
-                  {{/if}}
-                {{/if}}
+                    </td>
+                  {{/when}}
               </tr>
               {{/typeDescription}}
               </tbody>

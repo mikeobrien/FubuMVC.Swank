@@ -98,6 +98,16 @@ namespace Tests.Specification.SpecificationServiceTypeTests
         }
 
         [Test]
+        public void should_not_recursively_follow_cyclic_references()
+        {
+            var spec = BuildSpec<CyclicReferences.PostHandler>();
+            spec.Types.Count.ShouldEqual(3);
+            spec.Types.ShouldContainOneInputType<CyclicReferences.Request, CyclicReferences.PostHandler>();
+            spec.Types.ShouldContainOneOutputType<CyclicReferences.Response>();
+            spec.Types.ShouldContainOneType<CyclicReferences.Node>();
+        }
+
+        [Test]
         public void should_exclude_member_types_marked_as_hidden()
         {
             var spec = BuildSpec<RecursingTypes.PostHandler>();

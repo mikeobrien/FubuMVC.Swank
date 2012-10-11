@@ -92,7 +92,52 @@
         }
     };
 
-    var getDefaultValue = function (member) {
+    var getTypeDefinition = function (id, name, collection, depth, member, last, ancestors) {
+        var definition = [];
+        ancestors = ancestors || [];
+        var isCyclic = ancestors.filter(function(x) { return x == id; }).length > 0;
+        var type = Swank.Specification.Types.filter(function (x) { return x.Id === id; })[0];
+        last = typeof last != 'undefined' ? last : true;
+        depth = depth || 0;
+
+        if (collection && type && !isCyclic) {
+            definition.push({ name: name, opening: true, collection: true, depth: depth, member: member, type: type });
+            definition = definition.concat(getTypeDefinition(id, null, false, depth + 1, null, true, ancestors));
+            definition.push({ name: name, closing: true, collection: true, depth: depth, last: last });
+        } else if (collection) {
+            definition.push({ name: name, itemName: type ? type.Name : id, opening: true, closing: true, collection: true,
+                              depth: depth, last: last, member: member, type: type });
+        } else if (type && !isCyclic) {
+            definition.push({ name: name || type.Name, opening: true, depth: depth, member: member, type: type });
+            for (memberIndex in type.Members) {
+                var lastMember = memberIndex == (type.Members.length - 1);
+                var typeMember = type.Members[memberIndex];
+                definition = definition.concat(getTypeDefinition(typeMember.Type, typeMember.Name, typeMember.Collection, 
+                                               depth + 1, typeMember, lastMember, ancestors.concat(id)));
+            }
+            definition.push({ name: name || type.Name, closing: true, depth: depth, last: last });
+        } else {
+            definition.push({ name: name || id, depth: depth, member: member, type: type, last: last });
+        }
+        return definition;
+    };
+
+    var getFragmentDescription = function (description) {
+        return !(!description.opening && description.closing) ? {
+            type: (description.type ? description.type.Name :
+                    (description.member ? description.member.Type : ''))
+                  + (description.collection ? '[...]' : ''),
+            defaultValue: description.member ? description.member.DefaultValue : null,
+            collection: description.collection,
+            required: description.member ? description.member.Required : null,
+            optional: description.member ? !description.member.Required : null,
+            comments: description.member ? description.member.Comments :
+                        (description.type && !description.collection ? description.type.Comments : ''),
+            options: description.member ? description.member.Options : null
+        } : null;
+    };
+
+    var getSampleValue = function (member) {
         if (member.Type == 'decimal' ||
             member.Type == 'double' ||
             member.Type == 'float' ||
@@ -107,91 +152,24 @@
         else if (member.Type == 'boolean') return member.DefaultValue || 'false';
         else if (member.Type == 'guid') return member.DefaultValue || '\"00000000-0000-0000-0000-000000000000\"';
         else if (member.Type == 'dateTime') return member.DefaultValue || '\"10/26/1985 1:21:00 AM\"';
-        else return '\"' + (member.DefaultValue || '') + '\"';
-    };
-
-    var getTypeDefinition = function (id, name, collection, depth, member, last) {
-        var type = Swank.Specification.Types.filter(function (x) { return x.Id === id; })[0];
-        last = typeof last != 'undefined' ? last : true;
-        var definition = [];
-        depth = depth || 0;
-
-        if (collection && type) {
-            definition.push({
-                name: name,
-                opening: true,
-                collection: true,
-                depth: depth,
-                member: member,
-                type: type
-            });
-            definition = definition.concat(getTypeDefinition(id, null, false, depth + 1));
-            definition.push({
-                name: name,
-                closing: true,
-                collection: true,
-                depth: depth,
-                last: last
-            });
-            return definition;
-        } else if (collection) {
-            definition.push({
-                name: name,
-                itemName: id,
-                opening: true,
-                closing: true,
-                collection: true,
-                depth: depth,
-                member: member,
-                defaultValue: getDefaultValue(member)
-            });
-            return definition;
-        }
-
-        if (type) {
-            definition.push({
-                name: name || type.Name,
-                opening: true,
-                depth: depth,
-                member: member,
-                type: type
-            });
-            for (memberIndex in type.Members) {
-                var lastMember = memberIndex == (type.Members.length - 1);
-                var typeMember = type.Members[memberIndex];
-                definition = definition
-                    .concat(getTypeDefinition(typeMember.Type, typeMember.Name,
-                                typeMember.Collection, depth + 1, typeMember, lastMember));
-            }
-            definition.push({
-                name: name || type.Name,
-                closing: true,
-                depth: depth,
-                last: last
-            });
-        } else {
-            definition.push({
-                name: name || id,
-                depth: depth,
-                member: member,
-                last: last,
-                defaultValue: getDefaultValue(member)
-            });
-        }
-        return definition;
+        else if (member.Type == 'string' ||
+                 member.Type == 'char' ||
+                 member.Type == 'base64Binary') return '\"' + (member.DefaultValue || '') + '\"';
+        else return null;
     };
 
     var pad = function (x) { return new Array((x * 4) + 1).join(' '); };
 
     var getXmlFragment = function (description) {
-        var defaultValue = description.defaultValue ? description.defaultValue.replace(/\"/g, '') : '';
+        var sampleValue = description.member ? getSampleValue(description.member) : null;
+        sampleValue = sampleValue ? sampleValue.replace(/\"/g, '') : '...';
         var element = '';
         if (!description.closing || (description.opening && description.closing)) {
             element += '<' + description.name + '>';
         }
-        if (!description.opening && !description.closing) element += defaultValue;
+        if (!description.opening && !description.closing) element += sampleValue;
         if (description.opening && description.closing) {
-            element += '<' + description.itemName + '>' + defaultValue + '</' + description.itemName + '>';
+            element += '<' + description.itemName + '>' + sampleValue + '</' + description.itemName + '>';
         }
         if (!description.opening || (description.opening && description.closing)) {
             element += '</' + description.name + '>';
@@ -200,6 +178,7 @@
     };
 
     var getJsonFragment = function (description) {
+        var sampleValue = description.member ? getSampleValue(description.member) : null;
         var quote = function (x) { return "\"" + x + "\": "; };
         var element = '';
         if (description.opening) {
@@ -207,7 +186,7 @@
             element += description.collection ? '[' : '{';
         }
         if (description.opening && description.closing) {
-            element += description.defaultValue;
+            element += sampleValue ? sampleValue : '...';
         }
         if (description.closing) {
             element += description.collection ? ']' : '}';
@@ -215,7 +194,7 @@
         }
         if (!description.opening && !description.closing) {
             element += quote(description.name);
-            element += description.defaultValue;
+            element += sampleValue ? sampleValue : '{...}';
             if (!description.last) element += ',';
         }
         return pad(description.depth) + element;
@@ -225,9 +204,7 @@
         return getTypeDefinition(data.Type, data.Name, data.Collection)
             .map(function (description) {
                 return {
-                    collection: description.collection,
-                    member: description.member,
-                    type: description.type,
+                    description: getFragmentDescription(description),
                     json: getJsonFragment(description),
                     xml: getXmlFragment(description)
                 };

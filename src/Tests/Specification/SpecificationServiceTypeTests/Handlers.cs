@@ -36,6 +36,15 @@ namespace Tests.Specification.SpecificationServiceTypeTests
         public class PostHandler { public Response Execute(Request request) { return null; } }
     }
 
+    namespace CyclicReferences
+    {
+        public class Node { public List<Node> Children { get; set; } }
+        public class Request { public Node Tree { get; set; } }
+        public class Response { public Node Tree { get; set; } }
+
+        public class PostHandler { public Response Execute(Request request) { return null; } }
+    }
+
     namespace HandlerVerb
     {
         public class GetRequest { } 
