@@ -1,37 +1,10 @@
 ﻿$(function () {
-    Handlebars.registerHelper('methodColor', function (context) {
-        switch (context.toLowerCase()) {
-            case 'get': return 'blue';
-            case 'post': return 'green';
-            case 'put': return 'yellow';
-            case 'update': return 'yellow';
-            case 'delete': return 'red';
-            default: return 'blue';
-        }
-    });
     
-    Handlebars.registerHelper('formatUrl', function (context) {
-        return context.replace(/(\{.*?\})/g, '<span class="highlight-text"><b>$1</b></span>');
-    });
+    var specification = Swank.Specification;
+    var moduleTemplate = Handlebars.compile($('#swank-module-template').html());
+    var resourceTemplate = Handlebars.compile($('#swank-resource-template').html());
 
-    Handlebars.registerHelper('when', function (predicate, options) {
-        var declarations = '';
-        for (var field in this) declarations += field + ' = this.' + field + ',';
-        if (eval(declarations + predicate)) { return options.fn(this); }
-    });
-    
-    Handlebars.registerHelper('colorizeJson', function (context) {
-        return context.replace(/(\".*?\")/g, '<span style="color: #A31515">$1</span>');
-    });
-
-    Handlebars.registerHelper('colorizeXml', function (context) {
-        return context.replace(/(\<)(.*?)(\>)/g, '<span style="color: #0000FF">$1</span><span style="color: #A31515">$2</span><span style="color: #0000FF">$3</span>');
-    });
-
-    Swank.ModuleTemplate = Handlebars.compile($('#swank-module-template').html());
-    Swank.ResourceTemplate = Handlebars.compile($('#swank-resource-template').html());
-
-    Swank.render = function (id) {
+    var render = function (id) {
             
         $('.nav').find('li').removeClass('active');
         
@@ -39,7 +12,7 @@
         content.empty();
         
         if (!id) {
-            content.html(Swank.Specification.Comments);
+            content.html(specification.Comments);
             return;
         }
         
@@ -47,17 +20,17 @@
         var moduleName = idParts[0];
         var resourceName = idParts[1];
 
-        var module = Swank.Specification.Modules
+        var module = specification.Modules
                             .filter(function (x) { return x.Name === moduleName; })[0];
-        var resource = (!module ? Swank.Specification.Resources : module.Resources)
+        var resource = (!module ? specification.Resources : module.Resources)
                             .filter(function (x) { return x.Name === resourceName; })[0];
 
         $('.nav').find("li[data-module='" + moduleName + "']").addClass('active');
         
         if (module && !resource) {
-            content.html(this.ModuleTemplate(module));
+            content.html(moduleTemplate(module));
         } else if (resource) {
-            content.html(this.ResourceTemplate(resource));
+            content.html(resourceTemplate(resource));
             $('.endpoint-header').click(function () {
                 $(this).next(".endpoint-body").slideToggle(500);
             });
@@ -102,7 +75,7 @@
         var definition = [];
         ancestors = ancestors || [];
         var isCyclic = ancestors.filter(function(x) { return x == id; }).length > 0;
-        var type = Swank.Specification.Types.filter(function (x) { return x.Id === id; })[0];
+        var type = specification.Types.filter(function (x) { return x.Id === id; })[0];
         last = typeof last != 'undefined' ? last : true;
         depth = depth || 0;
 
@@ -115,7 +88,7 @@
                               depth: depth, last: last, member: member, type: type });
         } else if (type && !isCyclic) {
             definition.push({ name: name || type.Name, opening: true, depth: depth, member: member, type: type });
-            for (memberIndex in type.Members) {
+            for (var memberIndex in type.Members) {
                 var lastMember = memberIndex == (type.Members.length - 1);
                 var typeMember = type.Members[memberIndex];
                 definition = definition.concat(getTypeDefinition(typeMember.Type, typeMember.Name, typeMember.Collection, 
@@ -145,16 +118,11 @@
     };
 
     var getSampleValue = function (member) {
-        if (member.Type == 'decimal' ||
-            member.Type == 'double' ||
-            member.Type == 'float' ||
-            member.Type == 'unsignedByte' ||
-            member.Type == 'byte' ||
-            member.Type == 'short' ||
-            member.Type == 'unsignedShort' ||
-            member.Type == 'int' ||
-            member.Type == 'unsignedInt' ||
-            member.Type == 'long' ||
+        if (member.Type == 'decimal' ||  member.Type == 'double' ||
+            member.Type == 'float' || member.Type == 'unsignedByte' ||
+            member.Type == 'byte' ||  member.Type == 'short' ||
+            member.Type == 'unsignedShort' ||  member.Type == 'int' ||
+            member.Type == 'unsignedInt' || member.Type == 'long' ||
             member.Type == 'unsignedLong') return member.DefaultValue || '0';
         else if (member.Type == 'boolean') return member.DefaultValue || 'false';
         else if (member.Type == 'guid') return member.DefaultValue || '\"00000000-0000-0000-0000-000000000000\"';
@@ -217,6 +185,35 @@
                 };
             });
     };
+    
+    Handlebars.registerHelper('methodColor', function (context) {
+        switch (context.toLowerCase()) {
+            case 'get': return 'blue';
+            case 'post': return 'green';
+            case 'put': return 'yellow';
+            case 'update': return 'yellow';
+            case 'delete': return 'red';
+            default: return 'blue';
+        }
+    });
+    
+    Handlebars.registerHelper('formatUrl', function (context) {
+        return context.replace(/(\{.*?\})/g, '<span class="highlight-text"><b>$1</b></span>');
+    });
+
+    Handlebars.registerHelper('when', function (predicate, options) {
+        var declarations = '';
+        for (var field in this) declarations += field + ' = this.' + field + ',';
+        if (eval(declarations + predicate)) { return options.fn(this); }
+    });
+    
+    Handlebars.registerHelper('colorizeJson', function (context) {
+        return context.replace(/(\".*?\")/g, '<span style="color: #A31515">$1</span>');
+    });
+
+    Handlebars.registerHelper('colorizeXml', function (context) {
+        return context.replace(/(\<)(.*?)(\>)/g, '<span style="color: #0000FF">$1</span><span style="color: #A31515">$2</span><span style="color: #0000FF">$3</span>');
+    });
 
     Handlebars.registerHelper('typeDescription', function (context) {
         return getTypeDescription(this).map(function (x) { return context.fn(x); }).join('');
@@ -224,13 +221,16 @@
 
     Handlebars.registerHelper('hasTypeDescription', function (context) {
         var data = this;
-        return Swank.Specification.Types.filter(function (x) { return x.Id === data.Type; }).length > 0 ? context.fn(data) : '';
+        return specification.Types.filter(function (x) { return x.Id === data.Type; }).length > 0 ? context.fn(data) : '';
     });
 
-    var getHash = function() { return window.location.hash.replace(/^#/, ''); };
+    var initialize = function() {
+        var getHash = function() { return window.location.hash.replace(/^#/, ''); };
 
-    $(window).bind('hashchange', function () { Swank.render(getHash()); });
+        $(window).bind('hashchange', function () { render(getHash()); });
     
-    if (getHash()) $(window).trigger('hashchange');
-    
+        if (getHash()) $(window).trigger('hashchange');
+    };
+
+    initialize();
 });
