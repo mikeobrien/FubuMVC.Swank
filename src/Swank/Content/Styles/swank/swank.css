@@ -176,12 +176,12 @@ body {
     vertical-align: middle;
     font-size: 15px;
     margin: 0;
-    max-width: 675px;
+    max-width: 670px;
 }
 
 .endpoint-name {
     float: right;
-    margin: 5px 0 0 0;
+    margin: 5px 5px 0 0;
     max-width: 170px;
     overflow: hidden;
     text-overflow: ellipsis;
