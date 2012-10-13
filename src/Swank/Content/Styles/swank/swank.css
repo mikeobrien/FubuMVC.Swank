@@ -62,6 +62,9 @@ body {
     font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
     cursor: hand;
     cursor: pointer;
+    max-width: 450px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .code-raw-container {
@@ -171,11 +174,20 @@ body {
     display: inline-block;
     padding: 6px 0 3px 10px;
     vertical-align: middle;
-    font-size: 17px;
+    font-size: 15px;
     margin: 0;
+    max-width: 675px;
 }
 
 .endpoint-name {
+    float: right;
+    margin: 5px 0 0 0;
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.endpoint-toggle {
     float: right;
     margin: 5px 10px 0 0;
 }

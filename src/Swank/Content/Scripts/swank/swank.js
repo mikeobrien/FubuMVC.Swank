@@ -32,7 +32,10 @@
         } else if (resource) {
             content.html(resourceTemplate(resource));
             $('.endpoint-header').click(function () {
-                $(this).next(".endpoint-body").slideToggle(500);
+                var header = $(this);
+                header.next(".endpoint-body").slideToggle(500);
+                header.find('.expand-toggle').toggleClass('icon-chevron-left');
+                header.find('.expand-toggle').toggleClass('icon-chevron-down');
             });
             
             $('.show-json').click(function () {
@@ -118,6 +121,7 @@
     };
 
     var getSampleValue = function (member) {
+        if (member.Options && member.Options.length > 0) return '\"' + member.Options[0].Value + '\"';
         if (member.Type == 'decimal' ||  member.Type == 'double' ||
             member.Type == 'float' || member.Type == 'unsignedByte' ||
             member.Type == 'byte' ||  member.Type == 'short' ||

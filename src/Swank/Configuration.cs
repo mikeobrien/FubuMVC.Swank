@@ -26,6 +26,8 @@ namespace FubuMVC.Swank
             Copyright = "Copyright &copy; {0}".ToFormat(DateTime.Now.Year);
             Scripts = new List<string>();
             Stylesheets = new List<string>();
+            DisplayJson = true;
+            DisplayXml = true;
             AppliesToAssemblies = new List<Assembly>();
             Filter = x => true;
             ModuleDescriptionSource = new Service<IDescriptionSource<ActionCall, ModuleDescription>> { Type = typeof(ModuleSource) };
@@ -46,7 +48,9 @@ namespace FubuMVC.Swank
         public string Comments { get; set; }
         public string Copyright { get; set; }
         public List<string> Scripts { get; set; }
-        public List<string> Stylesheets { get; set; } 
+        public List<string> Stylesheets { get; set; }
+        public bool DisplayJson { get; set; }
+        public bool DisplayXml { get; set; }
         public string MergeSpecificationPath { get; set; }
         public List<Assembly> AppliesToAssemblies { get; set; }
         public Func<ActionCall, bool> Filter { get; set; }

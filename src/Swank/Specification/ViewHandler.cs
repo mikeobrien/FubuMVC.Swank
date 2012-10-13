@@ -7,6 +7,8 @@ namespace FubuMVC.Swank.Specification
         public string Copyright { get; set; }
         public List<string> Scripts { get; set; }
         public List<string> Stylesheets { get; set; }
+        public bool ShowJson { get; set; }
+        public bool ShowXml { get; set; }
         public Specification Specification { get; set; }    
     }
 
@@ -27,6 +29,8 @@ namespace FubuMVC.Swank.Specification
                 Copyright = _configuration.Copyright,
                 Scripts = _configuration.Scripts,
                 Stylesheets = _configuration.Stylesheets,
+                ShowXml = _configuration.DisplayXml,
+                ShowJson = _configuration.DisplayJson,
                 Specification = _specificationService.Generate() 
             };
         }

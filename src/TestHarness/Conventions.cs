@@ -25,7 +25,8 @@ namespace TestHarness
                 .WithCopyright("Copyright &copy; {year} Test Harness")
                 .WithStylesheets("~/styles/style.css")
                 .WithScripts("~/scripts/script.js")
-                .MergeThisSpecification("~/spec.json"));
+                .MergeThisSpecification("~/spec.json")
+                .HideXml());
 
             Views.TryToAttachWithDefaultConventions();
 

@@ -121,6 +121,24 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
+        /// Do not display a json example.
+        /// </summary>
+        public Swank HideJson()
+        {
+            _configuration.DisplayJson = false;
+            return this;
+        }
+
+        /// <summary>
+        /// Do not display an xml example.
+        /// </summary>
+        public Swank HideXml()
+        {
+            _configuration.DisplayXml = false;
+            return this;
+        }
+
+        /// <summary>
         /// This filters the actions included in the specification.
         /// </summary>
         public Swank Where(Func<ActionCall, bool> filter)

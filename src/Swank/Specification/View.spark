@@ -81,6 +81,7 @@
         <div class="endpoint-header endpoint-well">
           <div class="endpoint-method highlight-background">{{Method}}</div>
           <div class="endpoint-url">{{{formatUrl Url}}}</div>
+          <div class="endpoint-toggle"><i class="icon-chevron-left expand-toggle"></i></div>
           <div class="endpoint-name highlight-text">{{{Name}}}</div>
         </div>
 
@@ -93,33 +94,33 @@
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Type</th>
-                <th>Comments</th>
+                <th>Type/Comments</th>
               </tr>
             </thead>
             <tbody>
             {{#UrlParameters}}
               <tr>
                 <td><strong>{{{Name}}}</strong></td>
-                <td><code>{{{Type}}}</code></td>
                 <td>
+                  <code>{{{Type}}}</code>
+                  {{#when 'Options && Options.length > 0'}}<span class="label label-warning">Enumeration</span>{{/when}}
                   {{{Comments}}}
                   {{#if Options}}
                   <h5>Possible Values</h5>
                   <table class="table table-bordered table-zebra table-condensed">
                     <thead>
                       <tr>
-                        <th>Name</th>
-                        <th>Value</th>
-                        <th>Comments</th>
+                        <th>Name: Value/Comments</th>
                       </tr>
                     </thead>
                     <tbody>
                       {{#Options}}
                       <tr>
-                        <td nowrap="nowrap"><strong>{{{Name}}}</strong></td>
-                        <td nowrap="nowrap"><code>{{{Value}}}</code></td>
-                        <td>{{{Comments}}}</td>
+                        <td>
+                          <strong>{{{Name}}}</strong>
+                          <code>{{{Value}}}</code>
+                          {{{Comments}}}
+                        </td>
                       </tr>
                       {{/Options}}
                     </tbody>
@@ -138,37 +139,38 @@
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Type</th>
-                  <th>Comments</th>
+                  <th>Type/Comments</th>
                 </tr>
               </thead>
               <tbody>              
               {{#QuerystringParameters}}
               <tr>
                 <td><strong>{{{Name}}}</strong></td>
-                <td><code>{{{Type}}}</code></td>
                 <td>
-                  {{{Comments}}}
+                  <code>{{{Type}}}</code>
                   {{#if Required}}<span class="label label-important">Required</span>{{/if}}
+                  {{#when '!Required'}}<span class="label label-success">Optional</span>{{/when}}
                   {{#if MultipleAllowed}}<span class="label label-info">Multiple Allowed</span>{{/if}}
+                  {{#when 'Options && Options.length > 0'}}<span class="label label-warning">Enumeration</span>{{/when}}
                   {{#when '!Required && DefaultValue'}}
                     <span class="badge badge-inverse">Default: {{{DefaultValue}}}</span>{{/when}}
                   {{#if Options}}
+                  {{{Comments}}}
                   <h5>Possible Values</h5>
                     <table class="table table-bordered table-zebra table-condensed">
                       <thead>
                         <tr>
-                          <th>Name</th>
-                          <th>Value</th>
-                          <th>Comments</th>
+                          <th>Name: Value/Comments</th>
                         </tr>
                       </thead>
                       <tbody>
                         {{#Options}}
                         <tr>
-                          <td nowrap="nowrap"><strong>{{{Name}}}</strong></td>
-                          <td nowrap="nowrap"><code>{{{Value}}}</code></td>
-                          <td>{{{Comments}}}</td>
+                          <td>
+                            <strong>{{{Name}}}</strong>
+                            <code>{{{Value}}}</code>
+                            {{{Comments}}}
+                          </td>
                         </tr>
                         {{/Options}}
                       </tbody>
@@ -208,63 +210,60 @@
           {{#with Request}}
             <p>{{{Comments}}}</p>
             {{#hasTypeDescription}}
-              <table class="table table-condensed table-bordered table-zebra-double">
+              <table class="table table-condensed table-bordered table-zebra">
                 <thead>
                   <tr>
                     <th>
-                      <div class="btn-group">
-                        <button class="btn show-json active">{}</button>
-                        <button class="btn show-xml">&lt;/&gt;</button>
-                      </div>
+                      <test if="!Model.ShowJson">Xml
+                      <else if="!Model.ShowXml"/>Json
+                      <else/>
+                        <div class="btn-group">
+                          <button class="btn show-json active">{}</button>
+                          <button class="btn show-xml">&lt;/&gt;</button>
+                        </div>
+                      </test>
                     </th>
-                    <th>Type</th>
+                    <th>Type/Comments</th>
                   </tr>
                 </thead>
                 <tbody>
                 {{#typeDescription}}
                 <tr>
-                  <td class="code json" rowspan="2">{{{colorizeJson json}}}</td>
-                  <td class="code xml" style="display: none" rowspan="2">{{{colorizeXml xml}}}</td>
-                  {{#if description}}
-                    <td>
+                  <td class="code json" style="<test if="!Model.ShowJson">display: none</test>">{{{colorizeJson json}}}</td>
+                  <td class="code xml" style="<test if="Model.ShowJson">display: none</test>">{{{colorizeXml xml}}}</td>
+                  <td>
+                    {{#if description}}
                       <strong><code>{{{description.type}}}</code></strong>
                       {{#if description.required}}<span class="label label-important">Required</span>{{/if}}
                       {{#if description.optional}}<span class="label label-success">Optional</span>{{/if}}
+                      {{#if description.options}}<span class="label label-warning">Enumeration</span>{{/if}}
                       {{#when 'description.optional && description.defaultValue'}}
                           <span class="badge badge-inverse">Default: {{{description.defaultValue}}}</span>{{/when}}
                       {{#if description.collection}}<span class="label label-info">Collection</span>{{/if}}
-                    </td>
-                  {{else}}
-                    <td rowspan="2"></td>
-                  {{/if}}
-                </tr>
-                <tr>
-                  {{#when 'description && (description.comments || description.options)'}}
-                    <td>
                       {{{description.comments}}}
                       {{#if description.options}}
                         <h5>Possible Values</h5>
                           <table class="table table-bordered table-zebra table-condensed">
                             <thead>
                               <tr>
-                                <th>Name</th>
-                                <th>Value</th>
-                                <th>Comments</th>
+                                <th>Name: Value/Comments</th>
                               </tr>
                             </thead>
                             <tbody>
                               {{#description.options}}
                               <tr>
-                                <td nowrap="nowrap"><strong>{{{Name}}}</strong></td>
-                                <td nowrap="nowrap"><code>{{{Value}}}</code></td>
-                                <td>{{{Comments}}}</td>
+                                <td>
+                                  <strong>{{{Name}}}:</strong>
+                                  <code>{{{Value}}}</code>
+                                  {{{Comments}}}
+                                </td>
                               </tr>
                               {{/description.options}}
                             </tbody>
                           </table>
                         {{/if}}
-                      </td>
-                    {{/when}}
+                    {{/if}}
+                  </td>
                 </tr>
                 {{/typeDescription}}
                 </tbody>
@@ -278,59 +277,56 @@
           {{#with Response}}
             <p>{{{Comments}}}</p>
             {{#hasTypeDescription}}
-              <table class="table table-condensed table-bordered table-zebra-double table-last">
+              <table class="table table-condensed table-bordered table-zebra table-last">
                 <thead>
                   <tr>
                     <th>
-                      <div class="btn-group">
-                        <button class="btn show-json active">{}</button>
-                        <button class="btn show-xml">&lt;/&gt;</button>
-                      </div>
+                      <test if="!Model.ShowJson">Xml
+                      <else if="!Model.ShowXml"/>Json
+                      <else/>
+                        <div class="btn-group">
+                          <button class="btn show-json active">{}</button>
+                          <button class="btn show-xml">&lt;/&gt;</button>
+                        </div>
+                      </test>
                     </th>
-                    <th>Type</th>
+                    <th>Type/Comments</th>
                   </tr>
                 </thead>
                 <tbody>
                 {{#typeDescription}}
                 <tr>
-                  <td class="code json" rowspan="2">{{{colorizeJson json}}}</td>
-                  <td class="code xml" style="display: none" rowspan="2">{{{colorizeXml xml}}}</td>
-                  {{#if description}}
-                    <td>
+                  <td class="code json" style="<test if="!Model.ShowJson">display: none</test>">{{{colorizeJson json}}}</td>
+                  <td class="code xml" style="<test if="Model.ShowJson">display: none</test>">{{{colorizeXml xml}}}</td>
+                  <td>
+                    {{#if description}}
                       <strong><code>{{{description.type}}}</code></strong>
                       {{#if description.collection}}<span class="label label-info">Collection</span>{{/if}}
-                    </td>
-                  {{else}}
-                    <td rowspan="2"></td>
-                  {{/if}}
-                </tr>
-                <tr>
-                  {{#when 'description && (description.comments || description.options)'}}
-                    <td>
+                      {{#if description.options}}<span class="label label-warning">Enumeration</span>{{/if}}
                       {{{description.comments}}}
                       {{#if description.options}}
                         <h5>Possible Values</h5>
                           <table class="table table-bordered table-zebra table-condensed">
                             <thead>
                               <tr>
-                                <th>Name</th>
-                                <th>Value</th>
-                                <th>Comments</th>
+                                <th>Name: Value/Comments</th>
                               </tr>
                             </thead>
                             <tbody>
                               {{#description.options}}
                               <tr>
-                                <td nowrap="nowrap"><strong>{{{Name}}}</strong></td>
-                                <td nowrap="nowrap"><code>{{{Value}}}</code></td>
-                                <td>{{{Comments}}}</td>
+                                <td>
+                                  <strong>{{{Name}}}:</strong>
+                                  <code>{{{Value}}}</code>
+                                  {{{Comments}}}
+                                </td>
                               </tr>
                               {{/description.options}}
                             </tbody>
                           </table>
                         {{/if}}
-                      </td>
-                    {{/when}}
+                    {{/if}}
+                  </td>
                 </tr>
                 {{/typeDescription}}
                 </tbody>
@@ -345,7 +341,9 @@
       {{/Endpoints}}
     </script>
   
-    <script language="javascript" type="text/javascript"> window.Swank = { Specification: !{Model.Specification.SerializeJson()} }; </script>
+    <script language="javascript" type="text/javascript"> 
+      window.Swank = { Specification: !{Model.Specification.SerializeJson()} }; 
+    </script>
     
     <script src="~/_content/swank/es5-shim.js" type="text/javascript"></script>
     <script src="~/_content/swank/jquery.js" type="text/javascript"></script>
