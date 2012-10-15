@@ -134,6 +134,7 @@
         else if (member.Type == 'string' ||
                  member.Type == 'char' ||
                  member.Type == 'base64Binary') return '\"' + (member.DefaultValue || '') + '\"';
+        else if (member.Type == 'TimeSpan') return '\"' + (member.DefaultValue || '0.00:00:00') + '\"';
         else return null;
     };
 

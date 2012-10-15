@@ -7,16 +7,16 @@ using Should;
 namespace Tests.Description
 {
     [TestFixture]
-    public class ErrorSourceTests
+    public class ErrorConventionTests
     {
         private BehaviorGraph _graph;
-        private ErrorSource _errorSource;
+        private ErrorConvention _errorConvention;
 
         [SetUp]
         public void Setup()
         {
             _graph = Behavior.BuildGraph().AddActionsInThisNamespace();
-            _errorSource = new ErrorSource();
+            _errorConvention = new ErrorConvention();
         }
 
         [ErrorDescription(HttpStatusCode.LengthRequired, "411 error on handler")]
@@ -32,7 +32,7 @@ namespace Tests.Description
         public void should_set_endpoint_errors_on_handlers_and_actions()
         {
             var action = _graph.GetAction<ErrorsGetHandler>();
-            var errorDescriptions = _errorSource.GetDescription(action);
+            var errorDescriptions = _errorConvention.GetDescription(action);
 
             errorDescriptions.Count.ShouldEqual(4);
 
@@ -66,7 +66,7 @@ namespace Tests.Description
         public void should_not_set_endpoint_errors_when_none_are_set_on_handlers_or_actions()
         {
             var action = _graph.GetAction<NoErrorsGetHandler>();
-            var errorDescriptions = _errorSource.GetDescription(action);
+            var errorDescriptions = _errorConvention.GetDescription(action);
 
             errorDescriptions.Count.ShouldEqual(0);
         }

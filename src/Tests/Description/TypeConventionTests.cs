@@ -8,7 +8,7 @@ using Should;
 namespace Tests.Description
 {
     [TestFixture]
-    public class TypeSourceTests
+    public class TypeConventionTests
     {
         public class SomeType { }
 
@@ -16,7 +16,7 @@ namespace Tests.Description
         public void should_return_default_description_of_datatype()
         {
             var type = typeof(SomeType);
-            var description = new TypeSource().GetDescription(type);
+            var description = new TypeConvention().GetDescription(type);
             description.Type.ShouldEqual(type);
             description.Name.ShouldEqual("SomeType");
             description.Comments.ShouldBeNull();
@@ -25,7 +25,7 @@ namespace Tests.Description
         [Test]
         public void should_return_default_description_of_list_datatype()
         {
-            var description = new TypeSource().GetDescription(typeof(List<SomeType>));
+            var description = new TypeConvention().GetDescription(typeof(List<SomeType>));
             description.Type.ShouldEqual(typeof(SomeType));
             description.Name.ShouldEqual("ArrayOfSomeType");
             description.Comments.ShouldBeNull();
@@ -38,7 +38,7 @@ namespace Tests.Description
         public void should_return_attribute_description_of_datatype()
         {
             var type = typeof(SomeTypeWithComments);
-            var description = new TypeSource().GetDescription(type);
+            var description = new TypeConvention().GetDescription(type);
             description.Type.ShouldEqual(type);
             description.Name.ShouldEqual("SomeTypeWithComments");
             description.Comments.ShouldEqual("This is a type with comments.");
@@ -51,7 +51,7 @@ namespace Tests.Description
         public void should_return_attribute_description_of_datatype_and_xml_type_attribute()
         {
             var type = typeof(SomeTypeWithXmlName);
-            var description = new TypeSource().GetDescription(type);
+            var description = new TypeConvention().GetDescription(type);
             description.Type.ShouldEqual(type);
             description.Name.ShouldEqual("SomeType");
             description.Comments.ShouldBeNull();
@@ -63,7 +63,7 @@ namespace Tests.Description
         [Test]
         public void should_return_attribute_description_of_inherited_list_datatype()
         {
-            var description = new TypeSource().GetDescription(typeof(SomeTypes));
+            var description = new TypeConvention().GetDescription(typeof(SomeTypes));
             description.Type.ShouldEqual(typeof(SomeType));
             description.Name.ShouldEqual("ArrayOfSomeType");
             description.Comments.ShouldEqual("These are some types.");
@@ -75,7 +75,7 @@ namespace Tests.Description
         [Test]
         public void should_return_attribute_description_of_inherited_list_datatype_with_xml_type_attribute()
         {
-            var description = new TypeSource().GetDescription(typeof(SomeMoarTypes));
+            var description = new TypeConvention().GetDescription(typeof(SomeMoarTypes));
             description.Type.ShouldEqual(typeof(SomeType));
             description.Name.ShouldEqual("SomeTypes");
             description.Comments.ShouldEqual("These are some moar types.");
@@ -84,7 +84,7 @@ namespace Tests.Description
         [Test]
         public void should_initial_cap_list_primitive_type_name()
         {
-            var description = new TypeSource().GetDescription(typeof(List<Int64>));
+            var description = new TypeConvention().GetDescription(typeof(List<Int64>));
             description.Type.ShouldEqual(typeof(Int64));
             description.Name.ShouldEqual("ArrayOfLong");
         }

@@ -1,6 +1,6 @@
 ﻿using FubuMVC.Swank.Description;
 
-namespace Tests.Description.MarkerSourceTests
+namespace Tests.Description.MarkerConventionTests
 {
     namespace MarkerDescriptions
     {

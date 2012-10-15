@@ -8,14 +8,14 @@ using Should;
 namespace Tests.Description
 {
     [TestFixture]
-    public class MemberSourceTests
+    public class MemberConventionTests
     {
-        private MemberSource _memberSource;
+        private MemberConvention _memberConvention;
 
         [SetUp]
         public void Setup()
         {
-            _memberSource = new MemberSource();
+            _memberConvention = new MemberConvention();
         }
 
         public class Item {}
@@ -33,7 +33,7 @@ namespace Tests.Description
         [Test]
         public void should_return_default_description_of_member()
         {
-            var description = _memberSource.GetDescription(typeof(Request).GetProperty("Sort"));
+            var description = _memberConvention.GetDescription(typeof(Request).GetProperty("Sort"));
             description.Name.ShouldEqual("Sort");
             description.Comments.ShouldBeNull();
         }
@@ -41,7 +41,7 @@ namespace Tests.Description
         [Test]
         public void should_return_attribute_description_of_member()
         {
-            var description = _memberSource.GetDescription(typeof(Request).GetProperty("Id"));
+            var description = _memberConvention.GetDescription(typeof(Request).GetProperty("Id"));
             description.Name.ShouldEqual("Id");
             description.Comments.ShouldEqual("This is the id.");
         }
@@ -49,26 +49,26 @@ namespace Tests.Description
         [Test]
         public void should_indicate_if_the_member_is_required()
         {
-            _memberSource.GetDescription(typeof(Request).GetProperty("Id")).Required.ShouldBeFalse();
-            _memberSource.GetDescription(typeof(Request).GetProperty("Sort")).Required.ShouldBeTrue();
+            _memberConvention.GetDescription(typeof(Request).GetProperty("Id")).Required.ShouldBeFalse();
+            _memberConvention.GetDescription(typeof(Request).GetProperty("Sort")).Required.ShouldBeTrue();
         }
 
         [Test]
         public void should_return_name_specified_in_xml_element()
         {
-            _memberSource.GetDescription(typeof(Request).GetProperty("C3P0")).Name.ShouldEqual("R2D2");
+            _memberConvention.GetDescription(typeof(Request).GetProperty("C3P0")).Name.ShouldEqual("R2D2");
         }
 
         [Test]
         public void should_return_property_type()
         {
-            _memberSource.GetDescription(typeof(Request).GetProperty("C3P0")).Type.ShouldEqual(typeof(int));
+            _memberConvention.GetDescription(typeof(Request).GetProperty("C3P0")).Type.ShouldEqual(typeof(int));
         }
 
         [Test]
         public void should_return_list_element_type()
         {
-            _memberSource.GetDescription(typeof(Request).GetProperty("Items")).Type.ShouldEqual(typeof(Item));
+            _memberConvention.GetDescription(typeof(Request).GetProperty("Items")).Type.ShouldEqual(typeof(Item));
         }
     }
 }

@@ -30,17 +30,17 @@ namespace FubuMVC.Swank
             DisplayXml = true;
             AppliesToAssemblies = new List<Assembly>();
             Filter = x => true;
-            ModuleDescriptionSource = new Service<IDescriptionSource<ActionCall, ModuleDescription>> { Type = typeof(ModuleSource) };
-            ResourceDescriptionSource = new Service<IDescriptionSource<ActionCall, ResourceDescription>> { Type = typeof(ResourceSource) };
             DefaultModuleFactory = x => null;
             OrphanedModuleActions = OrphanedActions.UseDefault;
             DefaultResourceFactory = x => new ResourceDescription { Name = x.ParentChain().Route.GetRouteResource() };
             OrphanedResourceActions = OrphanedActions.UseDefault;
-            EndpointDescriptionSource = new Service<IDescriptionSource<ActionCall, EndpointDescription>> { Type = typeof(EndpointSource) };
-            MemberDescriptionSource = new Service<IDescriptionSource<PropertyInfo, MemberDescription>> { Type = typeof(MemberSource) };
-            OptionDescriptionSource = new Service<IDescriptionSource<FieldInfo, OptionDescription>> { Type = typeof(OptionSource) };
-            ErrorDescriptionSource = new Service<IDescriptionSource<ActionCall, List<ErrorDescription>>> { Type = typeof(ErrorSource) };
-            TypeDescriptionSource = new Service<IDescriptionSource<Type, TypeDescription>> { Type = typeof(TypeSource) };
+            ModuleConvention = new Service<IDescriptionConvention<ActionCall, ModuleDescription>> { Type = typeof(ModuleConvention) };
+            ResourceConvention = new Service<IDescriptionConvention<ActionCall, ResourceDescription>> { Type = typeof(ResourceConvention) };
+            EndpointConvention = new Service<IDescriptionConvention<ActionCall, EndpointDescription>> { Type = typeof(EndpointConvention) };
+            MemberConvention = new Service<IDescriptionConvention<PropertyInfo, MemberDescription>> { Type = typeof(MemberConvention) };
+            OptionConvention = new Service<IDescriptionConvention<FieldInfo, OptionDescription>> { Type = typeof(OptionConvention) };
+            ErrorConvention = new Service<IDescriptionConvention<ActionCall, List<ErrorDescription>>> { Type = typeof(ErrorConvention) };
+            TypeConvention = new Service<IDescriptionConvention<Type, TypeDescription>> { Type = typeof(TypeConvention) };
         }
         
         public string Url { get; set; }
@@ -58,12 +58,12 @@ namespace FubuMVC.Swank
         public OrphanedActions OrphanedResourceActions { get; set; }
         public Func<ActionCall, ModuleDescription> DefaultModuleFactory { get; set; }
         public Func<ActionCall, ResourceDescription> DefaultResourceFactory { get; set; }
-        public Service<IDescriptionSource<ActionCall, ModuleDescription>> ModuleDescriptionSource { get; set; }
-        public Service<IDescriptionSource<ActionCall, ResourceDescription>> ResourceDescriptionSource { get; set; }
-        public Service<IDescriptionSource<ActionCall, EndpointDescription>> EndpointDescriptionSource { get; set; }
-        public Service<IDescriptionSource<PropertyInfo, MemberDescription>> MemberDescriptionSource { get; set; }
-        public Service<IDescriptionSource<FieldInfo, OptionDescription>> OptionDescriptionSource { get; set; }
-        public Service<IDescriptionSource<ActionCall, List<ErrorDescription>>> ErrorDescriptionSource { get; set; }
-        public Service<IDescriptionSource<Type, TypeDescription>> TypeDescriptionSource { get; set; }
+        public Service<IDescriptionConvention<ActionCall, ModuleDescription>> ModuleConvention { get; set; }
+        public Service<IDescriptionConvention<ActionCall, ResourceDescription>> ResourceConvention { get; set; }
+        public Service<IDescriptionConvention<ActionCall, EndpointDescription>> EndpointConvention { get; set; }
+        public Service<IDescriptionConvention<PropertyInfo, MemberDescription>> MemberConvention { get; set; }
+        public Service<IDescriptionConvention<FieldInfo, OptionDescription>> OptionConvention { get; set; }
+        public Service<IDescriptionConvention<ActionCall, List<ErrorDescription>>> ErrorConvention { get; set; }
+        public Service<IDescriptionConvention<Type, TypeDescription>> TypeConvention { get; set; }
     }
 }

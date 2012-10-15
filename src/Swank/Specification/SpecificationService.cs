@@ -40,38 +40,38 @@ namespace FubuMVC.Swank.Specification
         private readonly Configuration _configuration;
         private readonly ActionSource _actions;
         private readonly ITypeDescriptorCache _typeCache;
-        private readonly IDescriptionSource<ActionCall, ModuleDescription> _modules;
-        private readonly IDescriptionSource<ActionCall, ResourceDescription> _resources;
-        private readonly IDescriptionSource<ActionCall, EndpointDescription> _endpoints;
-        private readonly IDescriptionSource<PropertyInfo, MemberDescription> _members;
-        private readonly IDescriptionSource<FieldInfo, OptionDescription> _options;
-        private readonly IDescriptionSource<ActionCall, List<ErrorDescription>> _errors;
-        private readonly IDescriptionSource<System.Type, TypeDescription> _types;
+        private readonly IDescriptionConvention<ActionCall, ModuleDescription> _moduleConvention;
+        private readonly IDescriptionConvention<ActionCall, ResourceDescription> _resourceConvention;
+        private readonly IDescriptionConvention<ActionCall, EndpointDescription> _endpointConvention;
+        private readonly IDescriptionConvention<PropertyInfo, MemberDescription> _memberConvention;
+        private readonly IDescriptionConvention<FieldInfo, OptionDescription> _optionConvention;
+        private readonly IDescriptionConvention<ActionCall, List<ErrorDescription>> _errorConvention;
+        private readonly IDescriptionConvention<System.Type, TypeDescription> _typeConvention;
         private readonly MergeService _mergeService;
 
         public SpecificationService(
             Configuration configuration, 
             ActionSource actions,
             ITypeDescriptorCache typeCache,
-            IDescriptionSource<ActionCall, ModuleDescription> modules,
-            IDescriptionSource<ActionCall, ResourceDescription> resources,
-            IDescriptionSource<ActionCall, EndpointDescription> endpoints,
-            IDescriptionSource<PropertyInfo, MemberDescription> members,
-            IDescriptionSource<FieldInfo, OptionDescription> options,
-            IDescriptionSource<ActionCall, List<ErrorDescription>> errors,
-            IDescriptionSource<System.Type, TypeDescription> types,
+            IDescriptionConvention<ActionCall, ModuleDescription> moduleConvention,
+            IDescriptionConvention<ActionCall, ResourceDescription> resourceConvention,
+            IDescriptionConvention<ActionCall, EndpointDescription> endpointConvention,
+            IDescriptionConvention<PropertyInfo, MemberDescription> memberConvention,
+            IDescriptionConvention<FieldInfo, OptionDescription> optionConvention,
+            IDescriptionConvention<ActionCall, List<ErrorDescription>> errorConvention,
+            IDescriptionConvention<System.Type, TypeDescription> typeConvention,
             MergeService mergeService)
         {
             _configuration = configuration;
             _actions = actions;
             _typeCache = typeCache;
-            _modules = modules;
-            _resources = resources;
-            _endpoints = endpoints;
-            _members = members;
-            _options = options;
-            _errors = errors;
-            _types = types;
+            _moduleConvention = moduleConvention;
+            _resourceConvention = resourceConvention;
+            _endpointConvention = endpointConvention;
+            _memberConvention = memberConvention;
+            _optionConvention = optionConvention;
+            _errorConvention = errorConvention;
+            _typeConvention = typeConvention;
             _mergeService = mergeService;
         }
 
@@ -96,7 +96,7 @@ namespace FubuMVC.Swank.Specification
         {
             return actions
                 .Where(x => !x.Method.HasAttribute<HideAttribute>() && !x.HandlerType.HasAttribute<HideAttribute>())
-                .Select(x => new { Action = x, Module = _modules.GetDescription(x), Resource = _resources.GetDescription(x) })
+                .Select(x => new { Action = x, Module = _moduleConvention.GetDescription(x), Resource = _resourceConvention.GetDescription(x) })
                 .Where(x => ((_configuration.OrphanedModuleActions == OrphanedActions.Exclude && x.Module != null) ||
                               _configuration.OrphanedModuleActions != OrphanedActions.Exclude))
                 .Where(x => ((_configuration.OrphanedResourceActions == OrphanedActions.Exclude && x.Resource != null) ||
@@ -140,7 +140,7 @@ namespace FubuMVC.Swank.Specification
                 .Concat(rootTypes.SelectMany(GetTypes))
                 .DistinctBy(x => x.Type, x => x.Action)
                 .Select(x => {
-                    var description = _types.GetDescription(x.Type);
+                    var description = _typeConvention.GetDescription(x.Type);
                     var type = description.WhenNotNull(y => y.Type).Otherwise(x.Type);
                     return new Type {
                         Id = x.Action != null ? type.GetHash(x.Action.Method) : type.GetHash(),
@@ -177,7 +177,7 @@ namespace FubuMVC.Swank.Specification
                             !x.IsQuerystring(action) &&
                             !x.IsUrlParameter(action))
                 .Select(x => {
-                        var description = _members.GetDescription(x);
+                        var description = _memberConvention.GetDescription(x);
                         var memberType = description.WhenNotNull(y => y.Type).Otherwise(x.PropertyType.GetListElementType(), x.PropertyType);
                         return new Member {
                             Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
@@ -221,7 +221,7 @@ namespace FubuMVC.Swank.Specification
         {
             return actions
                 .Select(x => {
-                    var endpoint = _endpoints.GetDescription(x);
+                    var endpoint = _endpointConvention.GetDescription(x);
                     var route = x.ParentChain().Route;
                     return new Endpoint {
                         Name = endpoint.WhenNotNull(y => y.Name).OtherwiseDefault(),
@@ -231,8 +231,9 @@ namespace FubuMVC.Swank.Specification
                         UrlParameters = x.HasInput ? GetUrlParameters(x) : null,
                         QuerystringParameters = x.HasInput ? GetQuerystringParameters(x) : null,
                         Errors = GetErrors(x),
-                        Request = x.HasInput && (route.AllowsPost() || route.AllowsPut()) ? GetData(x.InputType(), x.Method) : null,
-                        Response = x.HasOutput ? GetData(x.OutputType()) : null
+                        Request = x.HasInput && (route.AllowsPost() || route.AllowsPut()) ? 
+                                    GetData(x.InputType(), endpoint.RequestComments, x.Method) : null,
+                        Response = x.HasOutput ? GetData(x.OutputType(), endpoint.ResponseComments) : null
                     };
                 }).OrderBy(x => x.Url.Split('?').First()).ThenBy(x => HttpVerbRank(x.Method)).ToList();
         }
@@ -243,7 +244,7 @@ namespace FubuMVC.Swank.Specification
             return action.ParentChain().Route.Input.RouteParameters.Select(
                 x => {
                     var property = properties[x.Name];
-                    var description = _members.GetDescription(property);
+                    var description = _memberConvention.GetDescription(property);
                     return new UrlParameter {
                             Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
@@ -260,7 +261,7 @@ namespace FubuMVC.Swank.Specification
                             !x.Value.HasAttribute<HideAttribute>() && 
                             !x.Value.IsAutoBound())
                 .Select(x => {
-                    var description = _members.GetDescription(x.Value);
+                    var description = _memberConvention.GetDescription(x.Value);
                     return new QuerystringParameter {
                         Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
@@ -275,7 +276,7 @@ namespace FubuMVC.Swank.Specification
 
         private List<Error> GetErrors(ActionCall action)
         {
-            return _errors.GetDescription(action)
+            return _errorConvention.GetDescription(action)
                 .Select(x => new Error {
                     Status = x.Status,
                     Name = x.Name,
@@ -283,14 +284,14 @@ namespace FubuMVC.Swank.Specification
                 }).OrderBy(x => x.Status).ToList();
         }
 
-        private Data GetData(System.Type type, MethodInfo action = null)
+        private Data GetData(System.Type type, string comments, MethodInfo action = null)
         {
-            var dataType = _types.GetDescription(type);
+            var dataType = _typeConvention.GetDescription(type);
             var rootType = dataType.WhenNotNull(x => x.Type).Otherwise(type);
             return new Data
                 {
                     Name = dataType.WhenNotNull(y => y.Name).OtherwiseDefault(),
-                    Comments = dataType.WhenNotNull(y => y.Comments).OtherwiseDefault(),
+                    Comments = comments,
                     Type = action.WhenNotNull(rootType.GetHash).Otherwise(rootType.GetHash()),
                     Collection = type.IsArray || type.IsList()
                 };
@@ -302,7 +303,7 @@ namespace FubuMVC.Swank.Specification
                 type.GetCachedEnumValues()
                     .Where(x => !x.HasAttribute<HideAttribute>())
                     .Select(x => {
-                        var option = _options.GetDescription(x);
+                        var option = _optionConvention.GetDescription(x);
                         return new Option {
                             Name = option.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = option.WhenNotNull(y => y.Comments).OtherwiseDefault(), 

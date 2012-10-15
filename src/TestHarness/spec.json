@@ -1161,7 +1161,15 @@
                     "Name": "GroupId",
                     "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus.",
                     "Required": false,
-                    "DefaultValue": "",
+                    "DefaultValue": "  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26434120-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();",
                     "Type": "guid",
                     "Collection": false
                 },

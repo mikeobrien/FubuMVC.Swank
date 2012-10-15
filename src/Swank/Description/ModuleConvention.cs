@@ -3,11 +3,11 @@ using FubuMVC.Core.Registration.Nodes;
 
 namespace FubuMVC.Swank.Description
 {
-    public class ModuleSource : IDescriptionSource<ActionCall, ModuleDescription>
+    public class ModuleConvention : IDescriptionConvention<ActionCall, ModuleDescription>
     {
-        private readonly MarkerSource<ModuleDescription> _descriptions;
+        private readonly MarkerConvention<ModuleDescription> _descriptions;
 
-        public ModuleSource(MarkerSource<ModuleDescription> descriptions)
+        public ModuleConvention(MarkerConvention<ModuleDescription> descriptions)
         {
             _descriptions = descriptions;
         }

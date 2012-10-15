@@ -85,20 +85,20 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
 
     namespace InputTypeDescriptions
     {
-        [Comments("Some get request description")]
         public class GetRequest { }
+        [RequestComments("Some get request description")]
         public class GetHandler { public object Execute_Get(GetRequest request) { return null; } }
 
-        [Comments("Some post request description")]
         public class PostRequest {}
+        [RequestComments("Some post request description")]
         public class PostHandler { public object Execute_Post(PostRequest request) { return null; } }
 
-        [Comments("Some put request description")]
         public class PutRequest { }
+        [RequestComments("Some put request description")]
         public class PutHandler { public object Execute_Put(PutRequest request) { return null; } }
 
-        [Comments("Some delete request description")]
         public class DeleteRequest { }
+        [RequestComments("Some delete request description")]
         public class DeleteHandler { public object Execute_Delete(DeleteRequest request) { return null; } }
 
         public class RequestItem {}
@@ -120,20 +120,20 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
 
     namespace OutputTypeDescriptions
     {
-        [Comments("Some get response description")]
         public class GetResponse { }
+        [ResponseComments("Some get response description")]
         public class GetHandler { public GetResponse Execute_Get(object request) { return null; } }
 
-        [Comments("Some post response description")]
         public class PostResponse { }
+        [ResponseComments("Some post response description")]
         public class PostHandler { public PostResponse Execute_Post(object request) { return null; } }
 
-        [Comments("Some put response description")]
         public class PutResponse { }
+        [ResponseComments("Some put response description")]
         public class PutHandler { public PutResponse Execute_Put(object request) { return null; } }
 
-        [Comments("Some delete response description")]
         public class DeleteResponse { }
+        [ResponseComments("Some delete response description")]
         public class DeleteHandler { public DeleteResponse Execute_Delete(object request) { return null; } }
 
         public class ResponseItem { }

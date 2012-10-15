@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using FubuCore.Reflection;
 using FubuMVC.Swank;
 using FubuMVC.Swank.Description;
@@ -15,17 +16,17 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         private FubuMVC.Swank.Specification.Specification BuildSpec<TNamespace>(Action<Swank> configure = null, System.Type rootType = null)
         {
             var graph = rootType == null ? Behavior.BuildGraph().AddActionsInThisNamespace() : Behavior.BuildGraph().AddActionsInNamespace(rootType);
-            var moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
-            var resourceSource = new ResourceSource(
-                new MarkerSource<ResourceDescription>(),
+            var moduleConvention = new ModuleConvention(new MarkerConvention<ModuleDescription>());
+            var resourceConvention = new ResourceConvention(
+                new MarkerConvention<ResourceDescription>(),
                 new ActionSource(graph,
                     Swank.CreateConfig(x => x.AppliesToThisAssembly()
                         .Where(y => y.HandlerType.InNamespace<Tests>()))));
             var configuration = Swank.CreateConfig(x => 
             { if (configure != null) configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<TNamespace>()); });
             return new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleSource, resourceSource, new EndpointSource(), new MemberSource(), new OptionSource(), new ErrorSource(),
-                new TypeSource(), new MergeService()).Generate();
+                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new ErrorConvention(),
+                new TypeConvention(), new MergeService()).Generate();
         }
 
         [Test]
@@ -119,14 +120,14 @@ namespace Tests.Specification.SpecificationServiceResourceTests
         [Test]
         public void should_throw_an_exception_for_orphaned_actions()
         {
-            Assert.Throws<OrphanedResourceActionException>(() => BuildSpec<OrphanedAction.GetHandler>(x => x
+            NUnit.Framework.Assert.Throws<OrphanedResourceActionException>(() => BuildSpec<OrphanedAction.GetHandler>(x => x
                     .OnOrphanedResourceAction(OrphanedActions.Fail)));
         }
 
         [Test]
         public void should_not_throw_an_exception_when_there_are_no_orphaned_actions()
         {
-            Assert.DoesNotThrow(() => BuildSpec<NotOrphanedAction.GetHandler>(x => x
+            NUnit.Framework.Assert.DoesNotThrow(() => BuildSpec<NotOrphanedAction.GetHandler>(x => x
                     .OnOrphanedResourceAction(OrphanedActions.Fail)));
         }
 

@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank.Description
 {
-    public class ErrorSource : IDescriptionSource<ActionCall, List<ErrorDescription>>
+    public class ErrorConvention : IDescriptionConvention<ActionCall, List<ErrorDescription>>
     {
         public List<ErrorDescription> GetDescription(ActionCall action)
         {

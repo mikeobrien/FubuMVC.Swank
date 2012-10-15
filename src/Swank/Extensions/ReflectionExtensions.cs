@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
 using MarkdownSharp;
 
 namespace FubuMVC.Swank.Extensions
@@ -91,7 +89,8 @@ namespace FubuMVC.Swank.Extensions
             var textResources = names.Select(x => new[] { ".txt", ".html", ".md" }
                 .Select(y => x + y)).SelectMany(x => x).ToList();
             var resourceName = GetEmbeddedResources(assembly)
-                .FirstOrDefault(x => textResources.Any(y => y.StartsWith("*") ? x.EndsWith(y.Substring(1)) 
+                .FirstOrDefault(x => textResources.Any(y => y.StartsWith("*") 
+                        ? x.EndsWith(y.Substring(1), StringComparison.OrdinalIgnoreCase) 
                         : y.Equals(x, StringComparison.OrdinalIgnoreCase)));
             if (resourceName == null) return null;
             var text = assembly.GetManifestResourceStream(resourceName).ReadToEnd();
@@ -109,37 +108,26 @@ namespace FubuMVC.Swank.Extensions
 
         public static string GetXmlName(this Type type)
         {
-            if (type == typeof(Boolean)) return "boolean";
-            if (type == typeof(Decimal)) return "decimal";
-            if (type == typeof(Double)) return "double";
-            if (type == typeof(Single)) return "float";
-            if (type == typeof(Byte)) return "unsignedByte";
-            if (type == typeof(SByte)) return "byte";
-            if (type == typeof(Int16)) return "short";
-            if (type == typeof(UInt16)) return "unsignedShort";
-            if (type == typeof(Int32)) return "int";
-            if (type == typeof(UInt32)) return "unsignedInt";
-            if (type == typeof(Int64)) return "long";
-            if (type == typeof(UInt64)) return "unsignedLong";
             if (type == typeof(String)) return "string";
-            if (type == typeof(DateTime)) return "dateTime";
-            if (type == typeof(Guid)) return "guid";
-            if (type == typeof(Char)) return "char";
+            if (type == typeof(Boolean) || type == typeof(Boolean?)) return "boolean";
+            if (type == typeof(Decimal) || type == typeof(Decimal?)) return "decimal";
+            if (type == typeof(Double) || type == typeof(Double?)) return "double";
+            if (type == typeof(Single) || type == typeof(Single?)) return "float";
+            if (type == typeof(Byte) || type == typeof(Byte?)) return "unsignedByte";
+            if (type == typeof(SByte) || type == typeof(SByte?)) return "byte";
+            if (type == typeof(Int16) || type == typeof(Int16?)) return "short";
+            if (type == typeof(UInt16) || type == typeof(UInt16?)) return "unsignedShort";
+            if (type == typeof(Int32) || type == typeof(Int32?)) return "int";
+            if (type == typeof(UInt32) || type == typeof(UInt32?)) return "unsignedInt";
+            if (type == typeof(Int64) || type == typeof(Int64?)) return "long";
+            if (type == typeof(UInt64) || type == typeof(UInt64?)) return "unsignedLong";
+            if (type == typeof(DateTime) || type == typeof(DateTime?)) return "dateTime";
+            if (type == typeof(Guid) || type == typeof(Guid?)) return "guid";
+            if (type == typeof(Char) || type == typeof(Char?)) return "char";
             if (type == typeof(byte[])) return "base64Binary";
             if (type.IsArray || type.IsList()) return 
                 "ArrayOf" + type.GetListElementType().GetXmlName().InitialCap();
             return type.Name;
-        }
-
-        public static string Hash(this string value)
-        {
-            using (var hash = MD5.Create())
-                return hash.ComputeHash(Encoding.Unicode.GetBytes(value)).ToHex();
-        }
-        
-        private static string ToHex(this IEnumerable<byte> bytes)
-        {
-            return bytes.Select(b => string.Format("{0:X2}", b)).Aggregate((a, i) => a + i);
         }
     }
 }

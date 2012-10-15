@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FubuMVC.Swank.Description;
 using NUnit.Framework;
 using Should;
 
-namespace Tests.Description.MarkerSourceTests
+namespace Tests.Description.MarkerConventionTests
 {
     [TestFixture]
     public class Tests
@@ -16,7 +15,7 @@ namespace Tests.Description.MarkerSourceTests
         [SetUp]
         public void Setup()
         {
-            _descriptions = new MarkerSource<DescriptionBase>().GetDescriptions(Assembly.GetExecutingAssembly())
+            _descriptions = new MarkerConvention<DescriptionBase>().GetDescriptions(Assembly.GetExecutingAssembly())
                 .Where(x => x.GetType().InNamespace<Tests>()).ToList();
         }
 

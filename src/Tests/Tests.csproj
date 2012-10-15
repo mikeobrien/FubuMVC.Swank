@@ -80,12 +80,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceptanceTests.cs" />
+    <Compile Include="EmbeddedCommentsTests.cs" />
     <Compile Include="Specification\ActionSourceTests\Handlers.cs" />
     <Compile Include="Specification\ActionSourceTests\Tests.cs" />
-    <Compile Include="Description\MarkerSourceTests\Handlers.cs" />
-    <Compile Include="Description\EndpointSourceTests\Handlers.cs" />
-    <Compile Include="Description\ModuleSourceTests\Handlers.cs" />
-    <Compile Include="Description\ResourceSourceTests\Handlers.cs" />
+    <Compile Include="Description\MarkerConventionTests\Handlers.cs" />
+    <Compile Include="Description\EndpointConventionTests\Handlers.cs" />
+    <Compile Include="Description\ModuleConventionTests\Handlers.cs" />
+    <Compile Include="Description\ResourceConventionTests\Handlers.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Specification\MergeServiceTests\Tests.cs" />
     <Compile Include="Specification\SpecificationServiceTests\Handlers.cs" />
@@ -95,10 +96,10 @@
     <Compile Include="Specification\SpecificationServiceTypeTests\TestBase.cs" />
     <Compile Include="Specification\SpecificationServiceTypeTests\Handlers.cs" />
     <Compile Include="Specification\SpecificationServiceTypeTests\TypeTests.cs" />
-    <Compile Include="Description\TypeSourceTests.cs" />
-    <Compile Include="Description\ErrorSourceTests.cs" />
-    <Compile Include="Description\OptionSourceTests.cs" />
-    <Compile Include="Description\MemberSourceTests.cs" />
+    <Compile Include="Description\TypeConventionTests.cs" />
+    <Compile Include="Description\ErrorConventionTests.cs" />
+    <Compile Include="Description\OptionConventionTests.cs" />
+    <Compile Include="Description\MemberConventionTests.cs" />
     <Compile Include="Specification\SpecificationServiceEndpointTests\EndpointTests.cs" />
     <Compile Include="Specification\SpecificationServiceEndpointTests\UrlParameterTests.cs" />
     <Compile Include="Specification\SpecificationServiceEndpointTests\QuerystringTests.cs" />
@@ -107,10 +108,10 @@
     <Compile Include="Specification\SpecificationServiceEndpointTests\InputTypeTests.cs" />
     <Compile Include="Specification\SpecificationServiceEndpointTests\Handlers.cs" />
     <Compile Include="Specification\SpecificationServiceEndpointTests\TestBase.cs" />
-    <Compile Include="Description\EndpointSourceTests\Tests.cs" />
-    <Compile Include="Description\MarkerSourceTests\Tests.cs" />
-    <Compile Include="Description\ResourceSourceTests\Tests.cs" />
-    <Compile Include="Description\ModuleSourceTests\Tests.cs" />
+    <Compile Include="Description\EndpointConventionTests\Tests.cs" />
+    <Compile Include="Description\MarkerConventionTests\Tests.cs" />
+    <Compile Include="Description\ResourceConventionTests\Tests.cs" />
+    <Compile Include="Description\ModuleConventionTests\Tests.cs" />
     <Compile Include="Specification\SpecificationServiceResourceTests\Handlers.cs" />
     <Compile Include="Specification\SpecificationServiceResourceTests\Tests.cs" />
     <Compile Include="ExtensionsTests\Tests.cs" />
@@ -120,17 +121,21 @@
     <Compile Include="Website.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Description\EndpointSourceTests\AttributePriority\GetHandler.md" />
-    <EmbeddedResource Include="Description\ResourceSourceTests\AttributeResource\EmbeddedMarkdownController.md" />
-    <EmbeddedResource Include="Description\ResourceSourceTests\AttributeResource\EmbeddedTextController.html" />
-    <EmbeddedResource Include="Description\ResourceSourceTests\ResourceDescriptions\EmbeddedMarkdownComments\Resource.md" />
-    <EmbeddedResource Include="Description\ModuleSourceTests\ModuleDescriptions\EmbeddedMarkdownComments\Module.md" />
-    <EmbeddedResource Include="Description\MarkerSourceTests\MarkerDescriptions\EmbeddedMarkdownComments\Description.md" />
-    <EmbeddedResource Include="Description\EndpointSourceTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Execute_EmbeddedDescription.md" />
-    <EmbeddedResource Include="Description\EndpointSourceTests\ControllerResource\Controller.md" />
-    <EmbeddedResource Include="Description\MarkerSourceTests\MarkerCommentsPriority\Description.md" />
-    <EmbeddedResource Include="Description\ResourceSourceTests\ResourceCommentsPriority\Resource.md" />
+    <EmbeddedResource Include="Description\EndpointConventionTests\AttributePriority\GetHandler.md" />
+    <EmbeddedResource Include="Description\ResourceConventionTests\AttributeResource\EmbeddedMarkdownController.md" />
+    <EmbeddedResource Include="Description\ResourceConventionTests\AttributeResource\EmbeddedTextController.html" />
+    <EmbeddedResource Include="Description\ResourceConventionTests\ResourceDescriptions\EmbeddedMarkdownComments\Resource.md" />
+    <EmbeddedResource Include="Description\ModuleConventionTests\ModuleDescriptions\EmbeddedMarkdownComments\Module.md" />
+    <EmbeddedResource Include="Description\MarkerConventionTests\MarkerDescriptions\EmbeddedMarkdownComments\Description.md" />
+    <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Execute_EmbeddedDescription.md" />
+    <EmbeddedResource Include="Description\EndpointConventionTests\ControllerResource\Controller.md" />
+    <EmbeddedResource Include="Description\MarkerConventionTests\MarkerCommentsPriority\Description.md" />
+    <EmbeddedResource Include="Description\ResourceConventionTests\ResourceCommentsPriority\Resource.md" />
     <EmbeddedResource Include="Specification\SpecificationServiceTests\Comments\Comments.md" />
+    <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\RequestDescription\EmbeddedDescriptionGetHandler.Execute.Request.md" />
+    <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\RequestDescription\EmbeddedHandlerDescriptionGetHandler.Request.md" />
+    <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\ResponseDescription\EmbeddedHandlerDescriptionGetHandler.Response.md" />
+    <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\ResponseDescription\EmbeddedDescriptionGetHandler.Execute.Response.md" />
     <None Include="Specification\MergeServiceTests\Merge.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -165,16 +170,16 @@
     <EmbeddedResource Include="Specification\SpecificationServiceResourceTests\AttributeResource\EmbeddedTextComments\Controller.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Description\ResourceSourceTests\ResourceDescriptions\EmbeddedTextComments\Resource.html" />
+    <EmbeddedResource Include="Description\ResourceConventionTests\ResourceDescriptions\EmbeddedTextComments\Resource.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Description\ModuleSourceTests\ModuleDescriptions\EmbeddedTextComments\Module.html" />
+    <EmbeddedResource Include="Description\ModuleConventionTests\ModuleDescriptions\EmbeddedTextComments\Module.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Description\MarkerSourceTests\MarkerDescriptions\EmbeddedTextComments\Description.html" />
+    <EmbeddedResource Include="Description\MarkerConventionTests\MarkerDescriptions\EmbeddedTextComments\Description.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Description\EndpointSourceTests\EndpointDescriptions\HandlerDescription\EmbeddedDescriptionGetHandler.html" />
+    <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\HandlerDescription\EmbeddedDescriptionGetHandler.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Swank\Swank.csproj">

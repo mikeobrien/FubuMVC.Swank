@@ -1,14 +1,14 @@
 namespace FubuMVC.Swank.Description
 {
-    public interface IDescriptionSource<TSource, TDescription> where TDescription : class
+    public interface IDescriptionConvention<TSource, TDescription> where TDescription : class
     {
         TDescription GetDescription(TSource source);
     }
 
-    public static class DescriptionSourceExtensions
+    public static class DescriptionConventionExtensions
     {
         public static bool HasDescription<TSource, TDescription>(
-            this IDescriptionSource<TSource, TDescription> descriptions, TSource source)
+            this IDescriptionConvention<TSource, TDescription> descriptions, TSource source)
             where TDescription : class
         {
             return descriptions.GetDescription(source) != null;

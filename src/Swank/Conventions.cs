@@ -31,13 +31,13 @@ namespace FubuMVC.Swank
             {
                 x.AddService(configuration);
                 x.AddService<ISpecificationService, CachedSpecificationService>();
-                x.AddService<IDescriptionSource<ActionCall, ModuleDescription>>(configuration.ModuleDescriptionSource.Type, configuration.ModuleDescriptionSource.Config);
-                x.AddService<IDescriptionSource<ActionCall, ResourceDescription>>(configuration.ResourceDescriptionSource.Type, configuration.ResourceDescriptionSource.Config);
-                x.AddService<IDescriptionSource<ActionCall, EndpointDescription>>(configuration.EndpointDescriptionSource.Type, configuration.EndpointDescriptionSource.Config);
-                x.AddService<IDescriptionSource<PropertyInfo, MemberDescription>>(configuration.MemberDescriptionSource.Type, configuration.MemberDescriptionSource.Config);
-                x.AddService<IDescriptionSource<FieldInfo, OptionDescription>>(configuration.OptionDescriptionSource.Type, configuration.OptionDescriptionSource.Config);
-                x.AddService<IDescriptionSource<ActionCall, List<ErrorDescription>>>(configuration.ErrorDescriptionSource.Type, configuration.ErrorDescriptionSource.Config);
-                x.AddService<IDescriptionSource<System.Type, TypeDescription>>(configuration.TypeDescriptionSource.Type, configuration.TypeDescriptionSource.Config);
+                x.AddService<IDescriptionConvention<ActionCall, ModuleDescription>>(configuration.ModuleConvention.Type, configuration.ModuleConvention.Config);
+                x.AddService<IDescriptionConvention<ActionCall, ResourceDescription>>(configuration.ResourceConvention.Type, configuration.ResourceConvention.Config);
+                x.AddService<IDescriptionConvention<ActionCall, EndpointDescription>>(configuration.EndpointConvention.Type, configuration.EndpointConvention.Config);
+                x.AddService<IDescriptionConvention<PropertyInfo, MemberDescription>>(configuration.MemberConvention.Type, configuration.MemberConvention.Config);
+                x.AddService<IDescriptionConvention<FieldInfo, OptionDescription>>(configuration.OptionConvention.Type, configuration.OptionConvention.Config);
+                x.AddService<IDescriptionConvention<ActionCall, List<ErrorDescription>>>(configuration.ErrorConvention.Type, configuration.ErrorConvention.Config);
+                x.AddService<IDescriptionConvention<System.Type, TypeDescription>>(configuration.TypeConvention.Type, configuration.TypeConvention.Config);
             });
         }
     }

@@ -148,142 +148,142 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// This allows you to set the module description source.
+        /// This allows you to set the module convention.
         /// </summary>
-        public Swank WithModuleDescriptionSource<T>() where T : IDescriptionSource<ActionCall, ModuleDescription>
+        public Swank WithModuleConvention<T>() where T : IDescriptionConvention<ActionCall, ModuleDescription>
         {
-            return WithModuleDescriptionSource<T, object>(null);
+            return WithModuleConvention<T, object>(null);
         }
 
         /// <summary>
-        /// This allows you to set the module description source as well as pass in configuration.
+        /// This allows you to set the module convention as well as pass in configuration.
         /// </summary>
-        public Swank WithModuleDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<ActionCall, ModuleDescription>
+        public Swank WithModuleConvention<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionConvention<ActionCall, ModuleDescription>
             where TConfig : class, new()
         {
-            _configuration.ModuleDescriptionSource.Type = typeof(T);
-            _configuration.ModuleDescriptionSource.Config = CreateConfig(configure);
+            _configuration.ModuleConvention.Type = typeof(T);
+            _configuration.ModuleConvention.Config = CreateConfig(configure);
             return this;
         }
 
         /// <summary>
-        /// This allows you to set the resource description source.
+        /// This allows you to set the resource convention.
         /// </summary>
-        public Swank WithResourceDescriptionSource<T>() where T : IDescriptionSource<ActionCall, ResourceDescription>
+        public Swank WithResourceConvention<T>() where T : IDescriptionConvention<ActionCall, ResourceDescription>
         {
-            return WithResourceDescriptionSource<T, object>(null);
+            return WithResourceConvention<T, object>(null);
         }
 
         /// <summary>
-        /// This allows you to set the resource description source as well as pass in configuration.
+        /// This allows you to set the resource convention as well as pass in configuration.
         /// </summary>
-        public Swank WithResourceDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<ActionCall, ResourceDescription>
+        public Swank WithResourceConvention<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionConvention<ActionCall, ResourceDescription>
             where TConfig : class, new()
         {
-            _configuration.ResourceDescriptionSource.Type = typeof(T);
-            _configuration.ResourceDescriptionSource.Config = CreateConfig(configure);
+            _configuration.ResourceConvention.Type = typeof(T);
+            _configuration.ResourceConvention.Config = CreateConfig(configure);
             return this;
         }
 
         /// <summary>
-        /// This allows you to set the endpoint description source.
+        /// This allows you to set the endpoint convention.
         /// </summary>
-        public Swank WithEndpointDescriptionSource<T>() where T : IDescriptionSource<ActionCall, EndpointDescription>
+        public Swank WithEndpointConvention<T>() where T : IDescriptionConvention<ActionCall, EndpointDescription>
         {
-            return WithEndpointDescriptionSource<T, object>(null);
+            return WithEndpointConvention<T, object>(null);
         }
 
         /// <summary>
-        /// This allows you to set the endpoint description source as well as pass in configuration.
+        /// This allows you to set the endpoint convention as well as pass in configuration.
         /// </summary>
-        public Swank WithEndpointDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<ActionCall, EndpointDescription>
+        public Swank WithEndpointConvention<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionConvention<ActionCall, EndpointDescription>
             where TConfig : class, new()
         {
-            _configuration.EndpointDescriptionSource.Type = typeof(T);
-            _configuration.EndpointDescriptionSource.Config = CreateConfig(configure);
+            _configuration.EndpointConvention.Type = typeof(T);
+            _configuration.EndpointConvention.Config = CreateConfig(configure);
             return this;
         }
 
         /// <summary>
-        /// This allows you to set the member description source.
+        /// This allows you to set the member convention.
         /// </summary>
-        public Swank WithMemberDescriptionSource<T>() where T : IDescriptionSource<PropertyInfo, MemberDescription>
+        public Swank WithMemberConvention<T>() where T : IDescriptionConvention<PropertyInfo, MemberDescription>
         {
-            return WithMemberDescriptionSource<T, object>(null);
+            return WithMemberConvention<T, object>(null);
         }
 
         /// <summary>
-        /// This allows you to set the member description source as well as pass in configuration.
+        /// This allows you to set the member convention as well as pass in configuration.
         /// </summary>
-        public Swank WithMemberDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<PropertyInfo, MemberDescription>
+        public Swank WithMemberConvention<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionConvention<PropertyInfo, MemberDescription>
             where TConfig : class, new()
         {
-            _configuration.MemberDescriptionSource.Type = typeof(T);
-            _configuration.MemberDescriptionSource.Config = CreateConfig(configure);
+            _configuration.MemberConvention.Type = typeof(T);
+            _configuration.MemberConvention.Config = CreateConfig(configure);
             return this;
         }
 
         /// <summary>
-        /// This allows you to set the option description source.
+        /// This allows you to set the option convention.
         /// </summary>
-        public Swank WithOptionDescriptionSource<T>() where T : IDescriptionSource<FieldInfo, OptionDescription>
+        public Swank WithOptionConvention<T>() where T : IDescriptionConvention<FieldInfo, OptionDescription>
         {
-            return WithOptionDescriptionSource<T, object>(null);
+            return WithOptionConvention<T, object>(null);
         }
 
         /// <summary>
-        /// This allows you to set the option description source as well as pass in configuration.
+        /// This allows you to set the option convention as well as pass in configuration.
         /// </summary>
-        public Swank WithOptionDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<FieldInfo, OptionDescription>
+        public Swank WithOptionConvention<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionConvention<FieldInfo, OptionDescription>
             where TConfig : class, new()
         {
-            _configuration.OptionDescriptionSource.Type = typeof(T);
-            _configuration.OptionDescriptionSource.Config = CreateConfig(configure);
+            _configuration.OptionConvention.Type = typeof(T);
+            _configuration.OptionConvention.Config = CreateConfig(configure);
             return this;
         }
 
         /// <summary>
-        /// This allows you to set the error description source.
+        /// This allows you to set the error convention.
         /// </summary>
-        public Swank WithErrorDescriptionSource<T>() where T : IDescriptionSource<ActionCall, List<ErrorDescription>>
+        public Swank WithErrorConvention<T>() where T : IDescriptionConvention<ActionCall, List<ErrorDescription>>
         {
-            return WithErrorDescriptionSource<T, object>(null);
+            return WithErrorConvention<T, object>(null);
         }
 
         /// <summary>
-        /// This allows you to set the error description source as well as pass in configuration.
+        /// This allows you to set the error convention as well as pass in configuration.
         /// </summary>
-        public Swank WithErrorDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<ActionCall, List<ErrorDescription>>
+        public Swank WithErrorConvention<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionConvention<ActionCall, List<ErrorDescription>>
             where TConfig : class, new()
         {
-            _configuration.ErrorDescriptionSource.Type = typeof(T);
-            _configuration.ErrorDescriptionSource.Config = CreateConfig(configure);
+            _configuration.ErrorConvention.Type = typeof(T);
+            _configuration.ErrorConvention.Config = CreateConfig(configure);
             return this;
         }
 
         /// <summary>
-        /// This allows you to set the type description source.
+        /// This allows you to set the type convention.
         /// </summary>
-        public Swank WithTypeDescriptionSource<T>() where T : IDescriptionSource<Type, TypeDescription>
+        public Swank WithTypeConvention<T>() where T : IDescriptionConvention<Type, TypeDescription>
         {
-            return WithTypeDescriptionSource<T, object>(null);
+            return WithTypeConvention<T, object>(null);
         }
 
         /// <summary>
-        /// This allows you to set the type description source as well as pass in configuration.
+        /// This allows you to set the type convention as well as pass in configuration.
         /// </summary>
-        public Swank WithTypeDescriptionSource<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionSource<Type, TypeDescription>
+        public Swank WithTypeConvention<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionConvention<Type, TypeDescription>
             where TConfig : class, new()
         {
-            _configuration.TypeDescriptionSource.Type = typeof(T);
-            _configuration.TypeDescriptionSource.Config = CreateConfig(configure);
+            _configuration.TypeConvention.Type = typeof(T);
+            _configuration.TypeConvention.Config = CreateConfig(configure);
             return this;
         }
 

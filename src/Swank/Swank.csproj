@@ -95,6 +95,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Description\RequestCommentsAttribute.cs" />
+    <Compile Include="Description\ResponseCommentsAttribute.cs" />
+    <Compile Include="Description\Assert.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Specification\ActionSource.cs" />
     <Compile Include="Configuration.cs" />
@@ -113,18 +116,18 @@
     <Compile Include="Description\DescriptionAttribute.cs" />
     <Compile Include="Description\DescriptionBase.cs" />
     <Compile Include="Description\Descriptions.cs" />
-    <Compile Include="Description\EndpointSource.cs" />
+    <Compile Include="Description\EndpointConvention.cs" />
     <Compile Include="Description\ErrorDescriptionAttribute.cs" />
-    <Compile Include="Description\ErrorSource.cs" />
+    <Compile Include="Description\ErrorConvention.cs" />
     <Compile Include="Description\HideAttribute.cs" />
-    <Compile Include="Description\IDescriptionSource.cs" />
-    <Compile Include="Description\MarkerSource.cs" />
-    <Compile Include="Description\ModuleSource.cs" />
-    <Compile Include="Description\OptionSource.cs" />
-    <Compile Include="Description\MemberSource.cs" />
+    <Compile Include="Description\IDescriptionConvention.cs" />
+    <Compile Include="Description\MarkerConvention.cs" />
+    <Compile Include="Description\ModuleConvention.cs" />
+    <Compile Include="Description\OptionConvention.cs" />
+    <Compile Include="Description\MemberConvention.cs" />
     <Compile Include="Description\ResourceAttribute.cs" />
-    <Compile Include="Description\ResourceSource.cs" />
-    <Compile Include="Description\TypeSource.cs" />
+    <Compile Include="Description\ResourceConvention.cs" />
+    <Compile Include="Description\TypeConvention.cs" />
     <Compile Include="Extensions\FubuExtensions.cs" />
     <Compile Include="Extensions\Func.cs" />
     <Compile Include="Specification\Models.cs" />

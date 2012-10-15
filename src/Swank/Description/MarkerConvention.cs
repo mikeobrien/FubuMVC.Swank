@@ -6,7 +6,7 @@ using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank.Description
 {
-    public class MarkerSource<TMarker> where TMarker : DescriptionBase
+    public class MarkerConvention<TMarker> where TMarker : DescriptionBase
     {
         private readonly static Func<Assembly, IList<TMarker>> GetCachedDescriptions =
             Func.Memoize<Assembly, IList<TMarker>>(a =>

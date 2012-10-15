@@ -14,15 +14,15 @@ namespace Tests.Specification.SpecificationServiceTests
         private FubuMVC.Swank.Specification.Specification BuildSpec(Action<Swank> configure = null)
         {
             var graph = Behavior.BuildGraph().AddActionsInThisNamespace();
-            var moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
-            var resourceSource = new ResourceSource(
-                new MarkerSource<ResourceDescription>(),
+            var moduleConvention = new ModuleConvention(new MarkerConvention<ModuleDescription>());
+            var resourceConvention = new ResourceConvention(
+                new MarkerConvention<ResourceDescription>(),
                 new ActionSource(graph,Swank.CreateConfig(x => x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<Tests>()))));
             var configuration = Swank.CreateConfig(x => 
             { if (configure != null) configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<Tests>()); });
             return new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleSource, resourceSource, new EndpointSource(), new MemberSource(), new OptionSource(), new ErrorSource(), 
-                new TypeSource(), new MergeService()).Generate();
+                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new ErrorConvention(), 
+                new TypeConvention(), new MergeService()).Generate();
         }
 
         [Test]

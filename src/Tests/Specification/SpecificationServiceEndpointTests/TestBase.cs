@@ -19,14 +19,14 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
         public void Setup()
         {
             var graph = Behavior.BuildGraph().AddActionsInThisNamespace();
-            var moduleSource = new ModuleSource(new MarkerSource<ModuleDescription>());
-            var resourceSource = new ResourceSource(
-                new MarkerSource<ResourceDescription>(),
+            var moduleConvention = new ModuleConvention(new MarkerConvention<ModuleDescription>());
+            var resourceConvention = new ResourceConvention(
+                new MarkerConvention<ResourceDescription>(),
                 new ActionSource(graph, Swank.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter))));
             var configuration = Swank.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter));
             var specBuilder = new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleSource, resourceSource, new EndpointSource(), new MemberSource(), new OptionSource(), new ErrorSource(), 
-                new TypeSource(), new MergeService());
+                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new ErrorConvention(), 
+                new TypeConvention(), new MergeService());
             Spec = specBuilder.Generate();
         }
     }

@@ -7,13 +7,13 @@ using FubuMVC.Swank.Specification;
 
 namespace FubuMVC.Swank.Description
 {
-    public class ResourceSource : IDescriptionSource<ActionCall, ResourceDescription>
+    public class ResourceConvention : IDescriptionConvention<ActionCall, ResourceDescription>
     {
-        private readonly MarkerSource<ResourceDescription> _descriptions;
+        private readonly MarkerConvention<ResourceDescription> _descriptions;
         private readonly ActionSource _actions;
         private readonly Func<ActionCall, object> _grouping = x => x.ParentChain().Route.GetRouteResource(); 
 
-        public ResourceSource(MarkerSource<ResourceDescription> descriptions, ActionSource actions)
+        public ResourceConvention(MarkerConvention<ResourceDescription> descriptions, ActionSource actions)
         {
             _descriptions = descriptions;
             _actions = actions;

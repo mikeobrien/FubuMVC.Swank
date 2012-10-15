@@ -5,14 +5,14 @@ using Should;
 namespace Tests.Description
 {
     [TestFixture]
-    public class OptionSourceTests
+    public class OptionConventionTests
     {
-        private OptionSource _optionSource;
+        private OptionConvention _optionConvention;
 
         [SetUp]
         public void Setup()
         {
-            _optionSource = new OptionSource();
+            _optionConvention = new OptionConvention();
         }
 
         public enum Options
@@ -25,7 +25,7 @@ namespace Tests.Description
         [Test]
         public void should_return_default_description_of_option()
         {
-            var description = _optionSource.GetDescription(typeof(Options).GetField("Option1"));
+            var description = _optionConvention.GetDescription(typeof(Options).GetField("Option1"));
             description.Name.ShouldBeNull();
             description.Comments.ShouldBeNull();
         }
@@ -33,7 +33,7 @@ namespace Tests.Description
         [Test]
         public void should_return_attribute_description_of_option()
         {
-            var description = _optionSource.GetDescription(typeof(Options).GetField("Option2"));
+            var description = _optionConvention.GetDescription(typeof(Options).GetField("Option2"));
             description.Name.ShouldEqual("Option 2");
             description.Comments.ShouldEqual("This is option 2.");
         }

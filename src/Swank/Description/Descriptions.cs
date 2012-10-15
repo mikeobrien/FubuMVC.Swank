@@ -8,7 +8,11 @@
         public System.Type Handler { get; set; }
     }
 
-    public class EndpointDescription : DescriptionBase { }
+    public class EndpointDescription : DescriptionBase
+    {
+        public string RequestComments { get; set; }
+        public string ResponseComments { get; set; }
+    }
 
     public class MemberDescription : DescriptionBase
     {

@@ -3,7 +3,7 @@ using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank.Description
 {
-    public class TypeSource : IDescriptionSource<System.Type, TypeDescription>
+    public class TypeConvention : IDescriptionConvention<System.Type, TypeDescription>
     {
         public TypeDescription GetDescription(System.Type type)
         {

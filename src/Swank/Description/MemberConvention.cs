@@ -5,7 +5,7 @@ using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank.Description
 {
-    public class MemberSource : IDescriptionSource<PropertyInfo, MemberDescription>
+    public class MemberConvention : IDescriptionConvention<PropertyInfo, MemberDescription>
     {
         public MemberDescription GetDescription(PropertyInfo property)
         {

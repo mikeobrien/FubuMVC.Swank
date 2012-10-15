@@ -3,7 +3,7 @@ using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank.Description
 {
-    public class OptionSource : IDescriptionSource<FieldInfo, OptionDescription>
+    public class OptionConvention : IDescriptionConvention<FieldInfo, OptionDescription>
     {
         public OptionDescription GetDescription(FieldInfo field)
         {
