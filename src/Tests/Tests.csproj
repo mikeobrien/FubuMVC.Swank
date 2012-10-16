@@ -88,6 +88,8 @@
     <Compile Include="Description\ModuleConventionTests\Handlers.cs" />
     <Compile Include="Description\ResourceConventionTests\Handlers.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Specification\OverrideTests\Handlers.cs" />
+    <Compile Include="Specification\OverrideTests\Tests.cs" />
     <Compile Include="Specification\MergeServiceTests\Tests.cs" />
     <Compile Include="Specification\SpecificationServiceTests\Handlers.cs" />
     <Compile Include="Specification\SpecificationServiceTests\Tests.cs" />

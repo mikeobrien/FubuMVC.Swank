@@ -4,6 +4,14 @@ namespace FubuMVC.Swank.Description
 {
     public class DescriptionBase
     {
+        public DescriptionBase() {}
+
+        public DescriptionBase(string name, string comments = null)
+        {
+            Name = name;
+            Comments = comments;
+        }
+
         public string Name { get; set; }
         public string Comments { get; set; }
 

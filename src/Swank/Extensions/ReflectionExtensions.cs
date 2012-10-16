@@ -129,5 +129,39 @@ namespace FubuMVC.Swank.Extensions
                 "ArrayOf" + type.GetListElementType().GetXmlName().InitialCap();
             return type.Name;
         }
+
+        public static bool IsString(this Type type) { return type == typeof(String); }
+        public static bool IsBoolean(this Type type) { return type == typeof(Boolean) || type == typeof(Boolean?); }
+        public static bool IsDecimal(this Type type) { return type == typeof(Decimal) || type == typeof(Decimal?); }
+        public static bool IsDouble(this Type type) { return type == typeof(Double) || type == typeof(Double?); }
+        public static bool IsSingle(this Type type) { return type == typeof(Single) || type == typeof(Single?); }
+        public static bool IsByte(this Type type) { return type == typeof(Byte) || type == typeof(Byte?); }
+        public static bool IsSByte(this Type type) { return type == typeof(SByte) || type == typeof(SByte?); }
+        public static bool IsInt16(this Type type) { return type == typeof(Int16) || type == typeof(Int16?); }
+        public static bool IsUInt16(this Type type) { return type == typeof(UInt16) || type == typeof(UInt16?); }
+        public static bool IsInt32(this Type type) { return type == typeof(Int32) || type == typeof(Int32?); }
+        public static bool IsUInt32(this Type type) { return type == typeof(UInt32) || type == typeof(UInt32?); }
+        public static bool IsInt64(this Type type) { return type == typeof(Int64) || type == typeof(Int64?); }
+        public static bool IsUInt64(this Type type) { return type == typeof(UInt64) || type == typeof(UInt64?); }
+        public static bool IsDateTime(this Type type) { return type == typeof(DateTime) || type == typeof(DateTime?); }
+        public static bool IsGuid(this Type type) { return type == typeof(Guid) || type == typeof(Guid?); }
+        public static bool IsChar(this Type type) { return type == typeof(Char) || type == typeof(Char?); }
+
+        public static bool IsString(this PropertyInfo property) { return property.PropertyType.IsString(); }
+        public static bool IsBoolean(this PropertyInfo property) { return property.PropertyType.IsBoolean(); }
+        public static bool IsDecimal(this PropertyInfo property) { return property.PropertyType.IsDecimal(); }
+        public static bool IsDouble(this PropertyInfo property) { return property.PropertyType.IsDouble(); }
+        public static bool IsSingle(this PropertyInfo property) { return property.PropertyType.IsSingle(); }
+        public static bool IsByte(this PropertyInfo property) { return property.PropertyType.IsByte(); }
+        public static bool IsSByte(this PropertyInfo property) { return property.PropertyType.IsSByte(); }
+        public static bool IsInt16(this PropertyInfo property) { return property.PropertyType.IsInt16(); }
+        public static bool IsUInt16(this PropertyInfo property) { return property.PropertyType.IsUInt16(); }
+        public static bool IsInt32(this PropertyInfo property) { return property.PropertyType.IsInt32(); }
+        public static bool IsUInt32(this PropertyInfo property) { return property.PropertyType.IsUInt32(); }
+        public static bool IsInt64(this PropertyInfo property) { return property.PropertyType.IsInt64(); }
+        public static bool IsUInt64(this PropertyInfo property) { return property.PropertyType.IsUInt64(); }
+        public static bool IsDateTime(this PropertyInfo property) { return property.PropertyType.IsDateTime(); }
+        public static bool IsGuid(this PropertyInfo property) { return property.PropertyType.IsGuid(); }
+        public static bool IsChar(this PropertyInfo property) { return property.PropertyType.IsChar(); }
     }
 }

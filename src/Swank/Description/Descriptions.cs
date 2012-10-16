@@ -1,10 +1,22 @@
 ﻿namespace FubuMVC.Swank.Description
 {
-    public class ModuleDescription : DescriptionBase { }
+    public class ModuleDescription : DescriptionBase
+    {
+        public ModuleDescription() {}
+        public ModuleDescription(string name, string comments = null) : base(name, comments) { }
+    }
 
-    public class ResourceDescription<THandler> : ResourceDescription { }
+    public class ResourceDescription<THandler> : ResourceDescription
+    {
+        public ResourceDescription() { }
+        public ResourceDescription(string name, string comments = null) : base(name, comments) { }
+    }
+
     public class ResourceDescription : DescriptionBase
     {
+        public ResourceDescription() {}
+        public ResourceDescription(string name, string comments = null) : base(name, comments) { }
+
         public System.Type Handler { get; set; }
     }
 

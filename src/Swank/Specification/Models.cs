@@ -2,7 +2,13 @@
 
 namespace FubuMVC.Swank.Specification
 {
-    public class Specification
+    public interface IDescription
+    {
+        string Name { get; set; }
+        string Comments { get; set; }
+    }
+
+    public class Specification : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
@@ -11,7 +17,7 @@ namespace FubuMVC.Swank.Specification
         public List<Resource> Resources { get; set; }
     }
 
-    public class Type
+    public class Type : IDescription
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -19,7 +25,7 @@ namespace FubuMVC.Swank.Specification
         public List<Member> Members { get; set; }
     }
 
-    public class Member
+    public class Member : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
@@ -30,28 +36,28 @@ namespace FubuMVC.Swank.Specification
         public List<Option> Options { get; set; }
     }
 
-    public class Option
+    public class Option : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
         public string Value { get; set; }
     }
 
-    public class Module
+    public class Module : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
         public List<Resource> Resources { get; set; }
     }
 
-    public class Resource
+    public class Resource : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
         public List<Endpoint> Endpoints { get; set; }
     }
 
-    public class Endpoint
+    public class Endpoint : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
@@ -64,7 +70,7 @@ namespace FubuMVC.Swank.Specification
         public Data Response { get; set; }
     }
 
-    public class UrlParameter
+    public class UrlParameter : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
@@ -72,7 +78,7 @@ namespace FubuMVC.Swank.Specification
         public List<Option> Options { get; set; }
     }
 
-    public class QuerystringParameter
+    public class QuerystringParameter : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
@@ -83,14 +89,14 @@ namespace FubuMVC.Swank.Specification
         public List<Option> Options { get; set; }
     }
 
-    public class Error
+    public class Error : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
         public int Status { get; set; }
     }
 
-    public class Data
+    public class Data : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
