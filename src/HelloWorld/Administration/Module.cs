@@ -2,9 +2,9 @@
 
 namespace HelloWorld.Administration
 {
-    public class AdministrationModule : ModuleDescription
+    public class Module : ModuleDescription
     {
-        public AdministrationModule()
+        public Module()
         {
             Name = "Administration";
 

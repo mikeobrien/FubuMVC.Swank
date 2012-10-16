@@ -29,15 +29,19 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
         {
             var endpoint = Spec.GetEndpoint<Querystrings.ImplicitGetHandler>();
 
+            endpoint.Url.EndsWith("?RequiredParameter={RequiredParameter}&Revision={Revision}&Sort={Sort}").ShouldBeTrue(endpoint.Url);
             endpoint.QuerystringParameters.Count.ShouldEqual(3);
             endpoint.HasQuerystring<Querystrings.Request>(x => x.Sort).ShouldBeTrue();
-            endpoint.HasQuerystring<Querystrings.Request>(x => x.Sort).ShouldBeTrue();
+            endpoint.HasQuerystring<Querystrings.Request>(x => x.Revision).ShouldBeTrue();
+            endpoint.HasQuerystring<Querystrings.Request>(x => x.RequiredParameter).ShouldBeTrue();
 
             endpoint = Spec.GetEndpoint<Querystrings.ImplicitDeleteHandler>();
 
+            endpoint.Url.EndsWith("?RequiredParameter={RequiredParameter}&Revision={Revision}&Sort={Sort}").ShouldBeTrue(endpoint.Url);
             endpoint.QuerystringParameters.Count.ShouldEqual(3);
             endpoint.HasQuerystring<Querystrings.Request>(x => x.Sort).ShouldBeTrue();
-            endpoint.HasQuerystring<Querystrings.Request>(x => x.Sort).ShouldBeTrue();
+            endpoint.HasQuerystring<Querystrings.Request>(x => x.Revision).ShouldBeTrue();
+            endpoint.HasQuerystring<Querystrings.Request>(x => x.RequiredParameter).ShouldBeTrue();
         }
 
         [Test]
@@ -150,7 +154,7 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
             var option = Spec.GetEndpoint<Querystrings.OptionGetHandler>()
                 .GetQuerystring<Querystrings.OptionRequest>(x => x.Options).Options[1];
 
-            option.Name.ShouldBeNull();
+            option.Name.ShouldEqual("Option3");
             option.Value.ShouldEqual("Option3");
             option.Comments.ShouldBeNull();
         }

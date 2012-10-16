@@ -82,7 +82,8 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// The name of the comments embedded resource. Shows up in the documentaion page. Defaults to "Comments.[md|html|txt]".
+        /// The name of the embedded resource that contains the copy that is displayed on the home page. 
+        /// The extension is not required. Defaults to "Comments.[md|html|txt]". 
         /// </summary>
         public Swank WithComments(string name)
         {
@@ -334,7 +335,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// This indicates that you would like to do it for the lulz.
         /// </summary>
-        public Swank DoItForTheLulz(OrphanedActions behavior)
+        public Swank DoItForTheLulz()
         {
             return this;
         }

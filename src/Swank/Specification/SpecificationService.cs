@@ -171,7 +171,7 @@ namespace FubuMVC.Swank.Specification
                             Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                             DefaultValue = description.WhenNotNull(y => y.DefaultValue).WhenNotNull(z => z.ToString()).OtherwiseDefault(),
                             Required = description.WhenNotNull(y => y.Required).OtherwiseDefault(),
-                            Type = memberType.IsSystemType() ? memberType.GetXmlName() : memberType.GetHash(),
+                            Type = memberType.IsEnum ? memberType.Name : (memberType.IsSystemType() ? memberType.GetXmlName() : memberType.GetHash()),
                             Collection = x.PropertyType.IsArray || x.PropertyType.IsList(),
                             Options = GetOptions(x.PropertyType)
                         });
@@ -210,13 +210,14 @@ namespace FubuMVC.Swank.Specification
                 .Select(x => {
                     var endpoint = _endpointConvention.GetDescription(x);
                     var route = x.ParentChain().Route;
+                    var querystring = x.HasInput ? GetQuerystringParameters(x) : null;
                     return _configuration.EndpointOverrides.Apply(x, new Endpoint {
                         Name = endpoint.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = endpoint.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                        Url = route.Pattern.StartsWith("/") ? route.Pattern : "/" + route.Pattern,
+                        Url = route.Pattern.EnusureStartsWith("/") + querystring.Join(y => "{0}={{{0}}}".ToFormat(y.Name), "?", "&", ""),
                         Method = route.AllowedHttpMethods.FirstOrDefault(),
                         UrlParameters = x.HasInput ? GetUrlParameters(x) : null,
-                        QuerystringParameters = x.HasInput ? GetQuerystringParameters(x) : null,
+                        QuerystringParameters = querystring,
                         Errors = GetErrors(x),
                         Request = x.HasInput && (route.AllowsPost() || route.AllowsPut()) ? 
                             _configuration.RequestOverrides.Apply(x, GetData(x.InputType(), endpoint.RequestComments, x.Method)) : null,

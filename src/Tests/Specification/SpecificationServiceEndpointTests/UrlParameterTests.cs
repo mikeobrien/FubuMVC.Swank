@@ -67,7 +67,7 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
             var option = Spec.GetEndpoint<UrlParameters.OptionGetHandler>()
                 .GetUrlParameter<UrlParameters.OptionRequest>(x => x.Options).Options[1];
 
-            option.Name.ShouldBeNull();
+            option.Name.ShouldEqual("Option3");
             option.Value.ShouldEqual("Option3");
             option.Comments.ShouldBeNull();
         }

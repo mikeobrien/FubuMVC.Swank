@@ -101,8 +101,28 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Administration\Module.cs" />
+    <Compile Include="Administration\Users\Address.cs" />
+    <Compile Include="Administration\Users\DeleteHandler.cs" />
+    <Compile Include="Administration\Users\EnumerateGetHandler.cs" />
+    <Compile Include="Administration\Users\GetHandler.cs" />
+    <Compile Include="Administration\Users\PostHandler.cs" />
+    <Compile Include="Administration\Users\PutHandler.cs" />
+    <Compile Include="Administration\Users\Resource.cs" />
+    <Compile Include="Administration\Users\User.cs" />
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Conventions.cs" />
+    <Compile Include="Exports\Distributors\Address.cs" />
+    <Compile Include="Exports\Distributors\DeleteHandler.cs" />
+    <Compile Include="Exports\Distributors\Distributor.cs" />
+    <Compile Include="Exports\Distributors\EnumerateGetHandler.cs" />
+    <Compile Include="Exports\Distributors\GetHandler.cs" />
+    <Compile Include="Exports\Distributors\PostHandler.cs" />
+    <Compile Include="Exports\Distributors\PutHandler.cs" />
+    <Compile Include="Exports\Distributors\Resource.cs" />
+    <Compile Include="Exports\ExportsModule.cs" />
+    <Compile Include="Exports\Tracking\GetHandler.cs" />
+    <Compile Include="Exports\Tracking\Resource.cs" />
     <Compile Include="ItemGetHandler.cs" />
     <Compile Include="IndexGetHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,6 +139,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Comments.md" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Administration\Module.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Administration\Users\Resource.md" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -132,7 +158,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>58461</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:51345/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

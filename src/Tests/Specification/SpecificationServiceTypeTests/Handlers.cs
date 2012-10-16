@@ -61,7 +61,7 @@ namespace Tests.Specification.SpecificationServiceTypeTests
 
     namespace TypeEnumeration
     {
-        public class Response { } public class Request { } 
+        public class Response { } public class Request { }
         public class PostHandler { public Response Execute(Request request) { return null; } }
         public class PutHandler { public Response Execute(Request request) { return null; } }
 
@@ -151,7 +151,9 @@ namespace Tests.Specification.SpecificationServiceTypeTests
         {
             Inactive,
             [Description("Active yo!", "This is a very nice status.")]
-            Active 
+            Active,
+            [Comments("Very active yo!")]
+            HyperActive
         }
 
         public class HyperDrive { }

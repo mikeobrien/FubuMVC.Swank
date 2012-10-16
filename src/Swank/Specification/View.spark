@@ -90,7 +90,7 @@
 
           {{#if UrlParameters}}
           <h4>Url Parameters</h4>
-          <table class="table table-bordered table-zebra table-condensed">
+          <table class="table table-bordered table-zebra">
             <thead>
               <tr>
                 <th>Name</th>
@@ -107,7 +107,7 @@
                   {{{Comments}}}
                   {{#if Options}}
                   <h5>Possible Values</h5>
-                  <table class="table table-bordered table-zebra table-condensed">
+                  <table class="table table-bordered table-zebra">
                     <thead>
                       <tr>
                         <th>Name: Value/Comments</th>
@@ -117,7 +117,7 @@
                       {{#Options}}
                       <tr>
                         <td>
-                          <strong>{{{Name}}}</strong>
+                          <strong>{{{Name}}}:</strong>
                           <code>{{{Value}}}</code>
                           {{{Comments}}}
                         </td>
@@ -135,7 +135,7 @@
 
           {{#if QuerystringParameters}}
           <h4>Querystring</h4>
-          <table class="table table-bordered table-zebra table-condensed">
+          <table class="table table-bordered table-zebra">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -157,7 +157,7 @@
                   {{#if Options}}
                   {{{Comments}}}
                   <h5>Possible Values</h5>
-                    <table class="table table-bordered table-zebra table-condensed">
+                    <table class="table table-bordered table-zebra">
                       <thead>
                         <tr>
                           <th>Name: Value/Comments</th>
@@ -167,7 +167,7 @@
                         {{#Options}}
                         <tr>
                           <td>
-                            <strong>{{{Name}}}</strong>
+                            <strong>{{{Name}}}:</strong>
                             <code>{{{Value}}}</code>
                             {{{Comments}}}
                           </td>
@@ -185,7 +185,7 @@
 
           {{#if Errors}}
           <h4>Errors</h4>
-          <table class="table table-bordered table-striped table-condensed">
+          <table class="table table-bordered table-striped">
             <thead>
               <tr>
                 <th>Name</th>

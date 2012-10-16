@@ -54,12 +54,20 @@
     <Reference Include="FubuMVC.RegexUrlPolicy">
       <HintPath>..\packages\FubuMVC.RegexUrlPolicy.1.0.4.0\lib\FubuMVC.RegexUrlPolicy.dll</HintPath>
     </Reference>
+    <Reference Include="FubuMVC.Spark, Version=0.9.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FubuMVC.Spark.0.9.5.926\lib\net40\FubuMVC.Spark.dll</HintPath>
+    </Reference>
     <Reference Include="FubuMVC.StructureMap">
       <HintPath>..\packages\FubuMVC.References.0.9.5.926\lib\net40\FubuMVC.StructureMap.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlTags, Version=1.1.0.111, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="HtmlTags, Version=1.2.0.121, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\HtmlTags.1.1.0.111\lib\4.0\HtmlTags.dll</HintPath>
+      <HintPath>..\packages\HtmlTags.1.2.0.121\lib\4.0\HtmlTags.dll</HintPath>
+    </Reference>
+    <Reference Include="MarkdownSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MarkdownSharp.1.13.0.0\lib\35\MarkdownSharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
@@ -68,6 +76,9 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Spark">
+      <HintPath>..\packages\Spark.1.7.4.0\lib\NET40\Spark.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
@@ -95,17 +106,35 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Administration\AdministrationModule.cs" />
+    <Compile Include="Administration\Module.cs" />
+    <Compile Include="Administration\Users\Address.cs" />
+    <Compile Include="Administration\Users\DeleteHandler.cs" />
+    <Compile Include="Administration\Users\PutHandler.cs" />
+    <Compile Include="Administration\Users\PostHandler.cs" />
     <Compile Include="Administration\Users\GetHandler.cs" />
-    <Compile Include="Administration\Users\UserResource.cs" />
+    <Compile Include="Administration\Users\EnumerateGetHandler.cs" />
+    <Compile Include="Administration\Users\Resource.cs" />
+    <Compile Include="Administration\Users\User.cs" />
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Conventions.cs" />
+    <Compile Include="Exports\Distributors\Address.cs" />
+    <Compile Include="Exports\Distributors\DeleteHandler.cs" />
+    <Compile Include="Exports\Distributors\EnumerateGetHandler.cs" />
+    <Compile Include="Exports\Distributors\GetHandler.cs" />
+    <Compile Include="Exports\Distributors\PostHandler.cs" />
+    <Compile Include="Exports\Distributors\PutHandler.cs" />
+    <Compile Include="Exports\Distributors\Resource.cs" />
+    <Compile Include="Exports\Distributors\Distributor.cs" />
+    <Compile Include="Exports\ExportsModule.cs" />
+    <Compile Include="Exports\Tracking\GetHandler.cs" />
+    <Compile Include="Exports\Tracking\Resource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <EmbeddedResource Include="Comments.md" />
-    <EmbeddedResource Include="Administration\AdministrationModule.md" />
+    <EmbeddedResource Include="Administration\Module.md" />
+    <EmbeddedResource Include="Administration\Users\Resource.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

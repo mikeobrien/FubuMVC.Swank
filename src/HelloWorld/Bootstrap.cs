@@ -11,9 +11,7 @@ namespace HelloWorld
     {
         public static void Start()
         {
-            FubuApplication.For<Conventions>()
-                .StructureMap(new Container())
-                .Bootstrap();
+            FubuApplication.For<Conventions>().StructureMap(new Container()).Bootstrap();
             PackageRegistry.AssertNoFailures();
         }
     }

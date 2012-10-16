@@ -116,7 +116,7 @@ namespace Tests
         {
             var url = typeof(T).GetHandlerUrl(new StackFrame(1).GetMethod().DeclaringType.Namespace);
             return specification.Modules.SelectMany(x => x.Resources).Concat(specification.Resources)
-                .SelectMany(x => x.Endpoints).FirstOrDefault(x => x.Url == url);
+                .SelectMany(x => x.Endpoints).FirstOrDefault(x => x.Url.Split('?')[0] == url);
         }
 
         public static Resource GetResource<T>(this FubuMVC.Swank.Specification.Specification specification)

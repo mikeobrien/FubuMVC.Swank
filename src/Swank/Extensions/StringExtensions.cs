@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -23,6 +24,16 @@ namespace FubuMVC.Swank.Extensions
         private static string ToHex(this IEnumerable<byte> bytes)
         {
             return bytes.Select(b => string.Format("{0:X2}", b)).Aggregate((a, i) => a + i);
+        }
+
+        public static string EnusureStartsWith(this string value, string prefix)
+        {
+            return value.StartsWith(prefix) ? value : prefix + value;
+        }
+
+        public static string Join<T>(this IEnumerable<T> items, Func<T, object> item, string initialValue, string seperator, string @default)
+        {
+            return items != null && items.Any() ? initialValue + items.Select(item).Aggregate((a, i) => a + seperator + i) : @default;
         }
     }
 }

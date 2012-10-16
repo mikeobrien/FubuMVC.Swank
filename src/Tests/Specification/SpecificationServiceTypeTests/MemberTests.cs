@@ -101,14 +101,25 @@ namespace Tests.Specification.SpecificationServiceTypeTests
         }
 
         [Test]
-        public void should_reference_system_type_members_as_the_type_name()
+        public void should_reference_system_type_members_as_the_xml_type_name()
         {
             var member = BuildSpec<MemberDescription.PutHandler>().Types
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
                    .GetMember<MemberDescription.Request>(x => x.Name);
 
             member.Collection.ShouldBeFalse();
-            member.Type.ShouldEqual("string");
+            member.Type.ShouldEqual(typeof(string).GetXmlName());
+        }
+
+        [Test]
+        public void should_reference_enum_type_members_as_the_type_name()
+        {
+            var member = BuildSpec<MemberDescription.PutHandler>().Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
+                   .GetMember<MemberDescription.Request>(x => x.Status);
+
+            member.Collection.ShouldBeFalse();
+            member.Type.ShouldEqual("Status");
         }
 
         [Test]
@@ -151,7 +162,7 @@ namespace Tests.Specification.SpecificationServiceTypeTests
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
                    .GetMember<MemberDescription.Request>(x => x.Status);
 
-            member.Options.Count.ShouldEqual(2);
+            member.Options.Count.ShouldEqual(3);
             
             var option = member.Options[0];
             option.Name.ShouldEqual("Active yo!");
@@ -159,7 +170,12 @@ namespace Tests.Specification.SpecificationServiceTypeTests
             option.Value.ShouldEqual("Active");
 
             option = member.Options[1];
-            option.Name.ShouldBeNull();
+            option.Name.ShouldEqual("HyperActive");
+            option.Comments.ShouldEqual("Very active yo!");
+            option.Value.ShouldEqual("HyperActive");
+
+            option = member.Options[2];
+            option.Name.ShouldEqual("Inactive");
             option.Comments.ShouldBeNull();
             option.Value.ShouldEqual("Inactive");
         }

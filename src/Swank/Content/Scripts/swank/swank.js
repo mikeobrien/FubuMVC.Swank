@@ -121,7 +121,8 @@
     };
 
     var getSampleValue = function (member) {
-        if (member.Options && member.Options.length > 0) return '\"' + member.Options[0].Value + '\"';
+        if (member.Options && member.Options.length > 0) 
+               return '\"' + (member.DefaultValue || member.Options[0].Value) + '\"';
         if (member.Type == 'decimal' ||  member.Type == 'double' ||
             member.Type == 'float' || member.Type == 'unsignedByte' ||
             member.Type == 'byte' ||  member.Type == 'short' ||
@@ -192,6 +193,7 @@
     };
     
     Handlebars.registerHelper('methodColor', function (context) {
+        if (!context) return 'blue';
         switch (context.toLowerCase()) {
             case 'get': return 'blue';
             case 'post': return 'green';

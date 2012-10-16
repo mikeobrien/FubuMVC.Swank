@@ -2,23 +2,23 @@
     "Types" : [
         {
             "Id": "194C59AD29E931AA75D8F921A81152BA",
-            "Name": "UserToken",
+            "Name": "Zone",
             "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
             "Members": [
                 {
-                    "Name": "Id",
+                    "Name": "Latitude",
                     "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
                     "Required": true,
                     "DefaultValue": "",
-                    "Type": "guid",
+                    "Type": "double",
                     "Collection": false
                 },
                 {
-                    "Name": "Username",
+                    "Name": "Longitude",
                     "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
                     "Required": true,
                     "DefaultValue": "",
-                    "Type": "string",
+                    "Type": "double",
                     "Collection": false
                 }
             ]
@@ -26,15 +26,15 @@
     ],
     "Modules": [	
         {      
-            "Name": "Administration",
+            "Name": "Exports",
             "Resources": [
                 {
-                    "Name": "/administration/tokens",
+                    "Name": "Tracking",
                     "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
                     "Endpoints": [	
                         {
-                            "Name": "Get Current Token",
-                            "Url": "/administration/tokens/current",
+                            "Name": "Get Current Zone",
+                            "Url": "/exports/tracking/zones/current",
                             "Method": "GET",
                             "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
                             "UrlParameters": [],
