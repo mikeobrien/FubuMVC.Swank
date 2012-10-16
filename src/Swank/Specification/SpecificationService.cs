@@ -67,8 +67,9 @@ namespace FubuMVC.Swank.Specification
             CheckForOrphanedActions(actionMapping);
             var specification = new Specification {
                     Name = _configuration.Name,
-                    Comments = actionMapping.Select(x => x.Action.HandlerType.Assembly).Distinct()
-                        .Select(x => x.FindTextResourceNamed("*" + _configuration.Comments)).FirstOrDefault(x => x != null),
+                    Comments = _configuration.AppliesToAssemblies
+                        .Select(x => x.FindTextResourceNamed("*" + _configuration.Comments))
+                        .FirstOrDefault(x => x != null),
                     Types = GetTypes(actionMapping.Select(x => x.Action).ToList()),
                     Modules = GetModules(actionMapping.Where(x => x.Module != null).ToList()),
                     Resources = GetResources(actionMapping.Where(x => x.Module == null).ToList())

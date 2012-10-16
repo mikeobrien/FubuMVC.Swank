@@ -1,5 +1,4 @@
 ﻿using FubuMVC.Core;
-using FubuMVC.Core.Continuations;
 using FubuMVC.RegexUrlPolicy;
 using FubuMVC.Swank;
 
@@ -9,6 +8,19 @@ namespace HelloWorld
     {
         public Conventions()
         {
+            // --------Swank configuration -------
+
+            Import<Swank>(x => x
+                .AtUrl("documentation")
+                .Named("Universal Exports API")
+                .WithCopyright("Copyright &copy; {year} Universal Exports")
+                .AppliesToThisAssembly()
+                .WithComments("Comments")
+                .WithStylesheets("~/styles/styles.css")
+                .WithScripts("~/scripts/script.js")
+                .MergeThisSpecification("~/spec.json"));
+
+            // -----------------------------------
 
             IncludeDiagnostics(true);
 
@@ -26,10 +38,6 @@ namespace HelloWorld
                     .ConstrainClassToPostEndingWith("PostHandler")
                     .ConstrainClassToPutEndingWith("PutHandler")
                     .ConstrainClassToDeleteEndingWith("DeleteHandler")));
-
-            Import<Swank>(x => x
-                .AtUrl("documentation")
-                .AppliesTo<Conventions>());
 
             Media.ApplyContentNegotiationToActions(x =>
                 x.IsInThisAssembly() && !x.HasAnyOutputBehavior());

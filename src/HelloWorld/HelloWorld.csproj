@@ -95,38 +95,17 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authors\Author.cs" />
-    <Compile Include="Authors\DeleteHandler.cs" />
-    <Compile Include="Authors\IndexGetHandler.cs" />
-    <Compile Include="Authors\GetHandler.cs" />
-    <Compile Include="Authors\PostHandler.cs" />
-    <Compile Include="Authors\PutHandler.cs" />
-    <Compile Include="Books\Classification\Category.cs" />
-    <Compile Include="Books\Classification\DeleteHandler.cs" />
-    <Compile Include="Books\Classification\IndexGetHandler.cs" />
-    <Compile Include="Books\Classification\GetHandler.cs" />
-    <Compile Include="Books\Classification\PostHandler.cs" />
-    <Compile Include="Books\Classification\PutHandler.cs" />
-    <Compile Include="Books\Book.cs" />
-    <Compile Include="Books\Comment.cs" />
-    <Compile Include="Books\CommentDeleteHandler.cs" />
-    <Compile Include="Books\CommentGetHandler.cs" />
-    <Compile Include="Books\CommentsGetHandler.cs" />
-    <Compile Include="Books\CommentPostHandler.cs" />
-    <Compile Include="Books\CommentPutHandler.cs" />
-    <Compile Include="Books\BooksGetHandler.cs" />
-    <Compile Include="Books\BookDeleteHandler.cs" />
-    <Compile Include="Books\BookGetHandler.cs" />
-    <Compile Include="Books\BookPostHandler.cs" />
-    <Compile Include="Books\BookPutHandler.cs" />
+    <Compile Include="Administration\AdministrationModule.cs" />
+    <Compile Include="Administration\Users\GetHandler.cs" />
+    <Compile Include="Administration\Users\UserResource.cs" />
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Conventions.cs" />
-    <Compile Include="Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Registry.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <EmbeddedResource Include="Comments.md" />
+    <EmbeddedResource Include="Administration\AdministrationModule.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -140,6 +119,7 @@
       <Name>Swank</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -165,6 +145,9 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>if $(ConfigurationName) == Debug $(SolutionDir)packages\Bottles.0.9.1.274\tools\BottleRunner.exe create $(SolutionDir)Swank -o $(ProjectDir)fubu-content\fubu-swank.zip -f</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

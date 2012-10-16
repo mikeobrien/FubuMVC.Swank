@@ -34,7 +34,7 @@
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resources<b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     <for each="var resource in Model.Specification.Resources">
-                      <li><a href="#_Resources${resource.Name}"><i class="icon-cog"></i> ${resource.Name}</a></li>
+                      <li><a href="#_Resources@${resource.Name}"><i class="icon-cog"></i> ${resource.Name}</a></li>
                     </for>
                   </ul>
                 </li>
@@ -48,7 +48,7 @@
                         <li class="divider"></li>
                     </if>
                     <for each="var resource in module.Resources">
-                      <li><a href="#${module.Name}${resource.Name}"><i class="icon-cog"></i> ${resource.Name}</a></li>
+                      <li><a href="#${module.Name}@${resource.Name}"><i class="icon-cog"></i> ${resource.Name}</a></li>
                     </for>
                   </ul>
                 </li>

@@ -12,7 +12,7 @@ namespace HelloWorld
         public static void Start()
         {
             FubuApplication.For<Conventions>()
-                .StructureMap(new Container(x => x.AddRegistry<Registry>()))
+                .StructureMap(new Container())
                 .Bootstrap();
             PackageRegistry.AssertNoFailures();
         }

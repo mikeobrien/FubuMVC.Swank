@@ -16,7 +16,7 @@
             return;
         }
         
-        var idParts = id.split(/(.*?)(\/.*)/).filter(function (x) { return x; });
+        var idParts = id.split('@', 2);
         var moduleName = idParts[0];
         var resourceName = idParts[1];
 

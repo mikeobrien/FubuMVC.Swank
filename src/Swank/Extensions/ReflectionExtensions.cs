@@ -86,8 +86,8 @@ namespace FubuMVC.Swank.Extensions
 
         public static string FindTextResourceNamed(this Assembly assembly, IEnumerable<string> names)
         {
-            var textResources = names.Select(x => new[] { ".txt", ".html", ".md" }
-                .Select(y => x + y)).SelectMany(x => x).ToList();
+            var textResources = names
+                .SelectMany(x => new[] { "", ".txt", ".html", ".md" }.Select(y => x + y)).ToList();
             var resourceName = GetEmbeddedResources(assembly)
                 .FirstOrDefault(x => textResources.Any(y => y.StartsWith("*") 
                         ? x.EndsWith(y.Substring(1), StringComparison.OrdinalIgnoreCase) 

@@ -1,0 +1,56 @@
+{
+    "Types" : [
+        {
+            "Id": "194C59AD29E931AA75D8F921A81152BA",
+            "Name": "UserToken",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Members": [
+                {
+                    "Name": "Id",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Required": true,
+                    "DefaultValue": "",
+                    "Type": "guid",
+                    "Collection": false
+                },
+                {
+                    "Name": "Username",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Required": true,
+                    "DefaultValue": "",
+                    "Type": "string",
+                    "Collection": false
+                }
+            ]
+        }
+    ],
+    "Modules": [	
+        {      
+            "Name": "Administration",
+            "Resources": [
+                {
+                    "Name": "/administration/tokens",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Endpoints": [	
+                        {
+                            "Name": "Get Current Token",
+                            "Url": "/administration/tokens/current",
+                            "Method": "GET",
+                            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                            "UrlParameters": [],
+                            "QuerystringParameters": [],
+                            "Errors": [],
+                            "Response": {
+                                "Name": "Token",
+                                "Type": "194C59AD29E931AA75D8F921A81152BA",
+                                "Collection": false,
+                                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+    

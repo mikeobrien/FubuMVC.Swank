@@ -86,7 +86,7 @@ namespace FubuMVC.Swank
         /// </summary>
         public Swank WithComments(string name)
         {
-            _configuration.Name = name;
+            _configuration.Comments = name;
             return this;
         }
 
