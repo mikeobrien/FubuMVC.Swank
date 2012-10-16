@@ -34,7 +34,7 @@ body {
 
 .table thead th {
     vertical-align: middle;
-    padding: 4px 7px;
+    padding-left: 7px;
     color: #6B6B6B;
 }
 
@@ -80,6 +80,11 @@ body {
     -webkit-box-sizing: border-box; 
     -moz-box-sizing: border-box; 
     box-sizing: border-box;
+}
+
+blockquote p {
+    font-size: 14px;
+    font-style: italic;
 }
 
 .footer {
@@ -176,7 +181,7 @@ body {
     display: inline-block;
     padding: 6px 0 3px 10px;
     vertical-align: middle;
-    font-size: 15px;
+    font-size: 16px;
     margin: 0;
     max-width: 670px;
 }
