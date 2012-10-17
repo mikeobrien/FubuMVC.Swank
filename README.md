@@ -143,71 +143,28 @@ embeded doc test helper
 Customize
 ------------
 
-
+[Module|Resource|Endpoint|Error|Type|Member|Option]
 
 <table>
   <tr>
-    <td><code>With[Module|Resource|Endpoint|Error|Type|Member|Option]Convention&lt;T&gt;()</code></td>
+    <td><code>With*Convention&lt;T&gt;()</code></td>
     <td>This allows you to set the convention.</td>
   </tr>
   <tr>
-    <td><code>With[Module|Resource|Endpoint|Error|Type|Member|Option]Convention&lt;T, <br/>&nbsp;&nbsp;&nbsp;&nbsp;TConfig&gt;(Action&lt;TConfig&gt; configure)</code></td>
+    <td><code>With*Convention&lt;T, <br/>&nbsp;&nbsp;&nbsp;&nbsp;TConfig&gt;(Action&lt;TConfig&gt; configure)</code></td>
     <td>This allows you to set the convention as well as pass in configuration.</td>
   </tr>
 </table>
 
+[Modules|Resources|Endpoints|UrlParameters|Querystring|Errors|Request|Response|Data|Types|Members|Options]
 <table>
   <tr>
-    <td><code>OverrideModules[When](Action<Specification.Module> @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;Specification.Module, bool&gt; when])</code></td>
-    <td>Allows you to override module values when a condition is met.</td>
+    <td><code>Override*(Action&lt;*&gt; @override)</code></td>
+    <td>Allows you to override values.</td>
   </tr>
   <tr>
-    <td><code>OverrideResources[When](Action<Specification.Resource> @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;Specification.Resource, bool&gt; when])</code></td>
-    <td>Allows you to override resource values when a condition is met.</td>
-  </tr>
-  <tr>
-    <td><code>OverrideEndpoints[When](Action<ActionCall, Specification.Endpoint> @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;ActionCall, Specification.Endpoint, bool&gt; when])</code></td>
-    <td>Allows you to override endpoint values when a condition is met.</td>
-  </tr>
-  <tr>
-    <td><code>OverrideUrlParameters[When](Action<ActionCall, PropertyInfo, Specification.UrlParameter> @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;ActionCall, PropertyInfo, Specification.UrlParameter, bool&gt; when])</code></td>
-    <td>Allows you to override url parameter values when a condition is met.</td>
-  </tr>
-  <tr>
-    <td><code>OverrideQuerystring[When](Action<ActionCall, PropertyInfo, Specification.QuerystringParameter> @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;ActionCall, PropertyInfo, Specification.QuerystringParameter, bool&gt; when])</code></td>
-    <td>Allows you to override querystring values when a condition is met.</td>
-  </tr>
-  <tr>
-    <td><code>OverrideErrors[When](Action<ActionCall, Specification.Error> @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;ActionCall, Specification.Error, bool&gt; when])</code></td>
-    <td>Allows you to override error values when a condition is met.</td>
-  </tr>
-  <tr>
-    <td><code>OverrideRequest[When](Action<ActionCall, Specification.Data> @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;ActionCall, Specification.Data, bool&gt; when])</code></td>
-    <td>Allows you to override request values when a condition is met.</td>
-  </tr>
-  <tr>
-    <td><code>OverrideResponse[When](Action<ActionCall, Specification.Data> @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;ActionCall, Specification.Data, bool&gt; when])</code></td>
-    <td>Allows you to override response values when a condition is met.</td>
-  </tr>
-  <tr>
-    <td><code>OverrideData[When](Action<ActionCall, Specification.Data> @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;ActionCall, Specification.Data, bool&gt; when])</code></td>
-    <td>Allows you to override both request and response values when a condition is met.</td>
-  </tr>
-  <tr>
-    <td><code>OverrideTypes[When](Action<Type, Specification.Type> @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;Type, Specification.Type, bool&gt; when])</code></td>
-    <td>Allows you to override type values when a condition is met.</td>
-  </tr>
-  <tr>
-    <td><code>OverrideMembers[When](Action<PropertyInfo, Specification.Member> @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;PropertyInfo, Specification.Member, bool&gt; when])</code></td>
-    <td>Allows you to override member values when a condition is met.</td>
-  </tr>
-  <tr>
-    <td><code>OverrideOptions[When](Action<FieldInfo, Specification.Option> @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;FieldInfo, Specification.Option, bool&gt; when])</code></td>
-    <td>Allows you to override option values when a condition is met.</td>
-  </tr>
-  <tr>
-    <td><code>OverrideProperties[When](Action<PropertyInfo, Specification.IDescription> @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;PropertyInfo, Specification.IDescription, bool&gt; when])</code></td>
-    <td>Allows you to override property values when a condition is met. Properties include members, url parameters and querystring parameters.</td>
+    <td><code>Override*When(Action&lt;*&gt; @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;*, bool&gt; when])</code></td>
+    <td>Allows you to override values when a condition is met.</td>
   </tr>
 </table>
 
