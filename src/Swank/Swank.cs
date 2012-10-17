@@ -104,6 +104,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Specify stylesheets to be included in the documentation page.
         /// This can be used to override the appearance of the page.
+        /// You can use application relative paths a la ~/styles/style.css.
         /// </summary>
         public Swank WithStylesheets(params string[] urls)
         {
@@ -114,6 +115,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Specify scripts to be included in the documentation page.
         /// This can be used to override the behavior of the page.
+        /// You can use application relative paths a la ~/scripts/script.js.
         /// </summary>
         public Swank WithScripts(params string[] urls)
         {
@@ -297,7 +299,7 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// This enables you to define a default module that resources are added to when none are defined for it.
+        /// Allows you to define a default module that resources are added to when none are defined for it.
         /// </summary>
         public Swank WithDefaultModule(Func<ActionCall, ModuleDescription> factory)
         {
@@ -315,7 +317,7 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// This enables you to define a default resource that endpoints are added to when none are defined for it.
+        /// Allows you to define a default resource that endpoints are added to when none are defined for it.
         /// </summary>
         public Swank WithDefaultResource(Func<ActionCall, ResourceDescription> factory)
         {
