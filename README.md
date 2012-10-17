@@ -32,6 +32,19 @@ Swank makes us of the FubuMVC asset pipeline. In order for the pipeline to work 
 <configuration>  
 ```
 
+Lastly import Swank in your Fubu registry:
+
+```csharp
+public class Registry : FubuRegistry
+{
+    public Registry()
+    {
+        Import<Swank>();
+        ...
+    }
+}
+```
+
 Configure
 ------------
 
