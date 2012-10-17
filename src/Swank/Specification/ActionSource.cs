@@ -23,8 +23,8 @@ namespace FubuMVC.Swank.Specification
             return _behaviorGraph.Actions()
                 .Where(x => x.HandlerType.Assembly != Assembly.GetExecutingAssembly() &&
                             x.HandlerType.Assembly != typeof(FubuRegistry).Assembly &&
-                            x.ToRouteDefinition().Pattern.StartsWith("/_fubu") &&
-                            x.ToRouteDefinition().Pattern.StartsWith("/_content") &&
+                            !x.ToRouteDefinition().Pattern.StartsWith("/_fubu") &&
+                            !x.ToRouteDefinition().Pattern.StartsWith("/_content") &&
                             (!_configuration.AppliesToAssemblies.Any() || 
                              _configuration.AppliesToAssemblies.Any(y => y == x.HandlerType.Assembly)))
                 .Where(_configuration.Filter).ToList();

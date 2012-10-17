@@ -24,7 +24,7 @@ namespace HelloWorld.Exports.Distributors
     // to ArrayOfUserModel, not pretty. Also applying this attribute 
     // to the output type will not affect json output as objects 
     // aren't named like they are in xml.
-    [XmlType("Users")]
+    [XmlType("Distributors")]
     public class DistributorModels : List<Distributor> { }
 
     public class EnumerateGetHandler
