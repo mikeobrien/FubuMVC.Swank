@@ -21,15 +21,14 @@ namespace Tests.Specification.ActionSourceTests
         }
 
         [Test]
-        public void should_enumerate_actions_in_all_assemblies_by_default()
+        public void should_enumerate_actions_in_all_assemblies_except_the_swank_assembly_by_default()
         {
             _graph.AddAction<ViewHandler>("GET");
 
             var actions = new ActionSource(_graph, new Configuration()).GetActions();
 
-            actions.Count.ShouldEqual(5);
-            actions.Count(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldEqual(4);
-            actions.Count(x => x.HandlerType.Assembly == typeof(ViewHandler).Assembly).ShouldEqual(1);
+            actions.Count.ShouldEqual(4);
+            actions.All(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldBeTrue();
         }
 
         [Test]
