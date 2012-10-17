@@ -18,7 +18,7 @@ namespace FubuMVC.Swank.Description
             return GetCachedDescriptions(assembly);
         }
 
-        private static DescriptionBase CreateDescription(System.Type type)
+        private static DescriptionBase CreateDescription(Type type)
         {
             var description = (DescriptionBase) Activator.CreateInstance(type);
             if (string.IsNullOrEmpty(description.Comments)) 

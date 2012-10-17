@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
 
@@ -19,8 +20,9 @@ namespace FubuMVC.Swank.Specification
         public IList<ActionCall> GetActions()
         {
             return _behaviorGraph.Actions()
-                .Where(x => !_configuration.AppliesToAssemblies.Any() || 
-                            _configuration.AppliesToAssemblies.Any(y => y == x.HandlerType.Assembly))
+                .Where(x => x.HandlerType.Assembly != Assembly.GetExecutingAssembly() && 
+                            (!_configuration.AppliesToAssemblies.Any() || 
+                             _configuration.AppliesToAssemblies.Any(y => y == x.HandlerType.Assembly)))
                 .Where(_configuration.Filter).ToList();
         }
     }
