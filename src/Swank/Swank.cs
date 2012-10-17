@@ -25,7 +25,7 @@ namespace FubuMVC.Swank
 
         /// <summary>
         /// Path to a json formatted specification file that you want to merge with the spec that is generated.
-        /// You can use application realitive paths a la ~/myspec.json.
+        /// You can use application relative paths a la ~/myspec.json.
         /// </summary>
         public Swank MergeThisSpecification(string path)
         {
@@ -122,7 +122,7 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// Do not display a json example.
+        /// Do not display a json representation.
         /// </summary>
         public Swank HideJson()
         {
@@ -131,7 +131,7 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// Do not display an xml example.
+        /// Do not display an xml representation.
         /// </summary>
         public Swank HideXml()
         {
