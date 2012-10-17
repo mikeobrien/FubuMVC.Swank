@@ -93,7 +93,7 @@ namespace FubuMVC.Swank
 
         /// <summary>
         /// The copyright which is displayed in the footer of the documentaion page. 
-        /// The token {year} is replaced by the current year for use in a copyright.
+        /// The token {year} is replaced by the current year.
         /// </summary>
         public Swank WithCopyright(string copyright)
         {

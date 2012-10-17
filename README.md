@@ -4,6 +4,7 @@ FubuMVC Swank
 Swank is a [FubuMVC](http://mvc.fubu-project.org/) [plugin](http://bottles.fubu-project.org/what-is-bottles/) that allows you to describe and publish documentation for RESTful services. Take a look at the [sample documentation](http://www.mikeobrien.net/FubuMVC.Swank) and read the talking points to find out more:
 
 - Option to set a custom url for the documentation. 
+- Exposes both a UI and json representation of the specification.
 - Service description is convention based. You can use the built in conventions or provide your own.
 - Built in conventions allow you to embed documentation as markdown or text.
 - Optionally group resources by module. Useful for larger API's.
@@ -75,14 +76,14 @@ The following are all the basic configuration options. Advanced options are disc
   </tr>
   <tr>
     <td><code>WithCopyright(string copyright)</code></td>
-    <td>The copyright which is displayed in the footer of the documentaion page. The token <code>{year}</code> is replaced by the current year for use in a copyright.</td>
+    <td>The copyright which is displayed in the footer of the documentaion page. The token <code>{year}</code> is replaced by the current year.</td>
   </tr>
   <tr>
     <td><code>AppliesToThisAssembly()</code></td>
     <td>The spec should be generated from types in this assembly.</td>
   </tr>
   <tr>
-    <td><code>AppliesTo<T>()</code></td>
+    <td><code>AppliesTo&lt;T&gt;()</code></td>
     <td>The spec should be generated from the assembly of the specified type. This call is additive, so you can specify multiple assemblies.</td>
   </tr>
   <tr>
@@ -90,7 +91,7 @@ The following are all the basic configuration options. Advanced options are disc
     <td>The spec should be generated from the assembly of the specified type. This call is additive, so you can specify multiple assemblies.</td>
   </tr>
   <tr>
-    <td><code>Where(Func<ActionCall, bool> filter)</code></td>
+    <td><code>Where(Func&lt;ActionCall, bool&gt; filter)</code></td>
     <td>This filters the actions included in the specification.</td>
   </tr>
   <tr>
@@ -110,7 +111,7 @@ The following are all the basic configuration options. Advanced options are disc
     <td>Do not display an xml representation.</td>
   </tr>
   <tr>
-    <td><code>WithDefaultModule(Func<ActionCall, ModuleDescription> factory)</code></td>
+    <td><code>WithDefaultModule(Func&lt;ActionCall, ModuleDescription&gt; factory)</code></td>
     <td>This enables you to define a default module that resources are added to when none are defined for it.</td>
   </tr>
   <tr>
@@ -118,7 +119,7 @@ The following are all the basic configuration options. Advanced options are disc
     <td>This determines what happens when a module is not defined for a resource.</td>
   </tr>
   <tr>
-    <td><code>WithDefaultResource(Func<ActionCall, ResourceDescription> factory)</code></td>
+    <td><code>WithDefaultResource(Func&lt;ActionCall, ResourceDescription&gt; factory)</code></td>
     <td>This enables you to define a default resource that endpoints are added to when none are defined for it.</td>
   </tr>
   <tr>
@@ -144,11 +145,11 @@ Customize
 
 <table>
   <tr>
-    <td><code>With[Module|Resource|Endpoint|Error|Type|Member|Option]Convention<T>()</code></td>
+    <td><code>With[Module|Resource|Endpoint|Error|Type|Member|Option]Convention&lt;T&gt;()</code></td>
     <td>This allows you to set the convention.</td>
   </tr>
   <tr>
-    <td><code>With[Module|Resource|Endpoint|Error|Type|Member|Option]Convention<T, TConfig>(Action<TConfig> configure)</code></td>
+    <td><code>With[Module|Resource|Endpoint|Error|Type|Member|Option]Convention&lt;T, TConfig&gt;(Action&lt;TConfig&gt; configure)</code></td>
     <td>This allows you to set the convention as well as pass in configuration.</td>
   </tr>
 </table>
@@ -156,67 +157,67 @@ Customize
 <table>
   <tr>
     <td><code>OverrideModules[When](Action<Specification.Module> @override
-    		[, Func<Specification.Module, bool> when])</code></td>
+    		[, Func&lt;Specification.Module, bool&gt; when])</code></td>
     <td>Allows you to override module values when a condition is met.</td>
   </tr>
   <tr>
     <td><code>OverrideResources[When](Action<Specification.Resource> @override
-    		[, Func<Specification.Resource, bool> when])</code></td>
+    		[, Func&lt;Specification.Resource, bool&gt; when])</code></td>
     <td>Allows you to override resource values when a condition is met.</td>
   </tr>
   <tr>
     <td><code>OverrideEndpoints[When](Action<ActionCall, Specification.Endpoint> @override
-    		[, Func<ActionCall, Specification.Endpoint, bool> when])</code></td>
+    		[, Func&lt;ActionCall, Specification.Endpoint, bool&gt; when])</code></td>
     <td>Allows you to override endpoint values when a condition is met.</td>
   </tr>
   <tr>
     <td><code>OverrideUrlParameters[When](Action<ActionCall, PropertyInfo, Specification.UrlParameter> @override
-            [, Func<ActionCall, PropertyInfo, Specification.UrlParameter, bool> when])</code></td>
+            [, Func&lt;ActionCall, PropertyInfo, Specification.UrlParameter, bool&gt; when])</code></td>
     <td>Allows you to override url parameter values when a condition is met.</td>
   </tr>
   <tr>
     <td><code>OverrideQuerystring[When](Action<ActionCall, PropertyInfo, Specification.QuerystringParameter> @override
-            [, Func<ActionCall, PropertyInfo, Specification.QuerystringParameter, bool> when])</code></td>
+            [, Func&lt;ActionCall, PropertyInfo, Specification.QuerystringParameter, bool&gt; when])</code></td>
     <td>Allows you to override querystring values when a condition is met.</td>
   </tr>
   <tr>
     <td><code>OverrideErrors[When](Action<ActionCall, Specification.Error> @override
-            [, Func<ActionCall, Specification.Error, bool> when])</code></td>
+            [, Func&lt;ActionCall, Specification.Error, bool&gt; when])</code></td>
     <td>Allows you to override error values when a condition is met.</td>
   </tr>
   <tr>
     <td><code>OverrideRequest[When](Action<ActionCall, Specification.Data> @override
-            [, Func<ActionCall, Specification.Data, bool> when])</code></td>
+            [, Func&lt;ActionCall, Specification.Data, bool&gt; when])</code></td>
     <td>Allows you to override request values when a condition is met.</td>
   </tr>
   <tr>
     <td><code>OverrideResponse[When](Action<ActionCall, Specification.Data> @override
-            [, Func<ActionCall, Specification.Data, bool> when])</code></td>
+            [, Func&lt;ActionCall, Specification.Data, bool&gt; when])</code></td>
     <td>Allows you to override response values when a condition is met.</td>
   </tr>
   <tr>
     <td><code>OverrideData[When](Action<ActionCall, Specification.Data> @override
-            [, Func<ActionCall, Specification.Data, bool> when])</code></td>
+            [, Func&lt;ActionCall, Specification.Data, bool&gt; when])</code></td>
     <td>Allows you to override both request and response values when a condition is met.</td>
   </tr>
   <tr>
     <td><code>OverrideTypes[When](Action<Type, Specification.Type> @override
-            [, Func<Type, Specification.Type, bool> when])</code></td>
+            [, Func&lt;Type, Specification.Type, bool&gt; when])</code></td>
     <td>Allows you to override type values when a condition is met.</td>
   </tr>
   <tr>
     <td><code>OverrideMembers[When](Action<PropertyInfo, Specification.Member> @override
-            [, Func<PropertyInfo, Specification.Member, bool> when])</code></td>
+            [, Func&lt;PropertyInfo, Specification.Member, bool&gt; when])</code></td>
     <td>Allows you to override member values when a condition is met.</td>
   </tr>
   <tr>
     <td><code>OverrideOptions[When](Action<FieldInfo, Specification.Option> @override
-            [, Func<FieldInfo, Specification.Option, bool> when])</code></td>
+            [, Func&lt;FieldInfo, Specification.Option, bool&gt; when])</code></td>
     <td>Allows you to override option values when a condition is met.</td>
   </tr>
   <tr>
     <td><code>OverrideProperties[When](Action<PropertyInfo, Specification.IDescription> @override
-            [, Func<PropertyInfo, Specification.IDescription, bool> when])</code></td>
+            [, Func&lt;PropertyInfo, Specification.IDescription, bool&gt; when])</code></td>
     <td>Allows you to override property values when a condition is met. Properties include members, url parameters and querystring parameters.</td>
   </tr>
 </table>
