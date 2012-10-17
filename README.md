@@ -1,7 +1,7 @@
 FubuMVC Swank
 =============
 
-Swank is a [FubuMVC](http://mvc.fubu-project.org/) [plugin](http://bottles.fubu-project.org/what-is-bottles/) that allows you to describe and publish documentation for RESTful services. Take a look at the [sample](http://www.mikeobrien.net/FubuMVC.Swank) and read the talking points to find out more:
+Swank is a [FubuMVC](http://mvc.fubu-project.org/) [plugin](http://bottles.fubu-project.org/what-is-bottles/) that allows you to describe and publish documentation for RESTful services. Take a look at the [sample documentation](http://www.mikeobrien.net/FubuMVC.Swank) and read the talking points to find out more:
 
 - Description is convention based, allowing you to use the built in conventions or provide your own.  
 

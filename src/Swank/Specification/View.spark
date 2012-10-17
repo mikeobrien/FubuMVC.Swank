@@ -210,7 +210,7 @@
           {{#with Request}}
             <p>{{{Comments}}}</p>
             {{#hasTypeDescription}}
-              <table class="table table-condensed table-bordered table-zebra">
+              <table class="table table-bordered table-zebra">
                 <thead>
                   <tr>
                     <th>
@@ -243,7 +243,7 @@
                       {{{description.comments}}}
                       {{#if description.options}}
                         <h5>Possible Values</h5>
-                          <table class="table table-bordered table-zebra table-condensed">
+                          <table class="table table-bordered table-zebra">
                             <thead>
                               <tr>
                                 <th>Name: Value/Comments</th>
@@ -277,7 +277,7 @@
           {{#with Response}}
             <p>{{{Comments}}}</p>
             {{#hasTypeDescription}}
-              <table class="table table-condensed table-bordered table-zebra table-last">
+              <table class="table table-bordered table-zebra table-last">
                 <thead>
                   <tr>
                     <th>
@@ -306,7 +306,7 @@
                       {{{description.comments}}}
                       {{#if description.options}}
                         <h5>Possible Values</h5>
-                          <table class="table table-bordered table-zebra table-condensed">
+                          <table class="table table-bordered table-zebra">
                             <thead>
                               <tr>
                                 <th>Name: Value/Comments</th>
