@@ -16,9 +16,9 @@ Swank is a [FubuMVC](http://mvc.fubu-project.org/) [plugin](http://bottles.fubu-
 
 To begin using Swank follow the steps below.
 
-1 [Install](#install) 
-2 [Configure](#configure) 
-3 [Describe](#describe) 
+1. [Install](#install) 
+2. [Configure](#configure) 
+3. [Describe](#describe) 
 
 Install
 ------------
