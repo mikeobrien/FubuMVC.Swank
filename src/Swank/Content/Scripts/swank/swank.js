@@ -231,8 +231,16 @@
         return specification.Types.filter(function (x) { return x.Id === data.Type; }).length > 0 ? context.fn(data) : '';
     });
 
-    var initialize = function() {
+    var initialize = function () {
+
         var getHash = function() { return window.location.hash.replace(/^#/, ''); };
+        
+        if (!specification.Comments && !getHash() &&
+            ((specification.Resources && specification.Resources.length > 0) ||
+             (specification.Modules && specification.Modules.length > 0)))
+            window.location.hash = (specification.Resources && specification.Resources.length > 0) ?
+                                       '_Resources@' + specification.Resources[0].Name :
+                                       specification.Modules[0].Name + '@' + specification.Modules[0].Resources[0].Name;
 
         $(window).bind('hashchange', function () { render(getHash()); });
     
