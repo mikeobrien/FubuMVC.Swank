@@ -135,7 +135,7 @@ The following are all the basic configuration options. Advanced options are disc
 Describe
 ------------
 
-Out of the box Swank will try to describe your API the best it can. The following sections explain how to describe your API with the default conventions. If you don't want to use these conventions see the [Customize](customize) section below which explains how to define your own conventions.
+Out of the box Swank will try to describe your API the best it can. The following sections explain how to describe your API with the default conventions. If you don't want to use these conventions see the [Customize][customize] section below which explains how to define your own conventions.
 
 
 
