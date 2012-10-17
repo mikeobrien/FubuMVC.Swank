@@ -132,18 +132,77 @@ The following are all the basic configuration options. Advanced options are disc
   </tr>
 </table>
 
-
-
-
 Describe
 ------------
+
+Out of the box Swank will try to describe your API the best it can. By default resources are grouped by the url minus the url parameters.
+
+<table>
+  <tr>
+    <td><code>Override*(Action&lt;*&gt; @override)</code></td>
+    <td>Allows you to override values.</td>
+  </tr>
+  <tr>
+    <td><code>Override*When(Action&lt;*&gt; @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;*, bool&gt; when])</code></td>
+    <td>Allows you to override values when a condition is met.</td>
+  </tr>
+</table>
+
+<table>
+	<tr>
+		<td><code>Modules</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Resources</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Endpoints</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>UrlParameters</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Querystring</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Errors</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Request</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Response</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Data</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Types</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Members</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Options</code></td>
+		<td></td>
+	</tr>
+</table>
 
 embeded doc test helper
 
 Customize
 ------------
-
-[Module|Resource|Endpoint|Error|Type|Member|Option]
 
 <table>
   <tr>
@@ -156,16 +215,35 @@ Customize
   </tr>
 </table>
 
-[Modules|Resources|Endpoints|UrlParameters|Querystring|Errors|Request|Response|Data|Types|Members|Options]
 <table>
-  <tr>
-    <td><code>Override*(Action&lt;*&gt; @override)</code></td>
-    <td>Allows you to override values.</td>
-  </tr>
-  <tr>
-    <td><code>Override*When(Action&lt;*&gt; @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;*, bool&gt; when])</code></td>
-    <td>Allows you to override values when a condition is met.</td>
-  </tr>
+	<tr>
+		<td><code>Module</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Resource</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Endpoint</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Error</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Type</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Member</code></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><code>Option</code></td>
+		<td></td>
+	</tr>
 </table>
 
 Props
