@@ -49,7 +49,7 @@ public class Registry : FubuRegistry
 Configure
 ------------
 
-Swank will work out of the box with no configuration at all but you'll probably want to customize it. Swank can be configured with the DSL in your Import call. The following is an example of some basic configuration:
+Swank will work out of the box with no configuration at all but you'll probably want to customize it. Swank can be configured in your Import call. The following is an example of some basic configuration:
 
 ```csharp
 Import<Swank>(x => x
@@ -135,7 +135,12 @@ The following are all the basic configuration options. Advanced options are disc
 Describe
 ------------
 
-Out of the box Swank will try to describe your API the best it can. By default resources are grouped by the url minus the url parameters.
+Out of the box Swank will try to describe your API the best it can. The following sections explain how to describe your API with the default conventions. If you don't want to use these conventions see the [Customize](customize) section below which explains how to define your own conventions.
+
+
+
+
+By default resources are grouped by the url minus the url parameters.
 
 <table>
   <tr>
