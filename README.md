@@ -111,19 +111,19 @@ The following are all the basic configuration options. Advanced options are disc
     <td>Do not display an xml representation.</td>
   </tr>
   <tr>
-    <td><code>WithDefaultModule(Func&lt;ActionCall, <br/>    ModuleDescription&gt; factory)</code></td>
+    <td><code>WithDefaultModule(Func&lt;ActionCall, <br/>&nbsp;&nbsp;&nbsp;&nbsp;ModuleDescription&gt; factory)</code></td>
     <td>This enables you to define a default module that resources are added to when none are defined for it.</td>
   </tr>
   <tr>
-    <td><code>OnOrphanedModuleAction(OrphanedActions <br/>    behavior = [Exclude|Fail|UseDefault])</code></td>
+    <td><code>OnOrphanedModuleAction(OrphanedActions <br/>&nbsp;&nbsp;&nbsp;&nbsp;behavior = [Exclude|Fail|UseDefault])</code></td>
     <td>This determines what happens when a module is not defined for a resource.</td>
   </tr>
   <tr>
-    <td><code>WithDefaultResource(Func&lt;ActionCall, <br/>    ResourceDescription&gt; factory)</code></td>
+    <td><code>WithDefaultResource(Func&lt;ActionCall, <br/>&nbsp;&nbsp;&nbsp;&nbsp;ResourceDescription&gt; factory)</code></td>
     <td>This enables you to define a default resource that endpoints are added to when none are defined for it.</td>
   </tr>
   <tr>
-    <td><code>OnOrphanedResourceAction(OrphanedActions <br/>    behavior = [Exclude|Fail|UseDefault])</code></td>
+    <td><code>OnOrphanedResourceAction(OrphanedActions <br/>&nbsp;&nbsp;&nbsp;&nbsp;behavior = [Exclude|Fail|UseDefault])</code></td>
     <td>This determines what happens when a resource is not defined for an endpoint.</td>
   </tr>
   <tr>
