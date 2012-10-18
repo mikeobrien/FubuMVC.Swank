@@ -141,7 +141,43 @@ Describe
 
 Out of the box Swank will try to describe your API the best it can. The following sections explain how to describe your API with the default conventions and how to [override conventions](#overriding-conventions). If you don't like these conventions see the [Customize](#customize) section below which explains how to define your own conventions.
 
+#### Embedded Comments
+
+Some of the default conventions allow you define comments in an embedded markdown or text file. This file needs to be in the same namespace as what you are commenting on and have its build action set to `Embedded Resource`. The actual name of the file will vary for each convention (Explained in each convention) but will need to have a `.md`, `.html` or `.txt` extension. Files with a `.md` extension are processed as markdown while files with a `.html` or `.txt` extension are not processed in any way.
+
+Most of the conventions require the name of the embedded file to match a type name. This obviously presents a problem as changing the name of a type or method could throw your comments out of sync. To prevent this Swank has a helper test method that will check all embedded files aganst the conventions and make sure they are in sync. You can optionally pass a filter to this method to exclude embedded files that should not be checked. The helper will only check files with a `.md`, `.html` or `.txt` extension.
+
+```csharp
+[Test]
+public void embedded_comments_should_match_types()
+{
+    FubuMVC.Swank.Description.Assert.AllEmbeddedCommentsMatchTypes(x => x != "SomeOtherEmbeddedFile.md");
+}
+```
+
+#### Home Page
+
 #### Modules
+
+By default Swank does not group your resources into modules. All resources are listed under a menu called `Resources` in the UI. If you are not interested in organizing your resources into modules you can skip ahead to the [Resources section](#resources).
+
+Modules are defined by a marker class that dervies from `ModuleDescription`. All resources in the marker's namespace and below will be included in the module. The only exception to this is nested modules. Nested modules will override any parent modules.
+
+```csharp
+namespace MyApp.Administration
+{
+    public class Module : FubuMVC.Swank.Description.ModuleDescription
+    {
+        public Module()
+        {
+            Name = "Administration";
+			Comments = "These are some lovely comments.";
+        }    
+    }
+}
+```
+
+As shown above, comments can be specified in the `Comments` property of the `ModuleDescription`. Alternatively they can be stored in an embedded markdown or text file along side the marker class.  
 
 #### Resources
 By default resources are grouped by the url minus the url parameters.
@@ -220,8 +256,6 @@ By default resources are grouped by the url minus the url parameters.
 	</tr>
 </table>
 
-embeded doc test helper
-
 Customize
 ------------
 
@@ -272,4 +306,4 @@ Props
 
 Thanks to [JetBrains](http://www.jetbrains.com/) for providing OSS licenses! 
 
-Thanks to the [Swagger](http://swagger.wordnik.com/) team for some fantastic design elements which were shamelessly ripped off.
+Thanks to the [Swagger](http://swagger.wordnik.com/) team for some fantastic design elements which Swank shamelessly ripped off.
