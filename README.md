@@ -519,7 +519,7 @@ Now that we have our handy dandy convention we can register it in the configurat
 
 ```csharp
 Import<Swank>(x => x
-    .WithTypeConvention<FileTypeConvention, FileTypeConventionOptions>(x => x.FromFile("Types.csv").WithSeparator(","))
+    .WithTypeConvention<FileTypeConvention, FileTypeConventionOptions>(x => x.FromFile("Type.csv").WithSeparator(","))
     ...);
 ``` 
 
