@@ -388,7 +388,7 @@ Import<Swank>(x => x
         (propertyInfo, property) => propertyInfo.Name.EndsWith("Id") && propertyInfo.IsGuid()));
 ```
 
-The lambdas take some metadata as the first parameter with the specification object, the one your want to modify, as the last parameter. The overload `Override*When` allows you to pass in a predicate.
+The lambdas take some metadata as the first (And in some cases second) parameter with the specification object, the one your want to modify, as the **last** parameter. The overload `Override*When` allows you to pass in a predicate.
 
 <table>
   <tr>
@@ -396,7 +396,7 @@ The lambdas take some metadata as the first parameter with the specification obj
     <td>Allows you to override values.</td>
   </tr>
   <tr>
-    <td><code>Override*When(Action&lt;*&gt; @override <br/>&nbsp;&nbsp;&nbsp;&nbsp;[, Func&lt;*, bool&gt; when])</code></td>
+    <td><code>Override*When(Action&lt;*&gt; @override, Func&lt;*, bool&gt; when)</code></td>
     <td>Allows you to override values when a condition is met.</td>
   </tr>
 </table>
