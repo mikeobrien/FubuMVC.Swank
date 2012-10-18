@@ -143,19 +143,27 @@ Out of the box Swank will try to describe your API the best it can. The followin
 
 #### Embedded Comments
 
-Some of the default conventions allow you define comments in an embedded markdown or text file. This file needs to be in the same namespace as what you are commenting on and have its build action set to `Embedded Resource`. The actual name of the file will vary for each convention (Explained in each convention) but will need to have a `.md`, `.html` or `.txt` extension. Files with a `.md` extension are processed as markdown while files with a `.html` or `.txt` extension are not processed in any way.
+Some of the default conventions allow you define comments in an embedded markdown or text file. This file needs to be in the same namespace as what you are commenting on and have its build action set to `Embedded Resource`. The actual name of the file will vary for each convention (Explained further down) but will need to have a `.md`, `.html` or `.txt` extension. Files with a `.md` extension are processed as markdown while files with a `.html` or `.txt` extension are not processed in any way.
 
-Most of the conventions require the name of the embedded file to match a type name. This obviously presents a problem as changing the name of a type or method could throw your comments out of sync. To prevent this Swank has a helper test method that will check all embedded files aganst the conventions and make sure they are in sync. You can optionally pass a filter to this method to exclude embedded files that should not be checked. The helper will only check files with a `.md`, `.html` or `.txt` extension.
+Most of the conventions require the name of the embedded file to match a type name. This obviously presents a problem as changing the name of a type or method could throw your comments out of sync. To prevent this, Swank has a helper test method that will check all embedded files aganst the conventions and make sure they are in sync. You can optionally pass a filter to this method to exclude embedded files that should not be checked. The helper will only check files with a `.md`, `.html` or `.txt` extension.
 
 ```csharp
 [Test]
 public void embedded_comments_should_match_types()
 {
-    FubuMVC.Swank.Description.Assert.AllEmbeddedCommentsMatchTypes(x => x != "SomeOtherEmbeddedFile.md");
+    FubuMVC.Swank.Description.Assert.AllEmbeddedCommentsMatchTypes(x => !x.EndsWith(".Comments.md");
 }
 ```
 
 #### Home Page
+
+By default the home page will display the first resource. You can however display the contents of an embedded file instead. The first file in any of the assemblies scanned by Swank called `Comments[.md|.txt|.html]` will be displayed. You can change the filename that Swank looks for in the configuration as follows (You do not need to specify an extension):
+
+```csharp
+Import<Swank>(x => x
+    .WithComments("MyHomePageCommentsFile")
+    ...);
+```  
 
 #### Modules
 
