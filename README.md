@@ -20,6 +20,8 @@ To begin using Swank follow the steps below.
 2. [Configure](#configure) 
 3. [Describe](#describe) 
 
+To create your own conventions or create your own custom UI, checkout the [customization](customize) section.
+
 Install
 ------------
 
@@ -461,7 +463,11 @@ The following overrides are available in the configuration.
 Customize
 ------------
 
-Finally, if you can't stand the attribute soup or embedded files of the built in conventions, and have an ingenious convention for describing your API, you can create your own conventions. All description conventions implement the following interface.
+Swank allows you to define you own conventions and [create your own UI](custom-ui).
+
+#### Conventions
+
+If you can't stand the attribute soup or embedded files of the built in conventions, and have an ingenious convention for describing your API, you can create your own conventions. All description conventions implement the following interface.
 
 ```csharp
 public interface IDescriptionConvention<TSource, TDescription> where TDescription : class
@@ -573,6 +579,46 @@ The following conventions can be set.
 		<td><code>IDescriptionConvention&lt;FieldInfo, OptionDescription&gt;</code></td>
 	</tr>
 </table>
+
+#### Custom UI
+
+If you want to create your own UI, Swank gives you a couple of options for doing this. First Swank exposes the specification as json or xml under `/<Your documentation url>/data`. You can see an example of the spec it produces [here](http://www.mikeobrien.net/FubuMVC.Swank/data.json). This data can be consumed by client side javascript and displayed. Another approach is to create a handler that takes in the `SpecificationBuilder` as a dependency and builds the UI in a server side view. The following is an example of this.
+
+```csharp
+public class HandlerResponse
+{
+    public string Copyright { get; set; }
+    public List<string> Scripts { get; set; }
+    public List<string> Stylesheets { get; set; }
+    public bool ShowJson { get; set; }
+    public bool ShowXml { get; set; }
+    public Specification Specification { get; set; }    
+}
+
+public class ViewHandler
+{
+    private readonly ISpecificationService _specificationService;
+    private readonly Configuration _configuration;
+
+    public ViewHandler(ISpecificationService specificationService, Configuration configuration)
+    {
+        _specificationService = specificationService;
+        _configuration = configuration;
+    }
+
+    public HandlerResponse Execute()
+    {
+        return new HandlerResponse {
+            Copyright = _configuration.Copyright,
+            Scripts = _configuration.Scripts,
+            Stylesheets = _configuration.Stylesheets,
+            ShowXml = _configuration.DisplayXml,
+            ShowJson = _configuration.DisplayJson,
+            Specification = _specificationService.Generate() 
+        };
+    }
+}
+```
 
 Props
 ------------
