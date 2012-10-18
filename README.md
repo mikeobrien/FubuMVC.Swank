@@ -380,15 +380,15 @@ Sometimes the built in conventions will get you 99% of the way there but fall sh
 
 ```csharp
 Import<Swank>(x => x
-
     .OverrideEndpoints((action, endpoint) => endpoint
         .Errors.Add(new Error { Status = 404, Name = "Not Found", Comments = "The item was not found!"}))
 
-    .OverridePropertiesWhen((propertyinfo, property) => property.Comments = "This is the id of the user.", 
-        (propertyinfo, property) => propertyinfo.Name == "UserId" && propertyinfo.IsGuid()));
+    .OverridePropertiesWhen((propertyInfo, property) => 
+    		property.Comments = "This is the {0} id.".ToFormat(propertyInfo.DeclaringType.Name), 
+        (propertyInfo, property) => propertyInfo.Name.EndsWith("Id") && propertyInfo.IsGuid()));
 ```
 
-The lambdas take some metadata as the first parameter with the specification object, the one your want to modify, as the last parameter. An overload `Override*When` allows you to pass in a predicate.
+The lambdas take some metadata as the first parameter with the specification object, the one your want to modify, as the last parameter. The overload `Override*When` allows you to pass in a predicate.
 
 <table>
   <tr>
