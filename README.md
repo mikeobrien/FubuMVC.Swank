@@ -496,15 +496,18 @@ public class FileTypeConventionOptions
 public class FileTypeConvention : IDescriptionConvention<System.Type, TypeDescription>
 {
 	private FileTypeConventionOptions _options;
+	private FubuMVC.Core.CurrentRequest _currentRequest;
 
-	public FileTypeConvention(FileTypeConventionOptions options)
+	public FileTypeConvention(FileTypeConventionOptions options, FubuMVC.Core.CurrentRequest currentRequest)
 	{
 		_options = options;
+		_currentRequest = currentRequest;
 	}
 
     public TypeDescription GetDescription(System.Type type)
     {
-        var description = GetTypeDescriptionFromFile(_options.Path, _options.Separator, type.Name);
+    	var path = Path.Combine(_currentRequest.PhysicalApplicationPath, _options.Path);
+        var description = GetTypeDescriptionFromFile(path, _options.Separator, type.Name);
         return description == null ? null : 
 	        new TypeDescription {
 	            Type = type,
@@ -523,7 +526,7 @@ Import<Swank>(x => x
     ...);
 ``` 
 
-If you are creating your own conventions I'd highly suggest starting with the [existing conventions](/mikeobrien/FubuMVC.Swank/tree/master/src/Swank/Description) as a boilerplate. In some cases they handle a number of details that you may want to take into consideration in yours as well.
+If you are creating your own conventions I'd highly suggest starting with the [existing conventions](/mikeobrien/FubuMVC.Swank/tree/master/src/Swank/Description) as a boilerplate. In some cases they handle a number of details that you may want to take into consideration in yours.
 
 The following methods are declared on the Swank configuration object to allow you to set your own conventions.
 
