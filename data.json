@@ -1,0 +1,824 @@
+{
+    "Name": "Universal Exports API",
+    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "Types": [{
+        "Id": "952FCBFBE8D5AD6C80445EAF91B780D1",
+        "Name": "Address",
+        "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+        "Members": [{
+            "Name": "Id",
+            "Comments": null,
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "guid",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Street",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": true,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "City",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": true,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "State",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": true,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Zip",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": true,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Type",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": false,
+            "DefaultValue": "Other",
+            "Type": "AddressType",
+            "Collection": false,
+            "Options": [{
+                "Name": "Home",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Home"
+            }, {
+                "Name": "Other",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Other"
+            }, {
+                "Name": "Work",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Work"
+            }]
+        }]
+    }, {
+        "Id": "53BE123A454BF3AA8C4DF8FAAF543FB0",
+        "Name": "Address",
+        "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+        "Members": [{
+            "Name": "Id",
+            "Comments": null,
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "guid",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Street",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": true,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "City",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": true,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "State",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": true,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Zip",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": true,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Type",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": false,
+            "DefaultValue": "Office",
+            "Type": "AddressType",
+            "Collection": false,
+            "Options": [{
+                "Name": "Office",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Office"
+            }, {
+                "Name": "Sales",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Sales"
+            }, {
+                "Name": "Warehouse",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Warehouse"
+            }]
+        }]
+    }, {
+        "Id": "89DCFF1E02F4BC86EEA1FB2CFE0E39E9",
+        "Name": "Distributor",
+        "Comments": null,
+        "Members": [{
+            "Name": "DistributorId",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "guid",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Name",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": true,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Type",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": false,
+            "DefaultValue": "Exclusive",
+            "Type": "DistributorType",
+            "Collection": false,
+            "Options": [{
+                "Name": "Exclusive",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Exclusive"
+            }, {
+                "Name": "Intensive",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Intensive"
+            }, {
+                "Name": "Selective",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Selective"
+            }]
+        }, {
+            "Name": "Addresses",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "53BE123A454BF3AA8C4DF8FAAF543FB0",
+            "Collection": true,
+            "Options": []
+        }]
+    }, {
+        "Id": "F92510B5327D2B6B42D8227110276F16",
+        "Name": "Distributor",
+        "Comments": null,
+        "Members": [{
+            "Name": "Name",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": true,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Type",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": false,
+            "DefaultValue": "Exclusive",
+            "Type": "DistributorType",
+            "Collection": false,
+            "Options": [{
+                "Name": "Exclusive",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Exclusive"
+            }, {
+                "Name": "Intensive",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Intensive"
+            }, {
+                "Name": "Selective",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Selective"
+            }]
+        }, {
+            "Name": "Addresses",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "53BE123A454BF3AA8C4DF8FAAF543FB0",
+            "Collection": true,
+            "Options": []
+        }]
+    }, {
+        "Id": "8E4D1D82E9867FB7EAD947D348E664BE",
+        "Name": "Distributor",
+        "Comments": null,
+        "Members": [{
+            "Name": "DistributorId",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "guid",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Name",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": true,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Type",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": false,
+            "DefaultValue": "Exclusive",
+            "Type": "DistributorType",
+            "Collection": false,
+            "Options": [{
+                "Name": "Exclusive",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Exclusive"
+            }, {
+                "Name": "Intensive",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Intensive"
+            }, {
+                "Name": "Selective",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Selective"
+            }]
+        }, {
+            "Name": "Addresses",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "53BE123A454BF3AA8C4DF8FAAF543FB0",
+            "Collection": true,
+            "Options": []
+        }]
+    }, {
+        "Id": "0E7B1845A391E3343B3E10E2AC6B03D4",
+        "Name": "TrackingEvent",
+        "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+        "Members": [{
+            "Name": "Timestamp",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "dateTime",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Latitude",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "double",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Longitude",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "double",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Comments",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }]
+    }, {
+        "Id": "E97EE8F22EE0282283F36EE7EBA2B062",
+        "Name": "User",
+        "Comments": null,
+        "Members": [{
+            "Name": "Name",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": true,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Type",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": false,
+            "DefaultValue": "Guest",
+            "Type": "UserType",
+            "Collection": false,
+            "Options": [{
+                "Name": "Administrator",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Admin"
+            }, {
+                "Name": "General User",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "User"
+            }, {
+                "Name": "Guest User",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Guest"
+            }]
+        }, {
+            "Name": "Addresses",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "952FCBFBE8D5AD6C80445EAF91B780D1",
+            "Collection": true,
+            "Options": []
+        }]
+    }, {
+        "Id": "4167CEB0277030FFDAC1A4FBE4BFCF76",
+        "Name": "User",
+        "Comments": null,
+        "Members": [{
+            "Name": "UserId",
+            "Comments": "This is the id of the user.",
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "guid",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Name",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": true,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Type",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": false,
+            "DefaultValue": "Guest",
+            "Type": "UserType",
+            "Collection": false,
+            "Options": [{
+                "Name": "Administrator",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Admin"
+            }, {
+                "Name": "General User",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "User"
+            }, {
+                "Name": "Guest User",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Guest"
+            }]
+        }, {
+            "Name": "Addresses",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "952FCBFBE8D5AD6C80445EAF91B780D1",
+            "Collection": true,
+            "Options": []
+        }]
+    }, {
+        "Id": "DE29FCD17175864CEED80321A563B958",
+        "Name": "User",
+        "Comments": null,
+        "Members": [{
+            "Name": "UserId",
+            "Comments": "This is the id of the user.",
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "guid",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Name",
+            "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+            "Required": true,
+            "DefaultValue": null,
+            "Type": "string",
+            "Collection": false,
+            "Options": []
+        }, {
+            "Name": "Type",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": false,
+            "DefaultValue": "Guest",
+            "Type": "UserType",
+            "Collection": false,
+            "Options": [{
+                "Name": "Administrator",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Admin"
+            }, {
+                "Name": "General User",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "User"
+            }, {
+                "Name": "Guest User",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "Value": "Guest"
+            }]
+        }, {
+            "Name": "Addresses",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": false,
+            "DefaultValue": null,
+            "Type": "952FCBFBE8D5AD6C80445EAF91B780D1",
+            "Collection": true,
+            "Options": []
+        }]
+    }, {
+        "Id": "194C59AD29E931AA75D8F921A81152BA",
+        "Name": "Zone",
+        "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+        "Members": [{
+            "Name": "Latitude",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": true,
+            "DefaultValue": "",
+            "Type": "double",
+            "Collection": false,
+            "Options": null
+        }, {
+            "Name": "Longitude",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Required": true,
+            "DefaultValue": "",
+            "Type": "double",
+            "Collection": false,
+            "Options": null
+        }]
+    }],
+    "Resources": [],
+    "Modules": [{
+        "Name": "Administration",
+        "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.,
+        "Resources": [{
+            "Name": "Users",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "Endpoints": [{
+                "Name": "Get Users",
+                "Url": "/administration/users?Sort={Sort}",
+                "Method": "GET",
+                "Comments": null,
+                "UrlParameters": [],
+                "QuerystringParameters": [{
+                    "Name": "Sort",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Type": "Order",
+                    "DefaultValue": null,
+                    "MultipleAllowed": false,
+                    "Required": false,
+                    "Options": [{
+                        "Name": "Ascending",
+                        "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                        "Value": "Asc"
+                    }, {
+                        "Name": "Descending",
+                        "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                        "Value": "Desc"
+                    }]
+                }],
+                "Errors": [{
+                    "Name": "Fail Whale",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Status": 300
+                }, {
+                    "Name": "Not Found",
+                    "Comments": "The item was not found!",
+                    "Status": 404
+                }],
+                "Response": {
+                    "Name": "Users",
+                    "Type": "DE29FCD17175864CEED80321A563B958",
+                    "Collection": true,
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
+                },
+                "Request": null
+            }, {
+                "Name": "Add User",
+                "Url": "/administration/users",
+                "Method": "POST",
+                "Comments": null,
+                "UrlParameters": [],
+                "QuerystringParameters": [],
+                "Errors": [{
+                    "Name": "Fail Whale",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Status": 300
+                }, {
+                    "Name": "Not Found",
+                    "Comments": "The item was not found!",
+                    "Status": 404
+                }],
+                "Response": {
+                    "Name": "User",
+                    "Type": "DE29FCD17175864CEED80321A563B958",
+                    "Collection": false,
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
+                },
+                "Request": {
+                    "Name": "User",
+                    "Type": "4167CEB0277030FFDAC1A4FBE4BFCF76",
+                    "Collection": false,
+                    "Comments": null
+                }
+            }, {
+                "Name": "Get User",
+                "Url": "/administration/users/{UserId}",
+                "Method": "GET",
+                "Comments": null,
+                "UrlParameters": [{
+                    "Name": "UserId",
+                    "Comments": "This is the id of the user.",
+                    "Type": "guid",
+                    "Options": []
+                }],
+                "QuerystringParameters": [],
+                "Errors": [{
+                    "Name": "Fail Whale",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Status": 300
+                }, {
+                    "Name": "Not Found",
+                    "Comments": "The item was not found!",
+                    "Status": 404
+                }],
+                "Response": {
+                    "Name": "User",
+                    "Type": "DE29FCD17175864CEED80321A563B958",
+                    "Collection": false,
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
+                },
+                "Request": null
+            }, {
+                "Name": "Update User",
+                "Url": "/administration/users/{UserId}",
+                "Method": "PUT",
+                "Comments": null,
+                "UrlParameters": [{
+                    "Name": "UserId",
+                    "Comments": "This is the id of the user.",
+                    "Type": "guid",
+                    "Options": []
+                }],
+                "QuerystringParameters": [],
+                "Errors": [{
+                    "Name": "Fail Whale",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Status": 300
+                }, {
+                    "Name": "Not Found",
+                    "Comments": "The item was not found!",
+                    "Status": 404
+                }],
+                "Response": null,
+                "Request": {
+                    "Name": "User",
+                    "Type": "E97EE8F22EE0282283F36EE7EBA2B062",
+                    "Collection": false,
+                    "Comments": null
+                }
+            }, {
+                "Name": "Delete User",
+                "Url": "/administration/users/{UserId}",
+                "Method": "DELETE",
+                "Comments": null,
+                "UrlParameters": [{
+                    "Name": "UserId",
+                    "Comments": "This is the id of the user.",
+                    "Type": "guid",
+                    "Options": []
+                }],
+                "QuerystringParameters": [],
+                "Errors": [{
+                    "Name": "Fail Whale",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Status": 401
+                }, {
+                    "Name": "Not Found",
+                    "Comments": "The item was not found!",
+                    "Status": 404
+                }],
+                "Response": null,
+                "Request": null
+            }]
+        }]
+    }, {
+        "Name": "Exports",
+        "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+        "Resources": [{
+            "Name": "Distributors",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Endpoints": [{
+                "Name": "Get Distributors",
+                "Url": "/exports/distributors?Sort={Sort}",
+                "Method": "GET",
+                "Comments": null,
+                "UrlParameters": [],
+                "QuerystringParameters": [{
+                    "Name": "Sort",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Type": "Order",
+                    "DefaultValue": null,
+                    "MultipleAllowed": false,
+                    "Required": false,
+                    "Options": [{
+                        "Name": "Ascending",
+                        "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                        "Value": "Asc"
+                    }, {
+                        "Name": "Descending",
+                        "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                        "Value": "Desc"
+                    }]
+                }],
+                "Errors": [{
+                    "Name": "Fail Whale",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Status": 300
+                }, {
+                    "Name": "Not Found",
+                    "Comments": "The item was not found!",
+                    "Status": 404
+                }],
+                "Response": {
+                    "Name": "Distributors",
+                    "Type": "8E4D1D82E9867FB7EAD947D348E664BE",
+                    "Collection": true,
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
+                },
+                "Request": null
+            }, {
+                "Name": "Add Distributor",
+                "Url": "/exports/distributors",
+                "Method": "POST",
+                "Comments": null,
+                "UrlParameters": [],
+                "QuerystringParameters": [],
+                "Errors": [{
+                    "Name": "Fail Whale",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Status": 300
+                }, {
+                    "Name": "Not Found",
+                    "Comments": "The item was not found!",
+                    "Status": 404
+                }],
+                "Response": {
+                    "Name": "Distributor",
+                    "Type": "8E4D1D82E9867FB7EAD947D348E664BE",
+                    "Collection": false,
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
+                },
+                "Request": {
+                    "Name": "Distributor",
+                    "Type": "89DCFF1E02F4BC86EEA1FB2CFE0E39E9",
+                    "Collection": false,
+                    "Comments": null
+                }
+            }, {
+                "Name": "Get Distributor",
+                "Url": "/exports/distributors/{DistributorId}",
+                "Method": "GET",
+                "Comments": null,
+                "UrlParameters": [{
+                    "Name": "DistributorId",
+                    "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+                    "Type": "guid",
+                    "Options": []
+                }],
+                "QuerystringParameters": [],
+                "Errors": [{
+                    "Name": "Fail Whale",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Status": 300
+                }, {
+                    "Name": "Not Found",
+                    "Comments": "The item was not found!",
+                    "Status": 404
+                }],
+                "Response": {
+                    "Name": "Distributor",
+                    "Type": "8E4D1D82E9867FB7EAD947D348E664BE",
+                    "Collection": false,
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
+                },
+                "Request": null
+            }, {
+                "Name": "Update Distributor",
+                "Url": "/exports/distributors/{DistributorId}",
+                "Method": "PUT",
+                "Comments": null,
+                "UrlParameters": [{
+                    "Name": "DistributorId",
+                    "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+                    "Type": "guid",
+                    "Options": []
+                }],
+                "QuerystringParameters": [],
+                "Errors": [{
+                    "Name": "Fail Whale",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Status": 300
+                }, {
+                    "Name": "Not Found",
+                    "Comments": "The item was not found!",
+                    "Status": 404
+                }],
+                "Response": null,
+                "Request": {
+                    "Name": "Distributor",
+                    "Type": "F92510B5327D2B6B42D8227110276F16",
+                    "Collection": false,
+                    "Comments": null
+                }
+            }, {
+                "Name": "Delete Distributor",
+                "Url": "/exports/distributors/{DistributorId}",
+                "Method": "DELETE",
+                "Comments": null,
+                "UrlParameters": [{
+                    "Name": "DistributorId",
+                    "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+                    "Type": "guid",
+                    "Options": []
+                }],
+                "QuerystringParameters": [],
+                "Errors": [{
+                    "Name": "Fail Whale",
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                    "Status": 300
+                }, {
+                    "Name": "Not Found",
+                    "Comments": "The item was not found!",
+                    "Status": 404
+                }],
+                "Response": null,
+                "Request": null
+            }]
+        }, {
+            "Name": "Tracking",
+            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+            "Endpoints": [{
+                "Name": "Get Tracking Events",
+                "Url": "/exports/tracking/{TrackingId}",
+                "Method": "GET",
+                "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+                "UrlParameters": [{
+                    "Name": "TrackingId",
+                    "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.",
+                    "Type": "string",
+                    "Options": []
+                }],
+                "QuerystringParameters": [],
+                "Errors": [{
+                    "Name": "Not Found",
+                    "Comments": "The item was not found!",
+                    "Status": 404
+                }],
+                "Response": {
+                    "Name": "ArrayOfTrackingEvent",
+                    "Type": "0E7B1845A391E3343B3E10E2AC6B03D4",
+                    "Collection": true,
+                    "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue."
+                },
+                "Request": null
+            }, {
+                "Name": "Get Current Zone",
+                "Url": "/exports/tracking/zones/current",
+                "Method": "GET",
+                "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+                "UrlParameters": [],
+                "QuerystringParameters": [],
+                "Errors": [],
+                "Response": {
+                    "Name": "Token",
+                    "Type": "194C59AD29E931AA75D8F921A81152BA",
+                    "Collection": false,
+                    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
+                },
+                "Request": null
+            }]
+        }]
+    }]
+}
