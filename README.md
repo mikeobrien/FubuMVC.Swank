@@ -344,7 +344,7 @@ public class User
 
 #### Type Members, Url Parameters and Querystring Parameters
 
-Type members can be described with the `CommentsAttribute`, `DefaultValueAttribute`, and `RequiredAttribute` attributes. Since url and querystring parameters are defined on the input model their description is specified there as well.  
+Type members can be described with the `CommentsAttribute`, `DefaultValueAttribute`, and `RequiredAttribute` attributes. This also describes url and querystring parameters since are defined on the input model.  
 
 ```csharp
 public class User
