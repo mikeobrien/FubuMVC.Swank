@@ -463,7 +463,7 @@ The following overrides are available in the configuration.
 Customize
 ------------
 
-Swank allows you to define you own conventions and [create your own UI](#custom-ui).
+Swank allows you to define your own conventions and even [create your own UI](#custom-ui).
 
 #### Conventions
 
