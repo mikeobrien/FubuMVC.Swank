@@ -139,24 +139,24 @@ The following are all the basic configuration options. Advanced options are disc
 Describe
 ------------
 
-Out of the box Swank will try to describe your API the best it can. The following sections explain how to describe your API with the default conventions and how to [override conventions](#overridingconventions). If you don't like these conventions see the [Customize](#customize) section below which explains how to define your own conventions.
+Out of the box Swank will try to describe your API the best it can. The following sections explain how to describe your API with the default conventions and how to [override conventions](#overriding-conventions). If you don't like these conventions see the [Customize](#customize) section below which explains how to define your own conventions.
 
-## Modules
+#### Modules
 
-## Resources
+#### Resources
 By default resources are grouped by the url minus the url parameters.
 
-## Endpoints
+#### Endpoints
 
-## Errors
+#### Errors
 
-## Types
+#### Types
 
-## Members
+#### Members
 
-## Options
+#### Options
 
-## Overriding Conventions
+#### Overriding Conventions
 
 <table>
   <tr>
