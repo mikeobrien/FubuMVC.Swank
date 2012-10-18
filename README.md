@@ -533,7 +533,7 @@ The following methods are declared on the Swank configuration object to allow yo
     <td>This allows you to set the convention.</td>
   </tr>
   <tr>
-    <td><code>With*Convention&lt;T, <br/>&nbsp;&nbsp;&nbsp;&nbsp;TConfig&gt;(Action&lt;TConfig&gt; configure)</code></td>
+    <td><code>With*Convention&lt;T, TConfig&gt;(Action&lt;TConfig&gt; configure)</code></td>
     <td>This allows you to set the convention as well as pass in configuration.</td>
   </tr>
 </table>
@@ -543,31 +543,31 @@ The following conventions can be overloaded.
 <table>
 	<tr>
 		<td><code>Module</code></td>
-		<td><cod>IDescriptionConvention<ActionCall, ModuleDescription></code></td>
+		<td><cod>IDescriptionConvention&lt;ActionCall, ModuleDescription&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>Resource</code></td>
-		<td><cod>IDescriptionConvention<ActionCall, ResourceDescription></code></td>
+		<td><cod>IDescriptionConvention&lt;ActionCall, ResourceDescription&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>Endpoint</code></td>
-		<td><cod>IDescriptionConvention<ActionCall, EndpointDescription></code></td>
+		<td><cod>IDescriptionConvention&lt;ActionCall, EndpointDescription&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>Error</code></td>
-		<td><cod>IDescriptionConvention<PropertyInfo, MemberDescription></code></td>
+		<td><cod>IDescriptionConvention&lt;ActionCall, List&lt;ErrorDescription&gt;&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>Type</code></td>
-		<td><cod>IDescriptionConvention<FieldInfo, OptionDescription></code></td>
+		<td><cod>IDescriptionConvention&lt;Type, TypeDescription&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>Member</code></td>
-		<td><cod>IDescriptionConvention<ActionCall, List<ErrorDescription></code></td>
+		<td><cod>IDescriptionConvention&lt;PropertyInfo, MemberDescription&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>Option</code></td>
-		<td><cod>IDescriptionConvention<Type, TypeDescription></code></td>
+		<td><cod>IDescriptionConvention&lt;FieldInfo, OptionDescription&gt;</code></td>
 	</tr>
 </table>
 
