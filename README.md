@@ -211,7 +211,7 @@ namespace MyApp.Administration.Users
 
 Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the marker class, save the extension. For example the comments file for the resource above would be `UserResource[.md|.html|.txt]`. 
 
-*Note*: If you have more than one resource in the same namespace (Not a child namespace) you can alternatively tie the resource marker to a resource by specifying one of the resource's endpoints as a generic parameter. This uses the default grouping to determine the endpoints that belong in the resource, namely the url minus the url parameters. The example below demonstrates how to link the resource marker with a resource that contains the endpoint `UserGetHandler`.
+**Note**: If you have more than one resource in the same namespace (Not a child namespace) you can alternatively tie the resource marker to a resource by specifying one of the resource's endpoints as a generic parameter. This uses the default grouping to determine the endpoints that belong in the resource, namely the url minus the url parameters. The example below demonstrates how to link the resource marker with a resource that contains the endpoint `UserGetHandler`.
 
 ```csharp
 namespace MyApp.Administration.Users
@@ -227,7 +227,7 @@ This approach is more constraining and you will probably be better served by usi
 
 ##### Resource Attribute
 
-Resources can be defined by the `ResourceAttribute`. This approach works best for the controller convention. 
+Resources can also be defined by the `ResourceAttribute`. This approach works best for the controller convention. 
 
 ```
 namespace MyApp.Administration
@@ -240,7 +240,7 @@ namespace MyApp.Administration
 }
 ```
 
-Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the controller class, save the extension. For example the comments file for the resource above would be `UserController[.md|.html.txt]`. 
+Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the controller class, save the extension. For example the comments file for the resource above would be `UserController[.md|.html|.txt]`. 
 
 #### Endpoints
 
