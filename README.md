@@ -310,11 +310,11 @@ Comments can alternatively be specified in an embedded file. The embedded filena
 
 #### Errors
 
-Error descriptions can be specified by the `ErrorDescriptionAttribute` attribute. This attribute can be applied to the class containing the action method or to the action method itself. When the class contains more than one action they must be applied to the action method. Multiple `ErrorDescriptionAttribute`'s can be applied.
+Error descriptions can be specified by the `ErrorDescriptionAttribute` attribute. This attribute can be applied to the class containing the action method or to the action method itself. When the class contains more than one action they must be applied to the action method. Multiple `ErrorDescriptionAttribute`'s can be applied. It takes an `HttpStatusCode` or an integer status, a name and optional comments.
 
 ```csharp
 [ErrorDescription(HttpStatusCode.NotFound, "Not Found", "These are some lovely comments.")]
-[ErrorDescription(HttpStatusCode.Unauthorized, "Not Authorized", "These are some lovely comments.")]
+[ErrorDescription(403, "Not Authorized", "These are some lovely comments.")]
 public class UserGetHandler
 {
     public UserModel Execute_Id() { ... } 
@@ -323,7 +323,7 @@ public class UserGetHandler
 public class UserGetHandler
 {
 	[ErrorDescription(HttpStatusCode.NotFound, "Not Found", "These are some lovely comments.")]
-	[ErrorDescription(HttpStatusCode.Unauthorized, "Not Authorized", "These are some lovely comments.")]
+	[ErrorDescription(403, "Not Authorized", "These are some lovely comments.")]
     public UserModel Execute_Id() { ... } 
 }
 ```
@@ -360,7 +360,19 @@ public class User
 
 **Note:** The `XmlSerializer` class can derive the member name from the `XmlElementAttribute`. Swank is aware of this attribute and will use this name if it is applied to the member.
 
-#### Options
+#### Enumerations
+
+Enumerations can be described with the `DescriptionAttribute` or the `CommentsAttribute`. If a name is not specified it defaults to the value name.
+
+```csharp
+public enum UserType
+{
+    [Description("Administrator", "These are some lovely comments.")]
+    Admin,
+    [Comments("These are some lovely comments.")]
+    Guest
+}
+```
 
 #### Overriding Conventions
 
