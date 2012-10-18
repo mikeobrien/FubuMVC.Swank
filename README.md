@@ -72,7 +72,7 @@ The following are all the basic configuration options. Advanced options are disc
   </tr>
   <tr>
     <td><code>Named(string title)</code></td>
-    <td>The name of the specification. Shows up in the documentaion page title and nav bar.</td>
+    <td>The name of the specification. Shows up in the documentation page title and nav bar.</td>
   </tr>
   <tr>
     <td><code>WithComments(string name)</code></td>
@@ -80,7 +80,7 @@ The following are all the basic configuration options. Advanced options are disc
   </tr>
   <tr>
     <td><code>WithCopyright(string copyright)</code></td>
-    <td>The copyright which is displayed in the footer of the documentaion page. The token <code>{year}</code> is replaced by the current year.</td>
+    <td>The copyright which is displayed in the footer of the documentation page. The token <code>{year}</code> is replaced by the current year.</td>
   </tr>
   <tr>
     <td><code>AppliesToThisAssembly()</code></td>
@@ -157,7 +157,7 @@ public void embedded_comments_should_match_types()
 
 #### Home Page
 
-By default the home page will display the first resource. You can however display the contents of an embedded file instead. The first file in any of the assemblies scanned by Swank called `Comments[.md|.txt|.html]` will be displayed. You can change the filename that Swank looks for in the configuration as follows (You do not need to specify an extension):
+By default, the home page will display the first resource. You can instead display the contents of an embedded file. The first file in any assembly scanned by Swank called `Comments[.md|.txt|.html]` will be displayed. You can change the filename that Swank looks for in the configuration as follows (You do not need to specify an extension):
 
 ```csharp
 Import<Swank>(x => x
@@ -167,16 +167,16 @@ Import<Swank>(x => x
 
 #### Modules
 
-By default Swank does not group your resources into modules. All resources are listed under a menu called `Resources` in the UI. If you are not interested in organizing your resources into modules you can skip ahead to the [Resources section](#resources).
+By default Swank does not group your resources into modules. All resources are listed under a menu called `Resources` in the UI. If you are not interested in organizing your resources into modules you can skip ahead to the [Resources](#resources) section.
 
-Modules are defined by a marker class that dervies from `ModuleDescription`. All resources in the marker's namespace and below will be included in the module. The only exception to this is nested modules. Nested modules will override any parent modules.
+Modules are defined by a marker class that derives from `ModuleDescription`. All resources in the marker's namespace and below will be included in the module. The only exception to this is nested modules. Nested modules will override any parent modules.
 
 ```csharp
 namespace MyApp.Administration
 {
-    public class Module : FubuMVC.Swank.Description.ModuleDescription
+    public class AdminModule : FubuMVC.Swank.Description.ModuleDescription
     {
-        public Module()
+        public AdminModule()
         {
             Name = "Administration";
 			Comments = "These are some lovely comments.";
@@ -185,10 +185,61 @@ namespace MyApp.Administration
 }
 ```
 
-As shown above, comments can be specified in the `Comments` property of the `ModuleDescription`. Alternatively they can be stored in an embedded markdown or text file along side the marker class.  
+Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the marker class, save the extension. For example the comments file for the module above would be `AdminModule[.md|.html.txt]`.  
 
 #### Resources
-By default resources are grouped by the url minus the url parameters.
+
+By default resources are grouped by the url minus the url parameters. Resources can be defined by a marker class or an [attribute](#resource-attribute). 
+
+##### Resource Marker
+
+Resources can be defined by a marker class that derives from `ResourceDescription`. This approach works best for the handler convention. All endpoints in the marker's namespace and below will be included in the resource. The only exception to this is nested resources. Nested resources will override any parent resources.
+
+```csharp
+namespace MyApp.Administration.Users
+{
+    public class UserResource : FubuMVC.Swank.Description.ResourceDescription
+    {
+        public UserResource()
+        {
+            Name = "Users";
+			Comments = "These are some lovely comments.";
+        }    
+    }
+}
+
+Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the marker class, save the extension. For example the comments file for the resource above would be `UserResource[.md|.html.txt]`. 
+
+Note: If you have more than one resource in the same namespace (Not a child namespace) you can alternatively tie the resource marker to a resource by specifying one of the resource's endpoints as a generic parameter. This uses the default grouping to determine the endpoints that belong in the resource, namely the url minus the url parameters. The example below demonstrates how to link the resource marker with a resource that contains the endpoint `UserGetHandler`.
+
+```csharp
+namespace MyApp.Administration.Users
+{
+    public class UserResource : FubuMVC.Swank.Description.ResourceDescription<UserGetHandler>
+    {
+        ...   
+    }
+} 
+```
+
+This approach is more constraining and you will probably be better served by using namespaces to organize your resources.
+
+##### Resource Attribute
+
+Resources can be defined by the `ResourceAttribute`. This approach works best for the controller convention. 
+
+```
+namespace MyApp.Administration
+{
+	[Resource("Users", "These are some lovely comments.")]
+    public class UserController
+    {
+        ...   
+    }
+}
+```
+
+Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the controller class, save the extension. For example the comments file for the resource above would be `UserController[.md|.html.txt]`. 
 
 #### Endpoints
 
