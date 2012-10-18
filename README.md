@@ -543,31 +543,31 @@ The following conventions can be overloaded.
 <table>
 	<tr>
 		<td><code>Module</code></td>
-		<td><cod>IDescriptionConvention&lt;ActionCall, ModuleDescription&gt;</code></td>
+		<td><code>IDescriptionConvention&lt;ActionCall, ModuleDescription&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>Resource</code></td>
-		<td><cod>IDescriptionConvention&lt;ActionCall, ResourceDescription&gt;</code></td>
+		<td><code>IDescriptionConvention&lt;ActionCall, ResourceDescription&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>Endpoint</code></td>
-		<td><cod>IDescriptionConvention&lt;ActionCall, EndpointDescription&gt;</code></td>
+		<td><code>IDescriptionConvention&lt;ActionCall, EndpointDescription&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>Error</code></td>
-		<td><cod>IDescriptionConvention&lt;ActionCall, List&lt;ErrorDescription&gt;&gt;</code></td>
+		<td><code>IDescriptionConvention&lt;ActionCall, List&lt;ErrorDescription&gt;&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>Type</code></td>
-		<td><cod>IDescriptionConvention&lt;Type, TypeDescription&gt;</code></td>
+		<td><code>IDescriptionConvention&lt;Type, TypeDescription&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>Member</code></td>
-		<td><cod>IDescriptionConvention&lt;PropertyInfo, MemberDescription&gt;</code></td>
+		<td><code>IDescriptionConvention&lt;PropertyInfo, MemberDescription&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>Option</code></td>
-		<td><cod>IDescriptionConvention&lt;FieldInfo, OptionDescription&gt;</code></td>
+		<td><code>IDescriptionConvention&lt;FieldInfo, OptionDescription&gt;</code></td>
 	</tr>
 </table>
 
