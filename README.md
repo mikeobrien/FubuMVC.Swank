@@ -174,7 +174,7 @@ Modules are defined by a marker class that derives from `ModuleDescription`. All
 ```csharp
 namespace MyApp.Administration
 {
-    public class AdminModule : FubuMVC.Swank.Description.ModuleDescription
+    public class AdminModule : ModuleDescription
     {
         public AdminModule()
         {
@@ -185,11 +185,13 @@ namespace MyApp.Administration
 }
 ```
 
-Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the marker class, save the extension. For example the comments file for the module above would be `AdminModule[.md|.html|.txt]`.  
+Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the marker class, save the `.cs` extension. For example the comments filename for the module above would be `AdminModule[.md|.html|.txt]`.  
 
 #### Resources
 
-By default resources are grouped by the url minus the url parameters. Resources can be defined by a marker class or an [attribute](#resource-attribute). 
+By default resources are grouped by the url minus the url parameters. Resources can also be explicitly grouped and described by a [marker class](resource-marker) or an [attribute](#resource-attribute). 
+
+If you do not want to explicitly group your resources via one of these methods you can still specify comments for a resource by creating an embedded file called `Resource[.md|.html|.txt]` in the same namespace as one of the resource endpoints.
 
 ##### Resource Marker
 
@@ -198,7 +200,7 @@ Resources can be defined by a marker class that derives from `ResourceDescriptio
 ```csharp
 namespace MyApp.Administration.Users
 {
-    public class UserResource : FubuMVC.Swank.Description.ResourceDescription
+    public class UserResource : ResourceDescription
     {
         public UserResource()
         {
@@ -209,14 +211,14 @@ namespace MyApp.Administration.Users
 }
 ```
 
-Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the marker class, save the extension. For example the comments file for the resource above would be `UserResource[.md|.html|.txt]`. 
+Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the marker class, save the `.cs` extension. For example the comments filename for the resource above would be `UserResource[.md|.html|.txt]`. 
 
 **Note**: If you have more than one resource in the same namespace (Not a child namespace) you can alternatively tie the resource marker to a resource by specifying one of the resource's endpoints as a generic parameter. This uses the default grouping to determine the endpoints that belong in the resource, namely the url minus the url parameters. The example below demonstrates how to link the resource marker with a resource that contains the endpoint `UserGetHandler`.
 
 ```csharp
 namespace MyApp.Administration.Users
 {
-    public class UserResource : FubuMVC.Swank.Description.ResourceDescription<UserGetHandler>
+    public class UserResource : ResourceDescription<UserGetHandler>
     {
         ...   
     }
@@ -229,7 +231,7 @@ This approach is more constraining and you will probably be better served by usi
 
 Resources can also be defined by the `ResourceAttribute`. This approach works best for the controller convention. 
 
-```
+```csharp
 namespace MyApp.Administration
 {
 	[Resource("Users", "These are some lovely comments.")]
@@ -240,9 +242,71 @@ namespace MyApp.Administration
 }
 ```
 
-Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the controller class, save the extension. For example the comments file for the resource above would be `UserController[.md|.html|.txt]`. 
+Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the controller class, save the `.cs` extension. For example the comments filename for the resource above would be `UserController[.md|.html|.txt]`. 
 
 #### Endpoints
+
+Endpoints and their request/response can be described by attributes and/or embedded files. 
+
+##### Endpoint
+
+The `DescriptionAttribute` can be applied to the class containing the action method or to the action method itself. When the class contains more than one action it must be applied to the action method. This attribute requires that you specify a name and optionally comments.
+
+```csharp
+[Description("Get User", "These are some lovely comments.")]
+public class UserGetHandler
+{
+    public UserModel Execute_Id() { ... } 
+}
+
+public class UserGetHandler
+{
+	[Description("Get User", "These are some lovely comments.")]
+    public UserModel Execute_Id() { ... } 
+}
+```
+
+If you just want to specify comments you can do so with the `CommentsAttribute` in the same way as the `DescriptionAttribute`.
+
+```csharp
+[Comments("These are some lovely comments.")]
+public class UserGetHandler
+{
+    public UserModel Execute_Id() { ... } 
+}
+
+public class UserGetHandler
+{
+	[Comments("These are some lovely comments.")]
+    public UserModel Execute_Id() { ... } 
+}
+```
+
+Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the handler class or the handler class plus the method name, save `.cs` the extension. For example the comments filename for the endpoint above would either be `UserGetHandler[.md|.html|.txt]` or `UserGetHandler.Execute_Id[.md|.html|.txt]`. It the handler class has more than one action or has the `ResourceAttribute` applied, the latter convention is required. 
+
+##### Request/Response
+
+The request and response comments can be specified either by the `RequestCommentsAttribute` and `ResponseCommentsAttribute` or in an embedded file.
+
+The `RequestCommentsAttribute` and `ResponseCommentsAttribute` can be applied to the class containing the action method or to the action method itself. When the class contains more than one action they must be applied to the action method.
+
+```csharp
+[RequestComments("These are some lovely comments.")]
+[ResponseComments("These are some lovely comments.")]
+public class UserGetHandler
+{
+    public UserModel Execute_Id() { ... } 
+}
+
+public class UserGetHandler
+{
+	[RequestComments("These are some lovely comments.")]
+	[ResponseComments("These are some lovely comments.")]
+    public UserModel Execute_Id() { ... } 
+}
+```
+
+Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the handler class or the handler class plus the method name, save the `.cs` extension, and suffixed with either `.Request` or `.Response`. For example the comments filename for the request and response above would either be `UserGetHandler.[Request|Response][.md|.html|.txt]` or  `UserGetHandler.Execute_Id.[Request|Response][.md|.html|.txt]`. If the handler class has more than one action, the latter convention is required. 
 
 #### Errors
 

@@ -12,6 +12,9 @@ namespace Tests.Description.EndpointConventionTests
             [Description("Some embedded handler name")]
             public class EmbeddedDescriptionGetHandler { public object Execute_EmbeddedDescription(object request) { return null; } }
 
+            [Comments("Some handler comments")]
+            public class AttrbuteCommentsGetHandler { public object Execute_EmbeddedDescription(object request) { return null; } }
+
             [Description("Some handler name", "Some handler description")]
             public class GetHandler { public object Execute(object request) { return null; } }
         }
@@ -19,6 +22,12 @@ namespace Tests.Description.EndpointConventionTests
         namespace ActionDescription
         {
             public class EmbeddedDescriptionGetHandler { public object Execute_EmbeddedDescription(object request) { return null; } }
+
+            public class AttrbuteCommentsGetHandler
+            {
+                [Comments("Some action comments")]
+                public object Execute(object request) { return null; }
+            }
 
             public class GetHandler
             {

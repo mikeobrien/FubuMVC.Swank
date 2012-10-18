@@ -15,27 +15,38 @@ namespace FubuMVC.Swank.Description
 
             return new EndpointDescription {
                     Name = attribute != null ? attribute.Name : null,
-                    Comments = GetComments<DescriptionAttribute>(action, x => x.Comments),
-                    RequestComments = GetComments<RequestCommentsAttribute>(action, x => x.Comments, ".Request"),
-                    ResponseComments = GetComments<ResponseCommentsAttribute>(action, x => x.Comments, ".Response")
+                    Comments = GetEndpointComments(action),
+                    RequestComments = GetDataComments<RequestCommentsAttribute>(action, x => x.Comments, "Request"),
+                    ResponseComments = GetDataComments<ResponseCommentsAttribute>(action, x => x.Comments, "Response")
                 };
         }
 
-        private static string GetComments<TAttribute>(ActionCall action, Func<TAttribute, string> attributeComments, string resourcePostfix = "") 
-            where TAttribute : Attribute
+        private static string GetEndpointComments(ActionCall action)
         {
-            string comments = null;
-            var attribute = action.Method.GetCustomAttribute<TAttribute>() ??
-                            action.HandlerType.GetCustomAttribute<TAttribute>();
-            if (attribute != null) comments = attributeComments(attribute);
+            var comments = (action.Method.GetCustomAttribute<DescriptionAttribute>() ??
+                                action.HandlerType.GetCustomAttribute<DescriptionAttribute>()).WhenNotNull(x => x.Comments)
+                            .Otherwise((action.Method.GetCustomAttribute<CommentsAttribute>() ??
+                                action.HandlerType.GetCustomAttribute<CommentsAttribute>()).WhenNotNull(x => x.Comments)
+                            .OtherwiseDefault());
 
             if (comments.IsEmpty())
             {
-                comments = action.HandlerType.Assembly.FindTextResourceNamed(
-                                action.HandlerType.FullName + "." + action.Method.Name + resourcePostfix) ??
-                            (!action.HandlerType.HasAttribute<ResourceAttribute>() ? 
-                                action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName + resourcePostfix) : null);
+                comments = action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName + "." + action.Method.Name) ??
+                            (!action.HandlerType.HasAttribute<ResourceAttribute>() ?
+                                action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName) : null);
             }
+            return comments;
+        }
+
+        private static string GetDataComments<TAttribute>(ActionCall action, Func<TAttribute, string> attributeComments, string resourcePostfix = "") 
+            where TAttribute : Attribute
+        {
+            var comments = (action.Method.GetCustomAttribute<TAttribute>() ??
+                                action.HandlerType.GetCustomAttribute<TAttribute>()).WhenNotNull(attributeComments)
+                            .OtherwiseDefault();
+            if (comments.IsEmpty())
+                comments = action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName + "." + action.Method.Name + "." + resourcePostfix) ??
+                           action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName + "." + resourcePostfix);
             return comments;
         }
     }

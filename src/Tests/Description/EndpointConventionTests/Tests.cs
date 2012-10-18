@@ -44,7 +44,7 @@ namespace Tests.Description.EndpointConventionTests
         }
 
         [Test]
-        public void should_not_set_handler_description_for_endpoint_with_no_description()
+        public void should_not_set_handler_description_to_default_for_endpoint_with_no_description()
         {
             var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.NoDescriptionGetHandler>());
             description.Name.ShouldBeNull();
@@ -68,11 +68,27 @@ namespace Tests.Description.EndpointConventionTests
         }
 
         [Test]
+        public void should_set_handler_comments()
+        {
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.HandlerDescription.AttrbuteCommentsGetHandler>());
+            description.Name.ShouldBeNull();
+            description.Comments.ShouldEqual("Some handler comments");
+        }
+
+        [Test]
         public void should_set_action_description()
         {
             var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ActionDescription.GetHandler>());
             description.Name.ShouldEqual("Some action name");
             description.Comments.ShouldEqual("Some action description");
+        }
+
+        [Test]
+        public void should_set_action_comments()
+        {
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ActionDescription.AttrbuteCommentsGetHandler>());
+            description.Name.ShouldBeNull();
+            description.Comments.ShouldEqual("Some action comments");
         }
 
         [Test]
