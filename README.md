@@ -519,11 +519,11 @@ Now that we have our handy dandy convention we can register it in the configurat
 
 ```csharp
 Import<Swank>(x => x
-    .WithTypeConvention<FileTypeConvention, FileTypeConventionOptions>(x => x.FromFile("~/Types.csv").WithSeparator(","))
+    .WithTypeConvention<FileTypeConvention, FileTypeConventionOptions>(x => x.FromFile("~/Type.csv").WithSeparator(","))
     ...);
 ``` 
 
-If you are creating your own conventions I'd highly suggest starting with the [existing conventions](tree/master/src/Swank/Description) as a boilerplate. In some cases they handle a number of details that you may want in yours as well.
+If you are creating your own conventions I'd highly suggest starting with the [existing conventions](/mikeobrien/FubuMVC.Swank/tree/master/src/Swank/Description) as a boilerplate. In some cases they handle a number of details that you may want to take into consideration in yours as well.
 
 The following methods are declared on the Swank configuration object to allow you to set your own conventions.
 
@@ -538,7 +538,7 @@ The following methods are declared on the Swank configuration object to allow yo
   </tr>
 </table>
 
-The following conventions can be overloaded.
+The following conventions can be set.
 
 <table>
 	<tr>
@@ -577,3 +577,5 @@ Props
 Thanks to [JetBrains](http://www.jetbrains.com/) for providing OSS licenses! 
 
 Thanks to the [Swagger](http://swagger.wordnik.com/) team for some fantastic design elements which Swank shamelessly ripped off.
+
+Thanks to the [FubuMVC](http://mvc.fubu-project.org/) team for a top notch MVC framework.
