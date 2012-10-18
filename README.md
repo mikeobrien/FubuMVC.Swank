@@ -213,7 +213,7 @@ namespace MyApp.Administration.Users
 
 Comments can alternatively be specified in an embedded file. The embedded filename must be the same as the marker class, save the `.cs` extension. For example the comments filename for the resource above would be `UserResource.[md|html|txt]`. 
 
-**Note**: If you have more than one resource in the same namespace (Not a child namespace) you can alternatively tie the resource marker to a resource by specifying one of the resource's endpoints as a generic parameter. This uses the default grouping to determine the endpoints that belong in the resource, namely the url minus the url parameters. The example below demonstrates how to link the resource marker with a resource that contains the endpoint `UserGetHandler`.
+**Note**: If you have more than one resource in the same namespace (Not a child namespace) you can alternatively tie the resource marker to a resource by specifying one of the resource's endpoints as a generic type parameter. This uses the default grouping to determine the endpoints that belong in the resource, namely the url minus the url parameters. The example below demonstrates how to link the resource marker with a resource that contains the endpoint `UserGetHandler`.
 
 ```csharp
 namespace MyApp.Administration.Users
