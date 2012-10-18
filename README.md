@@ -461,6 +461,72 @@ The following overrides are available in the configuration.
 Customize
 ------------
 
+Finally, if you can't stand the attribute soup or embedded files of the built in conventions, and have an ingenious convention for describing your API, you can create your own conventions. All description conventions implement the following interface.
+
+```csharp
+public interface IDescriptionConvention<TSource, TDescription> where TDescription : class
+{
+    TDescription GetDescription(TSource source);
+}
+```
+
+They take in some sort of metadata, `TSource` and return a description, `TDescription`. If there is no description they return null. Conventions are created by the underlying IoC container so they have access to all the objects registered in the container.
+
+The following convention demonstrates a convention that pulls type descriptions from a file. It also includes a little configuration class with a mini DSL, although this is optional.
+
+```csharp
+public class FileTypeConventionOptions
+{
+	public string Path { get; set; }
+	public string Separator { get; set;}
+
+	public FileTypeConventionOptions FromFile(string path)
+	{
+		Path = path;
+		return this;
+	}
+
+	public FileTypeConventionOptions WithSeparator(string separator)
+	{
+		Separator = separator;
+		return this;
+	}
+}
+
+public class FileTypeConvention : IDescriptionConvention<System.Type, TypeDescription>
+{
+	private FileTypeConventionOptions _options;
+
+	public FileTypeConvention(FileTypeConventionOptions options)
+	{
+		_options = options;
+	}
+
+    public TypeDescription GetDescription(System.Type type)
+    {
+        var description = GetTypeDescriptionFromFile(_options.Path, _options.Separator, type.Name);
+        return description == null ? null : 
+	        new TypeDescription {
+	            Type = type,
+	            Name = description.Name,
+	            Comments = description.Comments
+	        };
+    }
+}
+```
+
+Now that we have our handy dandy convention we can register it in the configuration.
+
+```csharp
+Import<Swank>(x => x
+    .WithTypeConvention<FileTypeConvention, FileTypeConventionOptions>(x => x.FromFile("~/Types.csv").WithSeparator(","))
+    ...);
+``` 
+
+If you are creating your own conventions I'd highly suggest starting with the [existing conventions](tree/master/src/Swank/Description) as a boilerplate. In some cases they handle a number of details that you may want in yours as well.
+
+The following methods are declared on the Swank configuration object to allow you to set your own conventions.
+
 <table>
   <tr>
     <td><code>With*Convention&lt;T&gt;()</code></td>
@@ -472,34 +538,36 @@ Customize
   </tr>
 </table>
 
+The following conventions can be overloaded.
+
 <table>
 	<tr>
 		<td><code>Module</code></td>
-		<td></td>
+		<td><cod>IDescriptionConvention<ActionCall, ModuleDescription></code></td>
 	</tr>
 	<tr>
 		<td><code>Resource</code></td>
-		<td></td>
+		<td><cod>IDescriptionConvention<ActionCall, ResourceDescription></code></td>
 	</tr>
 	<tr>
 		<td><code>Endpoint</code></td>
-		<td></td>
+		<td><cod>IDescriptionConvention<ActionCall, EndpointDescription></code></td>
 	</tr>
 	<tr>
 		<td><code>Error</code></td>
-		<td></td>
+		<td><cod>IDescriptionConvention<PropertyInfo, MemberDescription></code></td>
 	</tr>
 	<tr>
 		<td><code>Type</code></td>
-		<td></td>
+		<td><cod>IDescriptionConvention<FieldInfo, OptionDescription></code></td>
 	</tr>
 	<tr>
 		<td><code>Member</code></td>
-		<td></td>
+		<td><cod>IDescriptionConvention<ActionCall, List<ErrorDescription></code></td>
 	</tr>
 	<tr>
 		<td><code>Option</code></td>
-		<td></td>
+		<td><cod>IDescriptionConvention<Type, TypeDescription></code></td>
 	</tr>
 </table>
 
