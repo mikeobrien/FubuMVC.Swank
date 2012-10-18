@@ -356,6 +356,7 @@ public class User
 	[Comments("These are some lovely comments.")]
 	public UserType Type { get; set; }
 }
+```
 
 **Note:** The `XmlSerializer` class can derive the member name from the `XmlElementAttribute`. Swank is aware of this attribute and will use this name if it is applied to the member.
 
