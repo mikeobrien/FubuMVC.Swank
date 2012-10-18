@@ -20,7 +20,7 @@ To begin using Swank follow the steps below.
 2. [Configure](#configure) 
 3. [Describe](#describe) 
 
-To create your own conventions or create your own custom UI, checkout the [customization](customize) section.
+To create your own conventions or create your own custom UI, checkout the [customization](#customize) section.
 
 Install
 ------------
@@ -463,7 +463,7 @@ The following overrides are available in the configuration.
 Customize
 ------------
 
-Swank allows you to define you own conventions and [create your own UI](custom-ui).
+Swank allows you to define you own conventions and [create your own UI](#custom-ui).
 
 #### Conventions
 
