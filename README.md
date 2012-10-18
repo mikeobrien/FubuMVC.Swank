@@ -326,6 +326,7 @@ public class UserGetHandler
 	[ErrorDescription(HttpStatusCode.Unauthorized, "Not Authorized", "These are some lovely comments.")]
     public UserModel Execute_Id() { ... } 
 }
+```
 
 #### Types
 
