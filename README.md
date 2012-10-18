@@ -344,6 +344,21 @@ public class User
 
 #### Members
 
+Members can be described with the `CommentsAttribute`, `DefaultValueAttribute`, and `RequiredAttribute` attributes.
+
+```csharp
+public class User
+{
+	[Required]
+	[Comments("These are some lovely comments.")]
+	public string Name { get; set; }
+	[DefaultValue(UserType.Guest)]
+	[Comments("These are some lovely comments.")]
+	public UserType Type { get; set; }
+}
+
+**Note:** The `XmlSerializer` class can derive the member name from the `XmlElementAttribute`. Swank is aware of this attribute and will use this name if it is applied to the member.
+
 #### Options
 
 #### Overriding Conventions
