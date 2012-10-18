@@ -330,6 +330,18 @@ public class UserGetHandler
 
 #### Types
 
+Type comments are specified by the `CommentsAttribute` on the type.
+
+```csharp
+[Comments("These are some lovely comments.")]
+public class User
+{
+	...
+}
+```
+
+**Note:** The `XmlSerializer` class can derive the type name from the `XmlTypeAttribute`. Swank is aware of this attribute and will use this name if it is applied to the type.
+
 #### Members
 
 #### Options
