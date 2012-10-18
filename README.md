@@ -207,6 +207,7 @@ namespace MyApp.Administration.Users
         }    
     }
 }
+```
 
 Comments can alternatively be specified in an embedded file. The embedded file name must be the same as the marker class, save the extension. For example the comments file for the resource above would be `UserResource[.md|.html.txt]`. 
 
