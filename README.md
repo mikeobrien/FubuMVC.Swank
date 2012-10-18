@@ -342,9 +342,9 @@ public class User
 
 **Note:** The `XmlSerializer` class can derive the type name from the `XmlTypeAttribute`. Swank is aware of this attribute and will use this name if it is applied to the type.
 
-#### Members
+#### Type Members, Url Parameters and Querystring Parameters
 
-Members can be described with the `CommentsAttribute`, `DefaultValueAttribute`, and `RequiredAttribute` attributes.
+Type members can be described with the `CommentsAttribute`, `DefaultValueAttribute`, and `RequiredAttribute` attributes. Since url and querystring parameters are defined on the input model their description is specified there as well.  
 
 ```csharp
 public class User
@@ -376,6 +376,20 @@ public enum UserType
 
 #### Overriding Conventions
 
+Sometimes the built in conventions will get you 99% of the way there but fall short in some edge cases. In that case you may just want to override the conventions instead of creating new ones. For example lets say that you have properties that show up all over the place. Instead of specifying comments everywhere the properties show up, you could specify them in one place. Another example is defining common errors on all endpoints in one place instead of defining the same ones over and over on each endpoint. The Swank configuration allows you to override every convention using the `Override*` methods. The following example demonstrates the overrides just mentioned.
+
+```csharp
+Import<Swank>(x => x
+
+    .OverrideEndpoints((action, endpoint) => endpoint
+        .Errors.Add(new Error { Status = 404, Name = "Not Found", Comments = "The item was not found!"}))
+
+    .OverridePropertiesWhen((propertyinfo, property) => property.Comments = "This is the id of the user.", 
+        (propertyinfo, property) => propertyinfo.Name == "UserId" && propertyinfo.IsGuid()));
+```
+
+The lambdas take some metadata as the first parameter with the specification object, the one your want to modify, as the last parameter. An overload `Override*When` allows you to pass in a predicate.
+
 <table>
   <tr>
     <td><code>Override*(Action&lt;*&gt; @override)</code></td>
@@ -387,54 +401,60 @@ public enum UserType
   </tr>
 </table>
 
+The following overrides are available in the configuration. 
+
 <table>
 	<tr>
-		<td><code>Modules</code></td>
-		<td></td>
+		<td><code>OverrideModules*</code></td>
+		<td>Allows you to override modules.</td>
 	</tr>
 	<tr>
-		<td><code>Resources</code></td>
-		<td></td>
+		<td><code>OverrideResources*</code></td>
+		<td>Allows you to override resources.</td>
 	</tr>
 	<tr>
-		<td><code>Endpoints</code></td>
-		<td></td>
+		<td><code>OverrideEndpoints*</code></td>
+		<td>Allows you to override endpoints, errors, request, response, querystring and url parameters.</td>
 	</tr>
 	<tr>
-		<td><code>UrlParameters</code></td>
-		<td></td>
+		<td><code>OverrideUrlParameters*</code></td>
+		<td>Allows you to override url parameters.</td>
 	</tr>
 	<tr>
-		<td><code>Querystring</code></td>
-		<td></td>
+		<td><code>OverrideQuerystring*</code></td>
+		<td>Allows you to override querystring parameters.</td>
 	</tr>
 	<tr>
-		<td><code>Errors</code></td>
-		<td></td>
+		<td><code>OverrideErrors*</code></td>
+		<td>Allows you to override errors.</td>
 	</tr>
 	<tr>
-		<td><code>Request</code></td>
-		<td></td>
+		<td><code>OverrideRequest*</code></td>
+		<td>Allows you to override the request.</td>
 	</tr>
 	<tr>
-		<td><code>Response</code></td>
-		<td></td>
+		<td><code>OverrideResponse*</code></td>
+		<td>Allows you to override the response.</td>
 	</tr>
 	<tr>
-		<td><code>Data</code></td>
-		<td></td>
+		<td><code>OverrideData*</code></td>
+		<td>Allows you to override both the request and response.</td>
 	</tr>
 	<tr>
-		<td><code>Types</code></td>
-		<td></td>
+		<td><code>OverrideTypes*</code></td>
+		<td>Allows you to override types.</td>
 	</tr>
 	<tr>
-		<td><code>Members</code></td>
-		<td></td>
+		<td><code>OverrideMembers*</code></td>
+		<td>Allows you to override type members.</td>
 	</tr>
 	<tr>
-		<td><code>Options</code></td>
-		<td></td>
+		<td><code>OverrideOptions*</code></td>
+		<td>Allows you to override enumeration values.</td>
+	</tr>
+	<tr>
+		<td><code>OverrideProperties*</code></td>
+		<td>Allows you to override type members, querystring and url parameters.</td>
 	</tr>
 </table>
 
