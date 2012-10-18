@@ -380,11 +380,11 @@ Sometimes the built in conventions will get you 99% of the way there but fall sh
 
 ```csharp
 Import<Swank>(x => x
-    .OverrideEndpoints((action, endpoint) => endpoint
-        .Errors.Add(new Error { Status = 404, Name = "Not Found", Comments = "The item was not found!"}))
+    .OverrideEndpoints((action, endpoint) => 
+        endpoint.Errors.Add(new Error { Status = 404, Name = "Not Found", Comments = "The item was not found!"}))
 
     .OverridePropertiesWhen((propertyInfo, property) => 
-    		property.Comments = "This is the {0} id.".ToFormat(propertyInfo.DeclaringType.Name), 
+    	property.Comments = "This is the {0} id.".ToFormat(propertyInfo.DeclaringType.Name), 
         (propertyInfo, property) => propertyInfo.Name.EndsWith("Id") && propertyInfo.IsGuid()));
 ```
 
