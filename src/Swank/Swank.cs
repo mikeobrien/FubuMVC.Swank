@@ -151,6 +151,26 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
+        /// This allows you to set the type id convention. 
+        /// The default is a hash of the full type name.
+        /// </summary>
+        public Swank WithTypeIdConvention(Func<Type, string> convention)
+        {
+            _configuration.TypeIdConvention = convention;
+            return this;
+        }
+
+        /// <summary>
+        /// This allows you to set the input type id convention. 
+        /// The default is a hash of the full type name plus the method name.
+        /// </summary>
+        public Swank WithInputTypeIdConvention(Func<Type, MethodInfo, string> convention)
+        {
+            _configuration.InputTypeIdConvention = convention;
+            return this;
+        }
+
+        /// <summary>
         /// This allows you to set the module convention.
         /// </summary>
         public Swank WithModuleConvention<T>() where T : IDescriptionConvention<ActionCall, ModuleDescription>

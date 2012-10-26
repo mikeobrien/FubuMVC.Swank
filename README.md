@@ -467,7 +467,11 @@ Swank allows you to define your own conventions and even [create your own UI](#c
 
 #### Conventions
 
-If you can't stand the attribute soup or embedded files of the built in conventions, and have an ingenious convention for describing your API, you can create your own conventions. All description conventions implement the following interface.
+If you can't stand the attribute soup or embedded files of the built in conventions, and have an ingenious convention for describing your API, you can create your own conventions.
+
+### Description Conventions
+
+All description conventions implement the following interface.
 
 ```csharp
 public interface IDescriptionConvention<TSource, TDescription> where TDescription : class
@@ -579,6 +583,22 @@ The following conventions can be set.
 		<td><code>IDescriptionConvention&lt;FieldInfo, OptionDescription&gt;</code></td>
 	</tr>
 </table>
+
+
+### Type Id Conventions
+
+By default, type id's are a hash of the full type name and method name for input types and a hash of just the type name for all other types. Most of the time this is ok but you may chose to convey more information in the type id (Like for code generation or if you create your own UI). These conventions can be set with the following two configuration methods.
+
+<table>
+  <tr>
+    <td><code>WithTypeIdConvention(Func&lt;Type, string&gt; convention)</code></td>
+    <td>This allows you to set the type id convention. The default is a hash of the full type name.</td>
+  </tr>
+  <tr>
+    <td><code>WithInputTypeIdConvention(Func&lt;Type, MethodInfo, string&gt; convention)</code></td>
+    <td>This allows you to set the input type id convention. The default is a hash of the full type name plus the method name.</td>
+  </tr>
+</table> 
 
 #### Custom UI
 

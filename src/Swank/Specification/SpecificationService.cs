@@ -130,7 +130,7 @@ namespace FubuMVC.Swank.Specification
                     var description = _typeConvention.GetDescription(x.Type);
                     var type = description.WhenNotNull(y => y.Type).Otherwise(x.Type);
                     return _configuration.TypeOverrides.Apply(x.Type, new Type {
-                        Id = x.Action != null ? type.GetHash(x.Action.Method) : type.GetHash(),
+                        Id = x.Action != null ? _configuration.InputTypeIdConvention(type, x.Action.Method) : _configuration.TypeIdConvention(type),
                         Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                         Members = GetMembers(type, x.Action)
@@ -171,7 +171,7 @@ namespace FubuMVC.Swank.Specification
                             Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                             DefaultValue = description.WhenNotNull(y => y.DefaultValue).WhenNotNull(z => z.ToString()).OtherwiseDefault(),
                             Required = description.WhenNotNull(y => y.Required).OtherwiseDefault(),
-                            Type = memberType.IsEnum ? memberType.Name : (memberType.IsSystemType() ? memberType.GetXmlName() : memberType.GetHash()),
+                            Type = memberType.IsEnum ? memberType.Name : (memberType.IsSystemType() ? memberType.GetXmlName() : _configuration.TypeIdConvention(memberType)),
                             Collection = x.PropertyType.IsArray || x.PropertyType.IsList(),
                             Options = GetOptions(x.PropertyType)
                         });
@@ -281,7 +281,8 @@ namespace FubuMVC.Swank.Specification
                 {
                     Name = dataType.WhenNotNull(y => y.Name).OtherwiseDefault(),
                     Comments = comments,
-                    Type = action.WhenNotNull(rootType.GetHash).Otherwise(rootType.GetHash()),
+                    Type = action.WhenNotNull(x => _configuration.InputTypeIdConvention(rootType, x))
+                            .Otherwise(_configuration.TypeIdConvention(rootType)),
                     Collection = type.IsArray || type.IsList()
                 };
         } 

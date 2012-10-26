@@ -38,6 +38,9 @@ namespace FubuMVC.Swank
             DefaultResourceFactory = x => new ResourceDescription { Name = x.ParentChain().Route.GetRouteResource() };
             OrphanedResourceActions = OrphanedActions.UseDefault;
 
+            TypeIdConvention = x => x.GetHash();
+            InputTypeIdConvention = (t, m) => t.GetHash(m);
+
             ModuleConvention = new Service<IDescriptionConvention<ActionCall, ModuleDescription>> { Type = typeof(ModuleConvention) };
             ResourceConvention = new Service<IDescriptionConvention<ActionCall, ResourceDescription>> { Type = typeof(ResourceConvention) };
             EndpointConvention = new Service<IDescriptionConvention<ActionCall, EndpointDescription>> { Type = typeof(EndpointConvention) };
@@ -75,6 +78,9 @@ namespace FubuMVC.Swank
         public OrphanedActions OrphanedResourceActions { get; set; }
         public Func<ActionCall, ModuleDescription> DefaultModuleFactory { get; set; }
         public Func<ActionCall, ResourceDescription> DefaultResourceFactory { get; set; }
+
+        public Func<Type, string> TypeIdConvention { get; set; }
+        public Func<Type, MethodInfo, string> InputTypeIdConvention { get; set; }
 
         public Service<IDescriptionConvention<ActionCall, ModuleDescription>> ModuleConvention { get; set; }
         public Service<IDescriptionConvention<ActionCall, ResourceDescription>> ResourceConvention { get; set; }
