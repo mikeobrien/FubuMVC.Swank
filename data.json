@@ -1,6 +1,4 @@
 {
-    "Name": "Universal Exports API",
-    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "Types": [{
         "Id": "952FCBFBE8D5AD6C80445EAF91B780D1",
         "Name": "Address",
@@ -468,13 +466,11 @@
             "Options": null
         }]
     }],
-    "Resources": [],
     "Modules": [{
         "Name": "Administration",
-        "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.,
         "Resources": [{
             "Name": "Users",
-            "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "Comments": "\u003cp\u003eLorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis.\u003c/p\u003e\n\n\u003cpre\u003e\u003ccode\u003elet lastp = Math.Sqrt(float max) |\u0026gt; int\n\u003c/code\u003e\u003c/pre\u003e\n\n\u003cp\u003eFusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas.\u003c/p\u003e",
             "Endpoints": [{
                 "Name": "Get Users",
                 "Url": "/administration/users?Sort={Sort}",
@@ -513,6 +509,12 @@
                     "Collection": true,
                     "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
                 },
+                "Headers": [{
+                    "Name": "api-key",
+                    "Comments": "The is the api key found under your account.",
+                    "Type": "Request",
+                    "Optional": true
+                }],
                 "Request": null
             }, {
                 "Name": "Add User",
@@ -536,6 +538,12 @@
                     "Collection": false,
                     "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
                 },
+                "Headers": [{
+                    "Name": "api-key",
+                    "Comments": "The is the api key found under your account.",
+                    "Type": "Request",
+                    "Optional": true
+                }],
                 "Request": {
                     "Name": "User",
                     "Type": "4167CEB0277030FFDAC1A4FBE4BFCF76",
@@ -569,6 +577,12 @@
                     "Collection": false,
                     "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
                 },
+                "Headers": [{
+                    "Name": "api-key",
+                    "Comments": "The is the api key found under your account.",
+                    "Type": "Request",
+                    "Optional": true
+                }],
                 "Request": null
             }, {
                 "Name": "Update User",
@@ -592,6 +606,12 @@
                     "Status": 404
                 }],
                 "Response": null,
+                "Headers": [{
+                    "Name": "api-key",
+                    "Comments": "The is the api key found under your account.",
+                    "Type": "Request",
+                    "Optional": true
+                }],
                 "Request": {
                     "Name": "User",
                     "Type": "E97EE8F22EE0282283F36EE7EBA2B062",
@@ -620,12 +640,18 @@
                     "Status": 404
                 }],
                 "Response": null,
+                "Headers": [{
+                    "Name": "api-key",
+                    "Comments": "The is the api key found under your account.",
+                    "Type": "Request",
+                    "Optional": true
+                }],
                 "Request": null
             }]
-        }]
+        }],
+        "Comments": "\u003cp\u003eLorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus. Etiam sagittis, metus eget gravida rhoncus, lectus magna interdum dolor, in tempus magna neque sit amet arcu. Nullam et massa aliquet est blandit egestas. Integer eget felis ac tellus feugiat sodales id a quam. Proin fermentum vehicula sapien vel mollis. Suspendisse sit amet vestibulum arcu.\u003c/p\u003e\n\n\u003cp\u003eIn volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet. Pellentesque id neque massa, eu placerat arcu. Donec venenatis imperdiet tincidunt. Cras consequat arcu at orci fringilla sagittis. Cras sed tincidunt odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tempus, augue consectetur egestas malesuada, arcu ligula luctus justo, ac accumsan lorem justo sed est. Ut sagittis blandit nulla non porttitor. Nullam ac nulla non turpis imperdiet consequat eget sit amet quam.\u003c/p\u003e\n\n\u003ch3\u003eLorem ipsum dolor\u003c/h3\u003e\n\n\u003cp\u003eIn volutpat tortor quis mauris blandit non viverra tellus mollis:\u003c/p\u003e\n\n\u003cul\u003e\n\u003cli\u003eVivamus convallis\u003c/li\u003e\n\u003cli\u003ePellentesque id neque\u003c/li\u003e\n\u003cli\u003eNullam ac nulla\u003c/li\u003e\n\u003c/ul\u003e\n\n\u003cp\u003eSed tincidunt massa ut mauris:\u003c/p\u003e\n\n\u003col\u003e\n\u003cli\u003e\u003cp\u003eIn volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue. Mauris venenatis volutpat fringilla. Vivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet.\u003c/p\u003e\n\n\u003cp\u003eVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus. Donec sit amet nisl. Aliquam semper ipsum sit amet velit.\u003c/p\u003e\u003c/li\u003e\n\u003cli\u003e\u003cp\u003eSuspendisse id sem consectetuer libero luctus adipiscing.\u003c/p\u003e\u003c/li\u003e\n\u003c/ol\u003e\n\n\u003ch3\u003eMauris venenatis volutpat fringilla\u003c/h3\u003e\n\n\u003cp\u003eSuspendisse potenti. Sed tincidunt massa ut mauris vestibulum sed porttitor erat pellentesque. Sed vitae ullamcorper massa. Cras in nulla odio, et ornare nulla. Nullam non neque at risus mattis tincidunt in id metus. Sed porta eros lobortis nibh lacinia in gravida elit adipiscing. Sed interdum, lectus eget scelerisque elementum, massa dui ultricies felis, non vulputate justo est quis ipsum. Ut cursus eros eu felis iaculis dignissim. Nullam porttitor nibh sit amet dolor placerat aliquam. Nulla at diam ac turpis tincidunt ullamcorper. Fusce congue aliquam lacus. Sed lectus dui, laoreet ac ornare sed, laoreet non ante. Proin vitae est turpis. Quisque eros arcu, pulvinar nec cursus sit amet, vulputate et eros.\u003c/p\u003e\n\n\u003col\u003e\n\u003cli\u003e\u003cp\u003eSuspendisse id sem consectetuer libero luctus adipiscing:\u003c/p\u003e\n\n\u003cpre\u003e\u003ccode\u003elet array = new BitArray(max, true);\n\u003c/code\u003e\u003c/pre\u003e\u003c/li\u003e\n\u003cli\u003e\u003cp\u003eMauris venenatis volutpat:\u003c/p\u003e\n\n\u003cpre\u003e\u003ccode\u003elet lastp = Math.Sqrt(float max) |\u0026gt; int\n\u003c/code\u003e\u003c/pre\u003e\u003c/li\u003e\n\u003c/ol\u003e\n\n\u003cp\u003eVivamus convallis enim vel elit luctus sed blandit velit posuere. Suspendisse hendrerit purus nec lectus lacinia ornare. In eget nunc a odio tempus laoreet.\u003c/p\u003e\n\n\u003cpre\u003e\u003ccode\u003elet rec fibsRec a b =\n  if a + b \u0026lt; 400 then\n    let current = a + b\n    let rest = fibsRec b current  \n    current :: rest\n  else \n    []\n\nlet fibs = 1::2::(fibsRec 1 2)\n\u003c/code\u003e\u003c/pre\u003e\n\n\u003ch3\u003eSuspendisse hendrerit purus\u003c/h3\u003e\n\n\u003cp\u003eNulla leo odio, luctus et cursus tristique, porta et orci. Nulla pellentesque magna a tortor ultrices auctor. Proin vehicula vulputate quam, eu tempor urna faucibus eget. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas scelerisque sapien nec odio pharetra ut bibendum metus semper. Quisque pulvinar turpis a nisl imperdiet tristique. Duis consequat, nibh et malesuada sagittis, quam libero auctor quam, id ultrices erat nisi ut odio. Proin adipiscing turpis id nibh blandit id mollis risus semper. Integer vel volutpat tellus. Curabitur vehicula volutpat tempus. Sed volutpat eros vitae purus imperdiet id eleifend lorem eleifend.\u003c/p\u003e\n\n\u003cblockquote\u003e\n  \u003cp\u003eSometimes the only way you can feel good about yourself is by making someone else look bad. And I\u0027m tired of making other people feel good about themselves.\n  ~Homer Simpson\u003c/p\u003e\n\u003c/blockquote\u003e"
     }, {
         "Name": "Exports",
-        "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
         "Resources": [{
             "Name": "Distributors",
             "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
@@ -667,6 +693,12 @@
                     "Collection": true,
                     "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
                 },
+                "Headers": [{
+                    "Name": "api-key",
+                    "Comments": "The is the api key found under your account.",
+                    "Type": "Request",
+                    "Optional": true
+                }],
                 "Request": null
             }, {
                 "Name": "Add Distributor",
@@ -690,6 +722,12 @@
                     "Collection": false,
                     "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
                 },
+                "Headers": [{
+                    "Name": "api-key",
+                    "Comments": "The is the api key found under your account.",
+                    "Type": "Request",
+                    "Optional": true
+                }],
                 "Request": {
                     "Name": "Distributor",
                     "Type": "89DCFF1E02F4BC86EEA1FB2CFE0E39E9",
@@ -723,6 +761,12 @@
                     "Collection": false,
                     "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
                 },
+                "Headers": [{
+                    "Name": "api-key",
+                    "Comments": "The is the api key found under your account.",
+                    "Type": "Request",
+                    "Optional": true
+                }],
                 "Request": null
             }, {
                 "Name": "Update Distributor",
@@ -746,6 +790,12 @@
                     "Status": 404
                 }],
                 "Response": null,
+                "Headers": [{
+                    "Name": "api-key",
+                    "Comments": "The is the api key found under your account.",
+                    "Type": "Request",
+                    "Optional": true
+                }],
                 "Request": {
                     "Name": "Distributor",
                     "Type": "F92510B5327D2B6B42D8227110276F16",
@@ -774,6 +824,12 @@
                     "Status": 404
                 }],
                 "Response": null,
+                "Headers": [{
+                    "Name": "api-key",
+                    "Comments": "The is the api key found under your account.",
+                    "Type": "Request",
+                    "Optional": true
+                }],
                 "Request": null
             }]
         }, {
@@ -802,6 +858,12 @@
                     "Collection": true,
                     "Comments": "In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue."
                 },
+                "Headers": [{
+                    "Name": "api-key",
+                    "Comments": "The is the api key found under your account.",
+                    "Type": "Request",
+                    "Optional": true
+                }],
                 "Request": null
             }, {
                 "Name": "Get Current Zone",
@@ -817,8 +879,13 @@
                     "Collection": false,
                     "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
                 },
+                "Headers": null,
                 "Request": null
             }]
-        }]
-    }]
+        }],
+        "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
+    }],
+    "Name": "Universal Exports API",
+    "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.",
+    "Resources": []
 }
