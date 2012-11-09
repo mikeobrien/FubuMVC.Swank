@@ -65,7 +65,7 @@ namespace FubuMVC.Swank.Specification
         public string Method { get; set; }
         public List<UrlParameter> UrlParameters { get; set; }
         public List<QuerystringParameter> QuerystringParameters { get; set; }
-        public List<Error> Errors { get; set; }
+        public List<StatusCode> StatusCodes { get; set; }
         public List<Header> Headers { get; set; }
         public Data Request { get; set; }
         public Data Response { get; set; }
@@ -90,11 +90,11 @@ namespace FubuMVC.Swank.Specification
         public List<Option> Options { get; set; }
     }
 
-    public class Error : IDescription
+    public class StatusCode : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
-        public int Status { get; set; }
+        public int Code { get; set; }
     }
 
     public class Header : IDescription

@@ -31,7 +31,7 @@ namespace FubuMVC.Swank.Specification
         private readonly IDescriptionConvention<ActionCall, EndpointDescription> _endpointConvention;
         private readonly IDescriptionConvention<PropertyInfo, MemberDescription> _memberConvention;
         private readonly IDescriptionConvention<FieldInfo, OptionDescription> _optionConvention;
-        private readonly IDescriptionConvention<ActionCall, List<ErrorDescription>> _errorConvention;
+        private readonly IDescriptionConvention<ActionCall, List<StatusCodeDescription>> _statusCodeConvention;
         private readonly IDescriptionConvention<ActionCall, List<HeaderDescription>> _headerConvention;
         private readonly IDescriptionConvention<System.Type, TypeDescription> _typeConvention;
         private readonly MergeService _mergeService;
@@ -45,7 +45,7 @@ namespace FubuMVC.Swank.Specification
             IDescriptionConvention<ActionCall, EndpointDescription> endpointConvention,
             IDescriptionConvention<PropertyInfo, MemberDescription> memberConvention,
             IDescriptionConvention<FieldInfo, OptionDescription> optionConvention,
-            IDescriptionConvention<ActionCall, List<ErrorDescription>> errorConvention, 
+            IDescriptionConvention<ActionCall, List<StatusCodeDescription>> statusCodeConvention, 
             IDescriptionConvention<ActionCall, List<HeaderDescription>> headerConvention,
             IDescriptionConvention<System.Type, TypeDescription> typeConvention,
             MergeService mergeService)
@@ -58,7 +58,7 @@ namespace FubuMVC.Swank.Specification
             _endpointConvention = endpointConvention;
             _memberConvention = memberConvention;
             _optionConvention = optionConvention;
-            _errorConvention = errorConvention;
+            _statusCodeConvention = statusCodeConvention;
             _typeConvention = typeConvention;
             _mergeService = mergeService;
             _headerConvention = headerConvention;
@@ -221,7 +221,7 @@ namespace FubuMVC.Swank.Specification
                         Method = route.AllowedHttpMethods.FirstOrDefault(),
                         UrlParameters = x.HasInput ? GetUrlParameters(x) : null,
                         QuerystringParameters = querystring,
-                        Errors = GetErrors(x),
+                        StatusCodes = GetStatusCodes(x),
                         Headers = GetHeaders(x),
                         Request = x.HasInput && (route.AllowsPost() || route.AllowsPut()) ? 
                             _configuration.RequestOverrides.Apply(x, GetData(x.InputType(), endpoint.RequestComments, x.Method)) : null,
@@ -267,14 +267,14 @@ namespace FubuMVC.Swank.Specification
                 }).OrderBy(x => x.Name).ToList();
         }
 
-        private List<Error> GetErrors(ActionCall action)
+        private List<StatusCode> GetStatusCodes(ActionCall action)
         {
-            return _errorConvention.GetDescription(action)
-                .Select(x => _configuration.ErrorOverrides.Apply(action, new Error {
-                    Status = x.Status,
+            return _statusCodeConvention.GetDescription(action)
+                .Select(x => _configuration.StatusCodeOverrides.Apply(action, new StatusCode {
+                    Code = x.Code,
                     Name = x.Name,
                     Comments = x.Comments
-                })).OrderBy(x => x.Status).ToList();
+                })).OrderBy(x => x.Code).ToList();
         }
 
         private List<Header> GetHeaders(ActionCall action)

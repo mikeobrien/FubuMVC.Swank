@@ -32,7 +32,7 @@ namespace TestHarness
                 .WithScripts("~/scripts/script.js")
                 .MergeThisSpecification("~/spec.json")
                 .OverrideEndpoints((action, endpoint) => endpoint
-                    .Errors.Add(new Error { Status = 404, Name = "Not Found", Comments = "The item was not found!" }))
+                    .StatusCodes.Add(new StatusCode { Code = 404, Name = "Not Found", Comments = "The item was not found!" }))
                 .OverridePropertiesWhen((propertyinfo, property) => property.Comments = "This is the id of the user.",
                     (propertyinfo, property) => propertyinfo.Name == "UserId" && propertyinfo.IsGuid()));
 

@@ -4,20 +4,20 @@ using System.Net;
 namespace FubuMVC.Swank.Description
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-    public class ErrorDescriptionAttribute : Attribute
+    public class StatusCodeDescriptionAttribute : Attribute
     {
-        public ErrorDescriptionAttribute(HttpStatusCode status, string name, string comments = null) : 
-            this((int)status, name, comments) { }
+        public StatusCodeDescriptionAttribute(HttpStatusCode code, string name, string comments = null) : 
+            this((int)code, name, comments) { }
 
-        public ErrorDescriptionAttribute(int status, string name, string comments = null)
+        public StatusCodeDescriptionAttribute(int code, string name, string comments = null)
         {
-            Status = status;
+            Code = code;
             Name = name;
             Comments = comments;
         }
         
         public string Name { get; private set; }
         public string Comments { get; private set; }
-        public int Status { get; private set; }
+        public int Code { get; private set; }
     }
 }

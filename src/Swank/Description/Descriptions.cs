@@ -42,9 +42,9 @@
         public bool Optional { get; set; }
     }
 
-    public class ErrorDescription : DescriptionBase
+    public class StatusCodeDescription : DescriptionBase
     {
-        public int Status { get; set; }
+        public int Code { get; set; }
     }
 
     public class TypeDescription : DescriptionBase

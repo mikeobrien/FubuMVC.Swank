@@ -46,7 +46,7 @@ namespace FubuMVC.Swank
             EndpointConvention = new Service<IDescriptionConvention<ActionCall, EndpointDescription>> { Type = typeof(EndpointConvention) };
             MemberConvention = new Service<IDescriptionConvention<PropertyInfo, MemberDescription>> { Type = typeof(MemberConvention) };
             OptionConvention = new Service<IDescriptionConvention<FieldInfo, OptionDescription>> { Type = typeof(OptionConvention) };
-            ErrorConvention = new Service<IDescriptionConvention<ActionCall, List<ErrorDescription>>> { Type = typeof(ErrorConvention) };
+            StatusCodeConvention = new Service<IDescriptionConvention<ActionCall, List<StatusCodeDescription>>> { Type = typeof(StatusCodeConvention) };
             HeaderConvention = new Service<IDescriptionConvention<ActionCall, List<HeaderDescription>>> { Type = typeof(HeaderConvention) };
             TypeConvention = new Service<IDescriptionConvention<Type, TypeDescription>> { Type = typeof(TypeConvention) };
 
@@ -55,7 +55,7 @@ namespace FubuMVC.Swank
             EndpointOverrides = new List<Action<ActionCall, Endpoint>>();
             UrlParameterOverrides = new List<Action<ActionCall, PropertyInfo, UrlParameter>>();
             QuerystringOverrides = new List<Action<ActionCall, PropertyInfo, QuerystringParameter>>();
-            ErrorOverrides = new List<Action<ActionCall, Error>>();
+            StatusCodeOverrides = new List<Action<ActionCall, StatusCode>>();
             HeaderOverrides = new List<Action<ActionCall, Header>>();
             RequestOverrides = new List<Action<ActionCall, Data>>();
             ResponseOverrides = new List<Action<ActionCall, Data>>();
@@ -87,7 +87,7 @@ namespace FubuMVC.Swank
         public Service<IDescriptionConvention<ActionCall, ModuleDescription>> ModuleConvention { get; set; }
         public Service<IDescriptionConvention<ActionCall, ResourceDescription>> ResourceConvention { get; set; }
         public Service<IDescriptionConvention<ActionCall, EndpointDescription>> EndpointConvention { get; set; }
-        public Service<IDescriptionConvention<ActionCall, List<ErrorDescription>>> ErrorConvention { get; set; }
+        public Service<IDescriptionConvention<ActionCall, List<StatusCodeDescription>>> StatusCodeConvention { get; set; }
         public Service<IDescriptionConvention<ActionCall, List<HeaderDescription>>> HeaderConvention { get; set; }
         public Service<IDescriptionConvention<Type, TypeDescription>> TypeConvention { get; set; }
         public Service<IDescriptionConvention<PropertyInfo, MemberDescription>> MemberConvention { get; set; }
@@ -98,7 +98,7 @@ namespace FubuMVC.Swank
         public List<Action<ActionCall, Endpoint>> EndpointOverrides { get; set; }
         public List<Action<ActionCall, PropertyInfo, UrlParameter>> UrlParameterOverrides { get; set; }
         public List<Action<ActionCall, PropertyInfo, QuerystringParameter>> QuerystringOverrides { get; set; }
-        public List<Action<ActionCall, Error>> ErrorOverrides { get; set; }
+        public List<Action<ActionCall, StatusCode>> StatusCodeOverrides { get; set; }
         public List<Action<ActionCall, Header>> HeaderOverrides { get; set; }
         public List<Action<ActionCall, Data>> RequestOverrides { get; set; }
         public List<Action<ActionCall, Data>> ResponseOverrides { get; set; }

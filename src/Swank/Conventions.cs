@@ -36,7 +36,7 @@ namespace FubuMVC.Swank
                 x.AddService<IDescriptionConvention<ActionCall, EndpointDescription>>(configuration.EndpointConvention.Type, configuration.EndpointConvention.Config);
                 x.AddService<IDescriptionConvention<PropertyInfo, MemberDescription>>(configuration.MemberConvention.Type, configuration.MemberConvention.Config);
                 x.AddService<IDescriptionConvention<FieldInfo, OptionDescription>>(configuration.OptionConvention.Type, configuration.OptionConvention.Config);
-                x.AddService<IDescriptionConvention<ActionCall, List<ErrorDescription>>>(configuration.ErrorConvention.Type, configuration.ErrorConvention.Config);
+                x.AddService<IDescriptionConvention<ActionCall, List<StatusCodeDescription>>>(configuration.StatusCodeConvention.Type, configuration.StatusCodeConvention.Config);
                 x.AddService<IDescriptionConvention<ActionCall, List<HeaderDescription>>>(configuration.HeaderConvention.Type, configuration.HeaderConvention.Config);
                 x.AddService<IDescriptionConvention<System.Type, TypeDescription>>(configuration.TypeConvention.Type, configuration.TypeConvention.Config);
             });

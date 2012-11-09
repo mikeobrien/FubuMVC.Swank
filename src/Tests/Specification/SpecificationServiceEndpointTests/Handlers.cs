@@ -153,20 +153,20 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
         public class OverridenCollectionPostHandler { public OverridenResponseItems Execute_OverridenCollection(object request) { return null; } }
     }
 
-    namespace ErrorDescriptions
+    namespace StatusCodeDescriptions
     {
-        [ErrorDescription(411, "411 error on handler")]
-        [ErrorDescription(410, "410 error on handler", "410 error on action description")]
-        public class ErrorsGetHandler
+        [StatusCodeDescription(411, "411 error on handler")]
+        [StatusCodeDescription(410, "410 error on handler", "410 error on action description")]
+        public class StatusCodesGetHandler
         {
-            [ErrorDescription(413, "413 error on action")]
-            [ErrorDescription(412, "412 error on action", "412 error on action description")]
-            public object Execute_Errors(object request) { return null; }
+            [StatusCodeDescription(413, "413 error on action")]
+            [StatusCodeDescription(412, "412 error on action", "412 error on action description")]
+            public object Execute_StatusCodes(object request) { return null; }
         }
 
-        public class NoErrorsGetHandler
+        public class NoStatusCodesGetHandler
         {
-            public object Execute_NoErrors(object request) { return null; }
+            public object Execute_NoStatusCodes(object request) { return null; }
         }
     }
 

@@ -68,11 +68,11 @@
                                     ]
                                 }
                             ],
-                            "errors": [
+                            "statusCodes": [
                                 {
                                     "name": "Some error",
                                     "comments": "Some error comments",
-                                    "status": 999
+                                    "code": 999
                                 }
                             ],
                             "request": {
@@ -134,11 +134,11 @@
                             ]
                         }
                     ],
-                    "errors": [
+                    "statusCodes": [
                         {
                             "name": "Some error",
                             "comments": "Some error comments",
-                            "status": 999
+                            "code": 999
                         }
                     ],
                     "request": {

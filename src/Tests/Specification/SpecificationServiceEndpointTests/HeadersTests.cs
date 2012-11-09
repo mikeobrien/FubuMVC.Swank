@@ -40,7 +40,7 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
         [Test]
         public void should_not_set_endpoint_headers_when_none_are_set_on_handlers_or_actions()
         {
-            Spec.GetEndpoint<HeaderDescriptions.NoHeadersGetHandler>().Errors.Count.ShouldEqual(0);
+            Spec.GetEndpoint<HeaderDescriptions.NoHeadersGetHandler>().StatusCodes.Count.ShouldEqual(0);
         }
     }
 }

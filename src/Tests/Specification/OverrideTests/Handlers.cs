@@ -31,7 +31,7 @@ namespace Tests.Specification.OverrideTests
         public class GetHandler
         {
             [ResponseComments("Some comments")]
-            [ErrorDescription(HttpStatusCode.InternalServerError, "SomeName", "Some comments")]
+            [StatusCodeDescription(HttpStatusCode.InternalServerError, "SomeName", "Some comments")]
             [HeaderDescription(HttpHeaderType.Request, "SomeName", "Some comments")]
             public Data Execute_Id(Data data) { return null; }
         }

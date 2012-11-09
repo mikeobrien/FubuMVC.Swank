@@ -101,13 +101,13 @@
     <Compile Include="Specification\SpecificationServiceTypeTests\Handlers.cs" />
     <Compile Include="Specification\SpecificationServiceTypeTests\TypeTests.cs" />
     <Compile Include="Description\TypeConventionTests.cs" />
-    <Compile Include="Description\ErrorConventionTests.cs" />
+    <Compile Include="Description\StatusCodeConventionTests.cs" />
     <Compile Include="Description\OptionConventionTests.cs" />
     <Compile Include="Description\MemberConventionTests.cs" />
     <Compile Include="Specification\SpecificationServiceEndpointTests\EndpointTests.cs" />
     <Compile Include="Specification\SpecificationServiceEndpointTests\UrlParameterTests.cs" />
     <Compile Include="Specification\SpecificationServiceEndpointTests\QuerystringTests.cs" />
-    <Compile Include="Specification\SpecificationServiceEndpointTests\ErrorsTests.cs" />
+    <Compile Include="Specification\SpecificationServiceEndpointTests\StatusCodeTests.cs" />
     <Compile Include="Specification\SpecificationServiceEndpointTests\OutputTypeTests.cs" />
     <Compile Include="Specification\SpecificationServiceEndpointTests\InputTypeTests.cs" />
     <Compile Include="Specification\SpecificationServiceEndpointTests\Handlers.cs" />

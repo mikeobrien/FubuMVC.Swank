@@ -119,8 +119,8 @@
     <Compile Include="Description\DescriptionBase.cs" />
     <Compile Include="Description\Descriptions.cs" />
     <Compile Include="Description\EndpointConvention.cs" />
-    <Compile Include="Description\ErrorDescriptionAttribute.cs" />
-    <Compile Include="Description\ErrorConvention.cs" />
+    <Compile Include="Description\StatusCodeDescriptionAttribute.cs" />
+    <Compile Include="Description\StatusCodeConvention.cs" />
     <Compile Include="Description\HideAttribute.cs" />
     <Compile Include="Description\IDescriptionConvention.cs" />
     <Compile Include="Description\MarkerConvention.cs" />

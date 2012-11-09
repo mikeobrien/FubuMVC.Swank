@@ -212,24 +212,24 @@
           </table>
           {{/if}}
 
-          {{#if Errors}}
-          <h4>Errors</h4>
+          {{#if StatusCodes}}
+          <h4>Status Codes</h4>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Status</th>
+                <th>Code</th>
                 <th>Comments</th>
               </tr>
             </thead>
             <tbody>
-              {{#Errors}}
+              {{#StatusCodes}}
               <tr>
                 <td nowrap="nowrap"><strong>{{{Name}}}</strong></td>
-                <td><code>{{{Status}}}</code></td>
+                <td><code>{{{Code}}}</code></td>
                 <td>{{{Comments}}}</td>
               </tr>
-              {{/Errors}}
+              {{/StatusCodes}}
             </tbody>
           </table>
           {{/if}}

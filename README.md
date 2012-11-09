@@ -8,7 +8,7 @@ Swank is a [FubuMVC](http://mvc.fubu-project.org/) [plugin](http://bottles.fubu-
 - Service description is convention based. You can use the built in conventions or provide your own.
 - Built in conventions allow you to embed documentation as markdown or text.
 - Optionally group resources by module. Useful for larger API's.
-- Ability to override any part of the specification. For example, adding specific errors to all endpoints.
+- Ability to override any part of the specification. For example, adding specific status codes to all endpoints.
 - Ability to override UI styles and behavior by referencing your own stylesheets and javascript.
 - Users can toggle between json and xml representations of request/response.
 - Option to merge in another specification. Useful when migrating from another platform.
@@ -330,13 +330,13 @@ public class UserGetHandler
 }
 ```
 
-#### Errors
+#### Status Codes
 
-Error descriptions can be specified by the `ErrorDescriptionAttribute` attribute. This attribute can be applied to the class containing the action method or to the action method itself. When the class contains more than one action they must be applied to the action method. Multiple `ErrorDescriptionAttribute`'s can be applied. It takes an `HttpStatusCode` or an integer status, a name and optional comments.
+Status code descriptions can be specified by the `StatusCodeDescriptionAttribute` attribute. This attribute can be applied to the class containing the action method or to the action method itself. When the class contains more than one action they must be applied to the action method. Multiple `StatusCodeDescriptionAttribute`'s can be applied. It takes an `HttpStatusCode` or an integer code, a name and optional comments.
 
 ```csharp
-[ErrorDescription(HttpStatusCode.NotFound, "Not Found", "These are some lovely comments.")]
-[ErrorDescription(403, "Not Authorized", "These are some lovely comments.")]
+[StatusCodeDescription(HttpStatusCode.NotFound, "Not Found", "These are some lovely comments.")]
+[StatusCodeDescription(403, "Not Authorized", "These are some lovely comments.")]
 public class UserGetHandler
 {
     public UserModel Execute_Id() { ... } 
@@ -344,8 +344,8 @@ public class UserGetHandler
 
 public class UserGetHandler
 {
-	[ErrorDescription(HttpStatusCode.NotFound, "Not Found", "These are some lovely comments.")]
-	[ErrorDescription(403, "Not Authorized", "These are some lovely comments.")]
+	[StatusCodeDescription(HttpStatusCode.NotFound, "Not Found", "These are some lovely comments.")]
+	[StatusCodeDescription(403, "Not Authorized", "These are some lovely comments.")]
     public UserModel Execute_Id() { ... } 
 }
 ```
@@ -398,12 +398,12 @@ public enum UserType
 
 #### Overriding Conventions
 
-Sometimes the built in conventions will get you 99% of the way there but fall short in some edge cases. In that case you may just want to override the conventions instead of creating new ones. For example lets say that you have properties that show up all over the place. Instead of specifying comments everywhere the properties show up, you could specify them in one place. Another example is defining common errors on all endpoints in one place instead of defining the same ones over and over on each endpoint. The Swank configuration allows you to override every convention using the `Override*` methods. The following example demonstrates the overrides just mentioned.
+Sometimes the built in conventions will get you 99% of the way there but fall short in some edge cases. In that case you may just want to override the conventions instead of creating new ones. For example lets say that you have properties that show up all over the place. Instead of specifying comments everywhere the properties show up, you could specify them in one place. Another example is defining common status codes on all endpoints in one place instead of defining the same ones over and over on each endpoint. The Swank configuration allows you to override every convention using the `Override*` methods. The following example demonstrates the overrides just mentioned.
 
 ```csharp
 Import<Swank>(x => x
     .OverrideEndpoints((action, endpoint) => 
-        endpoint.Errors.Add(new Error { Status = 404, Name = "Not Found", Comments = "The item was not found!"}))
+        endpoint.StatusCodes.Add(new StatusCode { Code = 404, Name = "Not Found", Comments = "The item was not found!"}))
 
     .OverridePropertiesWhen((propertyInfo, property) => 
     	property.Comments = "This is the {0} id.".ToFormat(propertyInfo.DeclaringType.Name), 
@@ -436,7 +436,7 @@ The following overrides are available in the configuration.
 	</tr>
 	<tr>
 		<td><code>OverrideEndpoints*</code></td>
-		<td>Allows you to override endpoints, errors, request, response, querystring and url parameters.</td>
+		<td>Allows you to override endpoints, status codes, request, response, querystring and url parameters.</td>
 	</tr>
 	<tr>
 		<td><code>OverrideUrlParameters*</code></td>
@@ -451,8 +451,8 @@ The following overrides are available in the configuration.
 		<td>Allows you to override http headers.</td>
 	</tr>
 	<tr>
-		<td><code>OverrideErrors*</code></td>
-		<td>Allows you to override errors.</td>
+		<td><code>OverrideStatusCodes*</code></td>
+		<td>Allows you to override status codes.</td>
 	</tr>
 	<tr>
 		<td><code>OverrideRequest*</code></td>
@@ -595,8 +595,8 @@ The following conventions can be set.
 		<td><code>IDescriptionConvention&lt;ActionCall, List&lt;HeaderDescription&gt;&gt;</code></td>
 	</tr>
 	<tr>
-		<td><code>Error</code></td>
-		<td><code>IDescriptionConvention&lt;ActionCall, List&lt;ErrorDescription&gt;&gt;</code></td>
+		<td><code>StatusCode</code></td>
+		<td><code>IDescriptionConvention&lt;ActionCall, List&lt;StatusCodeDescription&gt;&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>Type</code></td>

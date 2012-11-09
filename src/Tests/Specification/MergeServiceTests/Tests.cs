@@ -95,11 +95,11 @@ namespace Tests.Specification.MergeServiceTests
             option.Value.ShouldEqual("Some option value");
             option.Comments.ShouldEqual("Some option comments");
 
-            endpoint.Errors.Count.ShouldEqual(1);
-            var error = endpoint.Errors[0];
-            error.Name.ShouldEqual("Some error");
-            error.Comments.ShouldEqual("Some error comments");
-            error.Status.ShouldEqual(999);
+            endpoint.StatusCodes.Count.ShouldEqual(1);
+            var statusCode = endpoint.StatusCodes[0];
+            statusCode.Name.ShouldEqual("Some error");
+            statusCode.Comments.ShouldEqual("Some error comments");
+            statusCode.Code.ShouldEqual(999);
 
             endpoint.Request.Name.ShouldEqual("Some request");
             endpoint.Request.Comments.ShouldEqual("Some request comments");

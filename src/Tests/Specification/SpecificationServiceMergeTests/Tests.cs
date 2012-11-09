@@ -21,13 +21,13 @@ namespace Tests.Specification.SpecificationServiceMergeTests
                 new MarkerConvention<ResourceDescription>(),
                 new ActionSource(graph,
                     Swank.CreateConfig(x => x.AppliesToThisAssembly()
-                        .Where(y => y.HandlerType.InNamespace<global::Tests.Specification.SpecificationServiceModuleTests.Tests>()))));
+                        .Where(y => y.HandlerType.InNamespace<SpecificationServiceModuleTests.Tests>()))));
             var configuration = Swank.CreateConfig(x =>
                 { if (configure != null) configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<TNamespace>())
                     .MergeThisSpecification(@"Specification\SpecificationServiceMergeTests\Merge.json");
                 });
             return new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new ErrorConvention(),
+                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new StatusCodeConvention(),
                 new HeaderConvention(), new TypeConvention(), new MergeService()).Generate();
         }
 
@@ -105,11 +105,11 @@ namespace Tests.Specification.SpecificationServiceMergeTests
             option.Value.ShouldEqual("Some option value");
             option.Comments.ShouldEqual("Some option comments");
 
-            endpoint.Errors.Count.ShouldEqual(1);
-            var error = endpoint.Errors[0];
-            error.Name.ShouldEqual("Some error");
-            error.Comments.ShouldEqual("Some error comments");
-            error.Status.ShouldEqual(999);
+            endpoint.StatusCodes.Count.ShouldEqual(1);
+            var statusCode = endpoint.StatusCodes[0];
+            statusCode.Name.ShouldEqual("Some error");
+            statusCode.Comments.ShouldEqual("Some error comments");
+            statusCode.Code.ShouldEqual(999);
 
             endpoint.Request.Name.ShouldEqual("Some request");
             endpoint.Request.Comments.ShouldEqual("Some request comments");

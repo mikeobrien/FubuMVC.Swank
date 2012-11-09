@@ -27,7 +27,7 @@ namespace Tests.Specification.OverrideTests
             var configuration = Swank.CreateConfig(x =>
             { if (configure != null) configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<TNamespace>()); });
             return new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new ErrorConvention(),
+                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new StatusCodeConvention(),
                 new HeaderConvention(), new TypeConvention(), new MergeService()).Generate();
         }
 
@@ -162,16 +162,16 @@ namespace Tests.Specification.OverrideTests
         }
 
         [Test]
-        public void should_override_errors()
+        public void should_override_status_codes()
         {
             var spec = BuildSpec<Handlers.GetHandler>(x => x
-                .OverrideErrors((a, b) => b.Name = b.Name + "1")
-                .OverrideErrors((a, b) => b.Comments = b.Comments + "2")
-                .OverrideErrorsWhen((a, b) => b.Comments = b.Comments + "3", (a, b) => b.Comments.EndsWith("2"))
-                .OverrideErrorsWhen((a, b) => b.Comments = b.Comments + "4", (a, b) => b.Comments.EndsWith("2")));
+                .OverrideStatusCodes((a, b) => b.Name = b.Name + "1")
+                .OverrideStatusCodes((a, b) => b.Comments = b.Comments + "2")
+                .OverrideStatusCodesWhen((a, b) => b.Comments = b.Comments + "3", (a, b) => b.Comments.EndsWith("2"))
+                .OverrideStatusCodesWhen((a, b) => b.Comments = b.Comments + "4", (a, b) => b.Comments.EndsWith("2")));
 
-            spec.Modules[0].Resources[0].Endpoints[1].Errors[0].Name.ShouldEqual("SomeName1");
-            spec.Modules[0].Resources[0].Endpoints[1].Errors[0].Comments.ShouldEqual("Some comments23");
+            spec.Modules[0].Resources[0].Endpoints[1].StatusCodes[0].Name.ShouldEqual("SomeName1");
+            spec.Modules[0].Resources[0].Endpoints[1].StatusCodes[0].Comments.ShouldEqual("Some comments23");
         }
 
         [Test]

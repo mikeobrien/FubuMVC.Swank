@@ -271,22 +271,22 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// This allows you to set the error convention.
+        /// This allows you to set the status code convention.
         /// </summary>
-        public Swank WithErrorConvention<T>() where T : IDescriptionConvention<ActionCall, List<ErrorDescription>>
+        public Swank WithStatusCodeConvention<T>() where T : IDescriptionConvention<ActionCall, List<StatusCodeDescription>>
         {
-            return WithErrorConvention<T, object>(null);
+            return WithStatusCodeConvention<T, object>(null);
         }
 
         /// <summary>
-        /// This allows you to set the error convention as well as pass in configuration.
+        /// This allows you to set the status code convention as well as pass in configuration.
         /// </summary>
-        public Swank WithErrorConvention<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionConvention<ActionCall, List<ErrorDescription>>
+        public Swank WithStatusCodeConvention<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionConvention<ActionCall, List<StatusCodeDescription>>
             where TConfig : class, new()
         {
-            _configuration.ErrorConvention.Type = typeof(T);
-            _configuration.ErrorConvention.Config = CreateConfig(configure);
+            _configuration.StatusCodeConvention.Type = typeof(T);
+            _configuration.StatusCodeConvention.Config = CreateConfig(configure);
             return this;
         }
 
@@ -478,21 +478,21 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// Allows you to override error values.
+        /// Allows you to override status code values.
         /// </summary>
-        public Swank OverrideErrors(Action<ActionCall, Specification.Error> @override)
+        public Swank OverrideStatusCodes(Action<ActionCall, Specification.StatusCode> @override)
         {
-            _configuration.ErrorOverrides.Add(@override);
+            _configuration.StatusCodeOverrides.Add(@override);
             return this;
         }
 
         /// <summary>
-        /// Allows you to override error values when a condition is met.
+        /// Allows you to override status code values when a condition is met.
         /// </summary>
-        public Swank OverrideErrorsWhen(Action<ActionCall, Specification.Error> @override,
-            Func<ActionCall, Specification.Error, bool> when)
+        public Swank OverrideStatusCodesWhen(Action<ActionCall, Specification.StatusCode> @override,
+            Func<ActionCall, Specification.StatusCode, bool> when)
         {
-            _configuration.ErrorOverrides.Add(OverrideWhen(@override, when));
+            _configuration.StatusCodeOverrides.Add(OverrideWhen(@override, when));
             return this;
         }
 
