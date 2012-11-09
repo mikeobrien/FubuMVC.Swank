@@ -15,7 +15,6 @@ namespace Tests.Specification.OverrideTests
     [TestFixture]
     public class Tests
     {
-
         private FubuMVC.Swank.Specification.Specification BuildSpec<TNamespace>(Action<Swank> configure = null)
         {
             var graph = Behavior.BuildGraph().AddActionsInThisNamespace();
@@ -29,7 +28,7 @@ namespace Tests.Specification.OverrideTests
             { if (configure != null) configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<TNamespace>()); });
             return new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
                 moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new ErrorConvention(),
-                new TypeConvention(), new MergeService()).Generate();
+                new HeaderConvention(), new TypeConvention(), new MergeService()).Generate();
         }
 
         [Test]
@@ -160,6 +159,32 @@ namespace Tests.Specification.OverrideTests
 
             spec.Modules[0].Resources[0].Endpoints[1].Response.Name.ShouldEqual("Data1");
             spec.Modules[0].Resources[0].Endpoints[1].Response.Comments.ShouldEqual("Some comments23");
+        }
+
+        [Test]
+        public void should_override_errors()
+        {
+            var spec = BuildSpec<Handlers.GetHandler>(x => x
+                .OverrideErrors((a, b) => b.Name = b.Name + "1")
+                .OverrideErrors((a, b) => b.Comments = b.Comments + "2")
+                .OverrideErrorsWhen((a, b) => b.Comments = b.Comments + "3", (a, b) => b.Comments.EndsWith("2"))
+                .OverrideErrorsWhen((a, b) => b.Comments = b.Comments + "4", (a, b) => b.Comments.EndsWith("2")));
+
+            spec.Modules[0].Resources[0].Endpoints[1].Errors[0].Name.ShouldEqual("SomeName1");
+            spec.Modules[0].Resources[0].Endpoints[1].Errors[0].Comments.ShouldEqual("Some comments23");
+        }
+
+        [Test]
+        public void should_override_headers()
+        {
+            var spec = BuildSpec<Handlers.GetHandler>(x => x
+                .OverrideHeaders((a, b) => b.Name = b.Name + "1")
+                .OverrideHeaders((a, b) => b.Comments = b.Comments + "2")
+                .OverrideHeadersWhen((a, b) => b.Comments = b.Comments + "3", (a, b) => b.Comments.EndsWith("2"))
+                .OverrideHeadersWhen((a, b) => b.Comments = b.Comments + "4", (a, b) => b.Comments.EndsWith("2")));
+
+            spec.Modules[0].Resources[0].Endpoints[1].Headers[0].Name.ShouldEqual("SomeName1");
+            spec.Modules[0].Resources[0].Endpoints[1].Headers[0].Comments.ShouldEqual("Some comments23");
         }
     }
 }

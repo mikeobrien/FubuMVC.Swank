@@ -95,6 +95,8 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Description\HeaderConvention.cs" />
+    <Compile Include="Description\HeaderDescriptionAttribute.cs" />
     <Compile Include="Description\RequestCommentsAttribute.cs" />
     <Compile Include="Description\ResponseCommentsAttribute.cs" />
     <Compile Include="Description\Assert.cs" />

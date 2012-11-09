@@ -32,6 +32,7 @@ namespace FubuMVC.Swank.Specification
         private readonly IDescriptionConvention<PropertyInfo, MemberDescription> _memberConvention;
         private readonly IDescriptionConvention<FieldInfo, OptionDescription> _optionConvention;
         private readonly IDescriptionConvention<ActionCall, List<ErrorDescription>> _errorConvention;
+        private readonly IDescriptionConvention<ActionCall, List<HeaderDescription>> _headerConvention;
         private readonly IDescriptionConvention<System.Type, TypeDescription> _typeConvention;
         private readonly MergeService _mergeService;
 
@@ -44,7 +45,8 @@ namespace FubuMVC.Swank.Specification
             IDescriptionConvention<ActionCall, EndpointDescription> endpointConvention,
             IDescriptionConvention<PropertyInfo, MemberDescription> memberConvention,
             IDescriptionConvention<FieldInfo, OptionDescription> optionConvention,
-            IDescriptionConvention<ActionCall, List<ErrorDescription>> errorConvention,
+            IDescriptionConvention<ActionCall, List<ErrorDescription>> errorConvention, 
+            IDescriptionConvention<ActionCall, List<HeaderDescription>> headerConvention,
             IDescriptionConvention<System.Type, TypeDescription> typeConvention,
             MergeService mergeService)
         {
@@ -59,6 +61,7 @@ namespace FubuMVC.Swank.Specification
             _errorConvention = errorConvention;
             _typeConvention = typeConvention;
             _mergeService = mergeService;
+            _headerConvention = headerConvention;
         }
 
         public Specification Generate()
@@ -219,6 +222,7 @@ namespace FubuMVC.Swank.Specification
                         UrlParameters = x.HasInput ? GetUrlParameters(x) : null,
                         QuerystringParameters = querystring,
                         Errors = GetErrors(x),
+                        Headers = GetHeaders(x),
                         Request = x.HasInput && (route.AllowsPost() || route.AllowsPut()) ? 
                             _configuration.RequestOverrides.Apply(x, GetData(x.InputType(), endpoint.RequestComments, x.Method)) : null,
                         Response = x.HasOutput ? 
@@ -271,6 +275,17 @@ namespace FubuMVC.Swank.Specification
                     Name = x.Name,
                     Comments = x.Comments
                 })).OrderBy(x => x.Status).ToList();
+        }
+
+        private List<Header> GetHeaders(ActionCall action)
+        {
+            return _headerConvention.GetDescription(action)
+                .Select(x => _configuration.HeaderOverrides.Apply(action, new Header {
+                    Type = x.Type.ToString(),
+                    Name = x.Name,
+                    Comments = x.Comments,
+                    Optional = x.Optional
+                })).OrderBy(x => x.Type).ThenBy(x => x.Name).ToList();
         }
 
         private Data GetData(System.Type type, string comments, MethodInfo action = null)

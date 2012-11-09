@@ -170,6 +170,23 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
         }
     }
 
+    namespace HeaderDescriptions
+    {
+        [HeaderDescription(HttpHeaderType.Response, "content-type")]
+        [HeaderDescription(HttpHeaderType.Request, "api-key", "This is a handler description.", true)]
+        public class HeadersGetHandler
+        {
+            [HeaderDescription(HttpHeaderType.Request, "accept", "This is an endpoint description.", true)]
+            [HeaderDescription(HttpHeaderType.Response, "content-length")]
+            public object Execute_Headers(object request) { return null; }
+        }
+
+        public class NoHeadersGetHandler
+        {
+            public object Execute_NoHeaders(object request) { return null; }
+        }
+    }
+
     namespace Querystrings
     {
         public class Request

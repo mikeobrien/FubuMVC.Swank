@@ -66,6 +66,7 @@ namespace FubuMVC.Swank.Specification
         public List<UrlParameter> UrlParameters { get; set; }
         public List<QuerystringParameter> QuerystringParameters { get; set; }
         public List<Error> Errors { get; set; }
+        public List<Header> Headers { get; set; }
         public Data Request { get; set; }
         public Data Response { get; set; }
     }
@@ -94,6 +95,14 @@ namespace FubuMVC.Swank.Specification
         public string Name { get; set; }
         public string Comments { get; set; }
         public int Status { get; set; }
+    }
+
+    public class Header : IDescription
+    {
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public string Type { get; set; }
+        public bool Optional { get; set; }
     }
 
     public class Data : IDescription

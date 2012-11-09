@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceptanceTests.cs" />
+    <Compile Include="Description\HeaderConventionTests.cs" />
     <Compile Include="EmbeddedCommentsTests.cs" />
     <Compile Include="Specification\ActionSourceTests\Handlers.cs" />
     <Compile Include="Specification\ActionSourceTests\Tests.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Specification\OverrideTests\Handlers.cs" />
     <Compile Include="Specification\OverrideTests\Tests.cs" />
     <Compile Include="Specification\MergeServiceTests\Tests.cs" />
+    <Compile Include="Specification\SpecificationServiceEndpointTests\HeadersTests.cs" />
     <Compile Include="Specification\SpecificationServiceTests\Handlers.cs" />
     <Compile Include="Specification\SpecificationServiceTests\Tests.cs" />
     <Compile Include="Specification\SpecificationServiceMergeTests\Tests.cs" />

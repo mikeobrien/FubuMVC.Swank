@@ -39,8 +39,10 @@ namespace HelloWorld
                 .MergeThisSpecification("~/spec.json")
 
                 // Why define these over and over when you can just override them in one place?
-                .OverrideEndpoints((action, endpoint) => endpoint
-                    .Errors.Add(new Error { Status = 404, Name = "Not Found", Comments = "The item was not found!"}))
+                .OverrideEndpoints((action, endpoint) => {
+                    endpoint.Errors.Add(new Error { Status = 404, Name = "Not Found", Comments = "The item was not found!" });
+                    endpoint.Headers.Add(new Header { Type = "Request", Name = "api-key", Comments = "The is the api key found under your account.", Optional = true });
+                })
 
                 .OverridePropertiesWhen((propertyinfo, property) => property.Comments = "This is the id of the user.", 
                     (propertyinfo, property) => propertyinfo.Name == "UserId" && propertyinfo.IsGuid()));

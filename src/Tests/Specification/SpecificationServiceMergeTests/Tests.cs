@@ -27,8 +27,8 @@ namespace Tests.Specification.SpecificationServiceMergeTests
                     .MergeThisSpecification(@"Specification\SpecificationServiceMergeTests\Merge.json");
                 });
             return new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new ErrorConvention(), 
-                new TypeConvention(), new MergeService()).Generate();
+                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new ErrorConvention(),
+                new HeaderConvention(), new TypeConvention(), new MergeService()).Generate();
         }
 
         [Test]

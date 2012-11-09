@@ -35,6 +35,13 @@
 
     public class OptionDescription : DescriptionBase { }
 
+    public enum HttpHeaderType { Request, Response }
+    public class HeaderDescription : DescriptionBase
+    {
+        public HttpHeaderType Type { get; set; }
+        public bool Optional { get; set; }
+    }
+
     public class ErrorDescription : DescriptionBase
     {
         public int Status { get; set; }

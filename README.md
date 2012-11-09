@@ -310,6 +310,26 @@ public class UserGetHandler
 
 Comments can alternatively be specified in an embedded file. The embedded filename must be the same as the handler class or the handler class plus the method name, save the `.cs` extension, and suffixed with either `.Request` or `.Response`. For example the comments filename for the request and response above would either be `UserGetHandler.[Request|Response].[md|html|txt]` or  `UserGetHandler.Execute_Id.[Request|Response].[md|html|txt]`. If the handler class has more than one action, the latter convention is required. 
 
+#### Headers
+
+Http header descriptions can be specified by the `HeaderDescriptionAttribute` attribute. This attribute can be applied to the class containing the action method or to the action method itself. When the class contains more than one action they must be applied to the action method. Multiple `HeaderDescriptionAttribute`'s can be applied. It takes an `HttpHeaderType` of `Request` or `Response`, a name, optional comments and if the header is optional (defaults to false).
+
+```csharp
+[HeaderDescription(HttpHeaderType.Request, "api-key", "These are some lovely comments.", true)]
+[HeaderDescription(HttpHeaderType.Response, "content-type", "These are some lovely comments.")]
+public class UserGetHandler
+{
+    public UserModel Execute_Id() { ... } 
+}
+
+public class UserGetHandler
+{
+    [HeaderDescription(HttpHeaderType.Request, "api-key", "These are some lovely comments.", true)]
+    [HeaderDescription(HttpHeaderType.Response, "content-type", "These are some lovely comments.")]
+    public UserModel Execute_Id() { ... } 
+}
+```
+
 #### Errors
 
 Error descriptions can be specified by the `ErrorDescriptionAttribute` attribute. This attribute can be applied to the class containing the action method or to the action method itself. When the class contains more than one action they must be applied to the action method. Multiple `ErrorDescriptionAttribute`'s can be applied. It takes an `HttpStatusCode` or an integer status, a name and optional comments.
@@ -425,6 +445,10 @@ The following overrides are available in the configuration.
 	<tr>
 		<td><code>OverrideQuerystring*</code></td>
 		<td>Allows you to override querystring parameters.</td>
+	</tr>
+	<tr>
+		<td><code>OverrideHeaders*</code></td>
+		<td>Allows you to override http headers.</td>
 	</tr>
 	<tr>
 		<td><code>OverrideErrors*</code></td>
@@ -565,6 +589,10 @@ The following conventions can be set.
 	<tr>
 		<td><code>Endpoint</code></td>
 		<td><code>IDescriptionConvention&lt;ActionCall, EndpointDescription&gt;</code></td>
+	</tr>
+	<tr>
+		<td><code>Header</code></td>
+		<td><code>IDescriptionConvention&lt;ActionCall, List&lt;HeaderDescription&gt;&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>Error</code></td>

@@ -88,6 +88,35 @@
         <div class="endpoint-body endpoint-well">
           <p>{{{Comments}}}</p>
 
+          {{#if Headers}}
+          <h4>Headers</h4>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#Headers}}
+              <tr>
+                <td>
+                  <strong>{{{Type}}}</strong>
+                </td>
+                <td nowrap="nowrap">
+                  <code>{{{Name}}}</code>
+                </td>
+                <td>
+                  {{#if Optional}}<span class="label label-success">Optional</span>{{/if}}
+                  {{#when '!Optional'}}<span class="label label-important">Required</span>{{/when}}
+                  {{{Comments}}}</td>
+              </tr>
+              {{/Headers}}
+            </tbody>
+          </table>
+          {{/if}}
+
           {{#if UrlParameters}}
           <h4>Url Parameters</h4>
           <table class="table table-bordered table-zebra">

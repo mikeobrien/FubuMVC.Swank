@@ -25,8 +25,8 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
                 new ActionSource(graph, Swank.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter))));
             var configuration = Swank.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter));
             var specBuilder = new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new ErrorConvention(), 
-                new TypeConvention(), new MergeService());
+                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new ErrorConvention(),
+                new HeaderConvention(), new TypeConvention(), new MergeService());
             Spec = specBuilder.Generate();
         }
     }

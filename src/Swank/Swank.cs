@@ -291,6 +291,26 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
+        /// This allows you to set the header convention.
+        /// </summary>
+        public Swank WithHeaderConvention<T>() where T : IDescriptionConvention<ActionCall, List<HeaderDescription>>
+        {
+            return WithHeaderConvention<T, object>(null);
+        }
+
+        /// <summary>
+        /// This allows you to set the header convention as well as pass in configuration.
+        /// </summary>
+        public Swank WithHeaderConvention<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionConvention<ActionCall, List<HeaderDescription>>
+            where TConfig : class, new()
+        {
+            _configuration.HeaderConvention.Type = typeof(T);
+            _configuration.HeaderConvention.Config = CreateConfig(configure);
+            return this;
+        }
+
+        /// <summary>
         /// This allows you to set the type convention.
         /// </summary>
         public Swank WithTypeConvention<T>() where T : IDescriptionConvention<Type, TypeDescription>
@@ -469,10 +489,29 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override error values when a condition is met.
         /// </summary>
-        public Swank OverrideErrorsWhen(Action<ActionCall, Specification.Error> @override, 
+        public Swank OverrideErrorsWhen(Action<ActionCall, Specification.Error> @override,
             Func<ActionCall, Specification.Error, bool> when)
         {
             _configuration.ErrorOverrides.Add(OverrideWhen(@override, when));
+            return this;
+        }
+
+        /// <summary>
+        /// Allows you to override header values.
+        /// </summary>
+        public Swank OverrideHeaders(Action<ActionCall, Specification.Header> @override)
+        {
+            _configuration.HeaderOverrides.Add(@override);
+            return this;
+        }
+
+        /// <summary>
+        /// Allows you to override header values when a condition is met.
+        /// </summary>
+        public Swank OverrideHeadersWhen(Action<ActionCall, Specification.Header> @override, 
+            Func<ActionCall, Specification.Header, bool> when)
+        {
+            _configuration.HeaderOverrides.Add(OverrideWhen(@override, when));
             return this;
         }
 
