@@ -102,7 +102,7 @@ The following are all the basic configuration options. Advanced options are disc
   </tr>
   <tr>
     <td><code>WithEnumValueTypeOf(EnumValue type)</code></td>
-    <td>Indicates whether enum values are represented by a number or string. <b>Note:</b> the `JavaScriptSerializer` serializes enum values to integers whereas the `XmlSerializer` serializes them to strings. If your API serves both json and xml you will need to unify the serialization and then configure this setting accordingly.</td>
+    <td>Indicates whether enum values are represented by a number or string. <b>Note:</b> the <code>JavaScriptSerializer</code> serializes enum values to integers whereas the <code>XmlSerializer</code> serializes them to strings. If your API serves both json and xml you will need to unify the serialization and then configure this setting accordingly.</td>
   </tr>
   <tr>
     <td><code>With*Format(string format)</code></td>
