@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank.Specification
 {
@@ -9,7 +10,17 @@ namespace FubuMVC.Swank.Specification
         public List<string> Stylesheets { get; set; }
         public bool ShowJson { get; set; }
         public bool ShowXml { get; set; }
-        public Specification Specification { get; set; }    
+        public Specification Specification { get; set; }
+        public SampleValues SampleValues { get; set; }
+    }
+
+    public class SampleValues
+    {
+        public string DateTime { get; set; }
+        public string Integer { get; set; }
+        public string Real { get; set; }
+        public string TimeSpan { get; set; }
+        public string Guid { get; set; }
     }
 
     public class ViewHandler
@@ -31,7 +42,14 @@ namespace FubuMVC.Swank.Specification
                 Stylesheets = _configuration.Stylesheets,
                 ShowXml = _configuration.DisplayXml,
                 ShowJson = _configuration.DisplayJson,
-                Specification = _specificationService.Generate() 
+                Specification = _specificationService.Generate(),
+                SampleValues = new SampleValues {
+                        DateTime = _configuration.SampleDateTimeValue.ToDefaultValueString(_configuration),
+                        Guid = _configuration.SampleGuidValue.ToDefaultValueString(_configuration),
+                        Integer = _configuration.SampleIntegerValue.ToDefaultValueString(_configuration),
+                        Real = _configuration.SampleRealValue.ToDefaultValueString(_configuration),
+                        TimeSpan = _configuration.SampleTimeSpanValue.ToDefaultValueString(_configuration),
+                    }
             };
         }
     }

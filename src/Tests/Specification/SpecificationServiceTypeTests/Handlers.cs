@@ -169,7 +169,10 @@ namespace Tests.Specification.SpecificationServiceTypeTests
             public HyperDrive Drive { get; set; }
             public List<int> Ids { get; set; }
             public List<HyperDrive> Drives { get; set; }
+            [DefaultValue(Status.Active)]
             public Status Status { get; set; }
+            [DefaultValue(5)]
+            public int Id { get; set; }
         }
 
         public class Response { }

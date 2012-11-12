@@ -124,18 +124,17 @@
         if (member.Options && member.Options.length > 0) 
                return '\"' + (member.DefaultValue || member.Options[0].Value) + '\"';
         if (member.Type == 'decimal' ||  member.Type == 'double' ||
-            member.Type == 'float' || member.Type == 'unsignedByte' ||
-            member.Type == 'byte' ||  member.Type == 'short' ||
-            member.Type == 'unsignedShort' ||  member.Type == 'int' ||
-            member.Type == 'unsignedInt' || member.Type == 'long' ||
-            member.Type == 'unsignedLong') return member.DefaultValue || '0';
+            member.Type == 'float') return member.DefaultValue || Swank.SampleValues.Real;
+        if (member.Type == 'unsignedByte' || member.Type == 'byte' ||
+            member.Type == 'short' || member.Type == 'unsignedShort' ||
+            member.Type == 'int' || member.Type == 'unsignedInt' ||
+            member.Type == 'long' || member.Type == 'unsignedLong') return member.DefaultValue || Swank.SampleValues.Integer;
         else if (member.Type == 'boolean') return member.DefaultValue || 'false';
-        else if (member.Type == 'guid') return member.DefaultValue || '\"00000000-0000-0000-0000-000000000000\"';
-        else if (member.Type == 'dateTime') return member.DefaultValue || '\"10/26/1985 1:21:00 AM\"';
-        else if (member.Type == 'string' ||
-                 member.Type == 'char' ||
+        else if (member.Type == 'guid') return '\"' + (member.DefaultValue || Swank.SampleValues.Guid) + '\"';
+        else if (member.Type == 'dateTime') return '\"' + (member.DefaultValue || Swank.SampleValues.DateTime) + '\"';
+        else if (member.Type == 'string' || member.Type == 'char' ||
                  member.Type == 'base64Binary') return '\"' + (member.DefaultValue || '') + '\"';
-        else if (member.Type == 'TimeSpan') return '\"' + (member.DefaultValue || '0.00:00:00') + '\"';
+        else if (member.Type == 'TimeSpan') return '\"' + (member.DefaultValue || Swank.SampleValues.TimeSpan) + '\"';
         else return null;
     };
 

@@ -371,7 +371,10 @@
     </script>
   
     <script language="javascript" type="text/javascript"> 
-      window.Swank = { Specification: !{Model.Specification.SerializeJson()} }; 
+      window.Swank = { 
+        Specification: !{Model.Specification.SerializeJson()},
+        SampleValues: !{Model.SampleValues.SerializeJson()} 
+      }; 
     </script>
     
     <script src="~/_content/swank/es5-shim.js" type="text/javascript"></script>

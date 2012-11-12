@@ -195,12 +195,14 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
             [QueryString]
             public string Sort { get; set; }
             [Comments("These are the revision numbers.")]
-            public List<int> Revision { get; set; }
+            public List<int> Revisions { get; set; }
             [QueryString, Hide]
             public string HiddenParameter { get; set; }
             [QueryString, Required]
             public string RequiredParameter { get; set; }
             public string ContentType { get; set; }
+            [DefaultValue(5)]
+            public int Revision { get; set; }
         }
 
         public class ImplicitGetHandler { public object Execute_ImplicitGet_Id(Request request) { return null; } }

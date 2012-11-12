@@ -172,7 +172,7 @@ namespace FubuMVC.Swank.Specification
                         return _configuration.MemberOverrides.Apply(x, new Member {
                             Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                            DefaultValue = description.WhenNotNull(y => y.DefaultValue).WhenNotNull(z => z.ToString()).OtherwiseDefault(),
+                            DefaultValue = description.WhenNotNull(y => y.DefaultValue).WhenNotNull(z => z.ToDefaultValueString(_configuration)).OtherwiseDefault(),
                             Required = description.WhenNotNull(y => y.Required).OtherwiseDefault(),
                             Type = memberType.IsEnum ? memberType.Name : (memberType.IsSystemType() ? memberType.GetXmlName() : _configuration.TypeIdConvention(memberType)),
                             Collection = x.PropertyType.IsArray || x.PropertyType.IsList(),
@@ -260,7 +260,7 @@ namespace FubuMVC.Swank.Specification
                         Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                         Type = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).GetXmlName(),
                         Options = GetOptions(x.Value.PropertyType),
-                        DefaultValue = description.DefaultValue.WhenNotNull(y => y.ToString()).OtherwiseDefault(),
+                        DefaultValue = description.DefaultValue.WhenNotNull(y => y.ToDefaultValueString(_configuration)).OtherwiseDefault(),
                         MultipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList(),
                         Required = description.Required
                     });
@@ -312,7 +312,7 @@ namespace FubuMVC.Swank.Specification
                         return _configuration.OptionOverrides.Apply(x, new Option {
                             Name = option.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = option.WhenNotNull(y => y.Comments).OtherwiseDefault(), 
-                            Value = x.Name
+                            Value = _configuration.EnumValue == EnumValue.AsString ? x.Name : x.GetRawConstantValue().ToString()
                         });
                     }).OrderBy(x => x.Name ?? x.Value).ToList();
         }

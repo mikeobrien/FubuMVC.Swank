@@ -18,16 +18,22 @@ namespace Tests.Specification.SpecificationServiceEndpointTests
         [SetUp]
         public void Setup()
         {
+            Spec = GetSpec();
+        }
+
+        public static FubuMVC.Swank.Specification.Specification GetSpec(Action<Swank> configure = null)
+        {
             var graph = Behavior.BuildGraph().AddActionsInThisNamespace();
             var moduleConvention = new ModuleConvention(new MarkerConvention<ModuleDescription>());
             var resourceConvention = new ResourceConvention(
                 new MarkerConvention<ResourceDescription>(),
                 new ActionSource(graph, Swank.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter))));
-            var configuration = Swank.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter));
+            var configuration = Swank.CreateConfig(x =>
+                { x.AppliesToThisAssembly().Where(ActionFilter).WithEnumValueTypeOf(EnumValue.AsString); if (configure != null) configure(x); });
             var specBuilder = new SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
                 moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new StatusCodeConvention(),
                 new HeaderConvention(), new TypeConvention(), new MergeService());
-            Spec = specBuilder.Generate();
+            return specBuilder.Generate();
         }
     }
 }

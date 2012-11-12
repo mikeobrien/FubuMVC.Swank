@@ -12,6 +12,7 @@ using Type = System.Type;
 namespace FubuMVC.Swank
 {
     public enum OrphanedActions { Exclude, Fail, UseDefault }
+    public enum EnumValue { AsNumber, AsString }
 
     public class Configuration
     {
@@ -37,6 +38,20 @@ namespace FubuMVC.Swank
             OrphanedModuleActions = OrphanedActions.UseDefault;
             DefaultResourceFactory = x => new ResourceDescription { Name = x.ParentChain().Route.GetRouteResource() };
             OrphanedResourceActions = OrphanedActions.UseDefault;
+
+            EnumValue = EnumValue.AsNumber;
+
+            DefaultValueDateTimeFormat = "g";
+            DefaultValueIntegerFormat = "0";
+            DefaultValueRealFormat = "0.0";
+            DefaultValueTimeSpanFormat = "g";
+            DefaultValueGuidFormat = "D";
+
+            SampleDateTimeValue = DateTime.Now;
+            SampleIntegerValue = 0;
+            SampleRealValue = 0;
+            SampleTimeSpanValue = TimeSpan.FromHours(0);
+            SampleGuidValue = Guid.Empty;
 
             TypeIdConvention = x => x.GetHash();
             InputTypeIdConvention = (t, m) => t.GetHash(m);
@@ -80,6 +95,20 @@ namespace FubuMVC.Swank
         public OrphanedActions OrphanedResourceActions { get; set; }
         public Func<ActionCall, ModuleDescription> DefaultModuleFactory { get; set; }
         public Func<ActionCall, ResourceDescription> DefaultResourceFactory { get; set; }
+
+        public EnumValue EnumValue { get; set; }
+
+        public string DefaultValueDateTimeFormat { get; set; }
+        public string DefaultValueIntegerFormat { get; set; }
+        public string DefaultValueRealFormat { get; set; }
+        public string DefaultValueTimeSpanFormat { get; set; }
+        public string DefaultValueGuidFormat { get; set; }
+
+        public DateTime SampleDateTimeValue { get; set; }
+        public int SampleIntegerValue { get; set; }
+        public decimal SampleRealValue { get; set; }
+        public TimeSpan SampleTimeSpanValue { get; set; }
+        public Guid SampleGuidValue { get; set; }
 
         public Func<Type, string> TypeIdConvention { get; set; }
         public Func<Type, MethodInfo, string> InputTypeIdConvention { get; set; }

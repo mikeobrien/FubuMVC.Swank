@@ -1,4 +1,5 @@
-﻿using FubuMVC.Swank.Extensions;
+﻿using FubuMVC.Swank;
+using FubuMVC.Swank.Extensions;
 using NUnit.Framework;
 using Should;
 
@@ -82,6 +83,33 @@ namespace Tests.Specification.SpecificationServiceTypeTests
         }
 
         [Test]
+        public void should_indicate_a_members_custom_formatted_default_value()
+        {
+            var type = BuildSpec<MemberDescription.PutHandler>(x => x.WithIntegerFormat("0.00")).Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>();
+
+            type.GetMember<MemberDescription.Request>(x => x.Id).DefaultValue.ShouldEqual("5.00");
+        }
+
+        [Test]
+        public void should_indicate_a_members_enum_numeric_default_value()
+        {
+            var type = BuildSpec<MemberDescription.PutHandler>(x => x.WithEnumValueTypeOf(EnumValue.AsNumber)).Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>();
+
+            type.GetMember<MemberDescription.Request>(x => x.Status).DefaultValue.ShouldEqual("1");
+        }
+
+        [Test]
+        public void should_indicate_a_members_enum_string_default_value()
+        {
+            var type = BuildSpec<MemberDescription.PutHandler>(x => x.WithEnumValueTypeOf(EnumValue.AsString)).Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>();
+
+            type.GetMember<MemberDescription.Request>(x => x.Status).DefaultValue.ShouldEqual("Active");
+        }
+
+        [Test]
         public void should_indicate_if_a_member_is_required()
         {
             var type = BuildSpec<MemberDescription.PutHandler>().Types
@@ -156,7 +184,7 @@ namespace Tests.Specification.SpecificationServiceTypeTests
         }
 
         [Test]
-        public void should_enumerate_options_for_enum_members()
+        public void should_enumerate_options_for_enum_members_with_numeric()
         {
             var member = BuildSpec<MemberDescription.PutHandler>().Types
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
@@ -164,6 +192,31 @@ namespace Tests.Specification.SpecificationServiceTypeTests
 
             member.Options.Count.ShouldEqual(3);
             
+            var option = member.Options[0];
+            option.Name.ShouldEqual("Active yo!");
+            option.Comments.ShouldEqual("This is a very nice status.");
+            option.Value.ShouldEqual("1");
+
+            option = member.Options[1];
+            option.Name.ShouldEqual("HyperActive");
+            option.Comments.ShouldEqual("Very active yo!");
+            option.Value.ShouldEqual("2");
+
+            option = member.Options[2];
+            option.Name.ShouldEqual("Inactive");
+            option.Comments.ShouldBeNull();
+            option.Value.ShouldEqual("0");
+        }
+
+        [Test]
+        public void should_enumerate_options_for_enum_members_with_string_values()
+        {
+            var member = BuildSpec<MemberDescription.PutHandler>(x => x.WithEnumValueTypeOf(EnumValue.AsString)).Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
+                   .GetMember<MemberDescription.Request>(x => x.Status);
+
+            member.Options.Count.ShouldEqual(3);
+
             var option = member.Options[0];
             option.Name.ShouldEqual("Active yo!");
             option.Comments.ShouldEqual("This is a very nice status.");

@@ -151,6 +151,105 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
+        /// Indicates whether enum values are represented by a number or string.
+        /// </summary>
+        public Swank WithEnumValueTypeOf(EnumValue type)
+        {
+            _configuration.EnumValue = type;
+            return this;
+        }
+
+        /// <summary>
+        /// This is the format of default and sample DateTime values displayed in the documentation.
+        /// </summary>
+        public Swank WithDateTimeFormat(string format)
+        {
+            _configuration.DefaultValueDateTimeFormat = format;
+            return this;
+        }
+
+        /// <summary>
+        /// This is the format of default and sample integer values displayed in the documentation.
+        /// </summary>
+        public Swank WithIntegerFormat(string format)
+        {
+            _configuration.DefaultValueIntegerFormat = format;
+            return this;
+        }
+
+        /// <summary>
+        /// This is the format of default and sample real values displayed in the documentation.
+        /// </summary>
+        public Swank WithRealFormat(string format)
+        {
+            _configuration.DefaultValueRealFormat = format;
+            return this;
+        }
+
+        /// <summary>
+        /// This is the format of default and sample TimeSpan values displayed in the documentation.
+        /// </summary>
+        public Swank WithTimeSpanFormat(string format)
+        {
+            _configuration.DefaultValueTimeSpanFormat = format;
+            return this;
+        }
+
+        /// <summary>
+        /// This is the format of default and sample Guid values displayed in the documentation.
+        /// </summary>
+        public Swank WithGuidFormat(string format)
+        {
+            _configuration.DefaultValueGuidFormat = format;
+            return this;
+        }
+
+        /// <summary>
+        /// Sample DateTime value displayed in the documentation.
+        /// </summary>
+        public Swank WithSampleDateTimeValue(DateTime value)
+        {
+            _configuration.SampleDateTimeValue = value;
+            return this;
+        }
+
+        /// <summary>
+        /// Sample integer value displayed in the documentation.
+        /// </summary>
+        public Swank WithSampleIntegerValue(int value)
+        {
+            _configuration.SampleIntegerValue = value;
+            return this;
+        }
+
+        /// <summary>
+        /// Sample real value displayed in the documentation.
+        /// </summary>
+        public Swank WithSampleRealValue(decimal value)
+        {
+            _configuration.SampleRealValue = value;
+            return this;
+        }
+
+        /// <summary>
+        /// Sample TimeSpan value displayed in the documentation.
+        /// </summary>
+        public Swank WithSampleTimeSpanValue(TimeSpan value)
+        {
+            _configuration.SampleTimeSpanValue = value;
+            return this;
+        }
+
+        /// <summary>
+        /// Sample Guid value displayed in the documentation.
+        /// </summary>
+        public Swank WithSampleGuidValue(Guid value)
+        {
+            _configuration.SampleGuidValue = value;
+            return this;
+        }
+
+        /// <summary>
         /// This allows you to set the type id convention. 
         /// The default is a hash of the full type name.
         /// </summary>
