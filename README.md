@@ -105,11 +105,11 @@ The following are all the basic configuration options. Advanced options are disc
     <td>Indicates whether enum values are represented by a number or string. <b>Note:</b> the `JavaScriptSerializer` serializes enum values to integers whereas the `XmlSerializer` serializes them to strings. If your API serves both json and xml you will need to unify the serialization and then configure this setting accordingly.</td>
   </tr>
   <tr>
-    <td><code>With[DateTime|Guid|Integer|Real|TimeSpan]Format(string format)</code></td>
+    <td><code>With*Format(string format)</code></td>
     <td>This is the format of default and sample values displayed in the documentation.</td>
   </tr>
   <tr>
-    <td><code>WithSample[DateTime|Guid|Integer|Real|TimeSpan]Value(* value)</code></td>
+    <td><code>WithSample*Value(* value)</code></td>
     <td>Sample value displayed in the documentation when no default value has been set.</td>
   </tr>
   <tr>
