@@ -1,10 +1,10 @@
 ﻿namespace FubuMVC.Swank.Specification
 {
-    public class DataHandler
+    public class DataGetHandler
     {
         private readonly ISpecificationService _specificationService;
 
-        public DataHandler(ISpecificationService specificationService)
+        public DataGetHandler(ISpecificationService specificationService)
         {
             _specificationService = specificationService;
         }

@@ -107,7 +107,7 @@
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Specification\CachedSpecificationService.cs" />
-    <Compile Include="Specification\DataHandler.cs" />
+    <Compile Include="Specification\DataGetHandler.cs" />
     <Compile Include="Specification\ISpecificationService.cs" />
     <Compile Include="Specification\MergeService.cs" />
     <Compile Include="Specification\OrphanedModuleActionException.cs" />
@@ -138,7 +138,7 @@
     <Compile Include="Conventions.cs" />
     <Compile Include="Specification\SpecificationService.cs" />
     <Compile Include="Specification\TypeContext.cs" />
-    <Compile Include="Specification\ViewHandler.cs" />
+    <Compile Include="Specification\ViewGetHandler.cs" />
     <Compile Include="Swank.cs" />
   </ItemGroup>
   <ItemGroup>

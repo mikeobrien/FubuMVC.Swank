@@ -23,12 +23,12 @@ namespace FubuMVC.Swank.Specification
         public string Guid { get; set; }
     }
 
-    public class ViewHandler
+    public class ViewGetHandler
     {
         private readonly ISpecificationService _specificationService;
         private readonly Configuration _configuration;
 
-        public ViewHandler(ISpecificationService specificationService, Configuration configuration)
+        public ViewGetHandler(ISpecificationService specificationService, Configuration configuration)
         {
             _specificationService = specificationService;
             _configuration = configuration;

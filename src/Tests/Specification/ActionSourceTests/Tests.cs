@@ -23,7 +23,7 @@ namespace Tests.Specification.ActionSourceTests
         [Test]
         public void should_enumerate_actions_in_all_assemblies_except_the_swank_assembly_by_default()
         {
-            _graph.AddAction<ViewHandler>("GET");
+            _graph.AddAction<ViewGetHandler>("GET");
 
             var actions = new ActionSource(_graph, new Configuration()).GetActions();
 
@@ -34,7 +34,7 @@ namespace Tests.Specification.ActionSourceTests
         [Test]
         public void should_only_enumerate_actions_in_the_specified_assemblies()
         {
-            _graph.AddAction<ViewHandler>("GET");
+            _graph.AddAction<ViewGetHandler>("GET");
 
             var configuration = Swank.CreateConfig(x => x.AppliesToThisAssembly());
             var actions = new ActionSource(_graph, configuration).GetActions();

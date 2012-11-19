@@ -10,7 +10,7 @@ namespace TestHarness
         public Conventions()
         {
             Actions.FindBy(x => x.IncludeTypesNamed(y => y.EndsWith("Handler")));
-            
+
             Routes
                 .HomeIs<IndexGetHandler>(x => x.Execute())
                 .IgnoreNamespaceForUrlFrom<Conventions>()

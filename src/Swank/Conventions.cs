@@ -2,7 +2,6 @@
 using System.Reflection;
 using FubuMVC.Core;
 using FubuMVC.Core.Registration.Nodes;
-using FubuMVC.Spark;
 using FubuMVC.Swank.Description;
 using FubuMVC.Swank.Extensions;
 using FubuMVC.Swank.Specification;
@@ -16,13 +15,11 @@ namespace FubuMVC.Swank
             Actions.FindBy(x => x.IncludeTypesNamed(y => y.EndsWith("Handler")));
             
             Routes
-                .HomeIs<ViewHandler>(x => x.Execute())
+                .HomeIs<ViewGetHandler>(x => x.Execute())
                 .IgnoreMethodSuffix("Execute")
                 .IgnoreControllerNamesEntirely()
                 .IgnoreControllerNamespaceEntirely()
-                .ConstrainToHttpMethod(action => action.Method.Name.EndsWith("Get"), "GET");
-
-            Import<SparkEngine>();
+                .ConstrainToHttpMethod(action => action.HandlerType.Name.EndsWith("GetHandler"), "GET");
 
             Policies.Add(x => x.Conneg.ApplyConneg());
 
