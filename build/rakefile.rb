@@ -6,8 +6,8 @@ require_relative "fubu-bottles"
 reportsPath = "reports"
 version = ENV["BUILD_NUMBER"]
 
-task :build => :createPackage
-task :deploy => :pushPackage
+task :build => :pushLocalPackage
+task :deploy => :pushPublicPackage
 
 assemblyinfo :assemblyInfo do |asm|
     asm.version = version
@@ -52,14 +52,18 @@ end
 
 nugetApiKey = ENV["NUGET_API_KEY"]
 deployPath = "deploy"
+artifactsPath = 'artifacts'
 
 packagePath = File.join(deployPath, "package")
 nuspecFilename = "FubuMVC.Swank.nuspec"
 packageContentPath = File.join(packagePath, "content/fubu-content")
+packageFilePath = File.join(deployPath, "FubuMVC.Swank.#{version}.nupkg")
 
 task :prepPackage => :unitTests do
 	Path.DeleteDirectory(deployPath)
 	Path.EnsurePath(packageContentPath)
+	Path.DeleteDirectory(artifactsPath)
+    Path.EnsurePath(artifactsPath)
     packageLibPath = File.join(packagePath, "lib")
 	Path.EnsurePath(packageLibPath)
 	Path.CopyFiles("src/Swank/bin/FubuMVC.Swank.*", packageLibPath)
@@ -88,8 +92,8 @@ nuspec :createSpec => :createBottle do |nuspec|
    nuspec.working_directory = packagePath
    nuspec.output_file = nuspecFilename
    nuspec.tags = "fubumvc"
-   nuspec.dependency "FubuMVC.References", "0.9.0.0"
-   nuspec.dependency "FubuMVC.Spark", "0.9.0.0"
+   nuspec.dependency "FubuMVC.Core", "0.9.9.0"
+   nuspec.dependency "FubuMVC.Spark", "0.9.9.0"
    nuspec.dependency "MarkdownSharp", "1.0.0.0"
 end
 
@@ -99,7 +103,11 @@ nugetpack :createPackage => :createSpec do |nugetpack|
    nugetpack.output = deployPath
 end
 
-nugetpush :pushPackage => :createPackage do |nuget|
+task :pushLocalPackage => :createPackage do
+	Path.CopyFiles(packageFilePath, artifactsPath)
+end
+
+nugetpush :pushPublicPackage => :createPackage do |nuget|
     nuget.apikey = nugetApiKey
-    nuget.package = File.join(deployPath, "FubuMVC.Swank.#{version}.nupkg").gsub('/', '\\')
+    nuget.package = packageFilePath.gsub('/', '\\')
 end

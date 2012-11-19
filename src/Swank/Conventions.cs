@@ -13,7 +13,7 @@ namespace FubuMVC.Swank
     {
         public Conventions(Configuration configuration)
         {
-            Actions.IncludeTypesNamed(x => x.EndsWith("Handler"));
+            Actions.FindBy(x => x.IncludeTypesNamed(y => y.EndsWith("Handler")));
             
             Routes
                 .HomeIs<ViewHandler>(x => x.Execute())
@@ -23,22 +23,21 @@ namespace FubuMVC.Swank
                 .ConstrainToHttpMethod(action => action.Method.Name.EndsWith("Get"), "GET");
 
             Import<SparkEngine>();
-            Views.TryToAttachWithDefaultConventions();
 
-            Media.ApplyContentNegotiationToActions(x => x.HandlerType.Assembly == GetType().Assembly && !x.HasAnyOutputBehavior());
+            Policies.Add(x => x.Conneg.ApplyConneg());
 
             Services(x =>
             {
                 x.AddService(configuration);
                 x.AddService<ISpecificationService, CachedSpecificationService>();
-                x.AddService<IDescriptionConvention<ActionCall, ModuleDescription>>(configuration.ModuleConvention.Type, configuration.ModuleConvention.Config);
-                x.AddService<IDescriptionConvention<ActionCall, ResourceDescription>>(configuration.ResourceConvention.Type, configuration.ResourceConvention.Config);
-                x.AddService<IDescriptionConvention<ActionCall, EndpointDescription>>(configuration.EndpointConvention.Type, configuration.EndpointConvention.Config);
-                x.AddService<IDescriptionConvention<PropertyInfo, MemberDescription>>(configuration.MemberConvention.Type, configuration.MemberConvention.Config);
-                x.AddService<IDescriptionConvention<FieldInfo, OptionDescription>>(configuration.OptionConvention.Type, configuration.OptionConvention.Config);
-                x.AddService<IDescriptionConvention<ActionCall, List<StatusCodeDescription>>>(configuration.StatusCodeConvention.Type, configuration.StatusCodeConvention.Config);
-                x.AddService<IDescriptionConvention<ActionCall, List<HeaderDescription>>>(configuration.HeaderConvention.Type, configuration.HeaderConvention.Config);
-                x.AddService<IDescriptionConvention<System.Type, TypeDescription>>(configuration.TypeConvention.Type, configuration.TypeConvention.Config);
+                x.AddService<IDescriptionConvention<ActionCall, ModuleDescription>>(configuration.ModuleConvention.Type, configuration.ModuleConvention.Config)
+                 .AddService<IDescriptionConvention<ActionCall, ResourceDescription>>(configuration.ResourceConvention.Type, configuration.ResourceConvention.Config)
+                 .AddService<IDescriptionConvention<ActionCall, EndpointDescription>>(configuration.EndpointConvention.Type, configuration.EndpointConvention.Config)
+                 .AddService<IDescriptionConvention<PropertyInfo, MemberDescription>>(configuration.MemberConvention.Type, configuration.MemberConvention.Config)
+                 .AddService<IDescriptionConvention<FieldInfo, OptionDescription>>(configuration.OptionConvention.Type, configuration.OptionConvention.Config)
+                 .AddService<IDescriptionConvention<ActionCall, List<StatusCodeDescription>>>(configuration.StatusCodeConvention.Type, configuration.StatusCodeConvention.Config)
+                 .AddService<IDescriptionConvention<ActionCall, List<HeaderDescription>>>(configuration.HeaderConvention.Type, configuration.HeaderConvention.Config)
+                 .AddService<IDescriptionConvention<System.Type, TypeDescription>>(configuration.TypeConvention.Type, configuration.TypeConvention.Config);
             });
         }
     }

@@ -9,9 +9,7 @@ namespace TestHarness
     {
         public Conventions()
         {
-            IncludeDiagnostics(true);
-
-            Actions.IncludeTypesNamed(x => x.EndsWith("Handler"));
+            Actions.FindBy(x => x.IncludeTypesNamed(y => y.EndsWith("Handler")));
             
             Routes
                 .HomeIs<IndexGetHandler>(x => x.Execute())
@@ -36,9 +34,7 @@ namespace TestHarness
                 .OverridePropertiesWhen((propertyinfo, property) => property.Comments = "This is the id of the user.",
                     (propertyinfo, property) => propertyinfo.Name == "UserId" && propertyinfo.IsGuid()));
 
-            Views.TryToAttachWithDefaultConventions();
-
-            Media.ApplyContentNegotiationToActions(x => x.HandlerType.Assembly == GetType().Assembly);
+            Policies.Add(x => x.Conneg.ApplyConneg());
         }
     }
 }

@@ -49,8 +49,6 @@ namespace HelloWorld
 
             // -----------------------------------
 
-            IncludeDiagnostics(true);
-
             Actions
                 .IncludeTypeNamesSuffixed("Handler")
                 .IncludeMethodsPrefixed("Execute");
@@ -66,8 +64,7 @@ namespace HelloWorld
                     .ConstrainClassToPutEndingWith("PutHandler")
                     .ConstrainClassToDeleteEndingWith("DeleteHandler")));
 
-            Media.ApplyContentNegotiationToActions(x =>
-                x.IsInThisAssembly() && !x.HasAnyOutputBehavior());
+            Policies.Add(x => x.Conneg.ApplyConneg());
         }
     }
 }

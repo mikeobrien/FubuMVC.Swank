@@ -3,10 +3,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
-using FubuCore;
 using FubuCore.Reflection;
 using FubuMVC.Core;
-using FubuMVC.Core.Assets.Http;
 using FubuMVC.Core.Http.AspNet;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
@@ -21,11 +19,6 @@ namespace FubuMVC.Swank.Extensions
         public static bool IsSwank(this ActionCall action)
         {
             return action.HandlerType.Assembly == Assembly.GetExecutingAssembly();
-        }
-
-        public static bool IsContent(this ActionCall action)
-        {
-            return action.HandlerType == typeof (AssetWriter);
         }
 
         public static string GetRouteResource(this IRouteDefinition route)
@@ -76,16 +69,12 @@ namespace FubuMVC.Swank.Extensions
                    action.ParentChain().Route.AllowsUpdate()));
         }
 
-        public static void AddService<T, TConcrete>(this IServiceRegistry services)
-        {
-            services.AddService(typeof(T), new ObjectDef(typeof(TConcrete)));
-        }
-
-        public static void AddService<T>(this IServiceRegistry services, Type concreteType, params object[] dependencies)
+        public static ServiceRegistry AddService<T>(this ServiceRegistry services, Type concreteType, params object[] dependencies)
         {
             var objectDef = new ObjectDef(concreteType);
             dependencies.Where(x => x != null).ToList().ForEach(objectDef.DependencyByValue);
             services.AddService(typeof(T), objectDef);
+            return services;
         }
     }
 }
