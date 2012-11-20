@@ -49,9 +49,9 @@ namespace HelloWorld
 
             // -----------------------------------
 
-            Actions
+            Actions.FindBy(x => x
                 .IncludeTypeNamesSuffixed("Handler")
-                .IncludeMethodsPrefixed("Execute");
+                .IncludeMethodsPrefixed("Execute"));
 
             Routes
                 .OverrideFolders()
@@ -63,8 +63,6 @@ namespace HelloWorld
                     .ConstrainClassToPostEndingWith("PostHandler")
                     .ConstrainClassToPutEndingWith("PutHandler")
                     .ConstrainClassToDeleteEndingWith("DeleteHandler")));
-
-            Policies.Add(x => x.Conneg.ApplyConneg());
         }
     }
 }

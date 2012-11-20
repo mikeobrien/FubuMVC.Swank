@@ -9,7 +9,10 @@ namespace TestHarness
     {
         public Conventions()
         {
-            Actions.FindBy(x => x.IncludeTypesNamed(y => y.EndsWith("Handler")));
+            Actions.FindBy(x => {
+                x.Applies.ToThisAssembly();
+                x.IncludeTypesNamed(y => y.EndsWith("Handler"));
+            });
 
             Routes
                 .HomeIs<IndexGetHandler>(x => x.Execute())
@@ -33,8 +36,6 @@ namespace TestHarness
                     .StatusCodes.Add(new StatusCode { Code = 404, Name = "Not Found", Comments = "The item was not found!" }))
                 .OverridePropertiesWhen((propertyinfo, property) => property.Comments = "This is the id of the user.",
                     (propertyinfo, property) => propertyinfo.Name == "UserId" && propertyinfo.IsGuid()));
-
-            Policies.Add(x => x.Conneg.ApplyConneg());
         }
     }
 }

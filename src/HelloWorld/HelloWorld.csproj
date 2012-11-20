@@ -39,64 +39,73 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bottles, Version=0.9.9.405, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Bottles, Version=0.9.9.407, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Bottles.0.9.9.405\lib\Bottles.dll</HintPath>
+      <HintPath>..\packages\Bottles.0.9.9.407\lib\Bottles.dll</HintPath>
     </Reference>
-    <Reference Include="FubuCore, Version=0.9.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FubuCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FubuCore.0.9.9.206\lib\FubuCore.dll</HintPath>
+      <HintPath>..\packages\FubuCore.1.0.0.210\lib\FubuCore.dll</HintPath>
     </Reference>
     <Reference Include="FubuLocalization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FubuLocalization.0.9.5.107\lib\FubuLocalization.dll</HintPath>
+      <HintPath>..\packages\FubuLocalization.0.9.5.108\lib\FubuLocalization.dll</HintPath>
     </Reference>
-    <Reference Include="FubuMVC.Core, Version=0.9.9.1283, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FubuMVC.Core, Version=0.9.9.1289, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FubuMVC.Core.0.9.9.1283\lib\net40\FubuMVC.Core.dll</HintPath>
+      <HintPath>..\packages\FubuMVC.Core.0.9.9.1289\lib\net40\FubuMVC.Core.dll</HintPath>
     </Reference>
-    <Reference Include="FubuMVC.Core.Assets">
-      <HintPath>..\packages\FubuMVC.Core.Assets.0.9.9.50\lib\net40\FubuMVC.Core.Assets.dll</HintPath>
-    </Reference>
-    <Reference Include="FubuMVC.Core.UI">
-      <HintPath>..\packages\FubuMVC.Core.UI.0.9.9.57\lib\net40\FubuMVC.Core.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="FubuMVC.Core.View, Version=0.9.9.52, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FubuMVC.Core.Assets, Version=0.9.9.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FubuMVC.Core.View.0.9.9.52\lib\net40\FubuMVC.Core.View.dll</HintPath>
+      <HintPath>..\packages\FubuMVC.Core.Assets.0.9.9.54\lib\net40\FubuMVC.Core.Assets.dll</HintPath>
     </Reference>
-    <Reference Include="FubuMVC.Diagnostics">
-      <HintPath>..\packages\FubuMVC.Diagnostics.0.1.0.125\lib\net40\FubuMVC.Diagnostics.dll</HintPath>
-    </Reference>
-    <Reference Include="FubuMVC.JQueryUI">
-      <HintPath>..\packages\FubuMVC.JQueryUI.0.5.0.145\lib\net40\FubuMVC.JQueryUI.dll</HintPath>
-    </Reference>
-    <Reference Include="FubuMVC.Media">
-      <HintPath>..\packages\FubuMVC.Media.0.9.5.235\lib\net40\FubuMVC.Media.dll</HintPath>
-    </Reference>
-    <Reference Include="FubuMVC.Navigation">
-      <HintPath>..\packages\FubuMVC.Navigation.0.9.0.8\lib\net40\FubuMVC.Navigation.dll</HintPath>
-    </Reference>
-    <Reference Include="FubuMVC.RegexUrlPolicy">
-      <HintPath>..\packages\FubuMVC.RegexUrlPolicy.1.0.0.16\lib\FubuMVC.RegexUrlPolicy.dll</HintPath>
-    </Reference>
-    <Reference Include="FubuMVC.SlickGrid">
-      <HintPath>..\packages\FubuMVC.SlickGrid.0.0.0.161\lib\net40\FubuMVC.SlickGrid.dll</HintPath>
-    </Reference>
-    <Reference Include="FubuMVC.Spark, Version=0.9.9.52, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FubuMVC.Core.UI, Version=0.9.9.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FubuMVC.Spark.0.9.9.52\lib\net40\FubuMVC.Spark.dll</HintPath>
+      <HintPath>..\packages\FubuMVC.Core.UI.0.9.9.61\lib\net40\FubuMVC.Core.UI.dll</HintPath>
     </Reference>
-    <Reference Include="FubuMVC.StructureMap, Version=0.9.9.1283, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FubuMVC.Core.View, Version=0.9.9.56, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FubuMVC.StructureMap.0.9.9.1283\lib\net40\FubuMVC.StructureMap.dll</HintPath>
+      <HintPath>..\packages\FubuMVC.Core.View.0.9.9.56\lib\net40\FubuMVC.Core.View.dll</HintPath>
     </Reference>
-    <Reference Include="FubuMVC.TwitterBootstrap">
-      <HintPath>..\packages\FubuMVC.TwitterBootstrap.0.0.0.151\lib\net40\FubuMVC.TwitterBootstrap.dll</HintPath>
-    </Reference>
-    <Reference Include="HtmlTags, Version=1.2.0.130, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FubuMVC.Diagnostics, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\HtmlTags.1.2.0.130\lib\4.0\HtmlTags.dll</HintPath>
+      <HintPath>..\packages\FubuMVC.Diagnostics.0.1.0.129\lib\net40\FubuMVC.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="FubuMVC.JQueryUI, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FubuMVC.JQueryUI.0.5.0.149\lib\net40\FubuMVC.JQueryUI.dll</HintPath>
+    </Reference>
+    <Reference Include="FubuMVC.Media, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FubuMVC.Media.0.9.5.239\lib\net40\FubuMVC.Media.dll</HintPath>
+    </Reference>
+    <Reference Include="FubuMVC.Navigation, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FubuMVC.Navigation.0.9.0.12\lib\net40\FubuMVC.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="FubuMVC.RegexUrlPolicy, Version=1.0.0.17, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FubuMVC.RegexUrlPolicy.1.0.0.17\lib\FubuMVC.RegexUrlPolicy.dll</HintPath>
+    </Reference>
+    <Reference Include="FubuMVC.SlickGrid, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FubuMVC.SlickGrid.0.0.0.166\lib\net40\FubuMVC.SlickGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="FubuMVC.Spark, Version=0.9.9.56, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FubuMVC.Spark.0.9.9.56\lib\net40\FubuMVC.Spark.dll</HintPath>
+    </Reference>
+    <Reference Include="FubuMVC.StructureMap, Version=0.9.9.1289, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FubuMVC.StructureMap.0.9.9.1289\lib\net40\FubuMVC.StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="FubuMVC.TwitterBootstrap, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FubuMVC.TwitterBootstrap.0.0.0.155\lib\net40\FubuMVC.TwitterBootstrap.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlTags, Version=1.2.0.131, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\HtmlTags.1.2.0.131\lib\4.0\HtmlTags.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -204,7 +213,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>if $(ConfigurationName) == Debug $(SolutionDir)packages\Bottles.0.9.9.405\tools\BottleRunner.exe create $(SolutionDir)Swank -o $(ProjectDir)fubu-content\fubu-swank.zip -f</PreBuildEvent>
+    <PreBuildEvent>if $(ConfigurationName) == Debug $(SolutionDir)packages\Bottles.0.9.9.407\tools\BottleRunner.exe create $(SolutionDir)Swank -o $(ProjectDir)fubu-content\fubu-swank.zip -f</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

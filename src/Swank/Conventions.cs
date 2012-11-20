@@ -12,7 +12,10 @@ namespace FubuMVC.Swank
     {
         public Conventions(Configuration configuration)
         {
-            Actions.FindBy(x => x.IncludeTypesNamed(y => y.EndsWith("Handler")));
+            Actions.FindBy(x => {
+                x.Applies.ToThisAssembly();
+                x.IncludeTypesNamed(y => y.EndsWith("Handler"));
+            });
             
             Routes
                 .HomeIs<ViewGetHandler>(x => x.Execute())
@@ -20,8 +23,6 @@ namespace FubuMVC.Swank
                 .IgnoreControllerNamesEntirely()
                 .IgnoreControllerNamespaceEntirely()
                 .ConstrainToHttpMethod(action => action.HandlerType.Name.EndsWith("GetHandler"), "GET");
-
-            Policies.Add(x => x.Conneg.ApplyConneg());
 
             Services(x =>
             {
