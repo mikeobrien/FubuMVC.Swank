@@ -1,5 +1,6 @@
 ﻿using System.Xml.Serialization;
 using FubuMVC.Swank.Extensions;
+using System.Runtime.Serialization;
 
 namespace FubuMVC.Swank.Description
 {
@@ -10,7 +11,13 @@ namespace FubuMVC.Swank.Description
             var elementType = type.GetListElementType();
             return new TypeDescription {
                 Type = elementType ?? type,
-                Name = type.GetCustomAttribute<XmlTypeAttribute>().WhenNotNull(x => x.TypeName).Otherwise(type.GetXmlName()),
+                Name = type.GetCustomAttribute<XmlTypeAttribute>()
+                            .WhenNotNull(x => x.TypeName)
+                            .Otherwise(type.GetCustomAttribute<DataContractAttribute>() 
+                                .WhenNotNull(x => x.Name)
+                                .Otherwise(type.GetCustomAttribute<CollectionDataContractAttribute>() 
+                                    .WhenNotNull(x => x.Name)
+                                    .Otherwise(type.GetXmlName()))),
                 Comments = type.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments).OtherwiseDefault()
             };
         }

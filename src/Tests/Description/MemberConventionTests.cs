@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using FubuMVC.Swank.Description;
 using NUnit.Framework;
@@ -28,6 +29,8 @@ namespace Tests.Description
             [XmlElement("R2D2")]
             public int C3P0 { get; set; }
             public List<Item> Items { get; set; }
+            [DataMember(Name = "Tatooine")]
+            public int HanSolo { get; set; }
         }
 
         [Test]
@@ -57,6 +60,12 @@ namespace Tests.Description
         public void should_return_name_specified_in_xml_element()
         {
             _memberConvention.GetDescription(typeof(Request).GetProperty("C3P0")).Name.ShouldEqual("R2D2");
+        }
+
+        [Test]
+        public void should_return_name_specified_in_data_member()
+        {
+            _memberConvention.GetDescription(typeof(Request).GetProperty("HanSolo")).Name.ShouldEqual("Tatooine");
         }
 
         [Test]

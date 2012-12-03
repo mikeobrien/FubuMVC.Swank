@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using FubuMVC.Swank.Description;
 using NUnit.Framework;
@@ -47,10 +48,23 @@ namespace Tests.Description
         [XmlType("SomeType")]
         public class SomeTypeWithXmlName { }
 
+        [DataContract(Name = "SomeType")]
+        public class SomeTypeWithDataContractName { }
+
         [Test]
         public void should_return_attribute_description_of_datatype_and_xml_type_attribute()
         {
             var type = typeof(SomeTypeWithXmlName);
+            var description = new TypeConvention().GetDescription(type);
+            description.Type.ShouldEqual(type);
+            description.Name.ShouldEqual("SomeType");
+            description.Comments.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_data_contract_attribute_name()
+        {
+            var type = typeof(SomeTypeWithDataContractName);
             var description = new TypeConvention().GetDescription(type);
             description.Type.ShouldEqual(type);
             description.Name.ShouldEqual("SomeType");
@@ -72,6 +86,9 @@ namespace Tests.Description
         [Comments("These are some moar types."), XmlType("SomeTypes")]
         public class SomeMoarTypes : List<SomeType> { }
 
+        [CollectionDataContract(Name = "SomeTypes")]
+        public class SomeCollectionWithDataContractName : List<SomeType> { }
+
         [Test]
         public void should_return_attribute_description_of_inherited_list_datatype_with_xml_type_attribute()
         {
@@ -79,6 +96,15 @@ namespace Tests.Description
             description.Type.ShouldEqual(typeof(SomeType));
             description.Name.ShouldEqual("SomeTypes");
             description.Comments.ShouldEqual("These are some moar types.");
+        }
+
+        [Test]
+        public void should_return_name_of_inherited_list_datatype_with_collection_data_contract_attribute()
+        {
+            var description = new TypeConvention().GetDescription(typeof(SomeCollectionWithDataContractName));
+            description.Type.ShouldEqual(typeof(SomeType));
+            description.Name.ShouldEqual("SomeTypes");
+            description.Comments.ShouldBeNull();
         }
 
         [Test]
