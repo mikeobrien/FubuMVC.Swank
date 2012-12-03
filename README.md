@@ -102,7 +102,7 @@ The following are all the basic configuration options. Advanced options are disc
   </tr>
   <tr>
     <td><code>WithEnumValueTypeOf(EnumValue type)</code></td>
-    <td>Indicates whether enum values are represented by a number or string. <b>Note:</b> the <code>JavaScriptSerializer</code> serializes enum values to integers whereas the <code>XmlSerializer</code> serializes them to strings. If your API serves both json and xml you will need to unify the serialization and then configure this setting accordingly.</td>
+    <td>Indicates whether enum values are represented by a number or string. <b>Note:</b> the <code>JavaScriptSerializer</code> serializes enum values to integers whereas the <code>XmlSerializer</code> and <code>DataContractSerializer</code> serializes them to strings. If your API serves both json and xml you will need to unify the serialization and then configure this setting accordingly.</td>
   </tr>
   <tr>
     <td><code>With*Format(string format)</code></td>
@@ -374,7 +374,7 @@ public class User
 }
 ```
 
-**Note:** The `XmlSerializer` class can derive the type name from the `XmlTypeAttribute`. Swank is aware of this attribute and will use this name if it is applied to the type.
+**Note:** The `XmlSerializer` and `DataContractSerializer` can derive the type name from the `XmlTypeAttribute` and `DataContractAttribute`/`CollectionDataContractAttribute` respectively. Swank is aware of these attributes and will use this name if it is applied to the type.
 
 #### Type Members, Url Parameters and Querystring Parameters
 
@@ -392,7 +392,7 @@ public class User
 }
 ```
 
-**Note:** The `XmlSerializer` class can derive the member name from the `XmlElementAttribute`. Swank is aware of this attribute and will use this name if it is applied to the member.
+**Note:** The XmlSerializer` and `DataContractSerializer` can derive the member name from the `XmlElementAttribute` and `DataMemberAttribute` respectively. Swank is aware of these attributes and will use this name if it is applied to the member.
 
 #### Enumerations
 
