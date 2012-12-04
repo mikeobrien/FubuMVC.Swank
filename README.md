@@ -374,11 +374,13 @@ public class User
 }
 ```
 
+**Note:** If a type has the `HideAttribute` applied, all properties of that type will be hidden.
+
 **Note:** The `XmlSerializer` and `DataContractSerializer` can derive the type name from the `XmlTypeAttribute` and `DataContractAttribute`/`CollectionDataContractAttribute` respectively. Swank is aware of these attributes and will use this name if it is applied to the type.
 
 #### Type Members, Url Parameters and Querystring Parameters
 
-Type members can be described with the `CommentsAttribute`, `DefaultValueAttribute`, and `RequiredAttribute` attributes. This also describes url and querystring parameters since are defined on the input model.  
+Type members can be described with the `CommentsAttribute`, `DefaultValueAttribute`, `RequiredAttribute` and `HideAttribute` attributes. This also describes url and querystring parameters since are defined on the input model.  
 
 ```csharp
 public class User
@@ -389,8 +391,14 @@ public class User
 	[DefaultValue(UserType.Guest)]
 	[Comments("These are some lovely comments.")]
 	public UserType Type { get; set; }
+    [Hide]
+    public string Password { get; set; }
 }
 ```
+
+**Note:** If a property type has the `HideAttribute` applied, the property will be hidden as well.
+
+**Note:** The `XmlIgnoreAttribute` will also hide members.
 
 **Note:** The `XmlSerializer` and `DataContractSerializer` can derive the member name from the `XmlElementAttribute` and `DataMemberAttribute` respectively. Swank is aware of these attributes and will use this name if it is applied to the member.
 
