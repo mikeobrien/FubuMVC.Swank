@@ -392,7 +392,7 @@ public class User
 }
 ```
 
-**Note:** The XmlSerializer` and `DataContractSerializer` can derive the member name from the `XmlElementAttribute` and `DataMemberAttribute` respectively. Swank is aware of these attributes and will use this name if it is applied to the member.
+**Note:** The `XmlSerializer` and `DataContractSerializer` can derive the member name from the `XmlElementAttribute` and `DataMemberAttribute` respectively. Swank is aware of these attributes and will use this name if it is applied to the member.
 
 #### Enumerations
 
