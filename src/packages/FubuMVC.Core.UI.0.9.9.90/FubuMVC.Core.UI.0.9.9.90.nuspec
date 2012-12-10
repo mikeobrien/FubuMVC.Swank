@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>FubuMVC.Core.UI</id>
+    <version>0.9.9.90</version>
+    <title>FubuMVC.Core.UI</title>
+    <authors>Jeremy D. Miller, Joshua Arnold, Corey Kaylor</authors>
+    <owners>Jeremy D. Miller, Joshua Arnold, Corey Kaylor</owners>
+    <licenseUrl>https://github.com/DarthFubuMVC/fubumvc/raw/master/license.txt</licenseUrl>
+    <projectUrl>http://mvc.fubu-project.org/</projectUrl>
+    <iconUrl>https://github.com/DarthFubuMVC/fubu-collateral/raw/master/Icons/FubuMvc_256.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Html Conventions and other Html generation goodness for FubuMVC applications</description>
+    <summary>Html Conventions and other Html generation goodness for FubuMVC applications</summary>
+    <tags>web framework mvc fubumvc</tags>
+    <dependencies>
+      <dependency id="FubuMVC.Core" version="0.9.8.1247" />
+      <dependency id="FubuMVC.Core.View" />
+      <dependency id="FubuCore" version="0.9.9.203" />
+      <dependency id="FubuLocalization" version="0.9.5.48" />
+      <dependency id="HtmlTags" version="1.2.0.120" />
+    </dependencies>
+  </metadata>
+</package>
