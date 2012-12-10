@@ -183,8 +183,8 @@
                   {{#when 'Options && Options.length > 0'}}<span class="label label-warning">Enumeration</span>{{/when}}
                   {{#when '!Required && DefaultValue'}}
                     <span class="badge badge-inverse">Default: {{{DefaultValue}}}</span>{{/when}}
-                  {{#if Options}}
                   {{{Comments}}}
+                  {{#if Options}}
                   <h5>Possible Values</h5>
                     <table class="table table-bordered table-zebra">
                       <thead>
