@@ -135,6 +135,7 @@ namespace FubuMVC.Swank.Extensions
         public static bool IsDecimal(this Type type) { return type == typeof(Decimal) || type == typeof(Decimal?); }
         public static bool IsDouble(this Type type) { return type == typeof(Double) || type == typeof(Double?); }
         public static bool IsSingle(this Type type) { return type == typeof(Single) || type == typeof(Single?); }
+        public static bool IsByteArray(this Type type) { return type == typeof(byte[]); }
         public static bool IsByte(this Type type) { return type == typeof(Byte) || type == typeof(Byte?); }
         public static bool IsSByte(this Type type) { return type == typeof(SByte) || type == typeof(SByte?); }
         public static bool IsInt16(this Type type) { return type == typeof(Int16) || type == typeof(Int16?); }
@@ -144,6 +145,7 @@ namespace FubuMVC.Swank.Extensions
         public static bool IsInt64(this Type type) { return type == typeof(Int64) || type == typeof(Int64?); }
         public static bool IsUInt64(this Type type) { return type == typeof(UInt64) || type == typeof(UInt64?); }
         public static bool IsDateTime(this Type type) { return type == typeof(DateTime) || type == typeof(DateTime?); }
+        public static bool IsTimeSpan(this Type type) { return type == typeof(TimeSpan) || type == typeof(TimeSpan?); }
         public static bool IsGuid(this Type type) { return type == typeof(Guid) || type == typeof(Guid?); }
         public static bool IsChar(this Type type) { return type == typeof(Char) || type == typeof(Char?); }
 
@@ -152,6 +154,7 @@ namespace FubuMVC.Swank.Extensions
         public static bool IsDecimal(this PropertyInfo property) { return property.PropertyType.IsDecimal(); }
         public static bool IsDouble(this PropertyInfo property) { return property.PropertyType.IsDouble(); }
         public static bool IsSingle(this PropertyInfo property) { return property.PropertyType.IsSingle(); }
+        public static bool IsByteArray(this PropertyInfo property) { return property.PropertyType.IsByteArray(); }
         public static bool IsByte(this PropertyInfo property) { return property.PropertyType.IsByte(); }
         public static bool IsSByte(this PropertyInfo property) { return property.PropertyType.IsSByte(); }
         public static bool IsInt16(this PropertyInfo property) { return property.PropertyType.IsInt16(); }
@@ -161,6 +164,7 @@ namespace FubuMVC.Swank.Extensions
         public static bool IsInt64(this PropertyInfo property) { return property.PropertyType.IsInt64(); }
         public static bool IsUInt64(this PropertyInfo property) { return property.PropertyType.IsUInt64(); }
         public static bool IsDateTime(this PropertyInfo property) { return property.PropertyType.IsDateTime(); }
+        public static bool IsTimeSpan(this PropertyInfo property) { return property.PropertyType.IsTimeSpan(); }
         public static bool IsGuid(this PropertyInfo property) { return property.PropertyType.IsGuid(); }
         public static bool IsChar(this PropertyInfo property) { return property.PropertyType.IsChar(); }
     }
