@@ -92,8 +92,8 @@ nuspec :createSpec => :createBottle do |nuspec|
    nuspec.working_directory = packagePath
    nuspec.output_file = nuspecFilename
    nuspec.tags = "fubumvc"
-   nuspec.dependency "FubuMVC.Core", "0.9.9.0"
-   nuspec.dependency "FubuMVC.Spark", "0.9.9.0"
+   nuspec.dependency "FubuMVC.Core", "1.0.0.0"
+   nuspec.dependency "FubuMVC.Spark", "1.0.0.0"
    nuspec.dependency "MarkdownSharp", "1.0.0.0"
 end
 

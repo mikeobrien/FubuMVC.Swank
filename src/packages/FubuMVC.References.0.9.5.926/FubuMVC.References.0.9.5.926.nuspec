@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>FubuMVC.References</id>
+    <version>0.9.5.926</version>
+    <title>FubuMVC.References</title>
+    <authors>Chad Myers,  Jeremy D. Miller,  Joshua Flanagan</authors>
+    <owners>Chad Myers,  Jeremy D. Miller,  Joshua Flanagan</owners>
+    <licenseUrl>https://github.com/DarthFubuMVC/fubumvc/raw/master/license.txt</licenseUrl>
+    <projectUrl>http://mvc.fubu-project.org/</projectUrl>
+    <iconUrl>https://github.com/DarthFubuMVC/fubu-collateral/raw/master/Icons/FubuMvc_256.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Minimal assembly references needed for a FubuMVC application. FubuMVC is a compositional, convention-based framework for complex web applications</description>
+    <tags>web framework mvc fubumvc</tags>
+    <dependencies>
+      <dependency id="Bottles" version="0.9.1.222" />
+      <dependency id="CommonServiceLocator" />
+      <dependency id="FubuCore" version="0.9.9.136" />
+      <dependency id="FubuLocalization" version="0.9.5.15" />
+      <dependency id="HtmlTags" version="1.0.0" />
+      <dependency id="StructureMap" />
+    </dependencies>
+    <references>
+      <reference file="FubuMVC.Core.dll" />
+      <reference file="FubuMVC.StructureMap.dll" />
+    </references>
+  </metadata>
+</package>
