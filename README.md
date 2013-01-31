@@ -203,7 +203,7 @@ Comments can alternatively be specified in an embedded file. The embedded filena
 
 #### Resources
 
-By default resources are grouped by the url minus the url parameters. Resources can also be explicitly grouped and described by a [marker class](resource-marker) or an [attribute](#resource-attribute). 
+By default resources are grouped by the url minus the url parameters. Resources can also be explicitly grouped and described by a [marker class](#resource-marker) or an [attribute](#resource-attribute). 
 
 If you do not want to explicitly group your resources via one of these methods you can still specify comments for a resource by creating an embedded file called `Resource.[md|html|txt]` in the same namespace as one of the resource endpoints.
 
