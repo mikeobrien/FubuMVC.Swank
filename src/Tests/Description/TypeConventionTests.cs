@@ -48,9 +48,6 @@ namespace Tests.Description
         [XmlType("SomeType")]
         public class SomeTypeWithXmlName { }
 
-        [DataContract(Name = "SomeType")]
-        public class SomeTypeWithDataContractName { }
-
         [Test]
         public void should_return_attribute_description_of_datatype_and_xml_type_attribute()
         {
@@ -60,6 +57,22 @@ namespace Tests.Description
             description.Name.ShouldEqual("SomeType");
             description.Comments.ShouldBeNull();
         }
+
+        [XmlRoot("SomeRoot")]
+        public class SomeTypeWithXmlRootName { }
+
+        [Test]
+        public void should_return_attribute_description_of_datatype_and_xml_root_attribute()
+        {
+            var type = typeof(SomeTypeWithXmlRootName);
+            var description = new TypeConvention().GetDescription(type);
+            description.Type.ShouldEqual(type);
+            description.Name.ShouldEqual("SomeRoot");
+            description.Comments.ShouldBeNull();
+        }
+
+        [DataContract(Name = "SomeType")]
+        public class SomeTypeWithDataContractName { }
 
         [Test]
         public void should_return_data_contract_attribute_name()

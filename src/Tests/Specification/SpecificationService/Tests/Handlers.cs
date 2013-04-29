@@ -1,4 +1,4 @@
-﻿namespace Tests.Specification.SpecificationServiceTests
+﻿namespace Tests.Specification.SpecificationService.Tests
 {
     namespace Comments
     {

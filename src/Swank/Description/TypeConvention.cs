@@ -11,13 +11,15 @@ namespace FubuMVC.Swank.Description
             var elementType = type.GetListElementType();
             return new TypeDescription {
                 Type = elementType ?? type,
-                Name = type.GetCustomAttribute<XmlTypeAttribute>()
-                            .WhenNotNull(x => x.TypeName)
-                            .Otherwise(type.GetCustomAttribute<DataContractAttribute>() 
-                                .WhenNotNull(x => x.Name)
-                                .Otherwise(type.GetCustomAttribute<CollectionDataContractAttribute>() 
+                Name = type.GetCustomAttribute<XmlRootAttribute>()
+                            .WhenNotNull(x => x.ElementName)
+                            .Otherwise(type.GetCustomAttribute<XmlTypeAttribute>()
+                                .WhenNotNull(x => x.TypeName)
+                                .Otherwise(type.GetCustomAttribute<DataContractAttribute>() 
                                     .WhenNotNull(x => x.Name)
-                                    .Otherwise(type.GetXmlName()))),
+                                    .Otherwise(type.GetCustomAttribute<CollectionDataContractAttribute>() 
+                                        .WhenNotNull(x => x.Name)
+                                        .Otherwise(type.GetXmlName())))),
                 Comments = type.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments).OtherwiseDefault()
             };
         }

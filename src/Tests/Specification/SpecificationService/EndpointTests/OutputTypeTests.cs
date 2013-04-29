@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using Should;
 
-namespace Tests.Specification.SpecificationServiceEndpointTests
+namespace Tests.Specification.SpecificationService.EndpointTests
 {
     public class OutputTypeTests : TestBase
     {

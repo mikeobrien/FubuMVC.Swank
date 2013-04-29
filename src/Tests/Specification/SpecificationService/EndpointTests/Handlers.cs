@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 using FubuMVC.Core;
 using FubuMVC.Swank.Description;
 
-namespace Tests.Specification.SpecificationServiceEndpointTests
+namespace Tests.Specification.SpecificationService.EndpointTests
 {
     namespace EndpointDescriptions
     {

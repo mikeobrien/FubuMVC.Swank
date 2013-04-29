@@ -8,7 +8,7 @@ namespace Tests
         [Test]
         public void embedded_comments_should_match_types()
         {
-            FubuMVC.Swank.Description.Assert.AllEmbeddedCommentsMatchTypes(x => !x.StartsWith("Tests.ExtensionsTests.") && !x.EndsWith(".Comments.md"));
+            FubuMVC.Swank.Description.Assert.AllEmbeddedCommentsMatchTypes(x => !x.StartsWith("Tests.ExtensionTests.") && !x.EndsWith(".Comments.md"));
         }
     }
 }

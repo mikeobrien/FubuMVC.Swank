@@ -29,7 +29,7 @@ namespace Tests
         public static string TestHarness { get { return Path.GetFullPath(Environment.CurrentDirectory + @"\..\..\..\TestHarness");}}
     }
 
-    public static class Extensions
+    public static class TestExtensions
     {
         public static ActionCall GetAction<T>(this BehaviorGraph graph)
         {
