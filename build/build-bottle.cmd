@@ -1,1 +1,1 @@
-%1..\packages\Bottles.1.0.0.441\tools\BottleRunner.exe create %1..\Swank -o %1fubu-content\fubu-swank.zip -f
+%1..\packages\Bottles.1.0.0.443\tools\BottleRunner.exe create %1..\Swank -o %1fubu-content\fubu-swank.zip -f
