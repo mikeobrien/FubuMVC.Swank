@@ -7,6 +7,7 @@ using FubuCore.Reflection;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Description;
 using FubuMVC.Swank.Extensions;
+using ReflectionExtensions = FubuMVC.Swank.Extensions.ReflectionExtensions;
 
 namespace FubuMVC.Swank.Specification
 {
@@ -304,8 +305,8 @@ namespace FubuMVC.Swank.Specification
 
         private List<Option> GetOptions(System.Type type)
         {
-            return !type.IsEnum ? new List<Option>() :
-                type.GetCachedEnumValues()
+            return type.IsEnum || (type.IsNullable() && Nullable.GetUnderlyingType(type).IsEnum) ? 
+                type.GetEnumOptions()
                     .Where(x => !x.HasAttribute<HideAttribute>())
                     .Select(x => {
                         var option = _optionConvention.GetDescription(x);
@@ -314,7 +315,8 @@ namespace FubuMVC.Swank.Specification
                             Comments = option.WhenNotNull(y => y.Comments).OtherwiseDefault(), 
                             Value = _configuration.EnumValue == EnumValue.AsString ? x.Name : x.GetRawConstantValue().ToString()
                         });
-                    }).OrderBy(x => x.Name ?? x.Value).ToList();
+                    }).OrderBy(x => x.Name ?? x.Value).ToList()
+             : new List<Option>();
         }
     }
 }

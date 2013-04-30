@@ -69,12 +69,10 @@ namespace FubuMVC.Swank.Extensions
             return type.IsArray ? type.GetElementType() : type.IsList() ? type.GetListInterface().GetGenericArguments()[0] : null;
         }
 
-        private static readonly Func<Type, FieldInfo[]> CachedEnumValues =
-            Func.Memoize<Type, FieldInfo[]>(x => x.GetFields(BindingFlags.Public | BindingFlags.Static));
-
-        public static FieldInfo[] GetCachedEnumValues(this Type type)
+        public static FieldInfo[] GetEnumOptions(this Type type)
         {
-            return CachedEnumValues(type);
+            type = type.IsNullable() ? Nullable.GetUnderlyingType(type) : type;
+            return type.GetFields(BindingFlags.Public | BindingFlags.Static);
         }
 
         private readonly static Func<Assembly, string[]> GetEmbeddedResources =

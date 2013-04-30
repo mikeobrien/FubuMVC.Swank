@@ -254,5 +254,30 @@ namespace Tests.Specification.SpecificationService.TypeTests
             option.Comments.ShouldBeNull();
             option.Value.ShouldEqual("Inactive");
         }
+
+        [Test]
+        public void should_enumerate_options_for_nullable_enum_members()
+        {
+            var member = BuildSpec<MemberDescription.PutHandler>(x => x.WithEnumValueTypeOf(EnumValue.AsString)).Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
+                   .GetMember<MemberDescription.Request>(x => x.NullableStatus);
+
+            member.Options.Count.ShouldEqual(3);
+
+            var option = member.Options[0];
+            option.Name.ShouldEqual("Active yo!");
+            option.Comments.ShouldEqual("This is a very nice status.");
+            option.Value.ShouldEqual("Active");
+
+            option = member.Options[1];
+            option.Name.ShouldEqual("HyperActive");
+            option.Comments.ShouldEqual("Very active yo!");
+            option.Value.ShouldEqual("HyperActive");
+
+            option = member.Options[2];
+            option.Name.ShouldEqual("Inactive");
+            option.Comments.ShouldBeNull();
+            option.Value.ShouldEqual("Inactive");
+        }
     }
 }

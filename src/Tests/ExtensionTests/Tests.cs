@@ -155,5 +155,23 @@ namespace Tests.ExtensionTests
         {
             typeof(SomeEnum?).GetXmlName().ShouldEqual("SomeEnum");
         }
+
+        [Test]
+        public void should_get_enum_values()
+        {
+            var values = typeof(SomeEnum).GetEnumOptions();
+            values.Count().ShouldEqual(2);
+            values[0].Name.ShouldEqual("Oh");
+            values[1].Name.ShouldEqual("Hai");
+        }
+
+        [Test]
+        public void should_get_nullable_enum_values()
+        {
+            var values = typeof(SomeEnum?).GetEnumOptions();
+            values.Count().ShouldEqual(2);
+            values[0].Name.ShouldEqual("Oh");
+            values[1].Name.ShouldEqual("Hai");
+        }
     }
 }
