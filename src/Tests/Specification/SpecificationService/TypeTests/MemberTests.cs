@@ -151,6 +151,28 @@ namespace Tests.Specification.SpecificationService.TypeTests
         }
 
         [Test]
+        public void should_reference_nullable_system_type_members_as_the_xml_type_name()
+        {
+            var member = BuildSpec<MemberDescription.PutHandler>().Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
+                   .GetMember<MemberDescription.Request>(x => x.NullableInt);
+
+            member.Collection.ShouldBeFalse();
+            member.Type.ShouldEqual(typeof(int).GetXmlName());
+        }
+
+        [Test]
+        public void should_reference_nullable_enum_type_members_as_the_type_name()
+        {
+            var member = BuildSpec<MemberDescription.PutHandler>().Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
+                   .GetMember<MemberDescription.Request>(x => x.NullableStatus);
+
+            member.Collection.ShouldBeFalse();
+            member.Type.ShouldEqual("Status");
+        }
+
+        [Test]
         public void should_reference_non_system_type_members_as_the_type_id()
         {
             var member = BuildSpec<MemberDescription.PutHandler>().Types

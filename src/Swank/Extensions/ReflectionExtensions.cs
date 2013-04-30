@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using FubuCore;
 using MarkdownSharp;
 
 namespace FubuMVC.Swank.Extensions
@@ -122,12 +123,12 @@ namespace FubuMVC.Swank.Extensions
             if (type == typeof(Int64) || type == typeof(Int64?)) return "long";
             if (type == typeof(UInt64) || type == typeof(UInt64?)) return "unsignedLong";
             if (type == typeof(DateTime) || type == typeof(DateTime?)) return "dateTime";
+            if (type == typeof(TimeSpan) || type == typeof(TimeSpan?)) return "duration";
             if (type == typeof(Guid) || type == typeof(Guid?)) return "guid";
             if (type == typeof(Char) || type == typeof(Char?)) return "char";
             if (type == typeof(byte[])) return "base64Binary";
-            if (type.IsArray || type.IsList()) return 
-                "ArrayOf" + type.GetListElementType().GetXmlName().InitialCap();
-            return type.Name;
+            if (type.IsArray || type.IsList()) return "ArrayOf" + type.GetListElementType().GetXmlName().InitialCap();
+            return type.IsNullable() ? Nullable.GetUnderlyingType(type).Name : type.Name;
         }
 
         public static bool IsString(this Type type) { return type == typeof(String); }

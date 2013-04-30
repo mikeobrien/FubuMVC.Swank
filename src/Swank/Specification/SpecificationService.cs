@@ -174,7 +174,7 @@ namespace FubuMVC.Swank.Specification
                             Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                             DefaultValue = description.WhenNotNull(y => y.DefaultValue).WhenNotNull(z => z.ToDefaultValueString(_configuration)).OtherwiseDefault(),
                             Required = description.WhenNotNull(y => y.Required).OtherwiseDefault(),
-                            Type = memberType.IsEnum ? memberType.Name : (memberType.IsSystemType() ? memberType.GetXmlName() : _configuration.TypeIdConvention(memberType)),
+                            Type = memberType.IsSystemType() || memberType.IsEnum ? memberType.GetXmlName() : _configuration.TypeIdConvention(memberType),
                             Collection = x.PropertyType.IsArray || x.PropertyType.IsList(),
                             Options = GetOptions(x.PropertyType)
                         });

@@ -141,5 +141,19 @@ namespace Tests.ExtensionTests
             traversal[1].Index.ShouldEqual(1);
             traversal[2].Index.ShouldEqual(0);
         }
+
+        enum SomeEnum { Oh, Hai }
+
+        [Test]
+        public void should_get_enum_name()
+        {
+            typeof(SomeEnum).GetXmlName().ShouldEqual("SomeEnum");    
+        }
+
+        [Test]
+        public void should_get_nullable_enum_name()
+        {
+            typeof(SomeEnum?).GetXmlName().ShouldEqual("SomeEnum");
+        }
     }
 }

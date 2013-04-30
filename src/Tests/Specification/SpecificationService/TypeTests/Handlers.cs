@@ -173,6 +173,8 @@ namespace Tests.Specification.SpecificationService.TypeTests
             public Status Status { get; set; }
             [DefaultValue(5)]
             public int Id { get; set; }
+            public Status? NullableStatus { get; set; }
+            public int? NullableInt { get; set; }
         }
 
         public class Response { }
