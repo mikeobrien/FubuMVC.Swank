@@ -220,7 +220,7 @@
               <table class="table table-bordered table-zebra">
                 <thead>
                   <tr>
-                    <th>
+                    <th class="sample-selector-header">
                       <test if="!Model.ShowJson">Xml
                       <else if="!Model.ShowXml"/>Json
                       <else/>
@@ -283,7 +283,7 @@
               <table class="table table-bordered table-zebra table-last">
                 <thead>
                   <tr>
-                    <th>
+                    <th class="sample-selector-header">
                       <test if="!Model.ShowJson">Xml
                       <else if="!Model.ShowXml"/>Json
                       <else/>
