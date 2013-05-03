@@ -31,7 +31,8 @@ namespace FubuMVC.Swank.Specification
         public string Comments { get; set; }
         public bool Required { get; set; }
         public string DefaultValue { get; set; }
-        public bool Collection { get; set; }
+        public bool IsArray { get; set; }
+        public string ArrayItemName { get; set; }
         public string Type { get; set; }
         public List<Option> Options { get; set; }
     }
@@ -110,6 +111,6 @@ namespace FubuMVC.Swank.Specification
         public string Name { get; set; }
         public string Comments { get; set; }
         public string Type { get; set; }
-        public bool Collection { get; set; }
+        public bool IsArray { get; set; }
     }
 }

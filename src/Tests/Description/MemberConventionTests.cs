@@ -28,7 +28,12 @@ namespace Tests.Description
             public string Sort { get; set; }
             [XmlElement("R2D2")]
             public int C3P0 { get; set; }
-            public List<Item> Items { get; set; }
+            public List<Item> ListOfComplexTypes { get; set; }
+            public List<int> ListOfSimpleTypes { get; set; }
+            [XmlArrayItem("Item")]
+            public List<Item> ListOfComplexTypesWithCustomItemName { get; set; }
+            [XmlArrayItem("Item")]
+            public List<int> ListOfSimpleTypesWithCustomItemName { get; set; }
             [DataMember(Name = "Tatooine")]
             public int HanSolo { get; set; }
         }
@@ -75,9 +80,29 @@ namespace Tests.Description
         }
 
         [Test]
-        public void should_return_list_element_type()
+        public void should_return_list_element_simple_type()
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("Items")).Type.ShouldEqual(typeof(Item));
+            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypes")).Type.ShouldEqual(typeof(int));
+        }
+
+        [Test]
+        public void should_return_list_element_complex_type()
+        {
+            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypes")).Type.ShouldEqual(typeof(Item));
+        }
+
+        [Test]
+        public void should_return_list_element_simple_type_custom_item_name()
+        {
+            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypes")).ArrayItemName.ShouldBeNull();
+            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypesWithCustomItemName")).ArrayItemName.ShouldEqual("Item");
+        }
+
+        [Test]
+        public void should_return_list_element_complex_type_custom_item_name()
+        {
+            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypes")).ArrayItemName.ShouldBeNull();
+            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypesWithCustomItemName")).ArrayItemName.ShouldEqual("Item");
         }
     }
 }

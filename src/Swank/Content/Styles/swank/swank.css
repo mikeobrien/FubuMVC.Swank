@@ -58,6 +58,19 @@ h4 {
     background-color: #F9F9F9;
 }
 
+.sample-selector {
+    float: left;
+}
+
+.sample-copy-hint {
+    float: right;
+    height: 30px;
+    line-height: 30px;
+    color: #BBB;
+    font-weight: normal;
+    padding-right: 5px
+}
+
 .show-json, .show-xml {
     font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
     color: #D14;

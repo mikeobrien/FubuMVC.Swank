@@ -168,7 +168,11 @@ namespace Tests.Specification.SpecificationService.TypeTests
             public int C3P0 { get; set; }
             public HyperDrive Drive { get; set; }
             public List<int> Ids { get; set; }
+            [XmlArrayItem("Id")]
+            public List<int> IdsWithCustomItemName { get; set; }
             public List<HyperDrive> Drives { get; set; }
+            [XmlArrayItem("Drive")]
+            public List<HyperDrive> DrivesWithCustomItemName { get; set; }
             [DefaultValue(Status.Active)]
             public Status Status { get; set; }
             [DefaultValue(5)]

@@ -11,7 +11,7 @@
                     "Required": false,
                     "DefaultValue": "Niels Bohr",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": []
                 },
                 {
@@ -20,7 +20,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "NODE841806A33469AEE27C3221B1B78B",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Children",
@@ -28,7 +28,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "NODE841806A33469AEE27C3221B1B78B",
-                    "Collection": true
+                    "IsArray": true
                 }
             ]
         },
@@ -43,7 +43,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Value",
@@ -51,7 +51,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -66,7 +66,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "AccountKey",
@@ -74,7 +74,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Username",
@@ -82,7 +82,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -97,7 +97,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "City",
@@ -105,7 +105,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Country",
@@ -113,7 +113,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -121,7 +121,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Line1",
@@ -129,7 +129,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Line2",
@@ -137,7 +137,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Line3",
@@ -145,7 +145,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -153,7 +153,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "State",
@@ -161,7 +161,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Zip",
@@ -169,7 +169,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -184,7 +184,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Contains",
@@ -244,7 +244,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Value",
@@ -252,7 +252,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -267,7 +267,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "539EE51B81AB2327AC93D868EF46A561",
-                    "Collection": true
+                    "IsArray": true
                 },
                 {
                     "Name": "Operator",
@@ -275,7 +275,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "And",
@@ -302,7 +302,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Bounce",
@@ -310,7 +310,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Expected",
@@ -318,7 +318,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "HardBounce",
@@ -326,7 +326,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Html",
@@ -334,7 +334,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "OptOut",
@@ -342,7 +342,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Read",
@@ -350,7 +350,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Received",
@@ -358,7 +358,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Sent",
@@ -366,7 +366,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "SoftBounce",
@@ -374,7 +374,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "SpamReport",
@@ -382,7 +382,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Suppressed",
@@ -390,7 +390,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Text",
@@ -398,7 +398,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TextAndHtml",
@@ -406,7 +406,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Total",
@@ -414,7 +414,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -429,7 +429,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Filter",
@@ -437,7 +437,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "5CAEAA638A4052A7F3EAE2AF2460C958",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "IsTest",
@@ -445,7 +445,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "SuppressionLists",
@@ -453,7 +453,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": true
+                    "IsArray": true
                 },
                 {
                     "Name": "TestFormat",
@@ -461,7 +461,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "HtmlOnly",
@@ -488,7 +488,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -503,7 +503,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": true
+                    "IsArray": true
                 },
                 {
                     "Name": "MailingId",
@@ -511,7 +511,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Properties",
@@ -519,7 +519,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "E9A4B564FDC2B37B8B1464DD6088BC42",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -534,7 +534,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "LongDescription",
@@ -542,7 +542,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Severity",
@@ -550,7 +550,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Hard",
@@ -575,7 +575,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -590,7 +590,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Comma",
@@ -617,7 +617,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Contains",
@@ -677,7 +677,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Value",
@@ -685,7 +685,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -700,7 +700,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -715,7 +715,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "DataId",
@@ -723,7 +723,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Duration",
@@ -731,7 +731,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "duration",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "RecordsProcessed",
@@ -739,7 +739,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -754,7 +754,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "64023A1F5C78975C23A67CE4AAC3568F",
-                    "Collection": true
+                    "IsArray": true
                 },
                 {
                     "Name": "Operator",
@@ -762,7 +762,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "And",
@@ -789,7 +789,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Length",
@@ -797,7 +797,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -805,7 +805,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Type",
@@ -813,7 +813,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -828,7 +828,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "SourceFieldName",
@@ -836,7 +836,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "SourceFieldPosition",
@@ -844,7 +844,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -859,7 +859,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -867,7 +867,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -875,7 +875,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -890,7 +890,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -905,7 +905,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Duration",
@@ -913,7 +913,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "duration",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "RecordsProcessed",
@@ -921,7 +921,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -935,7 +935,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Fields",
@@ -943,7 +943,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "7C56841806A33469AEE27C3221B1B78B",
-                    "Collection": true
+                    "IsArray": true
                 },
                 {
                     "Name": "Tree",
@@ -951,7 +951,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "NODE841806A33469AEE27C3221B1B78B",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "GroupId",
@@ -959,7 +959,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -967,7 +967,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -975,7 +975,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TotalActiveRecipients",
@@ -983,7 +983,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TotalInactiveRecipients",
@@ -991,7 +991,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TotalRecipients",
@@ -999,7 +999,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Type",
@@ -1007,7 +1007,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "ListType",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "GlobalOptOut",
@@ -1044,7 +1044,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ActiveSmallerThan",
@@ -1052,7 +1052,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "GroupId",
@@ -1060,7 +1060,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "InactiveLargerThan",
@@ -1068,7 +1068,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "InactiveSmallerThan",
@@ -1076,7 +1076,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "IncludeSubGroups",
@@ -1084,7 +1084,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "LargerThan",
@@ -1092,7 +1092,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MaxResults",
@@ -1100,7 +1100,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -1108,7 +1108,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "NewerThan",
@@ -1116,7 +1116,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "OlderThan",
@@ -1124,7 +1124,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "SmallerThan",
@@ -1132,7 +1132,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "StartIndex",
@@ -1140,7 +1140,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1155,7 +1155,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": true
+                    "IsArray": true
                 },
                 {
                     "Name": "GroupId",
@@ -1171,7 +1171,7 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -1179,7 +1179,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Type",
@@ -1187,7 +1187,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "GlobalOptOut",
@@ -1224,7 +1224,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Value",
@@ -1232,7 +1232,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1247,7 +1247,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "BounceStatus",
@@ -1255,7 +1255,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Hard",
@@ -1280,7 +1280,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Email",
@@ -1288,7 +1288,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "EmailFormatPreference",
@@ -1296,7 +1296,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Html",
@@ -1321,7 +1321,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "OptOutDate",
@@ -1329,7 +1329,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Properties",
@@ -1337,7 +1337,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "1F19F1EA3EC1C4C3722720B157ADF42C",
-                    "Collection": true
+                    "IsArray": true
                 }
             ]
         },
@@ -1352,7 +1352,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "48815D866F6D0A0C92C900762FCD3ECF",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ExcelDataOptions",
@@ -1360,7 +1360,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "A1AA2D76AC59AA8F31BF1C22CCC57346",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FieldMapping",
@@ -1368,7 +1368,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "C5299D4CD6D632F9D007ECD59291999A",
-                    "Collection": true
+                    "IsArray": true
                 },
                 {
                     "Name": "Format",
@@ -1376,7 +1376,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "CharacterSeperated",
@@ -1401,7 +1401,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "XmlDataOptions",
@@ -1409,7 +1409,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "EFE7AC2F457A798C94CF84B8A7A72FD5",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1424,7 +1424,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "BounceFilter",
@@ -1432,7 +1432,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "All",
@@ -1472,7 +1472,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Email",
@@ -1480,7 +1480,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "EmailFormatPreferenceFilter",
@@ -1488,7 +1488,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "All",
@@ -1518,7 +1518,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "53B32AA143E00118CD3DFD731186602A",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MaxResults",
@@ -1526,7 +1526,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "NewerThan",
@@ -1534,7 +1534,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "OlderThan",
@@ -1542,7 +1542,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "OptOutDateNewerThan",
@@ -1550,7 +1550,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "OptOutDateOlderThan",
@@ -1558,7 +1558,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "OptOutFilter",
@@ -1566,7 +1566,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "All",
@@ -1591,7 +1591,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1606,7 +1606,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "AllowStringTruncation",
@@ -1614,7 +1614,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "CharacterSeperatedOptions",
@@ -1622,7 +1622,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "48815D866F6D0A0C92C900762FCD3ECF",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ExcelOptions",
@@ -1630,7 +1630,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "A1AA2D76AC59AA8F31BF1C22CCC57346",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Format",
@@ -1638,7 +1638,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "CharacterSeperated",
@@ -1658,7 +1658,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "SkipRecordsWithErrors",
@@ -1666,7 +1666,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1681,7 +1681,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "EmailFormatPreference",
@@ -1689,7 +1689,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Html",
@@ -1714,7 +1714,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Properties",
@@ -1722,7 +1722,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "1F19F1EA3EC1C4C3722720B157ADF42C",
-                    "Collection": true
+                    "IsArray": true
                 }
             ]
         },
@@ -1737,7 +1737,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "StylesheetId",
@@ -1745,7 +1745,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1760,7 +1760,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1775,7 +1775,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "24D5827D897E1F28657AAE60E9B41451",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1790,7 +1790,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1805,7 +1805,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1820,7 +1820,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1835,7 +1835,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FieldMappings",
@@ -1843,7 +1843,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "C5299D4CD6D632F9D007ECD59291999A",
-                    "Collection": true
+                    "IsArray": true
                 },
                 {
                     "Name": "ImportOptions",
@@ -1851,7 +1851,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "639F63F558F24B3A4956C782B82A5C56",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1866,7 +1866,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1881,7 +1881,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "34E99716D0271A250CD2431CAB752A19",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Properties",
@@ -1889,7 +1889,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "541D59F4E4856240EC05ED91257CD16C",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1904,7 +1904,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FolderId",
@@ -1912,7 +1912,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -1920,7 +1920,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Modified",
@@ -1928,7 +1928,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -1936,7 +1936,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Size",
@@ -1944,7 +1944,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "long",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Url",
@@ -1952,7 +1952,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -1967,7 +1967,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -1975,7 +1975,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "IsInFolder",
@@ -1983,7 +1983,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MaxResults",
@@ -1991,7 +1991,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -1999,7 +1999,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "NewerThan",
@@ -2007,7 +2007,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "OlderThan",
@@ -2015,7 +2015,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "StartIndex",
@@ -2023,7 +2023,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2038,7 +2038,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -2046,7 +2046,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2061,7 +2061,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -2069,7 +2069,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Modified",
@@ -2077,7 +2077,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -2085,7 +2085,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ParentFolderId",
@@ -2093,7 +2093,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2108,7 +2108,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "IsInFolder",
@@ -2116,7 +2116,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MaxResults",
@@ -2124,7 +2124,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "NewerThan",
@@ -2132,7 +2132,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "OlderThan",
@@ -2140,7 +2140,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ParentFolderId",
@@ -2148,7 +2148,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "StartIndex",
@@ -2156,7 +2156,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2171,7 +2171,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ParentFolderId",
@@ -2179,7 +2179,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2194,7 +2194,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2209,7 +2209,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2224,7 +2224,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -2232,7 +2232,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Modified",
@@ -2240,7 +2240,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -2248,7 +2248,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2263,7 +2263,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2278,7 +2278,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Created",
@@ -2286,7 +2286,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FromEmail",
@@ -2294,7 +2294,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FromName",
@@ -2302,7 +2302,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "GroupId",
@@ -2310,7 +2310,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "HtmlContent",
@@ -2318,7 +2318,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -2326,7 +2326,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "IncludeSendToAFriendLink",
@@ -2334,7 +2334,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MailingFormat",
@@ -2342,7 +2342,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Html",
@@ -2372,7 +2372,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -2380,7 +2380,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ReplyToEmail",
@@ -2388,7 +2388,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "SendToAFriendLinkText",
@@ -2396,7 +2396,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Subject",
@@ -2404,7 +2404,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TextContent",
@@ -2412,7 +2412,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TrackedLinks",
@@ -2420,7 +2420,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "AF2D1B20E502D6E0885A85D1304F3660",
-                    "Collection": true
+                    "IsArray": true
                 }
             ]
         },
@@ -2435,7 +2435,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -2443,7 +2443,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "IncludeSubGroups",
@@ -2451,7 +2451,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MaxResults",
@@ -2459,7 +2459,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "NewerThan",
@@ -2467,7 +2467,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "OlderThan",
@@ -2475,7 +2475,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "StartIndex",
@@ -2483,7 +2483,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2498,7 +2498,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "CustomHtmlUnsubscribeLinkText",
@@ -2506,7 +2506,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "CustomTextUnsubscribeLinkText",
@@ -2514,7 +2514,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FromEmail",
@@ -2522,7 +2522,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FromName",
@@ -2530,7 +2530,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "GroupId",
@@ -2538,7 +2538,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "HtmlContent",
@@ -2546,7 +2546,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "IncludeSendToAFriendLink",
@@ -2554,7 +2554,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MailingFormat",
@@ -2562,7 +2562,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Html",
@@ -2592,7 +2592,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ReplyToEmail",
@@ -2600,7 +2600,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "SendToAFriendLinkText",
@@ -2608,7 +2608,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Subject",
@@ -2616,7 +2616,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TextContent",
@@ -2624,7 +2624,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TrackedLinks",
@@ -2632,7 +2632,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "AF2D1B20E502D6E0885A85D1304F3660",
-                    "Collection": true
+                    "IsArray": true
                 }
             ]
         },
@@ -2647,7 +2647,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Created",
@@ -2655,7 +2655,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "GroupId",
@@ -2663,7 +2663,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -2671,7 +2671,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Modified",
@@ -2679,7 +2679,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -2687,7 +2687,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Type",
@@ -2695,7 +2695,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Html",
@@ -2717,7 +2717,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -2725,7 +2725,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "IncludeSubGroups",
@@ -2733,7 +2733,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MaxResults",
@@ -2741,7 +2741,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "NewerThan",
@@ -2749,7 +2749,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "OlderThan",
@@ -2757,7 +2757,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "StartIndex",
@@ -2765,7 +2765,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2780,7 +2780,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "GroupId",
@@ -2788,7 +2788,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -2796,7 +2796,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Type",
@@ -2804,7 +2804,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Html",
@@ -2826,7 +2826,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -2834,7 +2834,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Modified",
@@ -2842,7 +2842,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -2850,7 +2850,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2865,7 +2865,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2880,7 +2880,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "LinkMailingFormat",
@@ -2888,7 +2888,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Html",
@@ -2908,7 +2908,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Name",
@@ -2916,7 +2916,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Url",
@@ -2924,7 +2924,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2939,7 +2939,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2954,7 +2954,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2969,7 +2969,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2984,7 +2984,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -2999,7 +2999,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -3007,7 +3007,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -3022,7 +3022,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ApprovedBy",
@@ -3030,7 +3030,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "AttachmentFileName",
@@ -3038,7 +3038,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ContentHtml",
@@ -3046,7 +3046,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ContentText",
@@ -3054,7 +3054,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "DeliveredDate",
@@ -3062,7 +3062,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FromEmail",
@@ -3070,7 +3070,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FromName",
@@ -3078,7 +3078,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -3086,7 +3086,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MailingFormat",
@@ -3094,7 +3094,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Html",
@@ -3119,7 +3119,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ReplyToEmail",
@@ -3127,7 +3127,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ScheduledDate",
@@ -3135,7 +3135,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ScheduledDeliveryDate",
@@ -3143,7 +3143,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Subject",
@@ -3151,7 +3151,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -3166,7 +3166,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "DeliveryScheduledBefore",
@@ -3174,7 +3174,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Id",
@@ -3182,7 +3182,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MaxResults",
@@ -3190,7 +3190,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "StartIndex",
@@ -3198,7 +3198,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -3213,7 +3213,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FirstEmailSentDate",
@@ -3221,7 +3221,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "HardBounces",
@@ -3229,7 +3229,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "LastEmailSentDate",
@@ -3237,7 +3237,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Mailing",
@@ -3245,7 +3245,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "37123574AF29FF50A3DA9E30960926BC",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "OptOuts",
@@ -3253,7 +3253,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "RecipientsActive",
@@ -3261,7 +3261,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "RecipientsExpected",
@@ -3269,7 +3269,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "RecipientsHtml",
@@ -3277,7 +3277,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "RecipientsSent",
@@ -3285,7 +3285,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "RecipientsText",
@@ -3293,7 +3293,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "SoftBounces",
@@ -3301,7 +3301,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "SpamReports",
@@ -3309,7 +3309,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -3324,7 +3324,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "BounceType",
@@ -3332,7 +3332,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "944645863E25164C792AB16BE3CA8257",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Recipient",
@@ -3340,7 +3340,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "9BAC64713D6973F7646C6ACBAB60FB64",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -3355,7 +3355,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Hard",
@@ -3380,7 +3380,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -3395,7 +3395,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "C3001DA20B173016F5BF51E48C00A1B5",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FilterEndDate",
@@ -3403,7 +3403,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FilterStartDate",
@@ -3411,7 +3411,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MailingListId",
@@ -3419,7 +3419,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "OptOutFilter",
@@ -3427,7 +3427,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "D11F6BA0AD89110386D6D8E8391D5E56",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TrackedLinkFilter",
@@ -3435,7 +3435,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "7C895A4A923E9E59FB1F32CD1FAE5F7C",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -3450,7 +3450,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "GoogleBuzz",
@@ -3458,7 +3458,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "LinkedIn",
@@ -3466,7 +3466,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MySpace",
@@ -3474,7 +3474,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "SendToFriend",
@@ -3482,7 +3482,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Total",
@@ -3490,7 +3490,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Twitter",
@@ -3498,7 +3498,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -3513,7 +3513,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "DeliveredDate",
@@ -3521,7 +3521,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ForwardSummary",
@@ -3529,7 +3529,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "DA6307B31980FA31547BBECF06DA8B90",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ListName",
@@ -3537,7 +3537,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MailingId",
@@ -3545,7 +3545,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MailingListId",
@@ -3553,7 +3553,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "RecipientCount",
@@ -3561,7 +3561,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "E75A73850212C5ACC3F6880BA84DC5FD",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -3576,7 +3576,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Approved",
@@ -3584,7 +3584,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ApprovedBy",
@@ -3592,7 +3592,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Created",
@@ -3600,7 +3600,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "CreatedBy",
@@ -3608,7 +3608,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "DeliveredDate",
@@ -3616,7 +3616,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FirstListDeliveredDate",
@@ -3624,7 +3624,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ForwardSummary",
@@ -3632,7 +3632,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "DA6307B31980FA31547BBECF06DA8B90",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "LastListDeliveredDate",
@@ -3640,7 +3640,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Lists",
@@ -3648,7 +3648,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "77857D14DA09865E01197E62C994AF72",
-                    "Collection": true
+                    "IsArray": true
                 },
                 {
                     "Name": "MailingId",
@@ -3656,7 +3656,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Message",
@@ -3664,7 +3664,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "2B5944A6A5A3903861AFCE6581CF0441",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Modified",
@@ -3672,7 +3672,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ModifiedBy",
@@ -3680,7 +3680,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "RecipientSummary",
@@ -3688,7 +3688,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "E75A73850212C5ACC3F6880BA84DC5FD",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ScheduledDate",
@@ -3696,7 +3696,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ScheduledDeliveryDate",
@@ -3704,7 +3704,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TotalLists",
@@ -3712,7 +3712,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -3727,7 +3727,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MaxResults",
@@ -3735,7 +3735,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ScheduledDeliveryOnOrAfter",
@@ -3743,7 +3743,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ScheduledDeliveryOnOrBefore",
@@ -3751,7 +3751,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "StartIndex",
@@ -3759,7 +3759,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -3774,7 +3774,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ContentHtml",
@@ -3782,7 +3782,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ContentText",
@@ -3790,7 +3790,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FromAddress",
@@ -3798,7 +3798,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "FromName",
@@ -3806,7 +3806,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MailingId",
@@ -3814,7 +3814,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "MessageFormat",
@@ -3822,7 +3822,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Html",
@@ -3847,7 +3847,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ReplyToAddress",
@@ -3855,7 +3855,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Subject",
@@ -3863,7 +3863,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -3878,7 +3878,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "OptOutType",
@@ -3886,7 +3886,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Global Opt Out",
@@ -3911,7 +3911,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "9BAC64713D6973F7646C6ACBAB60FB64",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -3926,7 +3926,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Global Opt Out",
@@ -3958,7 +3958,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "LastView",
@@ -3966,7 +3966,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Recipient",
@@ -3974,7 +3974,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "9BAC64713D6973F7646C6ACBAB60FB64",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TotalViews",
@@ -3982,7 +3982,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "UniqueViews",
@@ -3990,7 +3990,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -4005,7 +4005,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "boolean",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Created",
@@ -4013,7 +4013,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "EmailAddress",
@@ -4021,7 +4021,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "EmailFormatPreference",
@@ -4029,7 +4029,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Html",
@@ -4059,7 +4059,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "4C9267680DFBFD93AB60403571B5D310",
-                    "Collection": true
+                    "IsArray": true
                 }
             ]
         },
@@ -4074,7 +4074,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "LastClick",
@@ -4082,7 +4082,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "LinkMailingFormat",
@@ -4090,7 +4090,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false,
+                    "IsArray": false,
                     "Options": [
                         {
                             "Name": "Html",
@@ -4110,7 +4110,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TotalClicks",
@@ -4118,7 +4118,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TrackedLinkId",
@@ -4126,7 +4126,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "UniqueClicks",
@@ -4134,7 +4134,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Url",
@@ -4142,7 +4142,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -4157,7 +4157,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "LastClick",
@@ -4165,7 +4165,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Recipient",
@@ -4173,7 +4173,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "9BAC64713D6973F7646C6ACBAB60FB64",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TotalClicks",
@@ -4181,7 +4181,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "int",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TrackedLink",
@@ -4189,7 +4189,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "493AE42CD0E7E78D006E247ECC6344CC",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -4204,7 +4204,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "TrackedLinkId",
@@ -4212,7 +4212,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "guid",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         },
@@ -4227,7 +4227,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "string",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "ReleaseDate",
@@ -4235,7 +4235,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Timestamp",
@@ -4243,7 +4243,7 @@
                     "Required": false,
                     "DefaultValue": "",
                     "Type": "dateTime",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         }
@@ -4273,7 +4273,7 @@
                             "Response": {
                                 "Name": "Addresses",
                                 "Type": "DA068AD3D3B7F268A8556D83FF19F85F",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -4293,7 +4293,7 @@
                             "Response": {
                                 "Name": "User",
                                 "Type": "194C59AD29E931AA75D8F921A81152BA",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -4325,13 +4325,13 @@
                             "Request": {
                                 "Name": "QueueParameters",
                                 "Type": "4BDBE23D5B6534F5AB4EE689ED52E0A6",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "Queue",
                                 "Type": "5A34494C7B5E2D5814F762F129D7DBC3",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -4431,7 +4431,7 @@
                             "Response": {
                                 "Name": "List",
                                 "Type": "3838341440303F806C30B5997EC2B1F7",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },
@@ -4457,7 +4457,7 @@
                             "Response": {
                                 "Name": "List",
                                 "Type": "3838341440303F806C30B5997EC2B1F7",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -4478,13 +4478,13 @@
                             "Request": {
                                 "Name": "ListProperties",
                                 "Type": "F928487919A3C5EA68FA854492D542B2",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "List",
                                 "Type": "B757344AE27DB517380724F8ADD0FFAA",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -4510,7 +4510,7 @@
                             "Request": {
                                 "Name": "ListProperties",
                                 "Type": "F928487919A3C5EA68FA854492D542B2",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -4561,13 +4561,13 @@
                             "Request": {
                                 "Name": "ExportParameters",
                                 "Type": "CC7B66481A59F09FC4CB76AAB6DD66FB",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "Export",
                                 "Type": "0D133770641FD6043DE375C26A3FFEF2",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -4598,7 +4598,7 @@
                             "Response": {
                                 "Name": "ExportStatus",
                                 "Type": "E21CAF7712096935EF1DFF73375C3D58",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -4624,7 +4624,7 @@
                             "Response": {
                                 "Name": "Fields",
                                 "Type": "7C56841806A33469AEE27C3221B1B78B",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "A list of fields."
                             }
                         }
@@ -4650,7 +4650,7 @@
                             "Response": {
                                 "Name": "Groups",
                                 "Type": "4CEBA1C02C78B8EF60A76F658382C615",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -4675,7 +4675,7 @@
                             "Response": {
                                 "Name": "Group",
                                 "Type": "4CEBA1C02C78B8EF60A76F658382C615",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -4695,13 +4695,13 @@
                             "Request": {
                                 "Name": "GroupProperties",
                                 "Type": "E8664B99653C6F397DE9E7EAF4AF69C3",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "Group",
                                 "Type": "F20DFE64DC2796AF0C0D84A9C8D8F412",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -4726,7 +4726,7 @@
                             "Request": {
                                 "Name": "GroupProperties",
                                 "Type": "E8664B99653C6F397DE9E7EAF4AF69C3",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -4776,13 +4776,13 @@
                             "Request": {
                                 "Name": "Parameters",
                                 "Type": "A9EB50D50B09C86BB238C91C0D92ADD3",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "Import",
                                 "Type": "42C87C99D06D0BF3FA3C39963E0BE633",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -4813,7 +4813,7 @@
                             "Response": {
                                 "Name": "ImportStatus",
                                 "Type": "DA92A3ACDD8CA007AA10D55AEE7227B1",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -4853,7 +4853,7 @@
                             "Request": {
                                 "Name": "Recipient",
                                 "Type": "BF03BA5633213C5AD27953250B55B1D7",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -4893,7 +4893,7 @@
                             "Request": {
                                 "Name": "Recipient",
                                 "Type": "BF03BA5633213C5AD27953250B55B1D7",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -4919,13 +4919,13 @@
                             "Request": {
                                 "Name": "ListFilter",
                                 "Type": "DCA3AC2C413FC230C327ECA826AD558E",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "Lists",
                                 "Type": "3838341440303F806C30B5997EC2B1F7",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -4961,7 +4961,7 @@
                             "Response": {
                                 "Name": "Recipient",
                                 "Type": "B764D2C301F282898E975620E5A8573D",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -4995,7 +4995,7 @@
                             "Request": {
                                 "Name": "RecipientProperties",
                                 "Type": "541D59F4E4856240EC05ED91257CD16C",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5025,7 +5025,7 @@
                             "Request": {
                                 "Name": "RecipientProperties",
                                 "Type": "541D59F4E4856240EC05ED91257CD16C",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5080,13 +5080,13 @@
                             "Request": {
                                 "Name": "RecipientFilter",
                                 "Type": "34E99716D0271A250CD2431CAB752A19",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "Recipient",
                                 "Type": "B764D2C301F282898E975620E5A8573D",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -5117,7 +5117,7 @@
                             "Request": {
                                 "Name": "RecipientFilter",
                                 "Type": "34E99716D0271A250CD2431CAB752A19",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -5157,7 +5157,7 @@
                             "Request": {
                                 "Name": "RecipientParameters",
                                 "Type": "A53E0FB643F09D1674B8BBC958EEBAE4",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -5188,13 +5188,13 @@
                             "Request": {
                                 "Name": "RecipientFilter",
                                 "Type": "34E99716D0271A250CD2431CAB752A19",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "Recipients",
                                 "Type": "B764D2C301F282898E975620E5A8573D",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -5225,7 +5225,7 @@
                             "Request": {
                                 "Name": "RecipientFilter",
                                 "Type": "34E99716D0271A250CD2431CAB752A19",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -5256,7 +5256,7 @@
                             "Request": {
                                 "Name": "RecipientParameters",
                                 "Type": "A53E0FB643F09D1674B8BBC958EEBAE4",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -5297,7 +5297,7 @@
                             "Request": {
                                 "Name": "RecipientParameters",
                                 "Type": "A53E0FB643F09D1674B8BBC958EEBAE4",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -5332,7 +5332,7 @@
                             "Request": {
                                 "Name": "Recipient",
                                 "Type": "BF03BA5633213C5AD27953250B55B1D7",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -5367,7 +5367,7 @@
                             "Request": {
                                 "Name": "Recipient",
                                 "Type": "BF03BA5633213C5AD27953250B55B1D7",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -5404,7 +5404,7 @@
                             "Response": {
                                 "Name": "File",
                                 "Type": "95562B0DB50D2485138CBB297D66DC99",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5429,13 +5429,13 @@
                             "Request": {
                                 "Name": "FileProperties",
                                 "Type": "F828B92DC06C503F606EA3C2F90A6067",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "File",
                                 "Type": "E9A5E11FE5D3B5350A630C35F57995DC",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5460,7 +5460,7 @@
                             "Request": {
                                 "Name": "FileProperties",
                                 "Type": "F828B92DC06C503F606EA3C2F90A6067",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5505,13 +5505,13 @@
                             "Request": {
                                 "Name": "FileFilter",
                                 "Type": "425097F3359F97383D311BA612A912A3",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "Files",
                                 "Type": "95562B0DB50D2485138CBB297D66DC99",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -5542,7 +5542,7 @@
                             "Response": {
                                 "Name": "Folder",
                                 "Type": "63E11EBDB1FB501FF17BD05E5CCF9949",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5562,13 +5562,13 @@
                             "Request": {
                                 "Name": "FolderProperties",
                                 "Type": "F35911014D7F17F1F851780CB1C1EB10",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "Folder",
                                 "Type": "67803109CCE9A665BCB2C244D83EB379",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5593,7 +5593,7 @@
                             "Request": {
                                 "Name": "FolderProperties",
                                 "Type": "F35911014D7F17F1F851780CB1C1EB10",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5647,13 +5647,13 @@
                             "Request": {
                                 "Name": "FolderFilter",
                                 "Type": "01C3BFB11ABC09662524228127994FBC",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "Folders",
                                 "Type": "63E11EBDB1FB501FF17BD05E5CCF9949",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -5690,7 +5690,7 @@
                             "Response": {
                                 "Name": "Mailing",
                                 "Type": "0B77A257451642D36F68E0F614AD2305",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5710,13 +5710,13 @@
                             "Request": {
                                 "Name": "MailingProperties",
                                 "Type": "D5B0CE0AB579CD70326CF785CAB9B4E0",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "Mailing",
                                 "Type": "BC1FB13BB7BA98A88B3D31CF19AD4152",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5741,7 +5741,7 @@
                             "Request": {
                                 "Name": "MailingProperties",
                                 "Type": "D5B0CE0AB579CD70326CF785CAB9B4E0",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5786,7 +5786,7 @@
                             "Response": {
                                 "Name": "Groups",
                                 "Type": "535BD573899952207D8FC39036FD7C9A",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5811,7 +5811,7 @@
                             "Response": {
                                 "Name": "Group",
                                 "Type": "535BD573899952207D8FC39036FD7C9A",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5831,13 +5831,13 @@
                             "Request": {
                                 "Name": "GroupProperties",
                                 "Type": "9CEE5817A21224F7AE67DBA4A528F57B",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "Group",
                                 "Type": "AA28673674FA8B51B1ABEF3A160A0B03",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5862,7 +5862,7 @@
                             "Request": {
                                 "Name": "GroupProperties",
                                 "Type": "9CEE5817A21224F7AE67DBA4A528F57B",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5907,13 +5907,13 @@
                             "Request": {
                                 "Name": "MailingFilter",
                                 "Type": "210D18FDB2D272D37921D914B2F6A364",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "Mailings",
                                 "Type": "0B77A257451642D36F68E0F614AD2305",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -5944,7 +5944,7 @@
                             "Response": {
                                 "Name": "MailingTemplate",
                                 "Type": "415A484D2762EFA9DCDCC0867C76128C",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5964,13 +5964,13 @@
                             "Request": {
                                 "Name": "MailingTemplateProperties",
                                 "Type": "D0654F2A4AF8FB2B16287797EB8B88A4",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "MailingTemplate",
                                 "Type": "7EDA4893DBE8C6AE9A41FF355AC45EA7",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -5995,7 +5995,7 @@
                             "Request": {
                                 "Name": "MailingTemplateProperties",
                                 "Type": "D0654F2A4AF8FB2B16287797EB8B88A4",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -6040,7 +6040,7 @@
                             "Response": {
                                 "Name": "TemplateGroups",
                                 "Type": "45B15AF7F5DD49ADD8781A31500B3184",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -6065,7 +6065,7 @@
                             "Response": {
                                 "Name": "TemplateGroup",
                                 "Type": "45B15AF7F5DD49ADD8781A31500B3184",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -6085,13 +6085,13 @@
                             "Request": {
                                 "Name": "TemplateGroupProperties",
                                 "Type": "6D33D7A92BD10CA9EBE2167AE38F8D3F",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "MailingTemplateGroup",
                                 "Type": "E374ED64C7F97F7586BF1D06B59389A4",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -6116,7 +6116,7 @@
                             "Request": {
                                 "Name": "TemplateGroupProperties",
                                 "Type": "6D33D7A92BD10CA9EBE2167AE38F8D3F",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -6161,13 +6161,13 @@
                             "Request": {
                                 "Name": "MailingTemplateFilter",
                                 "Type": "E9E87D0A38D834CA19AB333405F8E662",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "MailingTemplates",
                                 "Type": "415A484D2762EFA9DCDCC0867C76128C",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -6199,7 +6199,7 @@
                             "Response": {
                                 "Name": "StreamBody",
                                 "Type": "System.IO.Stream",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -6224,7 +6224,7 @@
                             "Response": {
                                 "Name": "StreamBody",
                                 "Type": "System.IO.Stream",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -6238,13 +6238,13 @@
                             "Request": {
                                 "Name": "StreamBody",
                                 "Type": "System.IO.Stream",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "Data",
                                 "Type": "6A35FFBC61A6211B3A640DD63672DF39",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -6270,7 +6270,7 @@
                             "Response": {
                                 "Name": "Data",
                                 "Type": "6A35FFBC61A6211B3A640DD63672DF39",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -6307,13 +6307,13 @@
                             "Request": {
                                 "Name": "DetailReportFilter",
                                 "Type": "14F2EBC44170BACAF697F1F57EBBD875",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "BounceDetails",
                                 "Type": "4E1D40980422EBA1BD655AD8FDF92EE5",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -6344,13 +6344,13 @@
                             "Request": {
                                 "Name": "DetailReportFilter",
                                 "Type": "14F2EBC44170BACAF697F1F57EBBD875",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "OptOutDetails",
                                 "Type": "1C001316FEDD8BA54E48934FD99D3335",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -6381,13 +6381,13 @@
                             "Request": {
                                 "Name": "DetailReportFilter",
                                 "Type": "14F2EBC44170BACAF697F1F57EBBD875",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "ReadDetails",
                                 "Type": "CF86A0C1E5A6C1470C2C94A1EC8441BE",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -6418,13 +6418,13 @@
                             "Request": {
                                 "Name": "DetailReportFilter",
                                 "Type": "14F2EBC44170BACAF697F1F57EBBD875",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "TrackedLinkDetails",
                                 "Type": "74DEBA3A7CC440CBEB338376364E5079",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -6455,7 +6455,7 @@
                             "Response": {
                                 "Name": "MailingReport",
                                 "Type": "B2266D0075DD4394261EE543E9AD6775",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -6481,13 +6481,13 @@
                             "Request": {
                                 "Name": "MailingReportFilter",
                                 "Type": "935E8720314E915AE6C1E7D7A8ADD535",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             },
                             "Response": {
                                 "Name": "MailingReports",
                                 "Type": "B2266D0075DD4394261EE543E9AD6775",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }
@@ -6518,7 +6518,7 @@
                             "Response": {
                                 "Name": "TrackedLinks",
                                 "Type": "493AE42CD0E7E78D006E247ECC6344CC",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         },	
@@ -6548,7 +6548,7 @@
                             "Response": {
                                 "Name": "TrackedLinks",
                                 "Type": "493AE42CD0E7E78D006E247ECC6344CC",
-                                "Collection": true,
+                                "IsArray": true,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh. Nullam id magna dolor, sed eleifend ligula. Fusce at ante lacus."
                             }
                         }

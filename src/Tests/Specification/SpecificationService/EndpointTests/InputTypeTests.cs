@@ -13,7 +13,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
             request.Name.ShouldEqual("PostRequest");
             request.Comments.ShouldEqual("Some post request description");
-            request.Collection.ShouldBeFalse();
+            request.IsArray.ShouldBeFalse();
         }
 
         [Test]
@@ -23,7 +23,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
             request.Name.ShouldEqual("PutRequest");
             request.Comments.ShouldEqual("Some put request description");
-            request.Collection.ShouldBeFalse();
+            request.IsArray.ShouldBeFalse();
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             request.Comments.ShouldBeNull();
             request.Type.ShouldEqual(typeof(InputTypeDescriptions.RequestItem)
                 .GetHash(typeof(InputTypeDescriptions.CollectionPostHandler).GetExecuteMethod()));
-            request.Collection.ShouldBeTrue();
+            request.IsArray.ShouldBeTrue();
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             request.Comments.ShouldBeNull();
             request.Type.ShouldEqual(typeof(InputTypeDescriptions.RequestItem)
                 .GetHash(typeof(InputTypeDescriptions.InheritedCollectionPostHandler).GetExecuteMethod()));
-            request.Collection.ShouldBeTrue();
+            request.IsArray.ShouldBeTrue();
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             request.Comments.ShouldBeNull();
             request.Type.ShouldEqual(typeof(InputTypeDescriptions.OverridenRequestItem)
                 .GetHash(typeof(InputTypeDescriptions.OverridenRequestPostHandler).GetExecuteMethod()));
-            request.Collection.ShouldBeFalse();
+            request.IsArray.ShouldBeFalse();
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             request.Comments.ShouldBeNull();
             request.Type.ShouldEqual(typeof(InputTypeDescriptions.OverridenRequestItem)
                 .GetHash(typeof(InputTypeDescriptions.OverridenCollectionPostHandler).GetExecuteMethod()));
-            request.Collection.ShouldBeTrue();
+            request.IsArray.ShouldBeTrue();
         }
     }
 }

@@ -43,6 +43,7 @@
                 $('.show-xml').removeClass('active');
                 $(content).find(".json").show();
                 $(content).find(".xml").hide();
+                $.cookie('FormatPreference', 'json');
                 return false;
             });
             
@@ -51,6 +52,7 @@
                 $('.show-json').removeClass('active');
                 $(content).find(".xml").show();
                 $(content).find(".json").hide();
+                $.cookie('FormatPreference', 'xml');
                 return false;
             });
 
@@ -74,7 +76,7 @@
         }
     };
 
-    var getTypeDefinition = function (id, name, collection, depth, member, last, ancestors) {
+    var getTypeDefinition = function (id, name, isArray, depth, member, last, ancestors, arrayItemName) {
         var definition = [];
         ancestors = ancestors || [];
         var isCyclic = ancestors.filter(function(x) { return x == id; }).length > 0;
@@ -82,20 +84,21 @@
         last = typeof last != 'undefined' ? last : true;
         depth = depth || 0;
 
-        if (collection && type && !isCyclic) {
-            definition.push({ name: name, opening: true, collection: true, depth: depth, member: member, type: type });
-            definition = definition.concat(getTypeDefinition(id, null, false, depth + 1, null, true, ancestors));
-            definition.push({ name: name, closing: true, collection: true, depth: depth, last: last });
-        } else if (collection) {
-            definition.push({ name: name, itemName: type ? type.Name : id, opening: true, closing: true, collection: true,
+        if (isArray && type && !isCyclic) {
+            definition.push({ name: name, opening: true, isArray: true, depth: depth, member: member, type: type });
+            definition = definition.concat(getTypeDefinition(id, arrayItemName, false, depth + 1, null, true, ancestors));
+            definition.push({ name: name, closing: true, isArray: true, depth: depth, last: last });
+        } else if (isArray) {
+            definition.push({
+                name: name, itemName: arrayItemName || (type ? type.Name : id), opening: true, closing: true, isArray: true,
                               depth: depth, last: last, member: member, type: type });
         } else if (type && !isCyclic) {
             definition.push({ name: name || type.Name, opening: true, depth: depth, member: member, type: type });
             for (var memberIndex in type.Members) {
                 var lastMember = memberIndex == (type.Members.length - 1);
                 var typeMember = type.Members[memberIndex];
-                definition = definition.concat(getTypeDefinition(typeMember.Type, typeMember.Name, typeMember.Collection, 
-                                               depth + 1, typeMember, lastMember, ancestors.concat(id)));
+                definition = definition.concat(getTypeDefinition(typeMember.Type, typeMember.Name, typeMember.IsArray, 
+                                               depth + 1, typeMember, lastMember, ancestors.concat(id), typeMember.ArrayItemName));
             }
             definition.push({ name: name || type.Name, closing: true, depth: depth, last: last });
         } else {
@@ -108,13 +111,13 @@
         return !(!description.opening && description.closing) ? {
             type: (description.type ? description.type.Name :
                     (description.member ? description.member.Type : ''))
-                  + (description.collection ? '[...]' : ''),
+                  + (description.isArray ? '[...]' : ''),
             defaultValue: description.member ? description.member.DefaultValue : null,
-            collection: description.collection,
+            isArray: description.isArray,
             required: description.member ? description.member.Required : null,
             optional: description.member ? !description.member.Required : null,
             comments: description.member ? description.member.Comments :
-                        (description.type && !description.collection ? description.type.Comments : ''),
+                        (description.type && !description.isArray ? description.type.Comments : ''),
             options: description.member && description.member.Options &&
                 description.member.Options.length > 0 ? description.member.Options : null
         } : null;
@@ -134,7 +137,7 @@
         else if (member.Type == 'dateTime') return '\"' + (member.DefaultValue || Swank.SampleValues.DateTime) + '\"';
         else if (member.Type == 'string' || member.Type == 'char' ||
                  member.Type == 'base64Binary') return '\"' + (member.DefaultValue || '') + '\"';
-        else if (member.Type == 'TimeSpan') return '\"' + (member.DefaultValue || Swank.SampleValues.TimeSpan) + '\"';
+        else if (member.Type == 'duration') return '\"' + (member.DefaultValue || Swank.SampleValues.TimeSpan) + '\"';
         else return null;
     };
 
@@ -163,13 +166,13 @@
         var element = '';
         if (description.opening) {
             if (description.depth > 0 && description.member) element += quote(description.name);
-            element += description.collection ? '[' : '{';
+            element += description.isArray ? '[' : '{';
         }
         if (description.opening && description.closing) {
             element += sampleValue ? sampleValue : '...';
         }
         if (description.closing) {
-            element += description.collection ? ']' : '}';
+            element += description.isArray ? ']' : '}';
             if (!description.last) element += ',';
         }
         if (!description.opening && !description.closing) {
@@ -181,7 +184,7 @@
     };
 
     var getTypeDescription = function (data) {
-        return getTypeDefinition(data.Type, data.Name, data.Collection)
+        return getTypeDefinition(data.Type, data.Name, data.IsArray)
             .map(function (description) {
                 return {
                     description: getFragmentDescription(description),

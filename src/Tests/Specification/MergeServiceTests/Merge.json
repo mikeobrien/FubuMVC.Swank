@@ -11,7 +11,7 @@
                     "required": true,
                     "defaultValue": "some default value",
                     "type": "some type",
-                    "collection": true,
+                    "isArray": true,
                     "options": [
                         {
                             "name": "SomeOption",
@@ -79,13 +79,13 @@
                                 "name": "Some request",
                                 "comments": "Some request comments",
                                 "type": "Some type",
-                                "collection": true
+                                "isArray": true
                             },
                             "response": {
                                 "name": "Some response",
                                 "comments": "Some response comments",
                                 "type": "Some type",
-                                "collection": true
+                                "isArray": true
                             }
                         }
                     ]
@@ -145,13 +145,13 @@
                         "name": "Some request",
                         "comments": "Some request comments",
                         "type": "Some type",
-                        "collection": true
+                        "isArray": true
                     },
                     "response": {
                         "name": "Some response",
                         "comments": "Some response comments",
                         "type": "Some type",
-                        "collection": true
+                        "isArray": true
                     }
                 }
             ]

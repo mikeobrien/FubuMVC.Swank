@@ -135,7 +135,7 @@ namespace Tests.Specification.SpecificationService.TypeTests
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
                    .GetMember<MemberDescription.Request>(x => x.Name);
 
-            member.Collection.ShouldBeFalse();
+            member.IsArray.ShouldBeFalse();
             member.Type.ShouldEqual(typeof(string).GetXmlName());
         }
 
@@ -146,7 +146,7 @@ namespace Tests.Specification.SpecificationService.TypeTests
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
                    .GetMember<MemberDescription.Request>(x => x.Status);
 
-            member.Collection.ShouldBeFalse();
+            member.IsArray.ShouldBeFalse();
             member.Type.ShouldEqual("Status");
         }
 
@@ -157,7 +157,7 @@ namespace Tests.Specification.SpecificationService.TypeTests
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
                    .GetMember<MemberDescription.Request>(x => x.NullableInt);
 
-            member.Collection.ShouldBeFalse();
+            member.IsArray.ShouldBeFalse();
             member.Type.ShouldEqual(typeof(int).GetXmlName());
         }
 
@@ -168,7 +168,7 @@ namespace Tests.Specification.SpecificationService.TypeTests
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
                    .GetMember<MemberDescription.Request>(x => x.NullableStatus);
 
-            member.Collection.ShouldBeFalse();
+            member.IsArray.ShouldBeFalse();
             member.Type.ShouldEqual("Status");
         }
 
@@ -179,7 +179,7 @@ namespace Tests.Specification.SpecificationService.TypeTests
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
                    .GetMember<MemberDescription.Request>(x => x.Drive);
 
-            member.Collection.ShouldBeFalse();
+            member.IsArray.ShouldBeFalse();
             member.Type.ShouldEqual(typeof(MemberDescription.HyperDrive).GetHash());
         }
 
@@ -190,8 +190,9 @@ namespace Tests.Specification.SpecificationService.TypeTests
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
                    .GetMember<MemberDescription.Request>(x => x.Ids);
 
-            member.Collection.ShouldBeTrue();
+            member.IsArray.ShouldBeTrue();
             member.Type.ShouldEqual("int");
+            member.ArrayItemName.ShouldBeNull();
         }
 
         [Test]
@@ -201,8 +202,33 @@ namespace Tests.Specification.SpecificationService.TypeTests
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
                    .GetMember<MemberDescription.Request>(x => x.Drives);
 
-            member.Collection.ShouldBeTrue();
+            member.IsArray.ShouldBeTrue();
             member.Type.ShouldEqual(typeof(MemberDescription.HyperDrive).GetHash());
+            member.ArrayItemName.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_set_collections_of_system_types_custom_item_name()
+        {
+            var member = BuildSpec<MemberDescription.PutHandler>().Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
+                   .GetMember<MemberDescription.Request>(x => x.IdsWithCustomItemName);
+
+            member.IsArray.ShouldBeTrue();
+            member.Type.ShouldEqual("int");
+            member.ArrayItemName.ShouldEqual("Id");
+        }
+
+        [Test]
+        public void should_set_collections_of_non_system_types_custom_item_name()
+        {
+            var member = BuildSpec<MemberDescription.PutHandler>().Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
+                   .GetMember<MemberDescription.Request>(x => x.DrivesWithCustomItemName);
+
+            member.IsArray.ShouldBeTrue();
+            member.Type.ShouldEqual(typeof(MemberDescription.HyperDrive).GetHash());
+            member.ArrayItemName.ShouldEqual("Drive");
         }
 
         [Test]

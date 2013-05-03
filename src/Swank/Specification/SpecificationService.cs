@@ -7,7 +7,6 @@ using FubuCore.Reflection;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Description;
 using FubuMVC.Swank.Extensions;
-using ReflectionExtensions = FubuMVC.Swank.Extensions.ReflectionExtensions;
 
 namespace FubuMVC.Swank.Specification
 {
@@ -176,7 +175,8 @@ namespace FubuMVC.Swank.Specification
                             DefaultValue = description.WhenNotNull(y => y.DefaultValue).WhenNotNull(z => z.ToDefaultValueString(_configuration)).OtherwiseDefault(),
                             Required = description.WhenNotNull(y => y.Required).OtherwiseDefault(),
                             Type = memberType.IsSystemType() || memberType.IsEnum ? memberType.GetXmlName() : _configuration.TypeIdConvention(memberType),
-                            Collection = x.PropertyType.IsArray || x.PropertyType.IsList(),
+                            IsArray = x.PropertyType.IsArray || x.PropertyType.IsList(),
+                            ArrayItemName = description.WhenNotNull(y => y.ArrayItemName).OtherwiseDefault(),
                             Options = GetOptions(x.PropertyType)
                         });
                     })
@@ -299,7 +299,7 @@ namespace FubuMVC.Swank.Specification
                     Comments = comments,
                     Type = action.WhenNotNull(x => _configuration.InputTypeIdConvention(rootType, x))
                             .Otherwise(_configuration.TypeIdConvention(rootType)),
-                    Collection = type.IsArray || type.IsList()
+                    IsArray = type.IsArray || type.IsList()
                 };
         } 
 

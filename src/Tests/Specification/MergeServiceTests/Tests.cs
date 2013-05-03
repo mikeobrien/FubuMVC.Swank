@@ -40,7 +40,7 @@ namespace Tests.Specification.MergeServiceTests
             member.Required.ShouldBeTrue();
             member.DefaultValue.ShouldEqual("some default value");
             member.Type.ShouldEqual("some type");
-            member.Collection.ShouldBeTrue();
+            member.IsArray.ShouldBeTrue();
             member.Options.Count.ShouldEqual(1);
 
             var option = member.Options[0];
@@ -104,12 +104,12 @@ namespace Tests.Specification.MergeServiceTests
             endpoint.Request.Name.ShouldEqual("Some request");
             endpoint.Request.Comments.ShouldEqual("Some request comments");
             endpoint.Request.Type.ShouldEqual("Some type");
-            endpoint.Request.Collection.ShouldBeTrue();
+            endpoint.Request.IsArray.ShouldBeTrue();
 
             endpoint.Response.Name.ShouldEqual("Some response");
             endpoint.Response.Comments.ShouldEqual("Some response comments");
             endpoint.Response.Type.ShouldEqual("Some type");
-            endpoint.Response.Collection.ShouldBeTrue();
+            endpoint.Response.IsArray.ShouldBeTrue();
         }
 
         [Test]

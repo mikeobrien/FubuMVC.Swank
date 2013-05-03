@@ -11,7 +11,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "double",
-                    "Collection": false
+                    "IsArray": false
                 },
                 {
                     "Name": "Longitude",
@@ -19,7 +19,7 @@
                     "Required": true,
                     "DefaultValue": "",
                     "Type": "double",
-                    "Collection": false
+                    "IsArray": false
                 }
             ]
         }
@@ -43,7 +43,7 @@
                             "Response": {
                                 "Name": "Token",
                                 "Type": "194C59AD29E931AA75D8F921A81152BA",
-                                "Collection": false,
+                                "IsArray": false,
                                 "Comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh."
                             }
                         }

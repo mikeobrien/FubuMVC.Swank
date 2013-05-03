@@ -13,7 +13,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
             response.Name.ShouldEqual("GetResponse");
             response.Comments.ShouldEqual("Some get response description");
-            response.Collection.ShouldBeFalse();
+            response.IsArray.ShouldBeFalse();
         }
 
         [Test]
@@ -23,7 +23,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
             response.Name.ShouldEqual("PostResponse");
             response.Comments.ShouldEqual("Some post response description");
-            response.Collection.ShouldBeFalse();
+            response.IsArray.ShouldBeFalse();
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
             response.Name.ShouldEqual("PutResponse");
             response.Comments.ShouldEqual("Some put response description");
-            response.Collection.ShouldBeFalse();
+            response.IsArray.ShouldBeFalse();
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
             response.Name.ShouldEqual("DeleteResponse");
             response.Comments.ShouldEqual("Some delete response description");
-            response.Collection.ShouldBeFalse();
+            response.IsArray.ShouldBeFalse();
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             response.Name.ShouldEqual("ArrayOfResponseItem");
             response.Comments.ShouldBeNull();
             response.Type.ShouldEqual(typeof(OutputTypeDescriptions.ResponseItem).GetHash());
-            response.Collection.ShouldBeTrue();
+            response.IsArray.ShouldBeTrue();
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             response.Name.ShouldEqual("ArrayOfResponseItem");
             response.Comments.ShouldBeNull();
             response.Type.ShouldEqual(typeof(OutputTypeDescriptions.ResponseItem).GetHash());
-            response.Collection.ShouldBeTrue();
+            response.IsArray.ShouldBeTrue();
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             response.Name.ShouldEqual("NewItemName");
             response.Comments.ShouldBeNull();
             response.Type.ShouldEqual(typeof(OutputTypeDescriptions.OverridenResponseItem).GetHash());
-            response.Collection.ShouldBeFalse();
+            response.IsArray.ShouldBeFalse();
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             response.Name.ShouldEqual("NewCollectionName");
             response.Comments.ShouldBeNull();
             response.Type.ShouldEqual(typeof(OutputTypeDescriptions.OverridenResponseItem).GetHash());
-            response.Collection.ShouldBeTrue();
+            response.IsArray.ShouldBeTrue();
         }
     }
 }

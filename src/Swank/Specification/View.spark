@@ -212,28 +212,6 @@
           </table>
           {{/if}}
 
-          {{#if StatusCodes}}
-          <h4>Status Codes</h4>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Code</th>
-                <th>Comments</th>
-              </tr>
-            </thead>
-            <tbody>
-              {{#StatusCodes}}
-              <tr>
-                <td nowrap="nowrap"><strong>{{{Name}}}</strong></td>
-                <td><code>{{{Code}}}</code></td>
-                <td>{{{Comments}}}</td>
-              </tr>
-              {{/StatusCodes}}
-            </tbody>
-          </table>
-          {{/if}}
-
           {{#if Request}}
           <h4>Request</h4>
           {{#with Request}}
@@ -246,10 +224,11 @@
                       <test if="!Model.ShowJson">Xml
                       <else if="!Model.ShowXml"/>Json
                       <else/>
-                        <div class="btn-group">
-                          <button class="btn show-json active">{}</button>
-                          <button class="btn show-xml">&lt;/&gt;</button>
+                        <div class="btn-group sample-selector">
+                          <button class="btn show-json {{#when '!$.cookie("FormatPreference") || $.cookie("FormatPreference") == "json"'}}active{{/when}}" title="Json">{}</button>
+                          <button class="btn show-xml {{#when '$.cookie("FormatPreference") == "xml"'}}active{{/when}}" title="Xml">&lt;/&gt;</button>
                         </div>
+                        <div class="sample-copy-hint">Click below to copy</div>
                       </test>
                     </th>
                     <th>Type/Comments</th>
@@ -258,8 +237,8 @@
                 <tbody>
                 {{#typeDescription}}
                 <tr>
-                  <td class="code json" style="<test if="!Model.ShowJson">display: none</test>">{{{colorizeJson json}}}</td>
-                  <td class="code xml" style="<test if="Model.ShowJson">display: none</test>">{{{colorizeXml xml}}}</td>
+                  <td class="code json" title="Click to copy json..." style="<test if="!Model.ShowJson">display: none;</test> {{#when '$.cookie("FormatPreference") == "xml"'}}display: none;{{/when}}">{{{colorizeJson json}}}</td>
+                  <td class="code xml" title="Click to copy xml..." style="<test if="!Model.ShowXml">display: none;</test> {{#when '!$.cookie("FormatPreference") || $.cookie("FormatPreference") == "json"'}}display: none;{{/when}}">{{{colorizeXml xml}}}</td>
                   <td>
                     {{#if description}}
                       <strong><code>{{{description.type}}}</code></strong>
@@ -268,21 +247,16 @@
                       {{#if description.options}}<span class="label label-warning">Enumeration</span>{{/if}}
                       {{#when 'description.optional && description.defaultValue'}}
                           <span class="badge badge-inverse">Default: {{{description.defaultValue}}}</span>{{/when}}
-                      {{#if description.collection}}<span class="label label-info">Collection</span>{{/if}}
+                      {{#if description.isArray}}<span class="label label-info">Array</span>{{/if}}
                       {{{description.comments}}}
                       {{#if description.options}}
                         <h5>Possible Values</h5>
                           <table class="table table-bordered table-zebra">
-                            <thead>
-                              <tr>
-                                <th>Name: Value/Comments</th>
-                              </tr>
-                            </thead>
                             <tbody>
                               {{#description.options}}
                               <tr>
                                 <td>
-                                  <strong>{{{Name}}}:</strong>
+                                  {{#when 'Name != Value'}}<strong>{{{Name}}}:</strong>{{/when}}
                                   <code>{{{Value}}}</code>
                                   {{{Comments}}}
                                 </td>
@@ -313,10 +287,11 @@
                       <test if="!Model.ShowJson">Xml
                       <else if="!Model.ShowXml"/>Json
                       <else/>
-                        <div class="btn-group">
-                          <button class="btn show-json active">{}</button>
-                          <button class="btn show-xml">&lt;/&gt;</button>
+                        <div class="btn-group sample-selector">
+                          <button class="btn show-json {{#when '!$.cookie("FormatPreference") || $.cookie("FormatPreference") == "json"'}}active{{/when}}" title="Json">{}</button>
+                          <button class="btn show-xml {{#when '$.cookie("FormatPreference") == "xml"'}}active{{/when}}" title="Xml">&lt;/&gt;</button>
                         </div>
+                        <div class="sample-copy-hint">Click below to copy</div>
                       </test>
                     </th>
                     <th>Type/Comments</th>
@@ -325,27 +300,22 @@
                 <tbody>
                 {{#typeDescription}}
                 <tr>
-                  <td class="code json" style="<test if="!Model.ShowJson">display: none</test>">{{{colorizeJson json}}}</td>
-                  <td class="code xml" style="<test if="Model.ShowJson">display: none</test>">{{{colorizeXml xml}}}</td>
+                  <td class="code json" title="Click to copy json..." style="<test if="!Model.ShowJson">display: none;</test> {{#when '$.cookie("FormatPreference") == "xml"'}}display: none;{{/when}}">{{{colorizeJson json}}}</td>
+                  <td class="code xml" title="Click to copy xml..." style="<test if="!Model.ShowXml">display: none;</test> {{#when '!$.cookie("FormatPreference") || $.cookie("FormatPreference") == "json"'}}display: none;{{/when}}">{{{colorizeXml xml}}}</td>
                   <td>
                     {{#if description}}
                       <strong><code>{{{description.type}}}</code></strong>
-                      {{#if description.collection}}<span class="label label-info">Collection</span>{{/if}}
+                      {{#if description.isArray}}<span class="label label-info">Array</span>{{/if}}
                       {{#if description.options}}<span class="label label-warning">Enumeration</span>{{/if}}
                       {{{description.comments}}}
                       {{#if description.options}}
                         <h5>Possible Values</h5>
                           <table class="table table-bordered table-zebra">
-                            <thead>
-                              <tr>
-                                <th>Name: Value/Comments</th>
-                              </tr>
-                            </thead>
                             <tbody>
                               {{#description.options}}
                               <tr>
                                 <td>
-                                  <strong>{{{Name}}}:</strong>
+                                  {{#when 'Name != Value'}}<strong>{{{Name}}}:</strong>{{/when}}
                                   <code>{{{Value}}}</code>
                                   {{{Comments}}}
                                 </td>
@@ -360,8 +330,34 @@
                 {{/typeDescription}}
                 </tbody>
               </table>
-            {{/hasTypeDescription}}
+          {{/hasTypeDescription}}
           {{/with}}
+          {{/if}}
+
+          {{#if StatusCodes}}
+          <h4>Status Codes</h4>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#StatusCodes}}
+              <tr>
+                <td nowrap="nowrap">
+                  <strong>{{{Name}}}</strong>
+                </td>
+                <td>
+                  <code>{{{Code}}}</code>
+                </td>
+                <td>{{{Comments}}}</td>
+              </tr>
+              {{/StatusCodes}}
+            </tbody>
+          </table>
           {{/if}}
 
         </div>
@@ -379,6 +375,7 @@
     
     <script src="~/_content/swank/es5-shim.js" type="text/javascript"></script>
     <script src="~/_content/swank/jquery.js" type="text/javascript"></script>
+    <script src="~/_content/swank/jquery.cookie.js" type="text/javascript"></script>
     <script src="~/_content/swank/bootstrap.js" type="text/javascript"></script>
     <script src="~/_content/swank/handlebars.js" type="text/javascript"></script>
     <script src="~/_content/swank/swank.js" type="text/javascript"></script>

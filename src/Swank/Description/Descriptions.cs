@@ -31,6 +31,7 @@
         public object DefaultValue { get; set; }
         public bool Required { get; set; }
         public System.Type Type { get; set; }
+        public string ArrayItemName { get; set; }
     }
 
     public class OptionDescription : DescriptionBase { }
