@@ -192,14 +192,15 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         public class Request
         {
             public Guid Id { get; set; }
+            public Guid? NullableId { get; set; }
             [QueryString]
             public string Sort { get; set; }
             [Comments("These are the revision numbers.")]
             public List<int> Revisions { get; set; }
             [QueryString, Hide]
             public string HiddenParameter { get; set; }
-            [QueryString, Required]
-            public string RequiredParameter { get; set; }
+            [QueryString, Required(false)]
+            public string NotRequiredParameter { get; set; }
             public string ContentType { get; set; }
             [DefaultValue(5)]
             public int Revision { get; set; }

@@ -110,16 +110,6 @@ namespace Tests.Specification.SpecificationService.TypeTests
         }
 
         [Test]
-        public void should_indicate_if_a_member_is_required()
-        {
-            var type = BuildSpec<MemberDescription.PutHandler>().Types
-                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>();
-
-            type.GetMember<MemberDescription.Request>(x => x.Name).Required.ShouldBeFalse();
-            type.GetMember<MemberDescription.Request>(x => x.Birthday).Required.ShouldBeTrue();
-        }
-
-        [Test]
         public void should_set_member_name_to_xml_override()
         {
             var type = BuildSpec<MemberDescription.PutHandler>().Types
@@ -304,6 +294,35 @@ namespace Tests.Specification.SpecificationService.TypeTests
             option.Name.ShouldEqual("Inactive");
             option.Comments.ShouldBeNull();
             option.Value.ShouldEqual("Inactive");
+        }
+
+        [Test]
+        public void should_indicate_if_a_member_is_set_to_be_required()
+        {
+            var type = BuildSpec<MemberDescription.PutHandler>().Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>();
+
+            type.GetMember<MemberDescription.Request>(x => x.Name).Required.ShouldBeTrue();
+        }
+
+        [Test]
+        public void should_default_nullable_types_to_not_required()
+        {
+            var type = BuildSpec<MemberDescription.PutHandler>(x => x.WithEnumValueTypeOf(EnumValue.AsString)).Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>();
+
+            type.GetMember<MemberDescription.Request>(x => x.NullableInt).Required.ShouldBeFalse();
+            type.GetMember<MemberDescription.Request>(x => x.NullableStatus).Required.ShouldBeFalse();
+        }
+
+        [Test]
+        public void should_default_null_nullable_types_to_required()
+        {
+            var type = BuildSpec<MemberDescription.PutHandler>(x => x.WithEnumValueTypeOf(EnumValue.AsString)).Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>();
+
+            type.GetMember<MemberDescription.Request>(x => x.Id).Required.ShouldBeTrue();
+            type.GetMember<MemberDescription.Request>(x => x.Status).Required.ShouldBeTrue();
         }
     }
 }

@@ -163,7 +163,7 @@ namespace Tests.Specification.SpecificationService.TypeTests
             [DefaultValue("John Joseph Dingleheimer Smith")]
             public string Name { get; set; }
             [Comments("This is da birfday yo."), Required]
-            public DateTime Birthday { get; set; }
+            public DateTime? Birthday { get; set; }
             [XmlElement("R2D2")]
             public int C3P0 { get; set; }
             public HyperDrive Drive { get; set; }

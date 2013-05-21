@@ -29,21 +29,21 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         {
             var endpoint = Spec.GetEndpoint<Querystrings.ImplicitGetHandler>();
 
-            endpoint.Url.EndsWith("?RequiredParameter={RequiredParameter}&Revision={Revision}&Revisions={Revisions}&Sort={Sort}").ShouldBeTrue(endpoint.Url);
-            endpoint.QuerystringParameters.Count.ShouldEqual(4);
+            endpoint.Url.EndsWith("?NotRequiredParameter={NotRequiredParameter}&NullableId={NullableId}&Revision={Revision}&Revisions={Revisions}&Sort={Sort}").ShouldBeTrue(endpoint.Url);
+            endpoint.QuerystringParameters.Count.ShouldEqual(5);
             endpoint.HasQuerystring<Querystrings.Request>(x => x.Sort).ShouldBeTrue();
             endpoint.HasQuerystring<Querystrings.Request>(x => x.Revisions).ShouldBeTrue();
             endpoint.HasQuerystring<Querystrings.Request>(x => x.Revision).ShouldBeTrue();
-            endpoint.HasQuerystring<Querystrings.Request>(x => x.RequiredParameter).ShouldBeTrue();
+            endpoint.HasQuerystring<Querystrings.Request>(x => x.NotRequiredParameter).ShouldBeTrue();
 
             endpoint = Spec.GetEndpoint<Querystrings.ImplicitDeleteHandler>();
 
-            endpoint.Url.EndsWith("?RequiredParameter={RequiredParameter}&Revision={Revision}&Revisions={Revisions}&Sort={Sort}").ShouldBeTrue(endpoint.Url);
-            endpoint.QuerystringParameters.Count.ShouldEqual(4);
+            endpoint.Url.EndsWith("?NotRequiredParameter={NotRequiredParameter}&NullableId={NullableId}&Revision={Revision}&Revisions={Revisions}&Sort={Sort}").ShouldBeTrue(endpoint.Url);
+            endpoint.QuerystringParameters.Count.ShouldEqual(5);
             endpoint.HasQuerystring<Querystrings.Request>(x => x.Sort).ShouldBeTrue();
             endpoint.HasQuerystring<Querystrings.Request>(x => x.Revisions).ShouldBeTrue();
             endpoint.HasQuerystring<Querystrings.Request>(x => x.Revision).ShouldBeTrue();
-            endpoint.HasQuerystring<Querystrings.Request>(x => x.RequiredParameter).ShouldBeTrue();
+            endpoint.HasQuerystring<Querystrings.Request>(x => x.NotRequiredParameter).ShouldBeTrue();
         }
 
         [Test]
@@ -64,10 +64,11 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         public void should_sort_parameters_by_name()
         {
             var parameters = Spec.GetEndpoint<Querystrings.ImplicitGetHandler>().QuerystringParameters;
-            parameters[0].Name.ShouldEqual("RequiredParameter");
-            parameters[1].Name.ShouldEqual("Revision");
-            parameters[2].Name.ShouldEqual("Revisions");
-            parameters[3].Name.ShouldEqual("Sort");
+            parameters[0].Name.ShouldEqual("NotRequiredParameter");
+            parameters[1].Name.ShouldEqual("NullableId");
+            parameters[2].Name.ShouldEqual("Revision");
+            parameters[3].Name.ShouldEqual("Revisions");
+            parameters[4].Name.ShouldEqual("Sort");
         }
 
         [Test]
@@ -124,10 +125,11 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         public void should_indicate_when_the_parameter_is_required()
         {
             var endpoint = Spec.GetEndpoint<Querystrings.ImplicitGetHandler>();
-            
-            endpoint.GetQuerystring<Querystrings.Request>(x => x.RequiredParameter).Required.ShouldBeTrue();
-            endpoint.GetQuerystring<Querystrings.Request>(x => x.Sort).Required.ShouldBeFalse();
-            endpoint.GetQuerystring<Querystrings.Request>(x => x.Revisions).Required.ShouldBeFalse();
+
+            endpoint.GetQuerystring<Querystrings.Request>(x => x.NotRequiredParameter).Required.ShouldBeFalse();
+            endpoint.GetQuerystring<Querystrings.Request>(x => x.NullableId).Required.ShouldBeFalse();
+            endpoint.GetQuerystring<Querystrings.Request>(x => x.Sort).Required.ShouldBeTrue();
+            endpoint.GetQuerystring<Querystrings.Request>(x => x.Revisions).Required.ShouldBeTrue();
         }
 
         [Test]

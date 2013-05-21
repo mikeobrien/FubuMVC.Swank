@@ -24,7 +24,8 @@ namespace Tests.Description
         {
             [Comments("This is the id.")]
             public Guid Id { get; set; }
-            [Required]
+            public Guid? NullableId { get; set; }
+            [Required(false)]
             public string Sort { get; set; }
             [XmlElement("R2D2")]
             public int C3P0 { get; set; }
@@ -55,10 +56,11 @@ namespace Tests.Description
         }
 
         [Test]
-        public void should_indicate_if_the_member_is_required()
+        public void should_indicate_if_the_member_is_set_to_be_required()
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("Id")).Required.ShouldBeFalse();
-            _memberConvention.GetDescription(typeof(Request).GetProperty("Sort")).Required.ShouldBeTrue();
+            _memberConvention.GetDescription(typeof(Request).GetProperty("Id")).Required.ShouldBeTrue();
+            _memberConvention.GetDescription(typeof(Request).GetProperty("Sort")).Required.ShouldBeFalse();
+            _memberConvention.GetDescription(typeof(Request).GetProperty("NullableId")).Required.ShouldBeFalse();
         }
 
         [Test]
