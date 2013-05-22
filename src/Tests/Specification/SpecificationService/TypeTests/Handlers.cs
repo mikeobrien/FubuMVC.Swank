@@ -162,7 +162,7 @@ namespace Tests.Specification.SpecificationService.TypeTests
         {
             [DefaultValue("John Joseph Dingleheimer Smith")]
             public string Name { get; set; }
-            [Comments("This is da birfday yo."), Required]
+            [Comments("This is da birfday yo.")]
             public DateTime? Birthday { get; set; }
             [XmlElement("R2D2")]
             public int C3P0 { get; set; }
@@ -175,7 +175,7 @@ namespace Tests.Specification.SpecificationService.TypeTests
             public List<HyperDrive> DrivesWithCustomItemName { get; set; }
             [DefaultValue(Status.Active)]
             public Status Status { get; set; }
-            [DefaultValue(5)]
+            [DefaultValue(5), Optional]
             public int Id { get; set; }
             public Status? NullableStatus { get; set; }
             public int? NullableInt { get; set; }

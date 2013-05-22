@@ -199,7 +199,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             public List<int> Revisions { get; set; }
             [QueryString, Hide]
             public string HiddenParameter { get; set; }
-            [QueryString, Required(false)]
+            [QueryString, Optional]
             public string NotRequiredParameter { get; set; }
             public string ContentType { get; set; }
             [DefaultValue(5)]

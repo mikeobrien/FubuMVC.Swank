@@ -17,7 +17,6 @@ namespace HelloWorld.Administration.Users
         }
 
         public Guid UserId { get; set; }
-        [Required]
         [Comments("In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.")]
         public string Name { get; set; }
         [DefaultValue(UserType.Guest)]

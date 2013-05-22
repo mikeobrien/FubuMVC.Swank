@@ -19,7 +19,7 @@ namespace FubuMVC.Swank.Description
                                 .Otherwise(property.Name)),
                 Comments = property.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments).OtherwiseDefault(),
                 DefaultValue = property.GetCustomAttribute<DefaultValueAttribute>().WhenNotNull(x => x.Value).OtherwiseDefault(),
-                Required = property.GetCustomAttribute<RequiredAttribute>().WhenNotNull(x => x.IsRequired).Otherwise(!property.PropertyType.IsNullable()),
+                Required = !property.HasAttribute<OptionalAttribute>() && !property.PropertyType.IsNullable(),
                 Type = property.PropertyType.GetListElementType() ?? property.PropertyType,
                 ArrayItemName = property.GetAttribute<XmlArrayItemAttribute>().WhenNotNull(x => x.ElementName).OtherwiseDefault()
             };

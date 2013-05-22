@@ -104,7 +104,7 @@
     <Compile Include="Specification\OrphanedResourceActionException.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Description\CommentsAttribute.cs" />
-    <Compile Include="Description\RequiredAttribute.cs" />
+    <Compile Include="Description\OptionalAttribute.cs" />
     <Compile Include="Description\DefaultValueAttribute.cs" />
     <Compile Include="Description\DescriptionAttribute.cs" />
     <Compile Include="Description\DescriptionBase.cs" />

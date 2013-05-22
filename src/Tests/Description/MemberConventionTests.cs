@@ -25,7 +25,7 @@ namespace Tests.Description
             [Comments("This is the id.")]
             public Guid Id { get; set; }
             public Guid? NullableId { get; set; }
-            [Required(false)]
+            [Optional]
             public string Sort { get; set; }
             [XmlElement("R2D2")]
             public int C3P0 { get; set; }

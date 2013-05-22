@@ -321,7 +321,7 @@ namespace Tests.Specification.SpecificationService.TypeTests
             var type = BuildSpec<MemberDescription.PutHandler>(x => x.WithEnumValueTypeOf(EnumValue.AsString)).Types
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>();
 
-            type.GetMember<MemberDescription.Request>(x => x.Id).Required.ShouldBeTrue();
+            type.GetMember<MemberDescription.Request>(x => x.Id).Required.ShouldBeFalse();
             type.GetMember<MemberDescription.Request>(x => x.Status).Required.ShouldBeTrue();
         }
     }

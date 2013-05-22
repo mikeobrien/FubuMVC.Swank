@@ -17,16 +17,13 @@ namespace HelloWorld.Exports.Distributors
         }
 
         public Guid Id { get; set; }
-        [Required]
         [Comments("In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.")]
         public string Street { get; set; }
-        [Required]
         [Comments("In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.")]
         public string City { get; set; }
-        [Required]
         [Comments("In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.")]
         public string State { get; set; }
-        [Required]
+        [Optional]
         [Comments("In volutpat tortor quis mauris blandit non viverra tellus mollis. Nam ac fermentum augue.")]
         public string Zip { get; set; }
         [DefaultValue(AddressType.Office)]
