@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>FubuMVC.JQueryUI</id>
+    <version>0.5.0.301</version>
+    <authors>Jeremy Miller,  et al.</authors>
+    <owners>Jeremy Miller,  et al.</owners>
+    <licenseUrl>https://github.com/DarthFubuMVC/fubumvc/raw/master/license.txt</licenseUrl>
+    <projectUrl>http://mvc.fubu-project.org/</projectUrl>
+    <iconUrl>https://github.com/DarthFubuMVC/fubu-collateral/raw/master/Icons/FubuMvc_256.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Quick integration of jquery.ui into a FubuMVC application</description>
+    <tags>fubumvc twitter jquery jqueryui</tags>
+    <dependencies>
+      <dependency id="FubuMVC.Core" version="0.9.8.993" />
+      <dependency id="FubuMVC.Core.Assets" version="0.9.8.993" />
+    </dependencies>
+  </metadata>
+</package>
