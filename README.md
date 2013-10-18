@@ -97,6 +97,10 @@ The following are all the basic configuration options. Advanced options are disc
     <td>The spec should be generated from the assembly of the specified type. This call is additive, so you can specify multiple assemblies.</td>
   </tr>
   <tr>
+    <td><code>AppliesTo(params Assembly[] assemblies)</code></td>
+    <td>The spec should be generated from the specified assemblies.</td>
+  </tr>
+  <tr>
     <td><code>Where(Func&lt;ActionCall, bool&gt; filter)</code></td>
     <td>This filters the actions included in the specification.</td>
   </tr>

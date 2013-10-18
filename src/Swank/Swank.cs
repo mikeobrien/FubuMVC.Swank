@@ -63,6 +63,15 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
+        /// The spec should be generated from the specified assemblies.
+        /// </summary>
+        public Swank AppliesTo(params Assembly[] assemblies)
+        {
+            _configuration.AppliesToAssemblies.AddRange(assemblies);
+            return this;
+        }
+
+        /// <summary>
         /// This defines the url of the specification endpoint.
         /// The default is /specification.
         /// </summary>
