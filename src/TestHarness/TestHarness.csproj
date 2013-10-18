@@ -229,7 +229,9 @@
     <Content Include="fubu-content\FubuMVC.TwitterBootstrap\WebContent\Content\styles\twitter\bootstrap.min.css" />
     <Content Include="scripts\script.js" />
     <Content Include="styles\style.css" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Administration\Module.cs" />

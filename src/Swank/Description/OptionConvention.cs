@@ -5,7 +5,7 @@ namespace FubuMVC.Swank.Description
 {
     public class OptionConvention : IDescriptionConvention<FieldInfo, OptionDescription>
     {
-        public OptionDescription GetDescription(FieldInfo field)
+        public virtual OptionDescription GetDescription(FieldInfo field)
         {
             var description = field.GetCustomAttribute<DescriptionAttribute>();
             return new OptionDescription {

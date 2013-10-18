@@ -9,7 +9,7 @@ namespace FubuMVC.Swank.Description
 {
     public class MemberConvention : IDescriptionConvention<PropertyInfo, MemberDescription>
     {
-        public MemberDescription GetDescription(PropertyInfo property)
+        public virtual MemberDescription GetDescription(PropertyInfo property)
         {
             return new MemberDescription {
                 Name = property.GetCustomAttribute<XmlElementAttribute>()

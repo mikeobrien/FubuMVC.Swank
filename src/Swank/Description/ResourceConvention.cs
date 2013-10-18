@@ -19,7 +19,7 @@ namespace FubuMVC.Swank.Description
             _actions = actions;
         }
 
-        public ResourceDescription GetDescription(ActionCall action)
+        public virtual ResourceDescription GetDescription(ActionCall action)
         {
             if (action.HandlerType.HasAttribute<ResourceAttribute>())
             {

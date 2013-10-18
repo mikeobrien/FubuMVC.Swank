@@ -7,7 +7,7 @@ namespace FubuMVC.Swank.Description
 {
     public class HeaderConvention : IDescriptionConvention<ActionCall, List<HeaderDescription>>
     {
-        public List<HeaderDescription> GetDescription(ActionCall action)
+        public virtual List<HeaderDescription> GetDescription(ActionCall action)
         {
             return action.Method.GetCustomAttributes<HeaderDescriptionAttribute>()
                 .Concat(action.HandlerType.GetCustomAttributes<HeaderDescriptionAttribute>())

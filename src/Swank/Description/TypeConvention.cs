@@ -6,7 +6,7 @@ namespace FubuMVC.Swank.Description
 {
     public class TypeConvention : IDescriptionConvention<System.Type, TypeDescription>
     {
-        public TypeDescription GetDescription(System.Type type)
+        public virtual TypeDescription GetDescription(System.Type type)
         {
             var elementType = type.GetListElementType();
             return new TypeDescription {

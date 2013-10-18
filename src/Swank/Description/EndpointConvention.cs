@@ -8,7 +8,7 @@ namespace FubuMVC.Swank.Description
 {
     public class EndpointConvention : IDescriptionConvention<ActionCall, EndpointDescription>
     {
-        public EndpointDescription GetDescription(ActionCall action)
+        public virtual EndpointDescription GetDescription(ActionCall action)
         {
             var attribute = action.Method.GetCustomAttribute<DescriptionAttribute>() ??
                             action.HandlerType.GetCustomAttribute<DescriptionAttribute>();

@@ -7,7 +7,7 @@ namespace FubuMVC.Swank.Description
 {
     public class StatusCodeConvention : IDescriptionConvention<ActionCall, List<StatusCodeDescription>>
     {
-        public List<StatusCodeDescription> GetDescription(ActionCall action)
+        public virtual List<StatusCodeDescription> GetDescription(ActionCall action)
         {
             return action.Method.GetCustomAttributes<StatusCodeDescriptionAttribute>()
                 .Concat(action.HandlerType.GetCustomAttributes<StatusCodeDescriptionAttribute>())

@@ -13,7 +13,7 @@ namespace FubuMVC.Swank.Description
                 a.GetTypes().Where(x => typeof(TMarker).IsAssignableFrom(x) && x != typeof(TMarker)).Select(CreateDescription)
                     .OrderByDescending(x => x.GetType().Namespace).ThenBy(x => x.Name).Cast<TMarker>().ToList());
 
-        public IList<TMarker> GetDescriptions(Assembly assembly)
+        public virtual IList<TMarker> GetDescriptions(Assembly assembly)
         {
             return GetCachedDescriptions(assembly);
         }
