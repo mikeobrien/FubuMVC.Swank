@@ -6,19 +6,28 @@ using System.Reflection;
 using FubuCore;
 using MarkdownSharp;
 
-namespace FubuMVC.Swank.Extensions
+namespace FubuMVC.Swank.Extensions.Compatibility
 {
     public static class ReflectionExtensions
     {
+        [Obsolete(".NET 4.5 Compatibility")]
         public static T GetCustomAttribute<T>(this MemberInfo memberInfo)
         {
             return memberInfo.GetCustomAttributes<T>().FirstOrDefault();
         }
 
+        [Obsolete(".NET 4.5 Compatibility")]
         public static IEnumerable<T> GetCustomAttributes<T>(this MemberInfo memberInfo)
         {
             return memberInfo.GetCustomAttributes(true).OfType<T>();
         }
+    }
+}
+
+namespace FubuMVC.Swank.Extensions
+{
+    public static class ReflectionExtensions
+    {
 
         public static string GetHash(this Type type)
         {

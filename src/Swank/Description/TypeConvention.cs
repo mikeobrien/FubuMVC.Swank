@@ -1,6 +1,7 @@
 ﻿using System.Xml.Serialization;
 using FubuMVC.Swank.Extensions;
 using System.Runtime.Serialization;
+using FubuMVC.Swank.Extensions.Compatibility;
 
 namespace FubuMVC.Swank.Description
 {

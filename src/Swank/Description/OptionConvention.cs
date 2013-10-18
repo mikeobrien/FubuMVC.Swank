@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using FubuMVC.Swank.Extensions;
+using FubuMVC.Swank.Extensions.Compatibility;
 
 namespace FubuMVC.Swank.Description
 {

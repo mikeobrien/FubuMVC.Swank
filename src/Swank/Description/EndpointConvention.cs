@@ -3,6 +3,7 @@ using FubuCore;
 using FubuCore.Reflection;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Extensions;
+using FubuMVC.Swank.Extensions.Compatibility;
 
 namespace FubuMVC.Swank.Description
 {
