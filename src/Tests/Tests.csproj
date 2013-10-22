@@ -47,6 +47,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\FubuMVC.Core.1.1.0.1542\lib\net40\FubuMVC.Core.dll</HintPath>
     </Reference>
+    <Reference Include="FubuMVC.Media">
+      <HintPath>..\packages\FubuMVC.Media.0.9.5.393\lib\net40\FubuMVC.Media.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlTags, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\HtmlTags.2.0.0.174\lib\4.0\HtmlTags.dll</HintPath>
@@ -82,6 +85,7 @@
     <Compile Include="AcceptanceTests.cs" />
     <Compile Include="Description\HeaderConventionTests.cs" />
     <Compile Include="EmbeddedCommentsTests.cs" />
+    <Compile Include="ExtensionTests\FubuTests.cs" />
     <Compile Include="Specification\ActionSourceTests\Handlers.cs" />
     <Compile Include="Specification\ActionSourceTests\Tests.cs" />
     <Compile Include="Description\MarkerConventionTests\Handlers.cs" />
