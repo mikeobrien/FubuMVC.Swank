@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using FubuCore;
 using MarkdownSharp;
@@ -28,7 +29,6 @@ namespace FubuMVC.Swank.Extensions
 {
     public static class ReflectionExtensions
     {
-
         public static string GetHash(this Type type)
         {
             return type.FullName.Hash();
@@ -112,6 +112,22 @@ namespace FubuMVC.Swank.Extensions
             {
                 return reader.ReadToEnd();
             }
+        }
+
+        public static T Cast<T>(this object instance)
+        {
+            return (T) instance;
+        }
+
+        public static MethodInfo GetMethod<T>(this Type type, Expression<Action<T>> method)
+        {
+            return type.GetMethod(((MethodCallExpression) method.Body).Method.Name);
+        }
+
+        public static Type GetInterface(this Type type, Type interfaceType)
+        {
+            return type.GetInterfaces()
+                .FirstOrDefault(x => x == interfaceType || (x.IsGenericType && x.GetGenericTypeDefinition() == interfaceType));
         }
 
         public static string GetXmlName(this Type type)

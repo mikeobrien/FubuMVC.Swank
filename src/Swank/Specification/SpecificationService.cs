@@ -144,7 +144,10 @@ namespace FubuMVC.Swank.Specification
 
         private List<TypeContext> GetTypes(TypeContext type)
         {
-            var types = _typeCache.GetPropertiesFor(type.Type).Select(x => x.Value)
+            var properties = type.Type.IsProjection() ?
+                type.Type.GetProjectionProperties() :
+                _typeCache.GetPropertiesFor(type.Type).Select(x => x.Value);
+            var types = properties
                 .Where(x => !x.IsHidden() &&
                             !(x.PropertyType.GetListElementType() ?? x.PropertyType).IsSystemType() && 
                             !x.PropertyType.IsEnum &&
@@ -161,7 +164,10 @@ namespace FubuMVC.Swank.Specification
 
         private List<Member> GetMembers(System.Type type, ActionCall action)
         {
-            return _typeCache.GetPropertiesFor(type).Select(x => x.Value)
+            var properties = type.IsProjection() ? 
+                type.GetProjectionProperties() : 
+                _typeCache.GetPropertiesFor(type).Select(x => x.Value);
+            return properties
                 .Where(x => !x.IsHidden() &&
                             !x.IsAutoBound() &&
                             !x.IsQuerystring(action) &&

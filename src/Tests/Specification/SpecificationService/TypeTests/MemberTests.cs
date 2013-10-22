@@ -10,11 +10,36 @@ namespace Tests.Specification.SpecificationService.TypeTests
         [Test]
         public void should_enumerate_type_members()
         {
-            var type = BuildSpec<MemberEnumeration.PutHandler>().Types
+            var spec = BuildSpec<MemberEnumeration.PutHandler>();
+            var type = spec.Types
                 .GetType<MemberEnumeration.Request, MemberEnumeration.PutHandler>();
 
+            type.Members.Count.ShouldEqual(2);
             type.ShouldContainMember<MemberEnumeration.Request>(x => x.Name);
             type.ShouldContainMember<MemberEnumeration.Request>(x => x.Birthday);
+
+            type = spec.Types
+                .GetType<MemberEnumeration.Response>();
+
+            type.Members.Count.ShouldEqual(1);
+            type.ShouldContainMember<MemberEnumeration.Response>(x => x.Id);
+        }
+
+        [Test]
+        public void should_enumerate_projection_members()
+        {
+            var spec = BuildSpec<ProjectionMemberEnumeration.PutHandler>();
+            var type = spec.Types.GetType<ProjectionMemberEnumeration.Request, ProjectionMemberEnumeration.PutHandler>();
+
+            type.Members.Count.ShouldEqual(2);
+            type.ShouldContainMember<ProjectionMemberEnumeration.Model>(x => x.Id);
+            type.ShouldContainMember<ProjectionMemberEnumeration.Model>(x => x.Key);
+
+            type = spec.Types.GetType<ProjectionMemberEnumeration.Response>();
+
+            type.Members.Count.ShouldEqual(2);
+            type.ShouldContainMember<ProjectionMemberEnumeration.Model>(x => x.Name);
+            type.ShouldContainMember<ProjectionMemberEnumeration.Model>(x => x.Sort);
         }
 
         [Test]

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using FubuMVC.Core;
+using FubuMVC.Media.Projections;
 using FubuMVC.Swank.Description;
 
 namespace Tests.Specification.SpecificationService.TypeTests
@@ -140,6 +141,38 @@ namespace Tests.Specification.SpecificationService.TypeTests
         public class Response
         {
             public Guid Id { get; set; }
+        }
+
+        public class PutHandler { public Response Execute_Id(Request request) { return null; } }
+    }
+
+    namespace ProjectionMemberEnumeration
+    {
+        public class Model
+        {
+            public Guid Id { get; set; }
+            public string Key { get; set; }
+            public string Name { get; set; }
+            public int Sort { get; set; }
+            public string UserAgent { get; set; }
+        }
+
+        public class Request : Projection<Model>
+        {
+            public Request()
+            {
+                Value(x => x.Id);
+                Value(x => x.Key);
+            }
+        }
+
+        public class Response : Projection<Model>
+        {
+            public Response()
+            {
+                Value(x => x.Name);
+                Value(x => x.Sort);
+            }
         }
 
         public class PutHandler { public Response Execute_Id(Request request) { return null; } }
