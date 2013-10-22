@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -10,6 +12,7 @@ using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Core.Registration.ObjectGraph;
 using FubuMVC.Core.Registration.Routes;
+using FubuMVC.Media.Projections;
 using FubuMVC.Swank.Description;
 
 namespace FubuMVC.Swank.Extensions
@@ -75,6 +78,23 @@ namespace FubuMVC.Swank.Extensions
             dependencies.Where(x => x != null).ToList().ForEach(objectDef.DependencyByValue);
             services.AddService(typeof(T), objectDef);
             return services;
+        }
+
+        public static bool IsProjection(this Type type)
+        {
+            return type.BaseType != null && 
+                type.BaseType.IsGenericType && 
+                type.BaseType.GetGenericTypeDefinition() == typeof(Projection<>);
+        }
+
+        public static IList<PropertyInfo> GetProjectionProperties(this Type type)
+        {
+            return type
+                .GetInterface(typeof(IProjection<>))
+                .GetMethod<IProjection<object>>(x => x.Accessors())
+                .Invoke(Activator.CreateInstance(type), null)
+                .Cast<IEnumerable<Accessor>>()
+                .Select(x => x.InnerProperty).ToList();
         }
     }
 }
