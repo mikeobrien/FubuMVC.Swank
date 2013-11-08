@@ -18,7 +18,7 @@ namespace FubuMVC.Swank.Specification
             _configuration = configuration;
         }
 
-        public IList<ActionCall> GetChains()
+        public IList<BehaviorChain> GetChains()
         {
             return _behaviorGraph.Behaviors
                 .Where(isNotContentChain)
@@ -27,7 +27,6 @@ namespace FubuMVC.Swank.Specification
                 .Where(isNotFubuChain)
                 .Where(isNotConfigThing)
                 .Where(_configuration.Filter)
-                .SelectMany(b => b.Calls)
                 .ToList();
         }
 

@@ -449,7 +449,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to define a default module that resources are added to when none are defined for it.
         /// </summary>
-        public Swank WithDefaultModule(Func<ActionCall, ModuleDescription> factory)
+        public Swank WithDefaultModule(Func<BehaviorChain, ModuleDescription> factory)
         {
             _configuration.DefaultModuleFactory = factory;
             return this;
@@ -467,7 +467,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to define a default resource that endpoints are added to when none are defined for it.
         /// </summary>
-        public Swank WithDefaultResource(Func<ActionCall, ResourceDescription> factory)
+        public Swank WithDefaultResource(Func<BehaviorChain, ResourceDescription> factory)
         {
             _configuration.DefaultResourceFactory = factory;
             return this;

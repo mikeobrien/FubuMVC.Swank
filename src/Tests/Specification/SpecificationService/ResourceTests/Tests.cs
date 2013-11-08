@@ -189,7 +189,7 @@ namespace Tests.Specification.SpecificationService.ResourceTests
         public void should_group_orphaned_actions_into_the_specified_default_resource()
         {
             var spec = BuildSpec<OrphanedResources.GetHandler>(
-                x => x.WithDefaultResource(y => new ResourceDescription{ Name = y.ParentChain().Route.FirstPatternSegment()}));
+                x => x.WithDefaultResource(y => new ResourceDescription{ Name = y.Route.FirstPatternSegment()}));
 
             spec.Resources.Count.ShouldEqual(1);
 

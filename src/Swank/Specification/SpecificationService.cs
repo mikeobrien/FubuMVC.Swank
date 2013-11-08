@@ -14,7 +14,8 @@ namespace FubuMVC.Swank.Specification
     {
         private class ActionMapping
         {
-            public ActionCall Action { get; set; }
+            public ActionCall FirstAction { get; set; }
+            public ActionCall LastAction { get; set; }
             public ModuleDescription Module { get; set; }
             public ResourceDescription Resource { get; set; }
         }
@@ -26,8 +27,8 @@ namespace FubuMVC.Swank.Specification
         private readonly Configuration _configuration;
         private readonly BehaviorSource _actions;
         private readonly ITypeDescriptorCache _typeCache;
-        private readonly IDescriptionConvention<ActionCall, ModuleDescription> _moduleConvention;
-        private readonly IDescriptionConvention<ActionCall, ResourceDescription> _resourceConvention;
+        private readonly IDescriptionConvention<BehaviorChain, ModuleDescription> _moduleConvention;
+        private readonly IDescriptionConvention<BehaviorChain, ResourceDescription> _resourceConvention;
         private readonly IDescriptionConvention<ActionCall, EndpointDescription> _endpointConvention;
         private readonly IDescriptionConvention<PropertyInfo, MemberDescription> _memberConvention;
         private readonly IDescriptionConvention<FieldInfo, OptionDescription> _optionConvention;
@@ -40,8 +41,8 @@ namespace FubuMVC.Swank.Specification
             Configuration configuration, 
             BehaviorSource actions,
             ITypeDescriptorCache typeCache,
-            IDescriptionConvention<ActionCall, ModuleDescription> moduleConvention,
-            IDescriptionConvention<ActionCall, ResourceDescription> resourceConvention,
+            IDescriptionConvention<BehaviorChain, ModuleDescription> moduleConvention,
+            IDescriptionConvention<BehaviorChain, ResourceDescription> resourceConvention,
             IDescriptionConvention<ActionCall, EndpointDescription> endpointConvention,
             IDescriptionConvention<PropertyInfo, MemberDescription> memberConvention,
             IDescriptionConvention<FieldInfo, OptionDescription> optionConvention,
@@ -73,7 +74,7 @@ namespace FubuMVC.Swank.Specification
                     Comments = _configuration.AppliesToAssemblies
                         .Select(x => x.FindTextResourceNamed("*" + _configuration.Comments))
                         .FirstOrDefault(x => x != null),
-                    Types = GetTypes(actionMapping.Select(x => x.Action).ToList()),
+                    Types = GetTypes(actionMapping.Select(x => x.FirstAction).ToList()),
                     Modules = GetModules(actionMapping.Where(x => x.Module != null).ToList()),
                     Resources = GetResources(actionMapping.Where(x => x.Module == null).ToList())
                 };
@@ -82,21 +83,22 @@ namespace FubuMVC.Swank.Specification
             return specification;
         }
 
-        private List<ActionMapping> GetActionMapping(IEnumerable<ActionCall> actions)
+        private List<ActionMapping> GetActionMapping(IEnumerable<BehaviorChain> actions)
         {
             return actions
-                .Where(x => !x.Method.HasAttribute<HideAttribute>() && !x.HandlerType.HasAttribute<HideAttribute>())
-                .Select(x => new { Action = x, Module = _moduleConvention.GetDescription(x), Resource = _resourceConvention.GetDescription(x) })
+                .Where(x => !x.Calls.Any(c => c.Method.HasAttribute<HideAttribute>() && !c.HandlerType.HasAttribute<HideAttribute>()))
+                .Select(c => new { Chain = c, Module = _moduleConvention.GetDescription(c), Resource = _resourceConvention.GetDescription(c) })
                 .Where(x => ((_configuration.OrphanedModuleActions == OrphanedActions.Exclude && x.Module != null) ||
                               _configuration.OrphanedModuleActions != OrphanedActions.Exclude))
                 .Where(x => ((_configuration.OrphanedResourceActions == OrphanedActions.Exclude && x.Resource != null) ||
                               _configuration.OrphanedResourceActions != OrphanedActions.Exclude))
                 .Select(x => new ActionMapping {
-                    Action = x.Action,
+                    FirstAction = x.Chain.FirstCall(),
+                    LastAction = x.Chain.LastCall(),
                     Module = _configuration.OrphanedModuleActions == OrphanedActions.UseDefault ?
-                        x.Module ?? _configuration.DefaultModuleFactory(x.Action) : x.Module,
+                        x.Module ?? _configuration.DefaultModuleFactory(x.Chain) : x.Module,
                     Resource = _configuration.OrphanedResourceActions == OrphanedActions.UseDefault ?
-                        x.Resource ?? _configuration.DefaultResourceFactory(x.Action) : x.Resource
+                        x.Resource ?? _configuration.DefaultResourceFactory(x.Chain) : x.Resource
                 }).ToList();
         }
 
@@ -106,14 +108,14 @@ namespace FubuMVC.Swank.Specification
             {
                 var orphanedModuleActions = actionMapping.Where(x => x.Module == null).ToList();
                 if (orphanedModuleActions.Any()) throw new OrphanedModuleActionException(
-                    orphanedModuleActions.Select(x => x.Action.HandlerType.FullName + "." + x.Action.Method.Name));
+                    orphanedModuleActions.Select(x => x.FirstAction.HandlerType.FullName + "." + x.FirstAction.Method.Name));
             }
 
             if (_configuration.OrphanedResourceActions == OrphanedActions.Fail)
             {
                 var orphanedActions = actionMapping.Where(x => x.Resource == null).ToList();
                 if (orphanedActions.Any()) throw new OrphanedResourceActionException(
-                    orphanedActions.Select(x => x.Action.HandlerType.FullName + "." + x.Action.Method.Name));
+                    orphanedActions.Select(x => x.FirstAction.HandlerType.FullName + "." + x.FirstAction.Method.Name));
             }
         }
 
@@ -207,9 +209,9 @@ namespace FubuMVC.Swank.Specification
                 .GroupBy(x => x.Resource)
                 .Select(x => _configuration.ResourceOverrides.Apply(new Resource {
                     Name = x.Key.Name,
-                    Comments = x.Key.Comments ?? x.First().Action.HandlerType.Assembly
-                        .FindTextResourceNamed(x.First().Action.HandlerType.Namespace + ".resource"),
-                    Endpoints = GetEndpoints(x.Select(y => y.Action))
+                    Comments = x.Key.Comments ?? x.First().FirstAction.HandlerType.Assembly
+                        .FindTextResourceNamed(x.First().FirstAction.HandlerType.Namespace + ".resource"),
+                    Endpoints = GetEndpoints(x.Select(y => y.FirstAction))
                 }))
                 .OrderBy(x => x.Name).ToList();
         }

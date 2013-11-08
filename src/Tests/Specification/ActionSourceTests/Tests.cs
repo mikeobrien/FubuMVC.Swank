@@ -27,7 +27,7 @@ namespace Tests.Specification.ActionSourceTests
             var actions = new BehaviorSource(_graph, new Configuration()).GetChains();
 
             actions.Count.ShouldEqual(4);
-            actions.All(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldBeTrue();
+            actions.All(x => x.FirstCall().HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldBeTrue();
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace Tests.Specification.ActionSourceTests
             var actions = new BehaviorSource(_graph, configuration).GetChains();
 
             actions.Count.ShouldEqual(4);
-            actions.All(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldBeTrue();
+            actions.All(x => x.FirstCall().HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldBeTrue();
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace Tests.Specification.ActionSourceTests
             var actions = new BehaviorSource(_graph, configuration).GetChains();
 
             actions.Count.ShouldEqual(2);
-            actions.All(x => x.ParentChain().Route.Pattern.StartsWith("/handlers/widget")).ShouldBeTrue();
+            actions.All(x => x.Route.Pattern.StartsWith("/handlers/widget")).ShouldBeTrue();
         }
     }
 }

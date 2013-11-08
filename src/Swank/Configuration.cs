@@ -36,7 +36,7 @@ namespace FubuMVC.Swank
             Filter = x => true;
             DefaultModuleFactory = x => null;
             OrphanedModuleActions = OrphanedActions.UseDefault;
-            DefaultResourceFactory = x => new ResourceDescription { Name = x.ParentChain().Route.GetRouteResource() };
+            DefaultResourceFactory = x => new ResourceDescription { Name = x.Route.GetRouteResource() };
             OrphanedResourceActions = OrphanedActions.UseDefault;
 
             EnumValue = EnumValue.AsNumber;
@@ -93,8 +93,8 @@ namespace FubuMVC.Swank
 
         public OrphanedActions OrphanedModuleActions { get; set; }
         public OrphanedActions OrphanedResourceActions { get; set; }
-        public Func<ActionCall, ModuleDescription> DefaultModuleFactory { get; set; }
-        public Func<ActionCall, ResourceDescription> DefaultResourceFactory { get; set; }
+        public Func<BehaviorChain, ModuleDescription> DefaultModuleFactory { get; set; }
+        public Func<BehaviorChain, ResourceDescription> DefaultResourceFactory { get; set; }
 
         public EnumValue EnumValue { get; set; }
 
