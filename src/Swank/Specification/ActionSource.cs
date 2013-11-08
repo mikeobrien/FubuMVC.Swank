@@ -20,14 +20,41 @@ namespace FubuMVC.Swank.Specification
 
         public IList<ActionCall> GetActions()
         {
-            return _behaviorGraph.Actions()
-                .Where(x => x.HandlerType.Assembly != Assembly.GetExecutingAssembly() &&
-                            x.HandlerType.Assembly != typeof(FubuRegistry).Assembly &&
-                            !x.ToRouteDefinition().Pattern.StartsWith("/_fubu") &&
-                            !x.ToRouteDefinition().Pattern.StartsWith("/_content") &&
-                            (!_configuration.AppliesToAssemblies.Any() || 
-                             _configuration.AppliesToAssemblies.Any(y => y == x.HandlerType.Assembly)))
-                .Where(_configuration.Filter).ToList();
+            return _behaviorGraph.Behaviors
+                .Where(isNotContentChain)
+                .Where(isNotDiagnosticChain)
+                .Where(isNotSwankChain)
+                .Where(isNotFubuChain)
+                .Where(isNotConfigThing)
+                .SelectMany(b=>b.Calls)
+                .Where(_configuration.Filter)
+                .ToList();
+        }
+
+        bool isNotConfigThing(BehaviorChain chain)
+        {
+            return (!_configuration.AppliesToAssemblies.Any() ||
+                    _configuration.AppliesToAssemblies.Any(y => y == chain.FirstCall().HandlerType.Assembly));
+        }
+
+        bool isNotSwankChain(BehaviorChain chain)
+        {
+            return chain.FirstCall().HandlerType.Assembly != Assembly.GetExecutingAssembly();
+        }
+
+        bool isNotFubuChain(BehaviorChain chain)
+        {
+            return chain.FirstCall().HandlerType.Assembly != typeof (FubuRegistry).Assembly;
+        }
+
+        bool isNotContentChain(BehaviorChain chain)
+        {
+            return !chain.GetRoutePattern().StartsWith("/_content");
+        }
+
+        bool isNotDiagnosticChain(BehaviorChain chain)
+        {
+            return !chain.GetRoutePattern().StartsWith("/_fubu");
         }
     }
 }
