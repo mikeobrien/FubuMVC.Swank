@@ -67,13 +67,13 @@ namespace FubuMVC.Swank
 
             ModuleOverrides = new List<Action<Module>>();
             ResourceOverrides = new List<Action<Resource>>();
-            EndpointOverrides = new List<Action<ActionCall, Endpoint>>();
+            EndpointOverrides = new List<Action<BehaviorChain, Endpoint>>();
             UrlParameterOverrides = new List<Action<ActionCall, PropertyInfo, UrlParameter>>();
             QuerystringOverrides = new List<Action<ActionCall, PropertyInfo, QuerystringParameter>>();
             StatusCodeOverrides = new List<Action<ActionCall, StatusCode>>();
             HeaderOverrides = new List<Action<ActionCall, Header>>();
-            RequestOverrides = new List<Action<ActionCall, Data>>();
-            ResponseOverrides = new List<Action<ActionCall, Data>>();
+            RequestOverrides = new List<Action<BehaviorChain, Data>>();
+            ResponseOverrides = new List<Action<BehaviorChain, Data>>();
             TypeOverrides = new List<Action<Type, Specification.Type>>();
             MemberOverrides = new List<Action<PropertyInfo, Member>>();
             OptionOverrides = new List<Action<FieldInfo, Option>>();
@@ -124,13 +124,13 @@ namespace FubuMVC.Swank
 
         public List<Action<Module>> ModuleOverrides { get; set; }
         public List<Action<Resource>> ResourceOverrides { get; set; }
-        public List<Action<ActionCall, Endpoint>> EndpointOverrides { get; set; }
+        public List<Action<BehaviorChain, Endpoint>> EndpointOverrides { get; set; }
         public List<Action<ActionCall, PropertyInfo, UrlParameter>> UrlParameterOverrides { get; set; }
         public List<Action<ActionCall, PropertyInfo, QuerystringParameter>> QuerystringOverrides { get; set; }
         public List<Action<ActionCall, StatusCode>> StatusCodeOverrides { get; set; }
         public List<Action<ActionCall, Header>> HeaderOverrides { get; set; }
-        public List<Action<ActionCall, Data>> RequestOverrides { get; set; }
-        public List<Action<ActionCall, Data>> ResponseOverrides { get; set; }
+        public List<Action<BehaviorChain, Data>> RequestOverrides { get; set; }
+        public List<Action<BehaviorChain, Data>> ResponseOverrides { get; set; }
         public List<Action<Type, Specification.Type>> TypeOverrides { get; set; }
         public List<Action<PropertyInfo, Member>> MemberOverrides { get; set; }
         public List<Action<FieldInfo, Option>> OptionOverrides { get; set; }

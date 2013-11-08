@@ -531,7 +531,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override endpoint values.
         /// </summary>
-        public Swank OverrideEndpoints(Action<ActionCall, Specification.Endpoint> @override)
+        public Swank OverrideEndpoints(Action<BehaviorChain, Specification.Endpoint> @override)
         {
             _configuration.EndpointOverrides.Add(@override);
             return this;
@@ -540,8 +540,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override endpoint values when a condition is met.
         /// </summary>
-        public Swank OverrideEndpointsWhen(Action<ActionCall, Specification.Endpoint> @override, 
-            Func<ActionCall, Specification.Endpoint, bool> when)
+        public Swank OverrideEndpointsWhen(Action<BehaviorChain, Specification.Endpoint> @override,
+            Func<BehaviorChain, Specification.Endpoint, bool> when)
         {
             _configuration.EndpointOverrides.Add(OverrideWhen(@override, when));
             return this;
@@ -626,7 +626,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override request values.
         /// </summary>
-        public Swank OverrideRequest(Action<ActionCall, Specification.Data> @override)
+        public Swank OverrideRequest(Action<BehaviorChain, Specification.Data> @override)
         {
             _configuration.RequestOverrides.Add(@override);
             return this;
@@ -635,8 +635,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override request values when a condition is met.
         /// </summary>
-        public Swank OverrideRequestWhen(Action<ActionCall, Specification.Data> @override, 
-            Func<ActionCall, Specification.Data, bool> when)
+        public Swank OverrideRequestWhen(Action<BehaviorChain, Specification.Data> @override,
+            Func<BehaviorChain, Specification.Data, bool> when)
         {
             _configuration.RequestOverrides.Add(OverrideWhen(@override, when));
             return this;
@@ -645,7 +645,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override response values.
         /// </summary>
-        public Swank OverrideResponse(Action<ActionCall, Specification.Data> @override)
+        public Swank OverrideResponse(Action<BehaviorChain, Specification.Data> @override)
         {
             _configuration.ResponseOverrides.Add(@override);
             return this;
@@ -654,8 +654,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override response values when a condition is met.
         /// </summary>
-        public Swank OverrideResponseWhen(Action<ActionCall, Specification.Data> @override,
-            Func<ActionCall, Specification.Data, bool> when)
+        public Swank OverrideResponseWhen(Action<BehaviorChain, Specification.Data> @override,
+            Func<BehaviorChain, Specification.Data, bool> when)
         {
             _configuration.ResponseOverrides.Add(OverrideWhen(@override, when));
             return this;
@@ -664,7 +664,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override both request and response values.
         /// </summary>
-        public Swank OverrideData(Action<ActionCall, Specification.Data> @override)
+        public Swank OverrideData(Action<BehaviorChain, Specification.Data> @override)
         {
             return OverrideRequest(@override).OverrideResponse(@override);
         }
@@ -672,8 +672,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override both request and response values when a condition is met.
         /// </summary>
-        public Swank OverrideDataWhen(Action<ActionCall, Specification.Data> @override,
-            Func<ActionCall, Specification.Data, bool> when)
+        public Swank OverrideDataWhen(Action<BehaviorChain, Specification.Data> @override,
+            Func<BehaviorChain, Specification.Data, bool> when)
         {
             return OverrideRequestWhen(@override, when).OverrideResponseWhen(@override, when);
         }

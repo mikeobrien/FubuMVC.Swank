@@ -31,7 +31,7 @@ namespace FubuMVC.Swank.Specification
         private readonly ITypeDescriptorCache _typeCache;
         private readonly IDescriptionConvention<BehaviorChain, ModuleDescription> _moduleConvention;
         private readonly IDescriptionConvention<BehaviorChain, ResourceDescription> _resourceConvention;
-        private readonly IDescriptionConvention<ActionCall, EndpointDescription> _endpointConvention;
+        private readonly IDescriptionConvention<BehaviorChain, EndpointDescription> _endpointConvention;
         private readonly IDescriptionConvention<PropertyInfo, MemberDescription> _memberConvention;
         private readonly IDescriptionConvention<FieldInfo, OptionDescription> _optionConvention;
         private readonly IDescriptionConvention<ActionCall, List<StatusCodeDescription>> _statusCodeConvention;
@@ -45,7 +45,7 @@ namespace FubuMVC.Swank.Specification
             ITypeDescriptorCache typeCache,
             IDescriptionConvention<BehaviorChain, ModuleDescription> moduleConvention,
             IDescriptionConvention<BehaviorChain, ResourceDescription> resourceConvention,
-            IDescriptionConvention<ActionCall, EndpointDescription> endpointConvention,
+            IDescriptionConvention<BehaviorChain, EndpointDescription> endpointConvention,
             IDescriptionConvention<PropertyInfo, MemberDescription> memberConvention,
             IDescriptionConvention<FieldInfo, OptionDescription> optionConvention,
             IDescriptionConvention<ActionCall, List<StatusCodeDescription>> statusCodeConvention, 
@@ -221,31 +221,31 @@ namespace FubuMVC.Swank.Specification
                     Name = x.Key.Name,
                     Comments = x.Key.Comments ?? x.First().FirstAction.HandlerType.Assembly
                         .FindTextResourceNamed(x.First().FirstAction.HandlerType.Namespace + ".resource"),
-                    Endpoints = GetEndpoints(x.Select(y => y.FirstAction))
+                    Endpoints = GetEndpoints(x.Select(y => y.Chain))
                 }))
                 .OrderBy(x => x.Name).ToList();
         }
 
-        private List<Endpoint> GetEndpoints(IEnumerable<ActionCall> actions)
+        private List<Endpoint> GetEndpoints(IEnumerable<BehaviorChain> chains)
         {
-            return actions
-                .Select(x => {
-                    var endpoint = _endpointConvention.GetDescription(x);
-                    var route = x.ParentChain().Route;
-                    var querystring = x.HasInput ? GetQuerystringParameters(x) : null;
-                    return _configuration.EndpointOverrides.Apply(x, new Endpoint {
+            return chains
+                .Select(chain => {
+                    var endpoint = _endpointConvention.GetDescription(chain);
+                    var route = chain.Route;
+                    var querystring = chain.FirstCall().HasInput ? GetQuerystringParameters(chain.FirstCall()) : null;
+                    return _configuration.EndpointOverrides.Apply(chain, new Endpoint {
                         Name = endpoint.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = endpoint.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                         Url = route.Pattern.EnusureStartsWith("/") + querystring.Join(y => "{0}={{{0}}}".ToFormat(y.Name), "?", "&", ""),
                         Method = route.AllowedHttpMethods.FirstOrDefault(),
-                        UrlParameters = x.HasInput ? GetUrlParameters(x) : null,
+                        UrlParameters = chain.FirstCall().HasInput ? GetUrlParameters(chain.FirstCall()) : null,
                         QuerystringParameters = querystring,
-                        StatusCodes = GetStatusCodes(x),
-                        Headers = GetHeaders(x),
-                        Request = x.HasInput && (route.AllowsPost() || route.AllowsPut()) ? 
-                            _configuration.RequestOverrides.Apply(x, GetData(x.InputType(), endpoint.RequestComments, x.Method)) : null,
-                        Response = x.HasOutput ? 
-                            _configuration.ResponseOverrides.Apply(x, GetData(x.OutputType(), endpoint.ResponseComments)) : null
+                        StatusCodes = GetStatusCodes(chain.FirstCall()),
+                        Headers = GetHeaders(chain),
+                        Request = chain.FirstCall().HasInput && (route.AllowsPost() || route.AllowsPut()) ? 
+                            _configuration.RequestOverrides.Apply(chain, GetData(chain.InputType(), endpoint.RequestComments, chain.FirstCall().Method)) : null,
+                        Response = chain.LastCall().HasOutput ? 
+                            _configuration.ResponseOverrides.Apply(chain, GetData(chain.LastCall().OutputType(), endpoint.ResponseComments)) : null
                     });
                 }).OrderBy(x => x.Url.Split('?').First()).ThenBy(x => HttpVerbRank(x.Method)).ToList();
         }
@@ -296,8 +296,9 @@ namespace FubuMVC.Swank.Specification
                 })).OrderBy(x => x.Code).ToList();
         }
 
-        private List<Header> GetHeaders(ActionCall action)
+        private List<Header> GetHeaders(BehaviorChain chain)
         {
+            var action = chain.FirstCall();
             return _headerConvention.GetDescription(action)
                 .Select(x => _configuration.HeaderOverrides.Apply(action, new Header {
                     Type = x.Type.ToString(),
