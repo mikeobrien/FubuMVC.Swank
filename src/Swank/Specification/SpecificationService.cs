@@ -232,13 +232,13 @@ namespace FubuMVC.Swank.Specification
                 .Select(chain => {
                     var endpoint = _endpointConvention.GetDescription(chain);
                     var route = chain.Route;
-                    var querystring = chain.FirstCall().HasInput ? GetQuerystringParameters(chain.FirstCall()) : null;
+                    var querystring = chain.FirstCall().HasInput ? GetQuerystringParameters(chain) : null;
                     return _configuration.EndpointOverrides.Apply(chain, new Endpoint {
                         Name = endpoint.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = endpoint.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                         Url = route.Pattern.EnusureStartsWith("/") + querystring.Join(y => "{0}={{{0}}}".ToFormat(y.Name), "?", "&", ""),
                         Method = route.AllowedHttpMethods.FirstOrDefault(),
-                        UrlParameters = chain.FirstCall().HasInput ? GetUrlParameters(chain.FirstCall()) : null,
+                        UrlParameters = chain.FirstCall().HasInput ? GetUrlParameters(chain) : null,
                         QuerystringParameters = querystring,
                         StatusCodes = GetStatusCodes(chain),
                         Headers = GetHeaders(chain),
@@ -250,14 +250,16 @@ namespace FubuMVC.Swank.Specification
                 }).OrderBy(x => x.Url.Split('?').First()).ThenBy(x => HttpVerbRank(x.Method)).ToList();
         }
 
-        private List<UrlParameter> GetUrlParameters(ActionCall action)
+        private List<UrlParameter> GetUrlParameters(BehaviorChain chain)
         {
+            var action = chain.FirstCall();
+
             var properties = _typeCache.GetPropertiesFor(action.InputType());
             return action.ParentChain().Route.Input.RouteParameters.Select(
                 x => {
                     var property = properties[x.Name];
                     var description = _memberConvention.GetDescription(property);
-                    return _configuration.UrlParameterOverrides.Apply(action, property, new UrlParameter {
+                    return _configuration.UrlParameterOverrides.Apply(chain, property, new UrlParameter {
                             Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                             Type = property.PropertyType.GetXmlName(),
@@ -266,15 +268,17 @@ namespace FubuMVC.Swank.Specification
                 }).ToList();
         }
 
-        private List<QuerystringParameter> GetQuerystringParameters(ActionCall action)
+        private List<QuerystringParameter> GetQuerystringParameters(BehaviorChain chain)
         {
+            var action = chain.FirstCall();
+
             return _typeCache.GetPropertiesFor(action.InputType())
                 .Where(x => x.Value.IsQuerystring(action) && 
                             !x.Value.HasAttribute<HideAttribute>() && 
                             !x.Value.IsAutoBound())
                 .Select(x => {
                     var description = _memberConvention.GetDescription(x.Value);
-                    return _configuration.QuerystringOverrides.Apply(action, x.Value, new QuerystringParameter {
+                    return _configuration.QuerystringOverrides.Apply(chain, x.Value, new QuerystringParameter {
                         Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                         Type = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).GetXmlName(),
