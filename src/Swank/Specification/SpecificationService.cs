@@ -12,12 +12,14 @@ namespace FubuMVC.Swank.Specification
 {
     public class SpecificationService : ISpecificationService
     {
-        private class ActionMapping
+        private class BehaviorMapping
         {
             public ActionCall FirstAction { get; set; }
             public ActionCall LastAction { get; set; }
             public ModuleDescription Module { get; set; }
             public ResourceDescription Resource { get; set; }
+
+            public BehaviorChain Chain { get; set; }
         }
 
         public static readonly Func<string, int> HttpVerbRank = x => { switch (x.IsEmpty() ? null : x.ToLower()) 
@@ -67,23 +69,25 @@ namespace FubuMVC.Swank.Specification
 
         public Specification Generate()
         {
-            var actionMapping = GetActionMapping(_actions.GetChains());
-            CheckForOrphanedActions(actionMapping);
+            var behaviorMappings = GetBehaviorMapping(_actions.GetChains());
+
+            CheckForOrphanedChains(behaviorMappings);
+
             var specification = new Specification {
                     Name = _configuration.Name,
                     Comments = _configuration.AppliesToAssemblies
                         .Select(x => x.FindTextResourceNamed("*" + _configuration.Comments))
                         .FirstOrDefault(x => x != null),
-                    Types = GetTypes(actionMapping.Select(x => x.FirstAction).ToList()),
-                    Modules = GetModules(actionMapping.Where(x => x.Module != null).ToList()),
-                    Resources = GetResources(actionMapping.Where(x => x.Module == null).ToList())
+                    Types = GatherInputOutputModels(behaviorMappings.Select(x => x.Chain).ToList()),
+                    Modules = GetModules(behaviorMappings.Where(x => x.Module != null).ToList()),
+                    Resources = GetResources(behaviorMappings.Where(x => x.Module == null).ToList())
                 };
             if (_configuration.MergeSpecificationPath.IsNotEmpty())
                 specification = _mergeService.Merge(specification, _configuration.MergeSpecificationPath);
             return specification;
         }
 
-        private List<ActionMapping> GetActionMapping(IEnumerable<BehaviorChain> actions)
+        private List<BehaviorMapping> GetBehaviorMapping(IEnumerable<BehaviorChain> actions)
         {
             return actions
                 .Where(x => !x.Calls.Any(c => c.Method.HasAttribute<HideAttribute>() && !c.HandlerType.HasAttribute<HideAttribute>()))
@@ -92,7 +96,8 @@ namespace FubuMVC.Swank.Specification
                               _configuration.OrphanedModuleActions != OrphanedActions.Exclude))
                 .Where(x => ((_configuration.OrphanedResourceActions == OrphanedActions.Exclude && x.Resource != null) ||
                               _configuration.OrphanedResourceActions != OrphanedActions.Exclude))
-                .Select(x => new ActionMapping {
+                .Select(x => new BehaviorMapping {
+                    Chain = x.Chain,
                     FirstAction = x.Chain.FirstCall(),
                     LastAction = x.Chain.LastCall(),
                     Module = _configuration.OrphanedModuleActions == OrphanedActions.UseDefault ?
@@ -102,7 +107,7 @@ namespace FubuMVC.Swank.Specification
                 }).ToList();
         }
 
-        private void CheckForOrphanedActions(IList<ActionMapping> actionMapping)
+        private void CheckForOrphanedChains(IList<BehaviorMapping> actionMapping)
         {
             if (_configuration.OrphanedModuleActions == OrphanedActions.Fail)
             {
@@ -119,26 +124,29 @@ namespace FubuMVC.Swank.Specification
             }
         }
 
-        private List<Type> GetTypes(IList<ActionCall> actions)
+        private List<Type> GatherInputOutputModels(IList<BehaviorChain> chains)
         {
-            var rootTypes = actions
-                .Where(x => x.HasInput && !x.ParentChain().Route.AllowsGet() && !x.ParentChain().Route.AllowsDelete())
-                .Select(x => new TypeContext(x.InputType().GetListElementType() ?? x.InputType(), null, x))
-                .Concat(actions.Where(x => x.HasOutput)
-                               .SelectDistinct(x => x.OutputType())
+            var rootInputOutputModels = chains
+                //remove GET/DELETE because they don't have a body
+                .Where(c => c.FirstCall().HasInput && !c.Route.AllowsGet() && !c.Route.AllowsDelete())
+                .Select(c => new TypeContext(c.InputType().GetListElementType() ?? c.InputType(), null, c))
+                .Concat(chains.Where(x => x.LastCall().HasOutput)
+                               .SelectDistinct(x => x.LastCall().OutputType())
                                .Select(x => new TypeContext(x.GetListElementType() ?? x)))
                 .ToList();
-            return rootTypes
-                .Concat(rootTypes.SelectMany(GetTypes))
-                .DistinctBy(x => x.Type, x => x.Action)
-                .Select(x => {
-                    var description = _typeConvention.GetDescription(x.Type);
-                    var type = description.WhenNotNull(y => y.Type).Otherwise(x.Type);
-                    return _configuration.TypeOverrides.Apply(x.Type, new Type {
-                        Id = x.Action != null ? _configuration.InputTypeIdConvention(type, x.Action.Method) : _configuration.TypeIdConvention(type),
+
+            return rootInputOutputModels
+                .Concat(rootInputOutputModels.SelectMany(GetTypes))
+                .DistinctBy(x => x.Type, x => x.Chain)
+                .Select(cxt => {
+                    var description = _typeConvention.GetDescription(cxt.Type);
+                    var type = description.WhenNotNull(y => y.Type).Otherwise(cxt.Type);
+
+                    return _configuration.TypeOverrides.Apply(cxt.Type, new Type {
+                        Id = cxt.Chain != null ? _configuration.InputTypeIdConvention(type, cxt.Chain.FirstCall().Method) : _configuration.TypeIdConvention(type),
                         Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                        Members = GetMembers(type, x.Action)
+                        Members = GetMembers(type, cxt.Chain)
                     });
                 })
                 .OrderBy(x => x.Name).ToList();
@@ -164,8 +172,10 @@ namespace FubuMVC.Swank.Specification
                         .ToList();
         }
 
-        private List<Member> GetMembers(System.Type type, ActionCall action)
+        private List<Member> GetMembers(System.Type type, BehaviorChain chain)
         {
+            var action = chain.FirstCall();
+
             var properties = type.IsProjection() ? 
                 type.GetProjectionProperties() : 
                 _typeCache.GetPropertiesFor(type).Select(x => x.Value);
@@ -191,7 +201,7 @@ namespace FubuMVC.Swank.Specification
                 .ToList();
         } 
 
-        private List<Module> GetModules(IEnumerable<ActionMapping> actionMapping)
+        private List<Module> GetModules(IEnumerable<BehaviorMapping> actionMapping)
         {
             return actionMapping
                 .GroupBy(x => x.Module)
@@ -203,7 +213,7 @@ namespace FubuMVC.Swank.Specification
                 .OrderBy(x => x.Name).ToList();
         }
 
-        private List<Resource> GetResources(IEnumerable<ActionMapping> actionMapping)
+        private List<Resource> GetResources(IEnumerable<BehaviorMapping> actionMapping)
         {
             return actionMapping
                 .GroupBy(x => x.Resource)
