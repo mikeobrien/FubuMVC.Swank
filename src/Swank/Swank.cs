@@ -588,7 +588,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override status code values.
         /// </summary>
-        public Swank OverrideStatusCodes(Action<ActionCall, Specification.StatusCode> @override)
+        public Swank OverrideStatusCodes(Action<BehaviorChain, Specification.StatusCode> @override)
         {
             _configuration.StatusCodeOverrides.Add(@override);
             return this;
@@ -597,8 +597,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override status code values when a condition is met.
         /// </summary>
-        public Swank OverrideStatusCodesWhen(Action<ActionCall, Specification.StatusCode> @override,
-            Func<ActionCall, Specification.StatusCode, bool> when)
+        public Swank OverrideStatusCodesWhen(Action<BehaviorChain, Specification.StatusCode> @override,
+            Func<BehaviorChain, Specification.StatusCode, bool> when)
         {
             _configuration.StatusCodeOverrides.Add(OverrideWhen(@override, when));
             return this;
@@ -607,7 +607,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override header values.
         /// </summary>
-        public Swank OverrideHeaders(Action<ActionCall, Specification.Header> @override)
+        public Swank OverrideHeaders(Action<BehaviorChain, Specification.Header> @override)
         {
             _configuration.HeaderOverrides.Add(@override);
             return this;
@@ -616,8 +616,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override header values when a condition is met.
         /// </summary>
-        public Swank OverrideHeadersWhen(Action<ActionCall, Specification.Header> @override, 
-            Func<ActionCall, Specification.Header, bool> when)
+        public Swank OverrideHeadersWhen(Action<BehaviorChain, Specification.Header> @override,
+            Func<BehaviorChain, Specification.Header, bool> when)
         {
             _configuration.HeaderOverrides.Add(OverrideWhen(@override, when));
             return this;
