@@ -24,7 +24,7 @@ namespace FubuMVC.Swank.Specification
               case "update": return 3; case "delete": return 5; default: return 4; } };
 
         private readonly Configuration _configuration;
-        private readonly ActionSource _actions;
+        private readonly BehaviorSource _actions;
         private readonly ITypeDescriptorCache _typeCache;
         private readonly IDescriptionConvention<ActionCall, ModuleDescription> _moduleConvention;
         private readonly IDescriptionConvention<ActionCall, ResourceDescription> _resourceConvention;
@@ -38,7 +38,7 @@ namespace FubuMVC.Swank.Specification
 
         public SpecificationService(
             Configuration configuration, 
-            ActionSource actions,
+            BehaviorSource actions,
             ITypeDescriptorCache typeCache,
             IDescriptionConvention<ActionCall, ModuleDescription> moduleConvention,
             IDescriptionConvention<ActionCall, ResourceDescription> resourceConvention,
@@ -66,7 +66,7 @@ namespace FubuMVC.Swank.Specification
 
         public Specification Generate()
         {
-            var actionMapping = GetActionMapping(_actions.GetActions());
+            var actionMapping = GetActionMapping(_actions.GetChains());
             CheckForOrphanedActions(actionMapping);
             var specification = new Specification {
                     Name = _configuration.Name,

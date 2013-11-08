@@ -89,7 +89,7 @@ namespace FubuMVC.Swank
         public bool DisplayXml { get; set; }
         public string MergeSpecificationPath { get; set; }
         public List<Assembly> AppliesToAssemblies { get; set; }
-        public Func<ActionCall, bool> Filter { get; set; }
+        public Func<BehaviorChain, bool> Filter { get; set; }
 
         public OrphanedActions OrphanedModuleActions { get; set; }
         public OrphanedActions OrphanedResourceActions { get; set; }

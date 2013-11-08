@@ -5,7 +5,6 @@ using FubuMVC.Swank;
 using FubuMVC.Swank.Specification;
 using NUnit.Framework;
 using Should;
-using ActionSource = FubuMVC.Swank.Specification.ActionSource;
 
 namespace Tests.Specification.ActionSourceTests
 {
@@ -25,7 +24,7 @@ namespace Tests.Specification.ActionSourceTests
         {
             _graph.AddAction<ViewGetHandler>("GET");
 
-            var actions = new ActionSource(_graph, new Configuration()).GetActions();
+            var actions = new BehaviorSource(_graph, new Configuration()).GetChains();
 
             actions.Count.ShouldEqual(4);
             actions.All(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldBeTrue();
@@ -37,7 +36,7 @@ namespace Tests.Specification.ActionSourceTests
             _graph.AddAction<ViewGetHandler>("GET");
 
             var configuration = Swank.CreateConfig(x => x.AppliesToThisAssembly());
-            var actions = new ActionSource(_graph, configuration).GetActions();
+            var actions = new BehaviorSource(_graph, configuration).GetChains();
 
             actions.Count.ShouldEqual(4);
             actions.All(x => x.HandlerType.Assembly == Assembly.GetExecutingAssembly()).ShouldBeTrue();
@@ -48,9 +47,9 @@ namespace Tests.Specification.ActionSourceTests
         {
             var configuration = Swank.CreateConfig(x => x
                 .AppliesToThisAssembly()
-                .Where(y => y.ParentChain().Route.Pattern.StartsWith("/handlers/widget")));
+                .Where(y => y.Route.Pattern.StartsWith("/handlers/widget")));
 
-            var actions = new ActionSource(_graph, configuration).GetActions();
+            var actions = new BehaviorSource(_graph, configuration).GetChains();
 
             actions.Count.ShouldEqual(2);
             actions.All(x => x.ParentChain().Route.Pattern.StartsWith("/handlers/widget")).ShouldBeTrue();

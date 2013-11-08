@@ -2,10 +2,11 @@
 using FubuMVC.Swank.Extensions;
 using NUnit.Framework;
 using Should;
+using Tests.Specification.SpecificationService.Tests;
 
 namespace Tests.Specification.SpecificationService.TypeTests
 {
-    public class MemberTests : TestBase
+    public class MemberTests : InteractionContext
     {
         [Test]
         public void should_enumerate_type_members()

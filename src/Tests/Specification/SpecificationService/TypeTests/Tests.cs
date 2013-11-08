@@ -3,10 +3,11 @@ using FubuMVC.Swank;
 using FubuMVC.Swank.Extensions;
 using NUnit.Framework;
 using Should;
+using Tests.Specification.SpecificationService.Tests;
 
 namespace Tests.Specification.SpecificationService.TypeTests
 {
-    public class Tests : TestBase
+    public class Tests : InteractionContext
     {
         [Test]
         public void should_not_include_input_types_from_module_excluded_endpoints()

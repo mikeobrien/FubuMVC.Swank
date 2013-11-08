@@ -7,18 +7,18 @@ using FubuMVC.Core.Registration.Nodes;
 
 namespace FubuMVC.Swank.Specification
 {
-    public class ActionSource
+    public class BehaviorSource
     {
         private readonly BehaviorGraph _behaviorGraph;
         private readonly Configuration _configuration;
 
-        public ActionSource(BehaviorGraph behaviorGraph, Configuration configuration)
+        public BehaviorSource(BehaviorGraph behaviorGraph, Configuration configuration)
         {
             _behaviorGraph = behaviorGraph;
             _configuration = configuration;
         }
 
-        public IList<ActionCall> GetActions()
+        public IList<ActionCall> GetChains()
         {
             return _behaviorGraph.Behaviors
                 .Where(isNotContentChain)
@@ -26,8 +26,8 @@ namespace FubuMVC.Swank.Specification
                 .Where(isNotSwankChain)
                 .Where(isNotFubuChain)
                 .Where(isNotConfigThing)
-                .SelectMany(b=>b.Calls)
                 .Where(_configuration.Filter)
+                .SelectMany(b => b.Calls)
                 .ToList();
         }
 

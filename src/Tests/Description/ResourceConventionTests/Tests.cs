@@ -3,9 +3,9 @@ using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank;
 using FubuMVC.Swank.Description;
+using FubuMVC.Swank.Specification;
 using NUnit.Framework;
 using Should;
-using ActionSource = FubuMVC.Swank.Specification.ActionSource;
 
 namespace Tests.Description.ResourceConventionTests
 {
@@ -21,8 +21,8 @@ namespace Tests.Description.ResourceConventionTests
             _graph = Behavior.BuildGraph().AddActionsInThisNamespace();
             _resourceConvention = new ResourceConvention(
                 new MarkerConvention<ResourceDescription>(),
-                new ActionSource(_graph, Swank.CreateConfig(x => x.AppliesToThisAssembly()
-                    .Where(y => y.HandlerType.InNamespace<Tests>()))));
+                new BehaviorSource(_graph, Swank.CreateConfig(x => x.AppliesToThisAssembly()
+                    .Where(y => y.FirstCall().HandlerType.InNamespace<Tests>()))));
         }
 
         [Test]

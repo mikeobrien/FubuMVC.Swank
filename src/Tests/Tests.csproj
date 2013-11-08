@@ -101,7 +101,6 @@
     <Compile Include="Specification\SpecificationService\Tests\Tests.cs" />
     <Compile Include="Specification\SpecificationService\MergeTests\Tests.cs" />
     <Compile Include="Specification\SpecificationService\TypeTests\MemberTests.cs" />
-    <Compile Include="Specification\SpecificationService\TypeTests\TestBase.cs" />
     <Compile Include="Specification\SpecificationService\TypeTests\Handlers.cs" />
     <Compile Include="Specification\SpecificationService\TypeTests\Tests.cs" />
     <Compile Include="Description\TypeConventionTests.cs" />

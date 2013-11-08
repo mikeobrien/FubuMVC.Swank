@@ -153,7 +153,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// This filters the actions included in the specification.
         /// </summary>
-        public Swank Where(Func<ActionCall, bool> filter)
+        public Swank Where(Func<BehaviorChain, bool> filter)
         {
             _configuration.Filter = filter;
             return this;

@@ -11,10 +11,10 @@ namespace FubuMVC.Swank.Description
     public class ResourceConvention : IDescriptionConvention<ActionCall, ResourceDescription>
     {
         private readonly MarkerConvention<ResourceDescription> _descriptions;
-        private readonly ActionSource _actions;
+        private readonly BehaviorSource _actions;
         private readonly Func<ActionCall, object> _grouping = x => x.ParentChain().Route.GetRouteResource(); 
 
-        public ResourceConvention(MarkerConvention<ResourceDescription> descriptions, ActionSource actions)
+        public ResourceConvention(MarkerConvention<ResourceDescription> descriptions, BehaviorSource actions)
         {
             _descriptions = descriptions;
             _actions = actions;
@@ -37,7 +37,7 @@ namespace FubuMVC.Swank.Description
                         ResourceNamespace = x.GetType().Namespace,
                         Resource = x
                     })
-                .GroupJoin(_actions.GetActions(), x => x.ResourceHandler, x => x.HandlerType,
+                .GroupJoin(_actions.GetChains(), x => x.ResourceHandler, x => x.HandlerType,
                            (r, a) => new { r.Resource, r.ResourceHandler, r.ResourceNamespace, Group = a.Any() ? _grouping(a.First()) : null })
                 .OrderByDescending(x => x.Group)
                 .ThenByDescending(x => x.ResourceNamespace)
