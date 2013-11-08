@@ -3,7 +3,7 @@ using FubuMVC.Core.Registration.Nodes;
 
 namespace FubuMVC.Swank.Description
 {
-    public class ModuleConvention : IDescriptionConvention<ActionCall, ModuleDescription>
+    public class ModuleConvention : IDescriptionConvention<BehaviorChain, ModuleDescription>
     {
         private readonly MarkerConvention<ModuleDescription> _descriptions;
 
@@ -12,10 +12,10 @@ namespace FubuMVC.Swank.Description
             _descriptions = descriptions;
         }
 
-        public virtual ModuleDescription GetDescription(ActionCall action)
+        public virtual ModuleDescription GetDescription(BehaviorChain chain)
         {
-            return _descriptions.GetDescriptions(action.HandlerType.Assembly)
-                .FirstOrDefault(x => action.HandlerType.Namespace.StartsWith(x.GetType().Namespace));
+            return _descriptions.GetDescriptions(chain.FirstCall().HandlerType.Assembly)
+                .FirstOrDefault(x => chain.FirstCall().HandlerType.Namespace.StartsWith(x.GetType().Namespace));
         }
     }
 }

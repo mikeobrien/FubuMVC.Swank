@@ -1,40 +1,20 @@
-﻿using System;
-using FubuCore.Reflection;
-using FubuMVC.Swank;
-using FubuMVC.Swank.Description;
-using FubuMVC.Swank.Specification;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Should;
+using Tests.Specification.SpecificationService.Tests;
 
 namespace Tests.Specification.SpecificationService.MergeTests
 {
     namespace NoHandlers { public class Marker { } }
 
     [TestFixture]
-    public class Tests
+    public class Tests : InteractionContext
     {
-        protected FubuMVC.Swank.Specification.Specification BuildSpec<TNamespace>(Action<Swank> configure = null)
-        {
-            var graph = Behavior.BuildGraph().AddActionsInThisNamespace();
-            var moduleConvention = new ModuleConvention(new MarkerConvention<ModuleDescription>());
-            var resourceConvention = new ResourceConvention(
-                new MarkerConvention<ResourceDescription>(),
-                new ActionSource(graph,
-                    Swank.CreateConfig(x => x.AppliesToThisAssembly()
-                        .Where(y => y.HandlerType.InNamespace<Tests>()))));
-            var configuration = Swank.CreateConfig(x =>
-                { if (configure != null) configure(x); x.AppliesToThisAssembly().Where(y => y.HandlerType.InNamespace<TNamespace>())
-                    .MergeThisSpecification(@"Specification\SpecificationService\MergeTests\Merge.json");
-                });
-            return new FubuMVC.Swank.Specification.SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new StatusCodeConvention(),
-                new HeaderConvention(), new TypeConvention(), new MergeService()).Generate();
-        }
+        private const string specFile = @"Specification\SpecificationService\MergeTests\Merge.json";
 
         [Test]
         public void should_merge_all_the_things()
         {
-            var spec = BuildSpec<NoHandlers.Marker>();
+            var spec = BuildSpec<NoHandlers.Marker>(specFile:specFile);
 
             spec.Types.Count.ShouldEqual(1);
             var type = spec.Types[0];

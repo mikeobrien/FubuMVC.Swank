@@ -153,7 +153,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// This filters the actions included in the specification.
         /// </summary>
-        public Swank Where(Func<ActionCall, bool> filter)
+        public Swank Where(Func<BehaviorChain, bool> filter)
         {
             _configuration.Filter = filter;
             return this;
@@ -281,7 +281,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// This allows you to set the module convention.
         /// </summary>
-        public Swank WithModuleConvention<T>() where T : IDescriptionConvention<ActionCall, ModuleDescription>
+        public Swank WithModuleConvention<T>() where T : IDescriptionConvention<BehaviorChain, ModuleDescription>
         {
             return WithModuleConvention<T, object>(null);
         }
@@ -290,7 +290,7 @@ namespace FubuMVC.Swank
         /// This allows you to set the module convention as well as pass in configuration.
         /// </summary>
         public Swank WithModuleConvention<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionConvention<ActionCall, ModuleDescription>
+            where T : IDescriptionConvention<BehaviorChain, ModuleDescription>
             where TConfig : class, new()
         {
             _configuration.ModuleConvention.Type = typeof(T);
@@ -301,7 +301,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// This allows you to set the resource convention.
         /// </summary>
-        public Swank WithResourceConvention<T>() where T : IDescriptionConvention<ActionCall, ResourceDescription>
+        public Swank WithResourceConvention<T>() where T : IDescriptionConvention<BehaviorChain, ResourceDescription>
         {
             return WithResourceConvention<T, object>(null);
         }
@@ -310,7 +310,7 @@ namespace FubuMVC.Swank
         /// This allows you to set the resource convention as well as pass in configuration.
         /// </summary>
         public Swank WithResourceConvention<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionConvention<ActionCall, ResourceDescription>
+            where T : IDescriptionConvention<BehaviorChain, ResourceDescription>
             where TConfig : class, new()
         {
             _configuration.ResourceConvention.Type = typeof(T);
@@ -321,7 +321,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// This allows you to set the endpoint convention.
         /// </summary>
-        public Swank WithEndpointConvention<T>() where T : IDescriptionConvention<ActionCall, EndpointDescription>
+        public Swank WithEndpointConvention<T>() where T : IDescriptionConvention<BehaviorChain, EndpointDescription>
         {
             return WithEndpointConvention<T, object>(null);
         }
@@ -330,7 +330,7 @@ namespace FubuMVC.Swank
         /// This allows you to set the endpoint convention as well as pass in configuration.
         /// </summary>
         public Swank WithEndpointConvention<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionConvention<ActionCall, EndpointDescription>
+            where T : IDescriptionConvention<BehaviorChain, EndpointDescription>
             where TConfig : class, new()
         {
             _configuration.EndpointConvention.Type = typeof(T);
@@ -381,7 +381,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// This allows you to set the status code convention.
         /// </summary>
-        public Swank WithStatusCodeConvention<T>() where T : IDescriptionConvention<ActionCall, List<StatusCodeDescription>>
+        public Swank WithStatusCodeConvention<T>() where T : IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>>
         {
             return WithStatusCodeConvention<T, object>(null);
         }
@@ -390,7 +390,7 @@ namespace FubuMVC.Swank
         /// This allows you to set the status code convention as well as pass in configuration.
         /// </summary>
         public Swank WithStatusCodeConvention<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionConvention<ActionCall, List<StatusCodeDescription>>
+            where T : IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>>
             where TConfig : class, new()
         {
             _configuration.StatusCodeConvention.Type = typeof(T);
@@ -401,7 +401,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// This allows you to set the header convention.
         /// </summary>
-        public Swank WithHeaderConvention<T>() where T : IDescriptionConvention<ActionCall, List<HeaderDescription>>
+        public Swank WithHeaderConvention<T>() where T : IDescriptionConvention<BehaviorChain, List<HeaderDescription>>
         {
             return WithHeaderConvention<T, object>(null);
         }
@@ -410,7 +410,7 @@ namespace FubuMVC.Swank
         /// This allows you to set the header convention as well as pass in configuration.
         /// </summary>
         public Swank WithHeaderConvention<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionConvention<ActionCall, List<HeaderDescription>>
+            where T : IDescriptionConvention<BehaviorChain, List<HeaderDescription>>
             where TConfig : class, new()
         {
             _configuration.HeaderConvention.Type = typeof(T);
@@ -449,7 +449,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to define a default module that resources are added to when none are defined for it.
         /// </summary>
-        public Swank WithDefaultModule(Func<ActionCall, ModuleDescription> factory)
+        public Swank WithDefaultModule(Func<BehaviorChain, ModuleDescription> factory)
         {
             _configuration.DefaultModuleFactory = factory;
             return this;
@@ -467,7 +467,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to define a default resource that endpoints are added to when none are defined for it.
         /// </summary>
-        public Swank WithDefaultResource(Func<ActionCall, ResourceDescription> factory)
+        public Swank WithDefaultResource(Func<BehaviorChain, ResourceDescription> factory)
         {
             _configuration.DefaultResourceFactory = factory;
             return this;
@@ -531,7 +531,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override endpoint values.
         /// </summary>
-        public Swank OverrideEndpoints(Action<ActionCall, Specification.Endpoint> @override)
+        public Swank OverrideEndpoints(Action<BehaviorChain, Specification.Endpoint> @override)
         {
             _configuration.EndpointOverrides.Add(@override);
             return this;
@@ -540,8 +540,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override endpoint values when a condition is met.
         /// </summary>
-        public Swank OverrideEndpointsWhen(Action<ActionCall, Specification.Endpoint> @override, 
-            Func<ActionCall, Specification.Endpoint, bool> when)
+        public Swank OverrideEndpointsWhen(Action<BehaviorChain, Specification.Endpoint> @override,
+            Func<BehaviorChain, Specification.Endpoint, bool> when)
         {
             _configuration.EndpointOverrides.Add(OverrideWhen(@override, when));
             return this;
@@ -550,7 +550,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override url parameter values.
         /// </summary>
-        public Swank OverrideUrlParameters(Action<ActionCall, PropertyInfo, Specification.UrlParameter> @override)
+        public Swank OverrideUrlParameters(Action<BehaviorChain, PropertyInfo, Specification.UrlParameter> @override)
         {
             _configuration.UrlParameterOverrides.Add(@override);
             return this;
@@ -559,8 +559,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override url parameter values when a condition is met.
         /// </summary>
-        public Swank OverrideUrlParametersWhen(Action<ActionCall, PropertyInfo, Specification.UrlParameter> @override, 
-            Func<ActionCall, PropertyInfo, Specification.UrlParameter, bool> when)
+        public Swank OverrideUrlParametersWhen(Action<BehaviorChain, PropertyInfo, Specification.UrlParameter> @override,
+            Func<BehaviorChain, PropertyInfo, Specification.UrlParameter, bool> when)
         {
             _configuration.UrlParameterOverrides.Add(OverrideWhen(@override, when));
             return this;
@@ -569,7 +569,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override querystring values.
         /// </summary>
-        public Swank OverrideQuerystring(Action<ActionCall, PropertyInfo, Specification.QuerystringParameter> @override)
+        public Swank OverrideQuerystring(Action<BehaviorChain, PropertyInfo, Specification.QuerystringParameter> @override)
         {
             _configuration.QuerystringOverrides.Add(@override);
             return this;
@@ -578,8 +578,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override querystring values when a condition is met.
         /// </summary>
-        public Swank OverrideQuerystringWhen(Action<ActionCall, PropertyInfo, Specification.QuerystringParameter> @override, 
-            Func<ActionCall, PropertyInfo, Specification.QuerystringParameter, bool> when)
+        public Swank OverrideQuerystringWhen(Action<BehaviorChain, PropertyInfo, Specification.QuerystringParameter> @override,
+            Func<BehaviorChain, PropertyInfo, Specification.QuerystringParameter, bool> when)
         {
             _configuration.QuerystringOverrides.Add(OverrideWhen(@override, when));
             return this;
@@ -588,7 +588,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override status code values.
         /// </summary>
-        public Swank OverrideStatusCodes(Action<ActionCall, Specification.StatusCode> @override)
+        public Swank OverrideStatusCodes(Action<BehaviorChain, Specification.StatusCode> @override)
         {
             _configuration.StatusCodeOverrides.Add(@override);
             return this;
@@ -597,8 +597,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override status code values when a condition is met.
         /// </summary>
-        public Swank OverrideStatusCodesWhen(Action<ActionCall, Specification.StatusCode> @override,
-            Func<ActionCall, Specification.StatusCode, bool> when)
+        public Swank OverrideStatusCodesWhen(Action<BehaviorChain, Specification.StatusCode> @override,
+            Func<BehaviorChain, Specification.StatusCode, bool> when)
         {
             _configuration.StatusCodeOverrides.Add(OverrideWhen(@override, when));
             return this;
@@ -607,7 +607,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override header values.
         /// </summary>
-        public Swank OverrideHeaders(Action<ActionCall, Specification.Header> @override)
+        public Swank OverrideHeaders(Action<BehaviorChain, Specification.Header> @override)
         {
             _configuration.HeaderOverrides.Add(@override);
             return this;
@@ -616,8 +616,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override header values when a condition is met.
         /// </summary>
-        public Swank OverrideHeadersWhen(Action<ActionCall, Specification.Header> @override, 
-            Func<ActionCall, Specification.Header, bool> when)
+        public Swank OverrideHeadersWhen(Action<BehaviorChain, Specification.Header> @override,
+            Func<BehaviorChain, Specification.Header, bool> when)
         {
             _configuration.HeaderOverrides.Add(OverrideWhen(@override, when));
             return this;
@@ -626,7 +626,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override request values.
         /// </summary>
-        public Swank OverrideRequest(Action<ActionCall, Specification.Data> @override)
+        public Swank OverrideRequest(Action<BehaviorChain, Specification.Data> @override)
         {
             _configuration.RequestOverrides.Add(@override);
             return this;
@@ -635,8 +635,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override request values when a condition is met.
         /// </summary>
-        public Swank OverrideRequestWhen(Action<ActionCall, Specification.Data> @override, 
-            Func<ActionCall, Specification.Data, bool> when)
+        public Swank OverrideRequestWhen(Action<BehaviorChain, Specification.Data> @override,
+            Func<BehaviorChain, Specification.Data, bool> when)
         {
             _configuration.RequestOverrides.Add(OverrideWhen(@override, when));
             return this;
@@ -645,7 +645,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override response values.
         /// </summary>
-        public Swank OverrideResponse(Action<ActionCall, Specification.Data> @override)
+        public Swank OverrideResponse(Action<BehaviorChain, Specification.Data> @override)
         {
             _configuration.ResponseOverrides.Add(@override);
             return this;
@@ -654,8 +654,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override response values when a condition is met.
         /// </summary>
-        public Swank OverrideResponseWhen(Action<ActionCall, Specification.Data> @override,
-            Func<ActionCall, Specification.Data, bool> when)
+        public Swank OverrideResponseWhen(Action<BehaviorChain, Specification.Data> @override,
+            Func<BehaviorChain, Specification.Data, bool> when)
         {
             _configuration.ResponseOverrides.Add(OverrideWhen(@override, when));
             return this;
@@ -664,7 +664,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override both request and response values.
         /// </summary>
-        public Swank OverrideData(Action<ActionCall, Specification.Data> @override)
+        public Swank OverrideData(Action<BehaviorChain, Specification.Data> @override)
         {
             return OverrideRequest(@override).OverrideResponse(@override);
         }
@@ -672,8 +672,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override both request and response values when a condition is met.
         /// </summary>
-        public Swank OverrideDataWhen(Action<ActionCall, Specification.Data> @override,
-            Func<ActionCall, Specification.Data, bool> when)
+        public Swank OverrideDataWhen(Action<BehaviorChain, Specification.Data> @override,
+            Func<BehaviorChain, Specification.Data, bool> when)
         {
             return OverrideRequestWhen(@override, when).OverrideResponseWhen(@override, when);
         }

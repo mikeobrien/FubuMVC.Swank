@@ -62,7 +62,8 @@ namespace Tests.Specification.SpecificationService.TypeTests
 
     namespace TypeEnumeration
     {
-        public class Response { } public class Request { }
+        public class Response { }
+        public class Request { }
         public class PostHandler { public Response Execute(Request request) { return null; } }
         public class PutHandler { public Response Execute(Request request) { return null; } }
 

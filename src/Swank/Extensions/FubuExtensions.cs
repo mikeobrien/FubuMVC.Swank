@@ -59,17 +59,40 @@ namespace FubuMVC.Swank.Extensions
 
         public static bool IsUrlParameter(this PropertyInfo property, ActionCall action)
         {
-            return action != null && action.ParentChain().Route.Input.RouteParameters.Any(x => x.Name == property.Name);
+            if (action == null)
+            {
+                return false;
+            }
+
+            var route = action.ParentChain().Route;
+
+            if (route.Input == null)
+            {
+                return false;
+            }
+
+            return route.Input.RouteParameters.Any(x => x.Name == property.Name);
         }
 
         public static bool IsQuerystring(this PropertyInfo property, ActionCall action)
         {
-            return action != null && 
-                action.ParentChain().Route.Input.RouteParameters.All(x => x.Name != property.Name) && 
-                (property.HasAttribute<QueryStringAttribute>() ||
-                 !(action.ParentChain().Route.AllowsPost() || 
-                   action.ParentChain().Route.AllowsPut() || 
-                   action.ParentChain().Route.AllowsUpdate()));
+            if (action == null)
+            {
+                return false;
+            }
+
+            var route = action.ParentChain().Route;
+
+            if (route.Input == null)
+            {
+                return false;
+            }
+
+            return route.Input.RouteParameters.All(x => x.Name != property.Name) &&
+                   (property.HasAttribute<QueryStringAttribute>() ||
+                    !(route.AllowsPost() ||
+                      route.AllowsPut() ||
+                      route.AllowsUpdate()));
         }
 
         public static ServiceRegistry AddService<T>(this ServiceRegistry services, Type concreteType, params object[] dependencies)

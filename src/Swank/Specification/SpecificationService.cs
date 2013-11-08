@@ -12,11 +12,14 @@ namespace FubuMVC.Swank.Specification
 {
     public class SpecificationService : ISpecificationService
     {
-        private class ActionMapping
+        private class BehaviorMapping
         {
-            public ActionCall Action { get; set; }
+            public ActionCall FirstAction { get; set; }
+            public ActionCall LastAction { get; set; }
             public ModuleDescription Module { get; set; }
             public ResourceDescription Resource { get; set; }
+
+            public BehaviorChain Chain { get; set; }
         }
 
         public static readonly Func<string, int> HttpVerbRank = x => { switch (x.IsEmpty() ? null : x.ToLower()) 
@@ -24,34 +27,34 @@ namespace FubuMVC.Swank.Specification
               case "update": return 3; case "delete": return 5; default: return 4; } };
 
         private readonly Configuration _configuration;
-        private readonly ActionSource _actions;
+        private readonly BehaviorSource _behaviors;
         private readonly ITypeDescriptorCache _typeCache;
-        private readonly IDescriptionConvention<ActionCall, ModuleDescription> _moduleConvention;
-        private readonly IDescriptionConvention<ActionCall, ResourceDescription> _resourceConvention;
-        private readonly IDescriptionConvention<ActionCall, EndpointDescription> _endpointConvention;
+        private readonly IDescriptionConvention<BehaviorChain, ModuleDescription> _moduleConvention;
+        private readonly IDescriptionConvention<BehaviorChain, ResourceDescription> _resourceConvention;
+        private readonly IDescriptionConvention<BehaviorChain, EndpointDescription> _endpointConvention;
         private readonly IDescriptionConvention<PropertyInfo, MemberDescription> _memberConvention;
         private readonly IDescriptionConvention<FieldInfo, OptionDescription> _optionConvention;
-        private readonly IDescriptionConvention<ActionCall, List<StatusCodeDescription>> _statusCodeConvention;
-        private readonly IDescriptionConvention<ActionCall, List<HeaderDescription>> _headerConvention;
+        private readonly IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>> _statusCodeConvention;
+        private readonly IDescriptionConvention<BehaviorChain, List<HeaderDescription>> _headerConvention;
         private readonly IDescriptionConvention<System.Type, TypeDescription> _typeConvention;
         private readonly MergeService _mergeService;
 
         public SpecificationService(
             Configuration configuration, 
-            ActionSource actions,
+            BehaviorSource behaviors,
             ITypeDescriptorCache typeCache,
-            IDescriptionConvention<ActionCall, ModuleDescription> moduleConvention,
-            IDescriptionConvention<ActionCall, ResourceDescription> resourceConvention,
-            IDescriptionConvention<ActionCall, EndpointDescription> endpointConvention,
+            IDescriptionConvention<BehaviorChain, ModuleDescription> moduleConvention,
+            IDescriptionConvention<BehaviorChain, ResourceDescription> resourceConvention,
+            IDescriptionConvention<BehaviorChain, EndpointDescription> endpointConvention,
             IDescriptionConvention<PropertyInfo, MemberDescription> memberConvention,
             IDescriptionConvention<FieldInfo, OptionDescription> optionConvention,
-            IDescriptionConvention<ActionCall, List<StatusCodeDescription>> statusCodeConvention, 
-            IDescriptionConvention<ActionCall, List<HeaderDescription>> headerConvention,
+            IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>> statusCodeConvention,
+            IDescriptionConvention<BehaviorChain, List<HeaderDescription>> headerConvention,
             IDescriptionConvention<System.Type, TypeDescription> typeConvention,
             MergeService mergeService)
         {
             _configuration = configuration;
-            _actions = actions;
+            _behaviors = behaviors;
             _typeCache = typeCache;
             _moduleConvention = moduleConvention;
             _resourceConvention = resourceConvention;
@@ -66,107 +69,143 @@ namespace FubuMVC.Swank.Specification
 
         public Specification Generate()
         {
-            var actionMapping = GetActionMapping(_actions.GetActions());
-            CheckForOrphanedActions(actionMapping);
+            var behaviorMappings = GetBehaviorMapping(_behaviors.GetChains());
+
+            CheckForOrphanedChains(behaviorMappings);
+
             var specification = new Specification {
                     Name = _configuration.Name,
                     Comments = _configuration.AppliesToAssemblies
                         .Select(x => x.FindTextResourceNamed("*" + _configuration.Comments))
                         .FirstOrDefault(x => x != null),
-                    Types = GetTypes(actionMapping.Select(x => x.Action).ToList()),
-                    Modules = GetModules(actionMapping.Where(x => x.Module != null).ToList()),
-                    Resources = GetResources(actionMapping.Where(x => x.Module == null).ToList())
+                    Types = GatherInputOutputModels(behaviorMappings.Select(x => x.Chain).ToList()),
+                    Modules = GetModules(behaviorMappings.Where(x => x.Module != null).ToList()),
+                    Resources = GetResources(behaviorMappings.Where(x => x.Module == null).ToList())
                 };
             if (_configuration.MergeSpecificationPath.IsNotEmpty())
                 specification = _mergeService.Merge(specification, _configuration.MergeSpecificationPath);
             return specification;
         }
 
-        private List<ActionMapping> GetActionMapping(IEnumerable<ActionCall> actions)
+        private List<BehaviorMapping> GetBehaviorMapping(IEnumerable<BehaviorChain> chains)
         {
-            return actions
-                .Where(x => !x.Method.HasAttribute<HideAttribute>() && !x.HandlerType.HasAttribute<HideAttribute>())
-                .Select(x => new { Action = x, Module = _moduleConvention.GetDescription(x), Resource = _resourceConvention.GetDescription(x) })
+            return chains
+                .Where(x => !x.Calls.Any(c => c.Method.HasAttribute<HideAttribute>() || c.HandlerType.HasAttribute<HideAttribute>()))
+                .Select(c => new { Chain = c, Module = _moduleConvention.GetDescription(c), Resource = _resourceConvention.GetDescription(c) })
                 .Where(x => ((_configuration.OrphanedModuleActions == OrphanedActions.Exclude && x.Module != null) ||
                               _configuration.OrphanedModuleActions != OrphanedActions.Exclude))
                 .Where(x => ((_configuration.OrphanedResourceActions == OrphanedActions.Exclude && x.Resource != null) ||
                               _configuration.OrphanedResourceActions != OrphanedActions.Exclude))
-                .Select(x => new ActionMapping {
-                    Action = x.Action,
-                    Module = _configuration.OrphanedModuleActions == OrphanedActions.UseDefault ?
-                        x.Module ?? _configuration.DefaultModuleFactory(x.Action) : x.Module,
-                    Resource = _configuration.OrphanedResourceActions == OrphanedActions.UseDefault ?
-                        x.Resource ?? _configuration.DefaultResourceFactory(x.Action) : x.Resource
+                .Select(x => new BehaviorMapping {
+                    Chain = x.Chain,
+                    FirstAction = x.Chain.FirstCall(),
+                    LastAction = x.Chain.LastCall(),
+                    Module = _configuration.OrphanedModuleActions == OrphanedActions.UseDefault
+                        ? x.Module ?? _configuration.DefaultModuleFactory(x.Chain)
+                        : x.Module,
+                    Resource = _configuration.OrphanedResourceActions == OrphanedActions.UseDefault
+                        ? x.Resource ?? _configuration.DefaultResourceFactory(x.Chain)
+                        : x.Resource
                 }).ToList();
         }
 
-        private void CheckForOrphanedActions(IList<ActionMapping> actionMapping)
+        private void CheckForOrphanedChains(IList<BehaviorMapping> behaviorMappings)
         {
             if (_configuration.OrphanedModuleActions == OrphanedActions.Fail)
             {
-                var orphanedModuleActions = actionMapping.Where(x => x.Module == null).ToList();
+                var orphanedModuleActions = behaviorMappings.Where(x => x.Module == null).ToList();
                 if (orphanedModuleActions.Any()) throw new OrphanedModuleActionException(
-                    orphanedModuleActions.Select(x => x.Action.HandlerType.FullName + "." + x.Action.Method.Name));
+                    orphanedModuleActions.Select(x => x.FirstAction.HandlerType.FullName + "." + x.FirstAction.Method.Name));
             }
 
             if (_configuration.OrphanedResourceActions == OrphanedActions.Fail)
             {
-                var orphanedActions = actionMapping.Where(x => x.Resource == null).ToList();
+                var orphanedActions = behaviorMappings.Where(x => x.Resource == null).ToList();
                 if (orphanedActions.Any()) throw new OrphanedResourceActionException(
-                    orphanedActions.Select(x => x.Action.HandlerType.FullName + "." + x.Action.Method.Name));
+                    orphanedActions.Select(x => x.FirstAction.HandlerType.FullName + "." + x.FirstAction.Method.Name));
             }
         }
 
-        private List<Type> GetTypes(IList<ActionCall> actions)
+        private List<Type> GatherInputOutputModels(IList<BehaviorChain> chains)
         {
-            var rootTypes = actions
-                .Where(x => x.HasInput && !x.ParentChain().Route.AllowsGet() && !x.ParentChain().Route.AllowsDelete())
-                .Select(x => new TypeContext(x.InputType().GetListElementType() ?? x.InputType(), null, x))
-                .Concat(actions.Where(x => x.HasOutput)
-                               .SelectDistinct(x => x.OutputType())
-                               .Select(x => new TypeContext(x.GetListElementType() ?? x)))
-                .ToList();
-            return rootTypes
-                .Concat(rootTypes.SelectMany(GetTypes))
-                .DistinctBy(x => x.Type, x => x.Action)
-                .Select(x => {
-                    var description = _typeConvention.GetDescription(x.Type);
-                    var type = description.WhenNotNull(y => y.Type).Otherwise(x.Type);
-                    return _configuration.TypeOverrides.Apply(x.Type, new Type {
-                        Id = x.Action != null ? _configuration.InputTypeIdConvention(type, x.Action.Method) : _configuration.TypeIdConvention(type),
+            var rootInputOutputModels = chains.SelectMany(RootInputAndOutputModels).ToList();
+
+            return rootInputOutputModels
+                .Concat(rootInputOutputModels.SelectMany(GetTypes))
+                .DistinctBy(x => x.Type, x => x.Chain)
+                .Select(cxt => {
+                    var description = _typeConvention.GetDescription(cxt.Type);
+                    var type = description.WhenNotNull(y => y.Type).Otherwise(cxt.Type);
+
+                    return _configuration.TypeOverrides.Apply(cxt.Type, new Type {
+                        Id = cxt.Chain != null
+                            ? _configuration.InputTypeIdConvention(type, cxt.Chain.FirstCall().Method)
+                            : _configuration.TypeIdConvention(type),
                         Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                        Members = GetMembers(type, x.Action)
+                        Members = GetMembers(type, cxt.Chain)
                     });
                 })
                 .OrderBy(x => x.Name).ToList();
         }
 
+        private static IEnumerable<TypeContext> RootInputAndOutputModels(BehaviorChain chain)
+        {
+            var firstCall = chain.FirstCall();
+            var lastCall = chain.LastCall();
+
+            if (firstCall.HasInput &&
+                !chain.Route.AllowsGet() &&
+                !chain.Route.AllowsDelete())
+            {
+                var inputType = firstCall.InputType();
+                inputType = inputType.GetListElementType() ?? inputType;
+                yield return new TypeContext(inputType, chain: chain);
+            }
+
+            if (lastCall.HasOutput)
+            {
+                var outputType = lastCall.OutputType();
+                outputType = outputType.GetListElementType() ?? outputType;
+                yield return new TypeContext(outputType);
+            }
+        }
+
         private List<TypeContext> GetTypes(TypeContext type)
         {
-            var properties = type.Type.IsProjection() ?
-                type.Type.GetProjectionProperties() :
-                _typeCache.GetPropertiesFor(type.Type).Select(x => x.Value);
+            var properties = type.Type.IsProjection()
+                ? type.Type.GetProjectionProperties()
+                : _typeCache.GetPropertiesFor(type.Type).Select(x => x.Value);
+
             var types = properties
                 .Where(x => !x.IsHidden() &&
                             !(x.PropertyType.GetListElementType() ?? x.PropertyType).IsSystemType() && 
                             !x.PropertyType.IsEnum &&
                             !x.IsAutoBound())
-                .Select(x => new TypeContext(x.PropertyType.GetListElementType() ?? x.PropertyType, type))
-                .Distinct()
+                .Select(x => new TypeContext(x.PropertyType.GetListElementType() ?? x.PropertyType, parent: type))
+                .DistinctBy(x => x.Type, x => x.Chain)
                 .ToList();
+
             return types.Concat(types
                             .Where(x => type.Traverse(y => y.Parent).All(y => y.Type != x.Type))
                             .SelectMany(GetTypes))
-                        .Distinct()
+                        .DistinctBy(x => x.Type, x => x.Chain)
                         .ToList();
         }
 
-        private List<Member> GetMembers(System.Type type, ActionCall action)
+        private List<Member> GetMembers(System.Type type, BehaviorChain chain)
         {
-            var properties = type.IsProjection() ? 
-                type.GetProjectionProperties() : 
-                _typeCache.GetPropertiesFor(type).Select(x => x.Value);
+            ActionCall action = null;
+
+            if (chain != null)
+            {
+                action = chain.FirstCall();
+            }
+
+            var properties = type.IsProjection()
+                ? type.GetProjectionProperties()
+                : _typeCache.GetPropertiesFor(type).Select(x => x.Value);
+
             return properties
                 .Where(x => !x.IsHidden() &&
                             !x.IsAutoBound() &&
@@ -189,9 +228,9 @@ namespace FubuMVC.Swank.Specification
                 .ToList();
         } 
 
-        private List<Module> GetModules(IEnumerable<ActionMapping> actionMapping)
+        private List<Module> GetModules(IEnumerable<BehaviorMapping> behaviorMappings)
         {
-            return actionMapping
+            return behaviorMappings
                 .GroupBy(x => x.Module)
                 .Select(x => _configuration.ModuleOverrides.Apply(new Module {
                     Name = x.Key.Name,
@@ -201,51 +240,55 @@ namespace FubuMVC.Swank.Specification
                 .OrderBy(x => x.Name).ToList();
         }
 
-        private List<Resource> GetResources(IEnumerable<ActionMapping> actionMapping)
+        private List<Resource> GetResources(IEnumerable<BehaviorMapping> behaviorMappings)
         {
-            return actionMapping
+            return behaviorMappings
                 .GroupBy(x => x.Resource)
                 .Select(x => _configuration.ResourceOverrides.Apply(new Resource {
                     Name = x.Key.Name,
-                    Comments = x.Key.Comments ?? x.First().Action.HandlerType.Assembly
-                        .FindTextResourceNamed(x.First().Action.HandlerType.Namespace + ".resource"),
-                    Endpoints = GetEndpoints(x.Select(y => y.Action))
+                    Comments = x.Key.Comments ?? x.First().FirstAction.HandlerType.Assembly
+                        .FindTextResourceNamed(x.First().FirstAction.HandlerType.Namespace + ".resource"),
+                    Endpoints = GetEndpoints(x.Select(y => y.Chain))
                 }))
                 .OrderBy(x => x.Name).ToList();
         }
 
-        private List<Endpoint> GetEndpoints(IEnumerable<ActionCall> actions)
+        private List<Endpoint> GetEndpoints(IEnumerable<BehaviorChain> chains)
         {
-            return actions
-                .Select(x => {
-                    var endpoint = _endpointConvention.GetDescription(x);
-                    var route = x.ParentChain().Route;
-                    var querystring = x.HasInput ? GetQuerystringParameters(x) : null;
-                    return _configuration.EndpointOverrides.Apply(x, new Endpoint {
+            return chains
+                .Select(chain => {
+                    var endpoint = _endpointConvention.GetDescription(chain);
+                    var route = chain.Route;
+                    var querystring = chain.FirstCall().HasInput ? GetQuerystringParameters(chain) : null;
+                    return _configuration.EndpointOverrides.Apply(chain, new Endpoint {
                         Name = endpoint.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = endpoint.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                         Url = route.Pattern.EnusureStartsWith("/") + querystring.Join(y => "{0}={{{0}}}".ToFormat(y.Name), "?", "&", ""),
                         Method = route.AllowedHttpMethods.FirstOrDefault(),
-                        UrlParameters = x.HasInput ? GetUrlParameters(x) : null,
+                        UrlParameters = chain.FirstCall().HasInput ? GetUrlParameters(chain) : null,
                         QuerystringParameters = querystring,
-                        StatusCodes = GetStatusCodes(x),
-                        Headers = GetHeaders(x),
-                        Request = x.HasInput && (route.AllowsPost() || route.AllowsPut()) ? 
-                            _configuration.RequestOverrides.Apply(x, GetData(x.InputType(), endpoint.RequestComments, x.Method)) : null,
-                        Response = x.HasOutput ? 
-                            _configuration.ResponseOverrides.Apply(x, GetData(x.OutputType(), endpoint.ResponseComments)) : null
+                        StatusCodes = GetStatusCodes(chain),
+                        Headers = GetHeaders(chain),
+                        Request = chain.FirstCall().HasInput && (route.AllowsPost() || route.AllowsPut())
+                            ? _configuration.RequestOverrides.Apply(chain, GetData(chain.InputType(), endpoint.RequestComments, chain.FirstCall().Method))
+                            : null,
+                        Response = chain.LastCall().HasOutput
+                            ? _configuration.ResponseOverrides.Apply(chain, GetData(chain.LastCall().OutputType(), endpoint.ResponseComments))
+                            : null
                     });
                 }).OrderBy(x => x.Url.Split('?').First()).ThenBy(x => HttpVerbRank(x.Method)).ToList();
         }
 
-        private List<UrlParameter> GetUrlParameters(ActionCall action)
+        private List<UrlParameter> GetUrlParameters(BehaviorChain chain)
         {
+            var action = chain.FirstCall();
+
             var properties = _typeCache.GetPropertiesFor(action.InputType());
             return action.ParentChain().Route.Input.RouteParameters.Select(
                 x => {
                     var property = properties[x.Name];
                     var description = _memberConvention.GetDescription(property);
-                    return _configuration.UrlParameterOverrides.Apply(action, property, new UrlParameter {
+                    return _configuration.UrlParameterOverrides.Apply(chain, property, new UrlParameter {
                             Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                             Type = property.PropertyType.GetXmlName(),
@@ -254,15 +297,17 @@ namespace FubuMVC.Swank.Specification
                 }).ToList();
         }
 
-        private List<QuerystringParameter> GetQuerystringParameters(ActionCall action)
+        private List<QuerystringParameter> GetQuerystringParameters(BehaviorChain chain)
         {
+            var action = chain.FirstCall();
+
             return _typeCache.GetPropertiesFor(action.InputType())
                 .Where(x => x.Value.IsQuerystring(action) && 
                             !x.Value.HasAttribute<HideAttribute>() && 
                             !x.Value.IsAutoBound())
                 .Select(x => {
                     var description = _memberConvention.GetDescription(x.Value);
-                    return _configuration.QuerystringOverrides.Apply(action, x.Value, new QuerystringParameter {
+                    return _configuration.QuerystringOverrides.Apply(chain, x.Value, new QuerystringParameter {
                         Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                         Type = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).GetXmlName(),
@@ -274,20 +319,20 @@ namespace FubuMVC.Swank.Specification
                 }).OrderBy(x => x.Name).ToList();
         }
 
-        private List<StatusCode> GetStatusCodes(ActionCall action)
+        private List<StatusCode> GetStatusCodes(BehaviorChain chain)
         {
-            return _statusCodeConvention.GetDescription(action)
-                .Select(x => _configuration.StatusCodeOverrides.Apply(action, new StatusCode {
+            return _statusCodeConvention.GetDescription(chain)
+                .Select(x => _configuration.StatusCodeOverrides.Apply(chain, new StatusCode {
                     Code = x.Code,
                     Name = x.Name,
                     Comments = x.Comments
                 })).OrderBy(x => x.Code).ToList();
         }
 
-        private List<Header> GetHeaders(ActionCall action)
+        private List<Header> GetHeaders(BehaviorChain chain)
         {
-            return _headerConvention.GetDescription(action)
-                .Select(x => _configuration.HeaderOverrides.Apply(action, new Header {
+            return _headerConvention.GetDescription(chain)
+                .Select(x => _configuration.HeaderOverrides.Apply(chain, new Header {
                     Type = x.Type.ToString(),
                     Name = x.Name,
                     Comments = x.Comments,

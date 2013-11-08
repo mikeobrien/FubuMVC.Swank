@@ -5,10 +5,11 @@ using FubuMVC.Swank.Extensions.Compatibility;
 
 namespace FubuMVC.Swank.Description
 {
-    public class StatusCodeConvention : IDescriptionConvention<ActionCall, List<StatusCodeDescription>>
+    public class StatusCodeConvention : IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>>
     {
-        public virtual List<StatusCodeDescription> GetDescription(ActionCall action)
+        public virtual List<StatusCodeDescription> GetDescription(BehaviorChain chain)
         {
+            var action = chain.FirstCall();
             return action.Method.GetCustomAttributes<StatusCodeDescriptionAttribute>()
                 .Concat(action.HandlerType.GetCustomAttributes<StatusCodeDescriptionAttribute>())
                  .Select(x => new StatusCodeDescription {
