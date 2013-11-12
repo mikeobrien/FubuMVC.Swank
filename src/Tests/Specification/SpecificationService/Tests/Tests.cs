@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using FubuCore.Reflection;
 using FubuMVC.Swank;
 using FubuMVC.Swank.Description;
@@ -14,7 +13,7 @@ namespace Tests.Specification.SpecificationService.Tests
     {
         protected FubuMVC.Swank.Specification.Specification BuildSpec<TNamespace>(Action<Swank> configure = null, string specFile = null)
         {
-            var graph = Behavior.BuildGraph().AddActionsInNamespace(typeof (TNamespace));
+            var graph = Behavior.BuildGraph().AddActionsInNamespace(GetType());
 
             var configuration = Swank.CreateConfig(x =>
             {

@@ -80,7 +80,8 @@ namespace Tests.Specification.SpecificationService.TypeTests
         [Test]
         public void should_define_shared_output_types()
         {
-            BuildSpec<TypeEnumeration.PostHandler>().Types.ShouldContainOneOutputType<TypeEnumeration.Response>();
+            var spec = BuildSpec<TypeEnumeration.PostHandler>();
+            spec.Types.ShouldContainOneOutputType<TypeEnumeration.Response>();
         }
 
         [Test]

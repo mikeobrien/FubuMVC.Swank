@@ -25,14 +25,28 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         {
             var graph = Behavior.BuildGraph().AddActionsInThisNamespace();
             var moduleConvention = new ModuleConvention(new MarkerConvention<ModuleDescription>());
+
             var resourceConvention = new ResourceConvention(
                 new MarkerConvention<ResourceDescription>(),
                 new BehaviorSource(graph, Swank.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter))));
+
             var configuration = Swank.CreateConfig(x =>
-                { x.AppliesToThisAssembly().Where(ActionFilter).WithEnumValueTypeOf(EnumValue.AsString); if (configure != null) configure(x); });
-            var specBuilder = new FubuMVC.Swank.Specification.SpecificationService(configuration, new BehaviorSource(graph, configuration), new TypeDescriptorCache(),
-                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new StatusCodeConvention(),
-                new HeaderConvention(), new TypeConvention(), new MergeService());
+                {
+                    x.AppliesToThisAssembly().Where(ActionFilter).WithEnumValueTypeOf(EnumValue.AsString);
+                    if (configure != null) configure(x);
+                });
+            var specBuilder = new FubuMVC.Swank.Specification.SpecificationService(configuration,
+                                                                                   new BehaviorSource(graph, configuration),
+                                                                                   new TypeDescriptorCache(),
+                                                                                   moduleConvention,
+                                                                                   resourceConvention,
+                                                                                   new EndpointConvention(),
+                                                                                   new MemberConvention(),
+                                                                                   new OptionConvention(),
+                                                                                   new StatusCodeConvention(),
+                                                                                   new HeaderConvention(),
+                                                                                   new TypeConvention(),
+                                                                                   new MergeService());
             return specBuilder.Generate();
         }
     }
