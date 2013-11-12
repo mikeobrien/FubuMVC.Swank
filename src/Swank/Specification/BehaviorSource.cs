@@ -36,24 +36,44 @@ namespace FubuMVC.Swank.Specification
                     _configuration.AppliesToAssemblies.Any(y => y == chain.FirstCall().HandlerType.Assembly));
         }
 
-        bool isNotSwankChain(BehaviorChain chain)
+        static bool isNotSwankChain(BehaviorChain chain)
         {
-            return chain.FirstCall().HandlerType.Assembly != Assembly.GetExecutingAssembly();
+            var call = chain.FirstCall();
+
+            if (call == null)
+            {
+                return false;
+            }
+
+            return call.HandlerType.Assembly != Assembly.GetExecutingAssembly();
         }
 
-        bool isNotFubuChain(BehaviorChain chain)
+        static bool isNotFubuChain(BehaviorChain chain)
         {
-            return chain.FirstCall().HandlerType.Assembly != typeof (FubuRegistry).Assembly;
+            var call = chain.FirstCall();
+
+            if (call == null)
+            {
+                return false;
+            }
+
+            return call.HandlerType.Assembly != typeof (FubuRegistry).Assembly;
         }
 
-        bool isNotContentChain(BehaviorChain chain)
+        static bool isNotContentChain(BehaviorChain chain)
         {
-            return !chain.GetRoutePattern().StartsWith("/_content");
+            return !routePatternStartsWith(chain, "/_content");
         }
 
-        bool isNotDiagnosticChain(BehaviorChain chain)
+        static bool isNotDiagnosticChain(BehaviorChain chain)
         {
-            return !chain.GetRoutePattern().StartsWith("/_fubu");
+            return !routePatternStartsWith(chain, "/_fubu");
+        }
+
+        static bool routePatternStartsWith(BehaviorChain chain, string value)
+        {
+            var routePattern = chain.GetRoutePattern();
+            return routePattern != null && routePattern.StartsWith(value);
         }
     }
 }

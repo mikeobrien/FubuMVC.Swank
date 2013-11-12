@@ -129,10 +129,14 @@ namespace FubuMVC.Swank.Specification
             var rootInputOutputModels = chains
                 //remove GET/DELETE because they don't have a body
                 .Where(c => c.FirstCall().HasInput && !c.Route.AllowsGet() && !c.Route.AllowsDelete())
-                .Select(c => new TypeContext(c.InputType().GetListElementType() ?? c.InputType(), null, c))
+                .Select(c => new TypeContext(c.InputType().GetListElementType() ?? c.InputType(), chain: c))
                 .Concat(chains.Where(x => x.LastCall().HasOutput)
-                               .SelectDistinct(x => x.LastCall().OutputType())
-                               .Select(x => new TypeContext(x.GetListElementType() ?? x)))
+                              .Select(x =>
+                                  {
+                                      var outputType = x.LastCall().OutputType();
+                                      return new TypeContext(outputType.GetListElementType() ?? outputType, chain: x);
+                                  }))
+                              .DistinctBy(x => x.Chain.LastCall().OutputType())
                 .ToList();
 
             return rootInputOutputModels
@@ -162,7 +166,7 @@ namespace FubuMVC.Swank.Specification
                             !(x.PropertyType.GetListElementType() ?? x.PropertyType).IsSystemType() && 
                             !x.PropertyType.IsEnum &&
                             !x.IsAutoBound())
-                .Select(x => new TypeContext(x.PropertyType.GetListElementType() ?? x.PropertyType, type))
+                .Select(x => new TypeContext(x.PropertyType.GetListElementType() ?? x.PropertyType, parent: type))
                 .Distinct()
                 .ToList();
             return types.Concat(types
