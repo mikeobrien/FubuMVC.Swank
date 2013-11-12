@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using FubuMVC.Core;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
@@ -45,7 +44,7 @@ namespace FubuMVC.Swank.Specification
                 return false;
             }
 
-            return call.HandlerType.Assembly != Assembly.GetExecutingAssembly();
+            return call.HandlerType.Assembly != typeof(BehaviorSource).Assembly;
         }
 
         static bool isNotFubuChain(BehaviorChain chain)

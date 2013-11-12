@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FubuCore.Reflection;
 using FubuMVC.Swank;
 using FubuMVC.Swank.Description;
@@ -11,35 +12,39 @@ namespace Tests.Specification.SpecificationService.Tests
     [TestFixture]
     public abstract class InteractionContext
     {
-        protected FubuMVC.Swank.Specification.Specification BuildSpec<TNamespace>(Action<Swank> configure = null, System.Type rootType = null, string specFile = null)
+        protected FubuMVC.Swank.Specification.Specification BuildSpec<TNamespace>(Action<Swank> configure = null, string specFile = null)
         {
-            //this could be tricky
-            var graph = rootType == null ? Behavior.BuildGraph().AddActionsInThisNamespace() : Behavior.BuildGraph().AddActionsInNamespace(rootType);
-            var moduleConvention = new ModuleConvention(new MarkerConvention<ModuleDescription>());
-
-            var swankConfig = Swank.CreateConfig(x =>
-                                       x.AppliesToThisAssembly()
-                                        .Where(b => b.FirstCall().HandlerType.InNamespace<Tests>()));
-
-            var resourceConvention = new ResourceConvention(new MarkerConvention<ResourceDescription>(), new BehaviorSource(graph, swankConfig));
+            var graph = Behavior.BuildGraph().AddActionsInNamespace(typeof (TNamespace));
 
             var configuration = Swank.CreateConfig(x =>
             {
                 if (configure != null) configure(x);
 
                 x.AppliesToThisAssembly()
-                    .Where(y => y.FirstCall().HandlerType.InNamespace<TNamespace>());
-                
+                 .Where(y => y.FirstCall().HandlerType.InNamespace<TNamespace>());
+
                 if (specFile != null)
                 {
                     x.MergeThisSpecification(specFile);
                 }
             });
 
-            return new FubuMVC.Swank.Specification.SpecificationService(configuration, new BehaviorSource(graph, configuration), new TypeDescriptorCache(),
-                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new StatusCodeConvention(),
-                new HeaderConvention(), new TypeConvention(), new MergeService()).Generate();
+            var behaviorSource = new BehaviorSource(graph, configuration);
+            var resourceConvention = new ResourceConvention(new MarkerConvention<ResourceDescription>(), behaviorSource);
+            var moduleConvention = new ModuleConvention(new MarkerConvention<ModuleDescription>());
 
+            return new FubuMVC.Swank.Specification.SpecificationService(configuration,
+                                                                        behaviorSource,
+                                                                        new TypeDescriptorCache(),
+                                                                        moduleConvention,
+                                                                        resourceConvention,
+                                                                        new EndpointConvention(),
+                                                                        new MemberConvention(),
+                                                                        new OptionConvention(),
+                                                                        new StatusCodeConvention(),
+                                                                        new HeaderConvention(),
+                                                                        new TypeConvention(),
+                                                                        new MergeService()).Generate();
         }
     }
 

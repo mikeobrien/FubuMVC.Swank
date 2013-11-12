@@ -168,7 +168,7 @@ namespace Tests.Specification.SpecificationService.ResourceTests
         [Test]
         public void should_group_orphaned_actions_into_default_resources()
         {
-            var spec = BuildSpec<OrphanedResources.GetHandler>(rootType: typeof(OrphanedResources.GetHandler));
+            var spec = BuildSpec<OrphanedResources.GetHandler>();
 
             spec.Resources.Count.ShouldEqual(2);
 

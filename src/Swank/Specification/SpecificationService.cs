@@ -27,7 +27,7 @@ namespace FubuMVC.Swank.Specification
               case "update": return 3; case "delete": return 5; default: return 4; } };
 
         private readonly Configuration _configuration;
-        private readonly BehaviorSource _actions;
+        private readonly BehaviorSource _behaviors;
         private readonly ITypeDescriptorCache _typeCache;
         private readonly IDescriptionConvention<BehaviorChain, ModuleDescription> _moduleConvention;
         private readonly IDescriptionConvention<BehaviorChain, ResourceDescription> _resourceConvention;
@@ -41,7 +41,7 @@ namespace FubuMVC.Swank.Specification
 
         public SpecificationService(
             Configuration configuration, 
-            BehaviorSource actions,
+            BehaviorSource behaviors,
             ITypeDescriptorCache typeCache,
             IDescriptionConvention<BehaviorChain, ModuleDescription> moduleConvention,
             IDescriptionConvention<BehaviorChain, ResourceDescription> resourceConvention,
@@ -54,7 +54,7 @@ namespace FubuMVC.Swank.Specification
             MergeService mergeService)
         {
             _configuration = configuration;
-            _actions = actions;
+            _behaviors = behaviors;
             _typeCache = typeCache;
             _moduleConvention = moduleConvention;
             _resourceConvention = resourceConvention;
@@ -69,7 +69,7 @@ namespace FubuMVC.Swank.Specification
 
         public Specification Generate()
         {
-            var behaviorMappings = GetBehaviorMapping(_actions.GetChains());
+            var behaviorMappings = GetBehaviorMapping(_behaviors.GetChains());
 
             CheckForOrphanedChains(behaviorMappings);
 
@@ -87,9 +87,9 @@ namespace FubuMVC.Swank.Specification
             return specification;
         }
 
-        private List<BehaviorMapping> GetBehaviorMapping(IEnumerable<BehaviorChain> actions)
+        private List<BehaviorMapping> GetBehaviorMapping(IEnumerable<BehaviorChain> chains)
         {
-            return actions
+            return chains
                 .Where(x => !x.Calls.Any(c => c.Method.HasAttribute<HideAttribute>() && !c.HandlerType.HasAttribute<HideAttribute>()))
                 .Select(c => new { Chain = c, Module = _moduleConvention.GetDescription(c), Resource = _resourceConvention.GetDescription(c) })
                 .Where(x => ((_configuration.OrphanedModuleActions == OrphanedActions.Exclude && x.Module != null) ||
