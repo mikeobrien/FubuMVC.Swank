@@ -167,7 +167,7 @@ namespace FubuMVC.Swank.Specification
             {
                 var outputType = lastCall.OutputType();
                 outputType = outputType.GetListElementType() ?? outputType;
-                yield return new TypeContext(outputType, chain: chain);
+                yield return new TypeContext(outputType);
             }
         }
 
@@ -195,11 +195,17 @@ namespace FubuMVC.Swank.Specification
 
         private List<Member> GetMembers(System.Type type, BehaviorChain chain)
         {
-            var action = chain.FirstCall();
+            ActionCall action = null;
 
-            var properties = type.IsProjection() ? 
-                type.GetProjectionProperties() : 
-                _typeCache.GetPropertiesFor(type).Select(x => x.Value);
+            if (chain != null)
+            {
+                action = chain.FirstCall();
+            }
+
+            var properties = type.IsProjection()
+                ? type.GetProjectionProperties()
+                : _typeCache.GetPropertiesFor(type).Select(x => x.Value);
+
             return properties
                 .Where(x => !x.IsHidden() &&
                             !x.IsAutoBound() &&
