@@ -4,7 +4,7 @@ namespace FubuMVC.Swank.Specification
 {
     public class TypeContext
     {
-        private BehaviorChain _chain;
+        private readonly BehaviorChain _chain;
 
         public TypeContext(System.Type type, TypeContext parent = null, BehaviorChain chain = null)
         {

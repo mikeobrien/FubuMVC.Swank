@@ -128,23 +128,11 @@ namespace FubuMVC.Swank.Specification
 
         private List<Type> GatherInputOutputModels(IList<BehaviorChain> chains)
         {
-            var rootInputOutputModels = chains
-                //remove GET/DELETE because they don't have a body
-                .Where(c => c.FirstCall().HasInput && !c.Route.AllowsGet() && !c.Route.AllowsDelete())
-                .Select(c => new TypeContext(c.FirstCall().InputType().GetListElementType() ?? c.FirstCall().InputType(), chain: c))
-                .Concat(chains.Where(x => x.LastCall().HasOutput)
-                              .Select(x =>
-                                  {
-                                      var outputType = x.LastCall().OutputType();
-                                      outputType = outputType.GetElementType() ?? outputType;
-
-                                      return new TypeContext(outputType, chain: x);
-                                  }))
-                .ToList();
+            var rootInputOutputModels = chains.SelectMany(RootInputAndOutputModels).ToList();
 
             return rootInputOutputModels
                 .Concat(rootInputOutputModels.SelectMany(GetTypes))
-                .DistinctBy(x => x.Type)
+                .DistinctBy(x => x.Type, x => x.Chain)
                 .Select(cxt => {
                     var description = _typeConvention.GetDescription(cxt.Type);
                     var type = description.WhenNotNull(y => y.Type).Otherwise(cxt.Type);
@@ -161,6 +149,28 @@ namespace FubuMVC.Swank.Specification
                 .OrderBy(x => x.Name).ToList();
         }
 
+        private static IEnumerable<TypeContext> RootInputAndOutputModels(BehaviorChain chain)
+        {
+            var firstCall = chain.FirstCall();
+            var lastCall = chain.LastCall();
+
+            if (firstCall.HasInput &&
+                !chain.Route.AllowsGet() &&
+                !chain.Route.AllowsDelete())
+            {
+                var inputType = firstCall.InputType();
+                inputType = inputType.GetListElementType() ?? inputType;
+                yield return new TypeContext(inputType, chain: chain);
+            }
+
+            if (lastCall.HasOutput)
+            {
+                var outputType = lastCall.OutputType();
+                outputType = outputType.GetListElementType() ?? outputType;
+                yield return new TypeContext(outputType, chain: chain);
+            }
+        }
+
         private List<TypeContext> GetTypes(TypeContext type)
         {
             var properties = type.Type.IsProjection()
@@ -173,13 +183,13 @@ namespace FubuMVC.Swank.Specification
                             !x.PropertyType.IsEnum &&
                             !x.IsAutoBound())
                 .Select(x => new TypeContext(x.PropertyType.GetListElementType() ?? x.PropertyType, parent: type))
-                .Distinct()
+                .DistinctBy(x => x.Type, x => x.Chain)
                 .ToList();
 
             return types.Concat(types
                             .Where(x => type.Traverse(y => y.Parent).All(y => y.Type != x.Type))
                             .SelectMany(GetTypes))
-                        .Distinct()
+                        .DistinctBy(x => x.Type, x => x.Chain)
                         .ToList();
         }
 
