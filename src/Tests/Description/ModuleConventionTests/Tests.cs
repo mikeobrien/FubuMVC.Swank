@@ -10,7 +10,7 @@ namespace Tests.Description.ModuleConventionTests
     public class Tests
     {
         public const string SchedulesModuleComments = "<p><strong>These are schedules yo!</strong></p>";
-        private IDescriptionConvention<ActionCall, ModuleDescription> _moduleConvention;
+        private IDescriptionConvention<BehaviorChain, ModuleDescription> _moduleConvention;
         private BehaviorGraph _graph;
 
         [SetUp]
@@ -23,7 +23,7 @@ namespace Tests.Description.ModuleConventionTests
         [Test]
         public void should_set_description_to_default_when_none_is_specified()
         {
-            var module = _moduleConvention.GetDescription(_graph.GetAction<ModuleDescriptions.NoDescription.GetHandler>());
+            var module = _moduleConvention.GetDescription(_graph.GetAction<ModuleDescriptions.NoDescription.GetHandler>().ParentChain());
 
             module.Name.ShouldBeNull();
             module.Comments.ShouldBeNull();
@@ -32,7 +32,7 @@ namespace Tests.Description.ModuleConventionTests
         [Test]
         public void should_set_description_when_one_is_specified()
         {
-            var module = _moduleConvention.GetDescription(_graph.GetAction<ModuleDescriptions.Description.GetHandler>());
+            var module = _moduleConvention.GetDescription(_graph.GetAction<ModuleDescriptions.Description.GetHandler>().ParentChain());
 
             module.Name.ShouldEqual("Some Module");
             module.Comments.ShouldEqual("Some comments.");
@@ -41,7 +41,7 @@ namespace Tests.Description.ModuleConventionTests
         [Test]
         public void should_set_description_and_text_embedded_resource_comments_when_specified()
         {
-            var module = _moduleConvention.GetDescription(_graph.GetAction<ModuleDescriptions.EmbeddedTextComments.GetHandler>());
+            var module = _moduleConvention.GetDescription(_graph.GetAction<ModuleDescriptions.EmbeddedTextComments.GetHandler>().ParentChain());
 
             module.Name.ShouldEqual("Some Text Module");
             module.Comments.ShouldEqual("<b>Some text comments</b>");
@@ -50,7 +50,7 @@ namespace Tests.Description.ModuleConventionTests
         [Test]
         public void should_set_description_and_markdown_embedded_resource_comments_when_specified()
         {
-            var module = _moduleConvention.GetDescription(_graph.GetAction<ModuleDescriptions.EmbeddedMarkdownComments.GetHandler>());
+            var module = _moduleConvention.GetDescription(_graph.GetAction<ModuleDescriptions.EmbeddedMarkdownComments.GetHandler>().ParentChain());
 
             module.Name.ShouldEqual("Some Markdown Module");
             module.Comments.ShouldEqual("<p><strong>Some markdown comments</strong></p>");
@@ -59,7 +59,7 @@ namespace Tests.Description.ModuleConventionTests
         [Test]
         public void should_set_description_to_parent()
         {
-            var module = _moduleConvention.GetDescription(_graph.GetAction<NestedModules.NoModules.GetHandler>());
+            var module = _moduleConvention.GetDescription(_graph.GetAction<NestedModules.NoModules.GetHandler>().ParentChain());
 
             module.Name.ShouldEqual("Root Module");
             module.Comments.ShouldBeNull();
@@ -68,7 +68,7 @@ namespace Tests.Description.ModuleConventionTests
         [Test]
         public void should_set_description_to_closest_parent()
         {
-            var module = _moduleConvention.GetDescription(_graph.GetAction<NestedModules.NestedModule.GetHandler>());
+            var module = _moduleConvention.GetDescription(_graph.GetAction<NestedModules.NestedModule.GetHandler>().ParentChain());
 
             module.Name.ShouldEqual("Nested Module");
             module.Comments.ShouldBeNull();

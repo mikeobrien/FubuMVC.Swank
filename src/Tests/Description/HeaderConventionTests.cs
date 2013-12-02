@@ -32,7 +32,7 @@ namespace Tests.Description
         public void should_set_endpoint_headers_on_handlers_and_actions()
         {
             var action = _graph.GetAction<HeadersGetHandler>();
-            var headerDescriptions = _headerConvention.GetDescription(action);
+            var headerDescriptions = _headerConvention.GetDescription(action.ParentChain());
 
             headerDescriptions.Count.ShouldEqual(4);
 
@@ -70,7 +70,7 @@ namespace Tests.Description
         public void should_not_set_endpoint_headers_when_none_are_set_on_handlers_or_actions()
         {
             var action = _graph.GetAction<NoHeadersGetHandler>();
-            var headerDescriptions = _headerConvention.GetDescription(action);
+            var headerDescriptions = _headerConvention.GetDescription(action.ParentChain());
 
             headerDescriptions.Count.ShouldEqual(0);
         }

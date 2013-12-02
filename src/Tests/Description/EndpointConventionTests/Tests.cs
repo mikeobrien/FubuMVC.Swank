@@ -23,7 +23,7 @@ namespace Tests.Description.EndpointConventionTests
         [Test]
         public void should_not_pull_description_from_embedded_resource_named_as_handler_when_handler_has_resource_attribute()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<ControllerResource.Controller>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<ControllerResource.Controller>().ParentChain());
             description.Name.ShouldBeNull();
             description.Comments.ShouldBeNull();
 
@@ -34,7 +34,7 @@ namespace Tests.Description.EndpointConventionTests
         [Test]
         public void should_use_attribute_description_over_embedded_description()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<AttributePriority.GetHandler>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<AttributePriority.GetHandler>().ParentChain());
             
             description.Name.ShouldEqual("Some action name");
             description.Comments.ShouldEqual("Some action description");
@@ -46,7 +46,7 @@ namespace Tests.Description.EndpointConventionTests
         [Test]
         public void should_not_set_handler_description_to_default_for_endpoint_with_no_description()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.NoDescriptionGetHandler>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.NoDescriptionGetHandler>().ParentChain());
             description.Name.ShouldBeNull();
             description.Comments.ShouldBeNull();
         }
@@ -54,7 +54,7 @@ namespace Tests.Description.EndpointConventionTests
         [Test]
         public void should_set_embedded_handler_text_description()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.HandlerDescription.EmbeddedDescriptionGetHandler>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.HandlerDescription.EmbeddedDescriptionGetHandler>().ParentChain());
             description.Name.ShouldEqual("Some embedded handler name");
             description.Comments.ShouldEqual("<b>An embedded handler text description</b>");
         }
@@ -62,7 +62,7 @@ namespace Tests.Description.EndpointConventionTests
         [Test]
         public void should_set_handler_description()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.HandlerDescription.GetHandler>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.HandlerDescription.GetHandler>().ParentChain());
             description.Name.ShouldEqual("Some handler name");
             description.Comments.ShouldEqual("Some handler description");
         }
@@ -70,7 +70,7 @@ namespace Tests.Description.EndpointConventionTests
         [Test]
         public void should_set_handler_comments()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.HandlerDescription.AttrbuteCommentsGetHandler>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.HandlerDescription.AttrbuteCommentsGetHandler>().ParentChain());
             description.Name.ShouldBeNull();
             description.Comments.ShouldEqual("Some handler comments");
         }
@@ -78,7 +78,7 @@ namespace Tests.Description.EndpointConventionTests
         [Test]
         public void should_set_action_description()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ActionDescription.GetHandler>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ActionDescription.GetHandler>().ParentChain());
             description.Name.ShouldEqual("Some action name");
             description.Comments.ShouldEqual("Some action description");
         }
@@ -86,7 +86,7 @@ namespace Tests.Description.EndpointConventionTests
         [Test]
         public void should_set_action_comments()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ActionDescription.AttrbuteCommentsGetHandler>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ActionDescription.AttrbuteCommentsGetHandler>().ParentChain());
             description.Name.ShouldBeNull();
             description.Comments.ShouldEqual("Some action comments");
         }
@@ -94,7 +94,7 @@ namespace Tests.Description.EndpointConventionTests
         [Test]
         public void should_set_embedded_markdown_action_description()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ActionDescription.EmbeddedDescriptionGetHandler>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ActionDescription.EmbeddedDescriptionGetHandler>().ParentChain());
             description.Name.ShouldBeNull();
             description.Comments.ShouldEqual("<p><strong>An embedded action markdown description</strong></p>");
         }
@@ -102,42 +102,42 @@ namespace Tests.Description.EndpointConventionTests
         [Test]
         public void should_set_request_description_from_attribute()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.RequestDescription.AttributeGetHandler>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.RequestDescription.AttributeGetHandler>().ParentChain());
             description.RequestComments.ShouldEqual("Some request description");
         }
 
         [Test]
         public void should_set_request_description_from_action_named_embedded_file()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.RequestDescription.EmbeddedDescriptionGetHandler>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.RequestDescription.EmbeddedDescriptionGetHandler>().ParentChain());
             description.RequestComments.ShouldEqual("<p><strong>An embedded action request markdown description</strong></p>");
         }
 
         [Test]
         public void should_set_request_description_from_handler_named_embedded_file()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.RequestDescription.EmbeddedHandlerDescriptionGetHandler>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.RequestDescription.EmbeddedHandlerDescriptionGetHandler>().ParentChain());
             description.RequestComments.ShouldEqual("<p><strong>An embedded handler request markdown description</strong></p>");
         }
 
         [Test]
         public void should_set_response_description_from_attribute()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ResponseDescription.AttributeGetHandler>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ResponseDescription.AttributeGetHandler>().ParentChain());
             description.ResponseComments.ShouldEqual("Some response description");
         }
 
         [Test]
         public void should_set_response_description_from_action_named_embedded_file()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ResponseDescription.EmbeddedDescriptionGetHandler>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ResponseDescription.EmbeddedDescriptionGetHandler>().ParentChain());
             description.ResponseComments.ShouldEqual("<p><strong>An embedded action response markdown description</strong></p>");
         }
 
         [Test]
         public void should_set_response_description_from_handler_named_embedded_file()
         {
-            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ResponseDescription.EmbeddedHandlerDescriptionGetHandler>());
+            var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ResponseDescription.EmbeddedHandlerDescriptionGetHandler>().ParentChain());
             description.ResponseComments.ShouldEqual("<p><strong>An embedded handler response markdown description</strong></p>");
         }
     }

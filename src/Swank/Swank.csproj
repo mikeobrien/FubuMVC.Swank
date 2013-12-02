@@ -95,7 +95,7 @@
     <Compile Include="Description\ResponseCommentsAttribute.cs" />
     <Compile Include="Description\Assert.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Specification\ActionSource.cs" />
+    <Compile Include="Specification\BehaviorSource.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />

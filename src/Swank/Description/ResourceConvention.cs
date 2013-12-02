@@ -8,20 +8,21 @@ using FubuMVC.Swank.Specification;
 
 namespace FubuMVC.Swank.Description
 {
-    public class ResourceConvention : IDescriptionConvention<ActionCall, ResourceDescription>
+    public class ResourceConvention : IDescriptionConvention<BehaviorChain, ResourceDescription>
     {
         private readonly MarkerConvention<ResourceDescription> _descriptions;
-        private readonly ActionSource _actions;
+        private readonly BehaviorSource _behaviors;
         private readonly Func<ActionCall, object> _grouping = x => x.ParentChain().Route.GetRouteResource(); 
 
-        public ResourceConvention(MarkerConvention<ResourceDescription> descriptions, ActionSource actions)
+        public ResourceConvention(MarkerConvention<ResourceDescription> descriptions, BehaviorSource behaviors)
         {
             _descriptions = descriptions;
-            _actions = actions;
+            _behaviors = behaviors;
         }
 
-        public virtual ResourceDescription GetDescription(ActionCall action)
+        public virtual ResourceDescription GetDescription(BehaviorChain chain)
         {
+            var action = chain.FirstCall();
             if (action.HandlerType.HasAttribute<ResourceAttribute>())
             {
                 var resource = action.HandlerType.GetCustomAttribute<ResourceAttribute>();
@@ -37,8 +38,8 @@ namespace FubuMVC.Swank.Description
                         ResourceNamespace = x.GetType().Namespace,
                         Resource = x
                     })
-                .GroupJoin(_actions.GetActions(), x => x.ResourceHandler, x => x.HandlerType,
-                           (r, a) => new { r.Resource, r.ResourceHandler, r.ResourceNamespace, Group = a.Any() ? _grouping(a.First()) : null })
+                .GroupJoin(_behaviors.GetChains(), x => x.ResourceHandler, x => x.FirstCall().HandlerType,
+                           (r, a) => new { r.Resource, r.ResourceHandler, r.ResourceNamespace, Group = a.Any() ? _grouping(a.First().FirstCall()) : null })
                 .OrderByDescending(x => x.Group)
                 .ThenByDescending(x => x.ResourceNamespace)
                 .Where(x => (x.ResourceHandler != null && _grouping(action).Equals(x.Group)) ||

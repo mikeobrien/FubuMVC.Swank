@@ -32,7 +32,7 @@ namespace Tests.Description
         public void should_set_endpoint_status_codes_on_handlers_and_actions()
         {
             var action = _graph.GetAction<StatusGetHandler>();
-            var descriptions = _statusCodeConvention.GetDescription(action);
+            var descriptions = _statusCodeConvention.GetDescription(action.ParentChain());
 
             descriptions.Count.ShouldEqual(4);
 
@@ -66,7 +66,7 @@ namespace Tests.Description
         public void should_not_set_endpoint_status_codes_when_none_are_set_on_handlers_or_actions()
         {
             var action = _graph.GetAction<NoStatusCodesGetHandler>();
-            _statusCodeConvention.GetDescription(action).Count.ShouldEqual(0);
+            _statusCodeConvention.GetDescription(action.ParentChain()).Count.ShouldEqual(0);
         }
     }
 }

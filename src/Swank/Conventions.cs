@@ -28,13 +28,13 @@ namespace FubuMVC.Swank
             {
                 x.AddService(configuration);
                 x.AddService<ISpecificationService, CachedSpecificationService>();
-                x.AddService<IDescriptionConvention<ActionCall, ModuleDescription>>(configuration.ModuleConvention.Type, configuration.ModuleConvention.Config)
-                 .AddService<IDescriptionConvention<ActionCall, ResourceDescription>>(configuration.ResourceConvention.Type, configuration.ResourceConvention.Config)
-                 .AddService<IDescriptionConvention<ActionCall, EndpointDescription>>(configuration.EndpointConvention.Type, configuration.EndpointConvention.Config)
+                x.AddService<IDescriptionConvention<BehaviorChain, ModuleDescription>>(configuration.ModuleConvention.Type, configuration.ModuleConvention.Config)
+                 .AddService<IDescriptionConvention<BehaviorChain, ResourceDescription>>(configuration.ResourceConvention.Type, configuration.ResourceConvention.Config)
+                 .AddService<IDescriptionConvention<BehaviorChain, EndpointDescription>>(configuration.EndpointConvention.Type, configuration.EndpointConvention.Config)
                  .AddService<IDescriptionConvention<PropertyInfo, MemberDescription>>(configuration.MemberConvention.Type, configuration.MemberConvention.Config)
                  .AddService<IDescriptionConvention<FieldInfo, OptionDescription>>(configuration.OptionConvention.Type, configuration.OptionConvention.Config)
-                 .AddService<IDescriptionConvention<ActionCall, List<StatusCodeDescription>>>(configuration.StatusCodeConvention.Type, configuration.StatusCodeConvention.Config)
-                 .AddService<IDescriptionConvention<ActionCall, List<HeaderDescription>>>(configuration.HeaderConvention.Type, configuration.HeaderConvention.Config)
+                 .AddService<IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>>>(configuration.StatusCodeConvention.Type, configuration.StatusCodeConvention.Config)
+                 .AddService<IDescriptionConvention<BehaviorChain, List<HeaderDescription>>>(configuration.HeaderConvention.Type, configuration.HeaderConvention.Config)
                  .AddService<IDescriptionConvention<System.Type, TypeDescription>>(configuration.TypeConvention.Type, configuration.TypeConvention.Config);
             });
         }

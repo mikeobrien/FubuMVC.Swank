@@ -5,10 +5,11 @@ using FubuMVC.Swank.Extensions.Compatibility;
 
 namespace FubuMVC.Swank.Description
 {
-    public class HeaderConvention : IDescriptionConvention<ActionCall, List<HeaderDescription>>
+    public class HeaderConvention : IDescriptionConvention<BehaviorChain, List<HeaderDescription>>
     {
-        public virtual List<HeaderDescription> GetDescription(ActionCall action)
+        public virtual List<HeaderDescription> GetDescription(BehaviorChain chain)
         {
+            var action = chain.FirstCall();
             return action.Method.GetCustomAttributes<HeaderDescriptionAttribute>()
                 .Concat(action.HandlerType.GetCustomAttributes<HeaderDescriptionAttribute>())
                  .Select(x => new HeaderDescription {

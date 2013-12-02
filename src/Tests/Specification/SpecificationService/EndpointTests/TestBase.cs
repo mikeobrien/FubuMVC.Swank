@@ -13,7 +13,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
     {
         protected FubuMVC.Swank.Specification.Specification Spec;
 
-        private static readonly Func<ActionCall, bool> ActionFilter = x => x.HandlerType.InNamespace<TestBase>();
+        private static readonly Func<BehaviorChain, bool> ActionFilter = x => x.FirstCall().HandlerType.InNamespace<TestBase>();
 
         [SetUp]
         public void Setup()
@@ -25,14 +25,28 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         {
             var graph = Behavior.BuildGraph().AddActionsInThisNamespace();
             var moduleConvention = new ModuleConvention(new MarkerConvention<ModuleDescription>());
+
             var resourceConvention = new ResourceConvention(
                 new MarkerConvention<ResourceDescription>(),
-                new ActionSource(graph, Swank.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter))));
+                new BehaviorSource(graph, Swank.CreateConfig(x => x.AppliesToThisAssembly().Where(ActionFilter))));
+
             var configuration = Swank.CreateConfig(x =>
-                { x.AppliesToThisAssembly().Where(ActionFilter).WithEnumValueTypeOf(EnumValue.AsString); if (configure != null) configure(x); });
-            var specBuilder = new FubuMVC.Swank.Specification.SpecificationService(configuration, new ActionSource(graph, configuration), new TypeDescriptorCache(),
-                moduleConvention, resourceConvention, new EndpointConvention(), new MemberConvention(), new OptionConvention(), new StatusCodeConvention(),
-                new HeaderConvention(), new TypeConvention(), new MergeService());
+                {
+                    x.AppliesToThisAssembly().Where(ActionFilter).WithEnumValueTypeOf(EnumValue.AsString);
+                    if (configure != null) configure(x);
+                });
+            var specBuilder = new FubuMVC.Swank.Specification.SpecificationService(configuration,
+                                                                                   new BehaviorSource(graph, configuration),
+                                                                                   new TypeDescriptorCache(),
+                                                                                   moduleConvention,
+                                                                                   resourceConvention,
+                                                                                   new EndpointConvention(),
+                                                                                   new MemberConvention(),
+                                                                                   new OptionConvention(),
+                                                                                   new StatusCodeConvention(),
+                                                                                   new HeaderConvention(),
+                                                                                   new TypeConvention(),
+                                                                                   new MergeService());
             return specBuilder.Generate();
         }
     }
