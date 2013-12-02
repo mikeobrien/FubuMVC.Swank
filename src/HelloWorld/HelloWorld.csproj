@@ -165,7 +165,6 @@
     <EmbeddedResource Include="Comments.md" />
     <EmbeddedResource Include="Administration\Module.md" />
     <EmbeddedResource Include="Administration\Users\Resource.md" />
-    <Content Include="fubu-content\fubu-swank.zip" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
