@@ -90,7 +90,7 @@ namespace FubuMVC.Swank.Specification
         private List<BehaviorMapping> GetBehaviorMapping(IEnumerable<BehaviorChain> chains)
         {
             return chains
-                .Where(x => !x.Calls.Any(c => c.Method.HasAttribute<HideAttribute>() && !c.HandlerType.HasAttribute<HideAttribute>()))
+                .Where(x => !x.Calls.Any(c => c.Method.HasAttribute<HideAttribute>() || c.HandlerType.HasAttribute<HideAttribute>()))
                 .Select(c => new { Chain = c, Module = _moduleConvention.GetDescription(c), Resource = _resourceConvention.GetDescription(c) })
                 .Where(x => ((_configuration.OrphanedModuleActions == OrphanedActions.Exclude && x.Module != null) ||
                               _configuration.OrphanedModuleActions != OrphanedActions.Exclude))
