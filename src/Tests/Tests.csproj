@@ -92,6 +92,8 @@
     <Compile Include="Description\EndpointConventionTests\Handlers.cs" />
     <Compile Include="Description\ModuleConventionTests\Handlers.cs" />
     <Compile Include="Description\ResourceConventionTests\Handlers.cs" />
+    <Compile Include="Specification\SpecificationService\MultiActionTests\Handlers.cs" />
+    <Compile Include="Specification\SpecificationService\MultiActionTests\Tests.cs" />
     <Compile Include="TestExtensions.cs" />
     <Compile Include="Specification\OverrideTests\Handlers.cs" />
     <Compile Include="Specification\OverrideTests\Tests.cs" />

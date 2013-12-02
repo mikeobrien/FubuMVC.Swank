@@ -1,5 +1,6 @@
 ﻿using System;
 using FubuCore.Reflection;
+using FubuMVC.Core.Registration;
 using FubuMVC.Swank;
 using FubuMVC.Swank.Description;
 using FubuMVC.Swank.Specification;
@@ -14,19 +15,23 @@ namespace Tests.Specification.SpecificationService.Tests
         protected FubuMVC.Swank.Specification.Specification BuildSpec<TNamespace>(Action<Swank> configure = null, string specFile = null)
         {
             var graph = Behavior.BuildGraph().AddActionsInNamespace(GetType());
+            return BuildSpec<TNamespace>(graph, configure, specFile);
+        }
 
+        protected FubuMVC.Swank.Specification.Specification BuildSpec<TNamespace>(BehaviorGraph graph, Action<Swank> configure = null, string specFile = null)
+        {
             var configuration = Swank.CreateConfig(x =>
-            {
-                if (configure != null) configure(x);
-
-                x.AppliesToThisAssembly()
-                 .Where(y => y.FirstCall().HandlerType.InNamespace<TNamespace>());
-
-                if (specFile != null)
                 {
-                    x.MergeThisSpecification(specFile);
-                }
-            });
+                    if (configure != null) configure(x);
+
+                    x.AppliesToThisAssembly()
+                     .Where(y => y.FirstCall().HandlerType.InNamespace<TNamespace>());
+
+                    if (specFile != null)
+                    {
+                        x.MergeThisSpecification(specFile);
+                    }
+                });
 
             var behaviorSource = new BehaviorSource(graph, configuration);
             var resourceConvention = new ResourceConvention(new MarkerConvention<ResourceDescription>(), behaviorSource);
@@ -44,6 +49,7 @@ namespace Tests.Specification.SpecificationService.Tests
                                                                         new HeaderConvention(),
                                                                         new TypeConvention(),
                                                                         new MergeService()).Generate();
+        
         }
     }
 
