@@ -174,15 +174,15 @@ namespace Tests.Specification.SpecificationService.ResourceTests
 
             var resource = spec.Resources[0];
             resource.Endpoints.Count.ShouldEqual(2);
-            resource.Name.ShouldEqual("/");
-            resource.Endpoints[0].Url.ShouldEqual("/");
-            resource.Endpoints[1].Url.ShouldEqual("/{Id}");
+            resource.Name.ShouldEqual("/orphanedresources");
+            resource.Endpoints[0].Url.ShouldEqual("/orphanedresources");
+            resource.Endpoints[1].Url.ShouldEqual("/orphanedresources/{Id}");
 
             resource = spec.Resources[1];
             resource.Endpoints.Count.ShouldEqual(2);
-            resource.Name.ShouldEqual("/widget");
-            resource.Endpoints[0].Url.ShouldEqual("/widget");
-            resource.Endpoints[1].Url.ShouldEqual("/widget/{Id}");
+            resource.Name.ShouldEqual("/orphanedresources/widget");
+            resource.Endpoints[0].Url.ShouldEqual("/orphanedresources/widget");
+            resource.Endpoints[1].Url.ShouldEqual("/orphanedresources/widget/{Id}");
         }
 
         [Test]
