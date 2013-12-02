@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -66,21 +66,21 @@
       <HintPath>..\packages\MarkdownSharp.1.13.0.0\lib\35\MarkdownSharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
@@ -89,46 +89,47 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Description\HeaderConvention.cs" />
-    <Compile Include="Description\HeaderDescriptionAttribute.cs" />
-    <Compile Include="Description\RequestCommentsAttribute.cs" />
-    <Compile Include="Description\ResponseCommentsAttribute.cs" />
-    <Compile Include="Description\Assert.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Specification\ActionSource.cs" />
+    <Compile Include="AssemblyBottleDefinition.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="Extensions\EnumerableExtensions.cs" />
-    <Compile Include="Extensions\ObjectExtensions.cs" />
-    <Compile Include="Specification\CachedSpecificationService.cs" />
-    <Compile Include="Specification\DataGetHandler.cs" />
-    <Compile Include="Specification\ISpecificationService.cs" />
-    <Compile Include="Specification\MergeService.cs" />
-    <Compile Include="Specification\OrphanedModuleActionException.cs" />
-    <Compile Include="Specification\OrphanedResourceActionException.cs" />
-    <Compile Include="Extensions\ReflectionExtensions.cs" />
+    <Compile Include="Conventions.cs" />
+    <Compile Include="Description\Assert.cs" />
     <Compile Include="Description\CommentsAttribute.cs" />
-    <Compile Include="Description\OptionalAttribute.cs" />
     <Compile Include="Description\DefaultValueAttribute.cs" />
     <Compile Include="Description\DescriptionAttribute.cs" />
     <Compile Include="Description\DescriptionBase.cs" />
     <Compile Include="Description\Descriptions.cs" />
     <Compile Include="Description\EndpointConvention.cs" />
-    <Compile Include="Description\StatusCodeDescriptionAttribute.cs" />
-    <Compile Include="Description\StatusCodeConvention.cs" />
+    <Compile Include="Description\HeaderConvention.cs" />
+    <Compile Include="Description\HeaderDescriptionAttribute.cs" />
     <Compile Include="Description\HideAttribute.cs" />
     <Compile Include="Description\IDescriptionConvention.cs" />
     <Compile Include="Description\MarkerConvention.cs" />
-    <Compile Include="Description\ModuleConvention.cs" />
-    <Compile Include="Description\OptionConvention.cs" />
     <Compile Include="Description\MemberConvention.cs" />
+    <Compile Include="Description\ModuleConvention.cs" />
+    <Compile Include="Description\OptionalAttribute.cs" />
+    <Compile Include="Description\OptionConvention.cs" />
+    <Compile Include="Description\RequestCommentsAttribute.cs" />
     <Compile Include="Description\ResourceAttribute.cs" />
     <Compile Include="Description\ResourceConvention.cs" />
+    <Compile Include="Description\ResponseCommentsAttribute.cs" />
+    <Compile Include="Description\StatusCodeConvention.cs" />
+    <Compile Include="Description\StatusCodeDescriptionAttribute.cs" />
     <Compile Include="Description\TypeConvention.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\FubuExtensions.cs" />
     <Compile Include="Extensions\Func.cs" />
-    <Compile Include="Specification\Models.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\ReflectionExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Conventions.cs" />
+    <Compile Include="Specification\ActionSource.cs" />
+    <Compile Include="Specification\CachedSpecificationService.cs" />
+    <Compile Include="Specification\DataGetHandler.cs" />
+    <Compile Include="Specification\ISpecificationService.cs" />
+    <Compile Include="Specification\MergeService.cs" />
+    <Compile Include="Specification\Models.cs" />
+    <Compile Include="Specification\OrphanedModuleActionException.cs" />
+    <Compile Include="Specification\OrphanedResourceActionException.cs" />
     <Compile Include="Specification\SpecificationService.cs" />
     <Compile Include="Specification\TypeContext.cs" />
     <Compile Include="Specification\ViewGetHandler.cs" />
@@ -178,4 +179,9 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <EmbeddedResource Include="pak-Config.zip" />
+    <EmbeddedResource Include="pak-Data.zip" />
+    <EmbeddedResource Include="pak-WebContent.zip" />
+  </ItemGroup>
 </Project>

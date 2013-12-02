@@ -133,16 +133,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fubu-content\fubu-swank\WebContent\Content\Images\swank\glyphicons-halflings-white.png" />
-    <Content Include="fubu-content\fubu-swank\WebContent\Content\Images\swank\glyphicons-halflings.png" />
-    <Content Include="fubu-content\fubu-swank\WebContent\Content\Scripts\swank\bootstrap.js" />
-    <Content Include="fubu-content\fubu-swank\WebContent\Content\Scripts\swank\es5-shim.js" />
-    <Content Include="fubu-content\fubu-swank\WebContent\Content\Scripts\swank\handlebars.js" />
-    <Content Include="fubu-content\fubu-swank\WebContent\Content\Scripts\swank\html5.js" />
-    <Content Include="fubu-content\fubu-swank\WebContent\Content\Scripts\swank\jquery.js" />
-    <Content Include="fubu-content\fubu-swank\WebContent\Content\Scripts\swank\swank.js" />
-    <Content Include="fubu-content\fubu-swank\WebContent\Content\Styles\swank\bootstrap.css" />
-    <Content Include="fubu-content\fubu-swank\WebContent\Content\Styles\swank\swank.css" />
     <Content Include="fubu-content\FubuMVC.Core.Assets\WebContent\Content\scripts\jquery-1.8.2.min.js" />
     <Content Include="fubu-content\FubuMVC.Core.Assets\WebContent\Content\scripts\underscore-min.js" />
     <Content Include="fubu-content\FubuMVC.Diagnostics\WebContent\Content\Images\arrow-turn-000-left-icon.png" />
@@ -273,12 +263,6 @@
     <EmbeddedResource Include="Administration\Users\Resource.md" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fubu-content\fubu-swank.zip" />
-    <Content Include="fubu-content\fubu-swank\.package-manifest" />
-    <Content Include="fubu-content\fubu-swank\.version" />
-    <Content Include="fubu-content\fubu-swank\WebContent\packages.config" />
-    <Content Include="fubu-content\fubu-swank\WebContent\Specification\View.spark" />
-    <Content Include="fubu-content\fubu-swank\WebContent\Web.config" />
     <Content Include="fubu-content\FubuMVC.Core.Assets\.version" />
     <Content Include="fubu-content\FubuMVC.Core.Assets\WebContent\.package-manifest" />
     <Content Include="fubu-content\FubuMVC.Core.Assets\WebContent\global.asset.config" />

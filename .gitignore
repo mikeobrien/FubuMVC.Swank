@@ -12,7 +12,9 @@ aspnet_client
 
 # Fubu bottle sources
 src/*/fubu-content/*
-!src/*/fubu-content/*.zip
 
 # Nuget sources
 src/packages/*/src/*
+
+# Generated bottle content
+src/*/pak-*
