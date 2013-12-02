@@ -19,7 +19,13 @@ assemblyinfo :assemblyInfo do |asm|
     asm.output_file = "src/Swank/Properties/AssemblyInfo.cs"
 end
 
-msbuild :buildLibrary => :assemblyInfo do |msb|
+create_fubu_bottle :createBottle do |bottle|
+    bottle.package_type = :assembly
+    bottle.source_path = 'src/Swank'
+    bottle.project_file = 'Swank.csproj'
+end
+
+msbuild :buildLibrary => %w{assemblyInfo createBottle} do |msb|
     msb.properties :configuration => :Release
     msb.targets :Clean, :Build
     msb.solution = "src/Swank/Swank.csproj"
@@ -69,15 +75,8 @@ task :prepPackage => :unitTests do
 	Path.CopyFiles("src/Swank/bin/FubuMVC.Swank.*", packageLibPath)
 end
 
-create_fubu_bottle :createBottle => :prepPackage do |bottle|
-    bottle.package_type = :zip
-    bottle.source_path = 'src/Swank'
-    bottle.output_path = File.join(packageContentPath, 'fubu-swank.zip')
-    bottle.include_pdb = true
-    bottle.overwrite = true
-end
 
-nuspec :createSpec => :createBottle do |nuspec|
+nuspec :createSpec => :prepPackage do |nuspec|
    nuspec.id = "FubuMVC.Swank"
    nuspec.version = version
    nuspec.authors = "Mike O'Brien"

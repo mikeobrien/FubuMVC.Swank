@@ -16,3 +16,6 @@ src/*/fubu-content/*
 
 # Nuget sources
 src/packages/*/src/*
+
+# Generated bottle content
+src/*/pak-*
