@@ -692,6 +692,13 @@ public class ViewHandler
 }
 ```
 
+Contributors
+------------
+
+[![Matthew Smith](http://www.gravatar.com/avatar/2edcba3f73592de39dc2e83826e22fe2.jpg?s=144)](http://softwarebymatt.com/) | [![Dru Sellers](http://www.gravatar.com/avatar/da90b63efd165104d5f68f02b999a93b.jpg?s=144)](http://drusellers.com/)
+:---:|:---:
+[Matthew Smith](http://softwarebymatt.com/) | [Dru Sellers](http://drusellers.com/)
+
 Props
 ------------
 
