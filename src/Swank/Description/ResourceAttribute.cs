@@ -2,6 +2,7 @@
 
 namespace FubuMVC.Swank.Description
 {
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ResourceAttribute : Attribute
     {
         public ResourceAttribute(string name, string comments = null)
