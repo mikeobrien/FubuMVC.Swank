@@ -6,6 +6,8 @@ using FubuMVC.Swank.Description;
 using FubuMVC.Swank.Extensions;
 using FubuMVC.Swank.Specification;
 
+[assembly: FubuModule]
+
 namespace FubuMVC.Swank
 {
     public class Conventions : FubuRegistry

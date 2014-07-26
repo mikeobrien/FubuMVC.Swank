@@ -35,6 +35,8 @@ namespace Tests.Description
             public List<Item> ListOfComplexTypesWithCustomItemName { get; set; }
             [XmlArrayItem("Item")]
             public List<int> ListOfSimpleTypesWithCustomItemName { get; set; }
+            public Dictionary<string, int> DictionaryOfSimpleTypes { get; set; }
+            public Dictionary<string, Item> DictionaryOfComplexTypes { get; set; }
             [DataMember(Name = "Tatooine")]
             public int HanSolo { get; set; }
         }
@@ -84,27 +86,67 @@ namespace Tests.Description
         [Test]
         public void should_return_list_element_simple_type()
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypes")).Type.ShouldEqual(typeof(int));
+            var description = _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypes"));
+            description.IsArray.ShouldBeTrue();
+            description.IsDictionary.ShouldBeFalse();
+            description.Type.ShouldEqual(typeof(int));
         }
 
         [Test]
         public void should_return_list_element_complex_type()
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypes")).Type.ShouldEqual(typeof(Item));
+            var description = _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypes"));
+            description.IsArray.ShouldBeTrue();
+            description.IsDictionary.ShouldBeFalse();
+            description.Type.ShouldEqual(typeof(Item));
         }
 
         [Test]
         public void should_return_list_element_simple_type_custom_item_name()
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypes")).ArrayItemName.ShouldBeNull();
-            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypesWithCustomItemName")).ArrayItemName.ShouldEqual("Item");
+            var description = _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypes"));
+            description.IsArray.ShouldBeTrue();
+            description.IsDictionary.ShouldBeFalse();
+            description.ArrayItemName.ShouldBeNull();
+
+            description = _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypesWithCustomItemName"));
+            description.IsArray.ShouldBeTrue();
+            description.IsDictionary.ShouldBeFalse();
+            description.ArrayItemName.ShouldEqual("Item");
         }
 
         [Test]
         public void should_return_list_element_complex_type_custom_item_name()
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypes")).ArrayItemName.ShouldBeNull();
-            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypesWithCustomItemName")).ArrayItemName.ShouldEqual("Item");
+            var description = _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypes"));
+            description.IsArray.ShouldBeTrue();
+            description.IsDictionary.ShouldBeFalse();
+            description.ArrayItemName.ShouldBeNull();
+
+            description = _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypesWithCustomItemName"));
+            description.IsArray.ShouldBeTrue();
+            description.IsDictionary.ShouldBeFalse();
+            description.ArrayItemName.ShouldEqual("Item");
+        }
+
+        [Test]
+        public void should_return_dictionary_of_simple_type()
+        {
+            var description = _memberConvention.GetDescription(typeof(Request).GetProperty("DictionaryOfSimpleTypes"));
+            description.IsDictionary.ShouldBeTrue();
+            description.IsArray.ShouldBeFalse();
+            description.Type.ShouldEqual(typeof(int));
+            description.DictionaryKeyType.ShouldEqual(typeof(string));
+        }
+
+        [Test]
+        public void should_return_dictionary_of_complex_type()
+        {
+            var description = _memberConvention.GetDescription(typeof(Request).GetProperty("DictionaryOfComplexTypes"));
+            description.IsDictionary.ShouldBeTrue();
+            description.IsArray.ShouldBeFalse();
+            description.Type.ShouldEqual(typeof(Item));
+            description.DictionaryKeyType.ShouldEqual(typeof(string));
         }
     }
 }

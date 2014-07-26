@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using FubuMVC.Swank.Description;
 
 namespace TestHarness.Exports.Distributors
@@ -12,6 +11,7 @@ namespace TestHarness.Exports.Distributors
         public Distributor Execute(Distributor request)
         {
             return null;
+            ;
         } 
     }
 }

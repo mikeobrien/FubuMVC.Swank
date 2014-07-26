@@ -31,7 +31,10 @@
         public object DefaultValue { get; set; }
         public bool Required { get; set; }
         public System.Type Type { get; set; }
+        public bool IsArray { get; set; }
         public string ArrayItemName { get; set; }
+        public bool IsDictionary { get; set; }
+        public System.Type DictionaryKeyType { get; set; }
     }
 
     public class OptionDescription : DescriptionBase { }

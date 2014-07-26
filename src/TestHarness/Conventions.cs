@@ -13,7 +13,7 @@ namespace TestHarness
                 x.Applies.ToThisAssembly();
                 x.IncludeTypesNamed(y => y.EndsWith("Handler"));
             });
-
+            
             Routes
                 .HomeIs<IndexGetHandler>(x => x.Execute())
                 .IgnoreNamespaceForUrlFrom<Conventions>()

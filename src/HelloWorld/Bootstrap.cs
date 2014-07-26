@@ -1,6 +1,6 @@
 ﻿using Bottles;
 using FubuMVC.Core;
-using FubuMVC.StructureMap;
+using FubuMVC.StructureMap3;
 using StructureMap;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(HelloWorld.Bootstrap), "Start")]

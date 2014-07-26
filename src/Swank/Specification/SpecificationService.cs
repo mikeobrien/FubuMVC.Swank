@@ -15,7 +15,6 @@ namespace FubuMVC.Swank.Specification
         private class BehaviorMapping
         {
             public ActionCall FirstAction { get; set; }
-            public ActionCall LastAction { get; set; }
             public ModuleDescription Module { get; set; }
             public ResourceDescription Resource { get; set; }
 
@@ -99,7 +98,6 @@ namespace FubuMVC.Swank.Specification
                 .Select(x => new BehaviorMapping {
                     Chain = x.Chain,
                     FirstAction = x.Chain.FirstCall(),
-                    LastAction = x.Chain.LastCall(),
                     Module = _configuration.OrphanedModuleActions == OrphanedActions.UseDefault
                         ? x.Module ?? _configuration.DefaultModuleFactory(x.Chain)
                         : x.Module,
@@ -126,7 +124,7 @@ namespace FubuMVC.Swank.Specification
             }
         }
 
-        private List<Type> GatherInputOutputModels(IList<BehaviorChain> chains)
+        private List<Type> GatherInputOutputModels(IEnumerable<BehaviorChain> chains)
         {
             var rootInputOutputModels = chains.SelectMany(RootInputAndOutputModels).ToList();
 
@@ -182,7 +180,7 @@ namespace FubuMVC.Swank.Specification
                             !(x.PropertyType.GetListElementType() ?? x.PropertyType).IsSystemType() && 
                             !x.PropertyType.IsEnum &&
                             !x.IsAutoBound())
-                .Select(x => new TypeContext(x.PropertyType.GetListElementType() ?? x.PropertyType, parent: type))
+                .Select(x => new TypeContext(x.PropertyType.GetListElementType() ?? x.PropertyType, type))
                 .DistinctBy(x => x.Type, x => x.Chain)
                 .ToList();
 
@@ -195,16 +193,16 @@ namespace FubuMVC.Swank.Specification
 
         private List<Member> GetMembers(System.Type type, BehaviorChain chain)
         {
-            ActionCall action = null;
-
-            if (chain != null)
-            {
-                action = chain.FirstCall();
-            }
+            var action = chain != null ? chain.FirstCall() : null;
 
             var properties = type.IsProjection()
                 ? type.GetProjectionProperties()
                 : _typeCache.GetPropertiesFor(type).Select(x => x.Value);
+
+            Func<System.Type, string> getType = x =>
+                    x.IsSystemType() || x.IsEnum
+                        ? x.GetXmlName()
+                        : _configuration.TypeIdConvention(x);
 
             return properties
                 .Where(x => !x.IsHidden() &&
@@ -213,17 +211,20 @@ namespace FubuMVC.Swank.Specification
                             !x.IsUrlParameter(action))
                 .Select(x => {
                         var description = _memberConvention.GetDescription(x);
-                        var memberType = description.WhenNotNull(y => y.Type).Otherwise(x.PropertyType.GetListElementType(), x.PropertyType);
-                        return _configuration.MemberOverrides.Apply(x, new Member {
-                            Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
-                            Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                            DefaultValue = description.WhenNotNull(y => y.DefaultValue).WhenNotNull(z => z.ToDefaultValueString(_configuration)).OtherwiseDefault(),
-                            Required = description.WhenNotNull(y => y.Required).OtherwiseDefault(),
-                            Type = memberType.IsSystemType() || memberType.IsEnum ? memberType.GetXmlName() : _configuration.TypeIdConvention(memberType),
-                            IsArray = x.PropertyType.IsArray || x.PropertyType.IsList(),
-                            ArrayItemName = description.WhenNotNull(y => y.ArrayItemName).OtherwiseDefault(),
-                            Options = GetOptions(x.PropertyType)
-                        });
+                        return _configuration.MemberOverrides.Apply(x, 
+                            new Member 
+                            {
+                                Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
+                                Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
+                                DefaultValue = description.WhenNotNull(y => y.DefaultValue).WhenNotNull(z => z.ToDefaultValueString(_configuration)).OtherwiseDefault(),
+                                Required = description.WhenNotNull(y => y.Required).OtherwiseDefault(),
+                                Type = getType(description.Type),
+                                IsArray = description.IsArray,
+                                ArrayItemName = description.WhenNotNull(y => y.ArrayItemName).OtherwiseDefault(),
+                                IsDictionary = description.IsDictionary,
+                                DictionaryKeyType = description.IsDictionary ? getType(description.DictionaryKeyType) : "",
+                                Options = GetOptions(description.Type)
+                            });
                     })
                 .ToList();
         } 

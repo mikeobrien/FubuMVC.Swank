@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,24 +7,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using FubuCore;
 using MarkdownSharp;
-
-namespace FubuMVC.Swank.Extensions.Compatibility
-{
-    public static class ReflectionExtensions
-    {
-        [Obsolete(".NET 4.5 Compatibility")]
-        public static T GetCustomAttribute<T>(this MemberInfo memberInfo)
-        {
-            return memberInfo.GetCustomAttributes<T>().FirstOrDefault();
-        }
-
-        [Obsolete(".NET 4.5 Compatibility")]
-        public static IEnumerable<T> GetCustomAttributes<T>(this MemberInfo memberInfo)
-        {
-            return memberInfo.GetCustomAttributes(true).OfType<T>();
-        }
-    }
-}
 
 namespace FubuMVC.Swank.Extensions
 {
@@ -44,6 +27,20 @@ namespace FubuMVC.Swank.Extensions
             return type.FullName.StartsWith("System.");
         }
 
+        public static bool Implements<T>(this Type type)
+        {
+            return type.Implements(typeof(T));
+        }
+
+        public static bool Implements(this Type type, Type @interface)
+        {
+            return type.GetInterfaces().Any(x => @interface ==
+                (x.IsGenericType && @interface.IsGenericType &&
+                 @interface.IsGenericTypeDefinition ? x.GetGenericTypeDefinition() : x));
+        }
+
+        // Lists
+
         private static readonly Type[] ListTypes = new[] { typeof(IList<>), typeof(List<>) };
 
         public static bool IsListType(this Type type)
@@ -54,7 +51,7 @@ namespace FubuMVC.Swank.Extensions
 
         public static bool ImplementsListType(this Type type)
         {
-            return type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>));
+            return type.Implements(typeof(IList<>));
         }
 
         public static bool InheritsFromListType(this Type type)
@@ -77,6 +74,45 @@ namespace FubuMVC.Swank.Extensions
         {
             return type.IsArray ? type.GetElementType() : type.IsList() ? type.GetListInterface().GetGenericArguments()[0] : null;
         }
+
+        // Dictionaries
+
+        public static bool IsDictionary(this Type type)
+        {
+            return type.IsNonGenericDictionary() || type.IsGenericDictionary();
+        }
+
+        public static bool IsNonGenericDictionary(this Type type)
+        {
+            return type == typeof(IDictionary) || type.Implements<IDictionary>();
+        }
+
+        public static bool IsGenericDictionary(this Type type)
+        {
+            return type.GetInterfaces().Any(x => x.IsGenericDictionaryInterface()) || 
+                type.IsGenericDictionaryInterface();
+        }
+
+        public static bool IsGenericDictionaryInterface(this Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IDictionary<,>);
+        }
+
+        public static KeyValuePair<Type, Type> GetGenericDictionaryTypes(this Type type)
+        {
+            return (type.IsGenericDictionaryInterface() ? type
+                : type.GetInterfaces().First(x => x.IsGenericDictionaryInterface()))
+                .GetGenericArguments()
+                .Map(x => new KeyValuePair<Type, Type>(x[0], x[1]));
+        }
+
+        public static Type MakeConcreteGenericDictionaryType(this Type type)
+        {
+            return type.GetGenericDictionaryTypes()
+                .Map(x => typeof(Dictionary<,>).MakeGenericType(x.Key, x.Value));
+        }
+
+        // Enums
 
         public static FieldInfo[] GetEnumOptions(this Type type)
         {

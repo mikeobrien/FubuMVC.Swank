@@ -190,7 +190,7 @@ namespace Tests.Specification.SpecificationService.TypeTests
             HyperActive
         }
 
-        public class HyperDrive { }
+        public class ReferenceType { }
 
         public class Request
         {
@@ -200,13 +200,19 @@ namespace Tests.Specification.SpecificationService.TypeTests
             public DateTime? Birthday { get; set; }
             [XmlElement("R2D2")]
             public int C3P0 { get; set; }
-            public HyperDrive Drive { get; set; }
-            public List<int> Ids { get; set; }
+            public ReferenceType Drive { get; set; }
+
+            public List<int> ValueTypeList { get; set; }
             [XmlArrayItem("Id")]
-            public List<int> IdsWithCustomItemName { get; set; }
-            public List<HyperDrive> Drives { get; set; }
+            public List<int> ValueTypeListWithCustomItemName { get; set; }
+            public List<ReferenceType> ReferenceTypeList { get; set; }
             [XmlArrayItem("Drive")]
-            public List<HyperDrive> DrivesWithCustomItemName { get; set; }
+            public List<ReferenceType> ReferenceTypeListWithCustomItemName { get; set; }
+
+            public Dictionary<string, int> ValueTypeDictionary { get; set; }
+            public Dictionary<string, ReferenceType> ReferenceTypeDictionary { get; set; }
+            public Dictionary<string, Status> EnumDictionary { get; set; }
+
             [DefaultValue(Status.Active)]
             public Status Status { get; set; }
             [DefaultValue(5), Optional]

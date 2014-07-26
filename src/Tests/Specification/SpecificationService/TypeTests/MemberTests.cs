@@ -1,5 +1,6 @@
 ﻿using FubuMVC.Swank;
 using FubuMVC.Swank.Extensions;
+using FubuMVC.Swank.Specification;
 using NUnit.Framework;
 using Should;
 using Tests.Specification.SpecificationService.Tests;
@@ -196,15 +197,17 @@ namespace Tests.Specification.SpecificationService.TypeTests
                    .GetMember<MemberDescription.Request>(x => x.Drive);
 
             member.IsArray.ShouldBeFalse();
-            member.Type.ShouldEqual(typeof(MemberDescription.HyperDrive).GetHash());
+            member.Type.ShouldEqual(typeof(MemberDescription.ReferenceType).GetHash());
         }
+
+        // Arrays
 
         [Test]
         public void should_reference_collections_of_system_types_as_the_type_name()
         {
             var member = BuildSpec<MemberDescription.PutHandler>().Types
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
-                   .GetMember<MemberDescription.Request>(x => x.Ids);
+                   .GetMember<MemberDescription.Request>(x => x.ValueTypeList);
 
             member.IsArray.ShouldBeTrue();
             member.Type.ShouldEqual("int");
@@ -216,10 +219,10 @@ namespace Tests.Specification.SpecificationService.TypeTests
         {
             var member = BuildSpec<MemberDescription.PutHandler>().Types
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
-                   .GetMember<MemberDescription.Request>(x => x.Drives);
+                   .GetMember<MemberDescription.Request>(x => x.ReferenceTypeList);
 
             member.IsArray.ShouldBeTrue();
-            member.Type.ShouldEqual(typeof(MemberDescription.HyperDrive).GetHash());
+            member.Type.ShouldEqual(typeof(MemberDescription.ReferenceType).GetHash());
             member.ArrayItemName.ShouldBeNull();
         }
 
@@ -228,7 +231,7 @@ namespace Tests.Specification.SpecificationService.TypeTests
         {
             var member = BuildSpec<MemberDescription.PutHandler>().Types
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
-                   .GetMember<MemberDescription.Request>(x => x.IdsWithCustomItemName);
+                   .GetMember<MemberDescription.Request>(x => x.ValueTypeListWithCustomItemName);
 
             member.IsArray.ShouldBeTrue();
             member.Type.ShouldEqual("int");
@@ -240,12 +243,40 @@ namespace Tests.Specification.SpecificationService.TypeTests
         {
             var member = BuildSpec<MemberDescription.PutHandler>().Types
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
-                   .GetMember<MemberDescription.Request>(x => x.DrivesWithCustomItemName);
+                   .GetMember<MemberDescription.Request>(x => x.ReferenceTypeListWithCustomItemName);
 
             member.IsArray.ShouldBeTrue();
-            member.Type.ShouldEqual(typeof(MemberDescription.HyperDrive).GetHash());
+            member.Type.ShouldEqual(typeof(MemberDescription.ReferenceType).GetHash());
             member.ArrayItemName.ShouldEqual("Drive");
         }
+
+        // Dictionaries
+
+        [Test]
+        public void should_reference_dictionary_of_system_types_as_the_type_name()
+        {
+            var member = BuildSpec<MemberDescription.PutHandler>().Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
+                   .GetMember<MemberDescription.Request>(x => x.ValueTypeDictionary);
+
+            member.IsDictionary.ShouldBeTrue();
+            member.Type.ShouldEqual("int");
+            member.DictionaryKeyType.ShouldEqual("string");
+        }
+
+        [Test]
+        public void should_reference_dictionary_of_non_system_types_as_the_type_id()
+        {
+            var member = BuildSpec<MemberDescription.PutHandler>().Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
+                   .GetMember<MemberDescription.Request>(x => x.ReferenceTypeDictionary);
+
+            member.IsDictionary.ShouldBeTrue();
+            member.Type.ShouldEqual(typeof(MemberDescription.ReferenceType).GetHash());
+            member.DictionaryKeyType.ShouldEqual("string");
+        }
+
+        // Options
 
         [Test]
         public void should_enumerate_options_for_enum_members_with_numeric()
@@ -254,22 +285,7 @@ namespace Tests.Specification.SpecificationService.TypeTests
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
                    .GetMember<MemberDescription.Request>(x => x.Status);
 
-            member.Options.Count.ShouldEqual(3);
-            
-            var option = member.Options[0];
-            option.Name.ShouldEqual("Active yo!");
-            option.Comments.ShouldEqual("This is a very nice status.");
-            option.Value.ShouldEqual("1");
-
-            option = member.Options[1];
-            option.Name.ShouldEqual("HyperActive");
-            option.Comments.ShouldEqual("Very active yo!");
-            option.Value.ShouldEqual("2");
-
-            option = member.Options[2];
-            option.Name.ShouldEqual("Inactive");
-            option.Comments.ShouldBeNull();
-            option.Value.ShouldEqual("0");
+            should_match_string_options(member, true);
         }
 
         [Test]
@@ -279,22 +295,7 @@ namespace Tests.Specification.SpecificationService.TypeTests
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
                    .GetMember<MemberDescription.Request>(x => x.Status);
 
-            member.Options.Count.ShouldEqual(3);
-
-            var option = member.Options[0];
-            option.Name.ShouldEqual("Active yo!");
-            option.Comments.ShouldEqual("This is a very nice status.");
-            option.Value.ShouldEqual("Active");
-
-            option = member.Options[1];
-            option.Name.ShouldEqual("HyperActive");
-            option.Comments.ShouldEqual("Very active yo!");
-            option.Value.ShouldEqual("HyperActive");
-
-            option = member.Options[2];
-            option.Name.ShouldEqual("Inactive");
-            option.Comments.ShouldBeNull();
-            option.Value.ShouldEqual("Inactive");
+            should_match_string_options(member, false);
         }
 
         [Test]
@@ -304,22 +305,37 @@ namespace Tests.Specification.SpecificationService.TypeTests
                    .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
                    .GetMember<MemberDescription.Request>(x => x.NullableStatus);
 
+            should_match_string_options(member, false);
+        }
+
+        [Test]
+        public void should_enumerate_options_for_enum_dictionary_members()
+        {
+            var member = BuildSpec<MemberDescription.PutHandler>(x => x.WithEnumValueTypeOf(EnumValue.AsString)).Types
+                   .GetType<MemberDescription.Request, MemberDescription.PutHandler>()
+                   .GetMember<MemberDescription.Request>(x => x.EnumDictionary);
+
+            should_match_string_options(member, false);
+        }
+
+        private void should_match_string_options(Member member, bool numeric)
+        {
             member.Options.Count.ShouldEqual(3);
 
             var option = member.Options[0];
             option.Name.ShouldEqual("Active yo!");
             option.Comments.ShouldEqual("This is a very nice status.");
-            option.Value.ShouldEqual("Active");
+            option.Value.ShouldEqual(numeric ? "1" : "Active");
 
             option = member.Options[1];
             option.Name.ShouldEqual("HyperActive");
             option.Comments.ShouldEqual("Very active yo!");
-            option.Value.ShouldEqual("HyperActive");
+            option.Value.ShouldEqual(numeric ? "2" : "HyperActive");
 
             option = member.Options[2];
             option.Name.ShouldEqual("Inactive");
             option.Comments.ShouldBeNull();
-            option.Value.ShouldEqual("Inactive");
+            option.Value.ShouldEqual(numeric ? "0" : "Inactive");
         }
 
         [Test]

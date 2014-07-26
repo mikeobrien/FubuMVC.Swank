@@ -15,7 +15,7 @@ namespace FubuMVC.Swank
         {
             var swank = new Swank();
             configure(swank);
-            return swank._configuration;
+            return swank._configuration; 
         }
         
         void IFubuRegistryExtension.Configure(FubuRegistry registry)

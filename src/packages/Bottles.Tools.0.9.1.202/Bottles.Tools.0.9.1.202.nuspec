@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Bottles.Tools</id>
+    <version>0.9.1.202</version>
+    <authors>Jeremy D. Miller,  Dru Sellers,  et al.</authors>
+    <owners>Jeremy D. Miller,  Dru Sellers,  et al.</owners>
+    <licenseUrl>https://github.com/DarthFubuMVC/bottles/raw/master/license.txt</licenseUrl>
+    <projectUrl>http://bottles.fubu-project.org/</projectUrl>
+    <iconUrl>https://github.com/DarthFubuMVC/fubu-collateral/raw/master/Icons/FubuBottles_256.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Tool support for applications that use Bottles</description>
+    <tags>packaging areas slices</tags>
+  </metadata>
+</package>
