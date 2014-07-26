@@ -20,56 +20,46 @@ namespace FubuMVC.Swank.Specification
         public IList<BehaviorChain> GetChains()
         {
             return _behaviorGraph.Behaviors
-                .Where(isNotContentChain)
-                .Where(isNotDiagnosticChain)
-                .Where(isNotSwankChain)
-                .Where(isNotFubuChain)
-                .Where(isNotConfigThing)
+                .Where(IsNotContentChain)
+                .Where(IsNotDiagnosticChain)
+                .Where(IsNotSwankChain)
+                .Where(IsNotFubuChain)
+                .Where(IsNotConfigThing)
                 .Where(_configuration.Filter)
                 .ToList();
         }
 
-        bool isNotConfigThing(BehaviorChain chain)
+        bool IsNotConfigThing(BehaviorChain chain)
         {
             return (!_configuration.AppliesToAssemblies.Any() ||
                     _configuration.AppliesToAssemblies.Any(y => y == chain.FirstCall().HandlerType.Assembly));
         }
 
-        static bool isNotSwankChain(BehaviorChain chain)
+        static bool IsNotSwankChain(BehaviorChain chain)
         {
             var call = chain.FirstCall();
-
-            if (call == null)
-            {
-                return false;
-            }
-
+            if (call == null) return false;
             return call.HandlerType.Assembly != typeof(BehaviorSource).Assembly;
         }
 
-        static bool isNotFubuChain(BehaviorChain chain)
+        static bool IsNotFubuChain(BehaviorChain chain)
         {
             var call = chain.FirstCall();
-
-            if (call == null)
-            {
-                return false;
-            }
-
+            if (call == null) return false;
             return call.HandlerType.Assembly != typeof (FubuRegistry).Assembly;
         }
 
-        static bool isNotContentChain(BehaviorChain chain)
+        static bool IsNotContentChain(BehaviorChain chain)
         {
-            return !routePatternStartsWith(chain, "/_content");
+            return !RoutePatternStartsWith(chain, "/_content");
         }
 
-        static bool isNotDiagnosticChain(BehaviorChain chain)
+        static bool IsNotDiagnosticChain(BehaviorChain chain)
         {
-            return !routePatternStartsWith(chain, "/_fubu");
+            return !RoutePatternStartsWith(chain, "/_fubu");
         }
 
-        static bool routePatternStartsWith(BehaviorChain chain, string value)
+        static bool RoutePatternStartsWith(BehaviorChain chain, string value)
         {
             var routePattern = chain.GetRoutePattern();
             return routePattern != null && routePattern.StartsWith(value);

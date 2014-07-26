@@ -1,10 +1,21 @@
-﻿using NUnit.Framework;
+﻿using FubuMVC.Swank.Extensions;
+using NUnit.Framework;
 using Should;
 
 namespace Tests.Specification.SpecificationService.EndpointTests
 {
     public class EndpointTests : TestBase
     {
+        [Test]
+        public void should_generate_id_based_on_the_url()
+        {
+            const string url = "/endpointdescriptions/nodescription";
+            var endpoint = Spec.GetEndpoint<EndpointDescriptions.NoDescriptionGetHandler>();
+
+            endpoint.Id.ShouldEqual(url.Hash());
+            endpoint.Url.ShouldEqual(url);
+        }
+
         [Test]
         public void should_not_set_handler_description_for_endpoint_with_no_description()
         {
@@ -146,6 +157,27 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         public void should_show_endpoints_not_marked_hidden()
         {
             Spec.GetEndpoint<HiddenEndpointAttributes.VisibleGetHandler>().ShouldNotBeNull();
+        }
+
+        [Test]
+        public void should_set_actions_to_unsecure_by_default()
+        {
+            Spec.GetEndpoint<EndpointDescriptions.SecureDescription.PublicGetHandler>()
+                .Secure.ShouldBeFalse();
+        }
+
+        [Test]
+        public void should_set_actions_to_secure_when_handler_flagged()
+        {
+            Spec.GetEndpoint<EndpointDescriptions.SecureDescription.SecureGetHandler>()
+                .Secure.ShouldBeTrue();
+        }
+
+        [Test]
+        public void should_set_actions_to_secure_when_action_flagged()
+        {
+            Spec.GetEndpoint<EndpointDescriptions.SecureDescription.SecureActionGetHandler>()
+                .Secure.ShouldBeTrue();
         }
     }
 }

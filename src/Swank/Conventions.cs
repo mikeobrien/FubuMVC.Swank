@@ -3,8 +3,10 @@ using System.Reflection;
 using FubuMVC.Core;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Description;
+using FubuMVC.Swank.Documentation;
 using FubuMVC.Swank.Extensions;
-using FubuMVC.Swank.Specification;
+
+[assembly: FubuModule]
 
 namespace FubuMVC.Swank
 {
@@ -18,7 +20,7 @@ namespace FubuMVC.Swank
             });
             
             Routes
-                .HomeIs<ViewGetHandler>(x => x.Execute())
+                .HomeIs<GetHandler>(x => x.Execute())
                 .IgnoreMethodSuffix("Execute")
                 .IgnoreControllerNamesEntirely()
                 .IgnoreControllerNamespaceEntirely()
@@ -27,7 +29,6 @@ namespace FubuMVC.Swank
             Services(x =>
             {
                 x.AddService(configuration);
-                x.AddService<ISpecificationService, CachedSpecificationService>();
                 x.AddService<IDescriptionConvention<BehaviorChain, ModuleDescription>>(configuration.ModuleConvention.Type, configuration.ModuleConvention.Config)
                  .AddService<IDescriptionConvention<BehaviorChain, ResourceDescription>>(configuration.ResourceConvention.Type, configuration.ResourceConvention.Config)
                  .AddService<IDescriptionConvention<BehaviorChain, EndpointDescription>>(configuration.EndpointConvention.Type, configuration.EndpointConvention.Config)
@@ -35,6 +36,7 @@ namespace FubuMVC.Swank
                  .AddService<IDescriptionConvention<FieldInfo, OptionDescription>>(configuration.OptionConvention.Type, configuration.OptionConvention.Config)
                  .AddService<IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>>>(configuration.StatusCodeConvention.Type, configuration.StatusCodeConvention.Config)
                  .AddService<IDescriptionConvention<BehaviorChain, List<HeaderDescription>>>(configuration.HeaderConvention.Type, configuration.HeaderConvention.Config)
+                 .AddService<IDescriptionConvention<BehaviorChain, List<MimeTypeDescription>>>(configuration.MimeTypeConvention.Type, configuration.MimeTypeConvention.Config)
                  .AddService<IDescriptionConvention<System.Type, TypeDescription>>(configuration.TypeConvention.Type, configuration.TypeConvention.Config);
             });
         }

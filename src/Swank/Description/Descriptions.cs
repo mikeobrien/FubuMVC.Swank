@@ -1,6 +1,6 @@
 ﻿namespace FubuMVC.Swank.Description
 {
-    public class ModuleDescription : DescriptionBase
+    public class ModuleDescription : Description
     {
         public ModuleDescription() {}
         public ModuleDescription(string name, string comments = null) : base(name, comments) { }
@@ -12,7 +12,7 @@
         public ResourceDescription(string name, string comments = null) : base(name, comments) { }
     }
 
-    public class ResourceDescription : DescriptionBase
+    public class ResourceDescription : Description
     {
         public ResourceDescription() {}
         public ResourceDescription(string name, string comments = null) : base(name, comments) { }
@@ -20,36 +20,59 @@
         public System.Type Handler { get; set; }
     }
 
-    public class EndpointDescription : DescriptionBase
+    public class EndpointDescription : Description
     {
+        public bool Secure { get; set; }
         public string RequestComments { get; set; }
         public string ResponseComments { get; set; }
     }
 
-    public class MemberDescription : DescriptionBase
+    public class MemberDescription : Description
     {
+        public object SampleValue { get; set; }
         public object DefaultValue { get; set; }
-        public bool Required { get; set; }
-        public System.Type Type { get; set; }
-        public string ArrayItemName { get; set; }
+        public bool Optional { get; set; }
+        public bool Hidden { get; set; }
+        public bool Deprecated { get; set; }
+        public string DeprecationMessage { get; set; }
+        public Description ArrayItem { get; set; }
+        public DictionaryDescription DictionaryEntry { get; set; }
     }
 
-    public class OptionDescription : DescriptionBase { }
-
-    public enum HttpHeaderType { Request, Response }
-    public class HeaderDescription : DescriptionBase
+    public class DictionaryDescription
     {
-        public HttpHeaderType Type { get; set; }
+        public string KeyName { get; set; }
+        public string KeyComments { get; set; }
+        public string ValueComments { get; set; }
+    }
+
+    public class OptionDescription : Description
+    {
+        public bool Hidden { get; set; }
+    }
+
+    public enum HttpDirection { Request, Response }
+
+    public class HeaderDescription : Description
+    {
+        public HttpDirection Direction { get; set; }
         public bool Optional { get; set; }
     }
 
-    public class StatusCodeDescription : DescriptionBase
+    public class MimeTypeDescription
+    {
+        public HttpDirection Direction { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class StatusCodeDescription : Description
     {
         public int Code { get; set; }
     }
 
-    public class TypeDescription : DescriptionBase
+    public class TypeDescription : Description
     {
-        public System.Type Type { get; set; }
+        public Description ArrayItem { get; set; }
+        public DictionaryDescription DictionaryEntry { get; set; }
     }
 }

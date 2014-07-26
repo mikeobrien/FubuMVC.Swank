@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using FubuCore;
+using MarkdownSharp;
 
 namespace FubuMVC.Swank.Extensions
 {
@@ -18,7 +20,7 @@ namespace FubuMVC.Swank.Extensions
         public static string Hash(this string value)
         {
             using (var hash = MD5.Create())
-                return hash.ComputeHash(Encoding.Unicode.GetBytes(value)).ToHex();
+                return hash.ComputeHash(Encoding.Unicode.GetBytes(value)).ToHex().ToLower();
         }
 
         private static string ToHex(this IEnumerable<byte> bytes)
@@ -31,9 +33,53 @@ namespace FubuMVC.Swank.Extensions
             return value.StartsWith(prefix) ? value : prefix + value;
         }
 
+        public static string TransformMarkdownBlock(this string markdown)
+        {
+            return string.IsNullOrEmpty(markdown) ? markdown : 
+                new Markdown().Transform(markdown).Trim();
+        }
+
+        public static string TransformMarkdownInline(this string markdown)
+        {
+            return markdown.TransformMarkdownBlock().UnwrapParagraphTags();
+        }
+
         public static string Join<T>(this IEnumerable<T> items, Func<T, object> item, string initialValue, string seperator, string @default)
         {
             return items != null && items.Any() ? initialValue + items.Select(item).Aggregate((a, i) => a + seperator + i) : @default;
+        }
+
+        public static string Repeat(this string value, int count)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            var buffer = "";
+            for (var i = 0; i < count; i++) buffer += value;
+            return buffer;
+        }
+
+        public static string UnwrapParagraphTags(this string text)
+        {
+            return string.IsNullOrEmpty(text) ? text : 
+                Regex.Replace(text, "(^<p>|</p>$)", "", RegexOptions.IgnoreCase);
+        }
+
+        public static string ConvertNbspHtmlEntityToSpaces(this string text)
+        {
+            return Regex.Replace(text, "&nbsp;", " ", RegexOptions.IgnoreCase);
+        }
+
+        public static string ConvertBrHtmlTagsToLineBreaks(this string text)
+        {
+            return Regex.Replace(text, "<br\\s?\\/?>", "\r\n", RegexOptions.IgnoreCase);
+        }
+
+        public static string Flatten(this string text)
+        {
+            if (string.IsNullOrEmpty(text)) return text;
+            return text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Trim())
+                .Where(x => !string.IsNullOrEmpty(x))
+                .Aggregate((a, i) => a + i);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using FubuCore.Reflection;
-using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
+using FubuMVC.Swank.Specification;
 using NUnit.Framework;
 using Tests.Specification.SpecificationService.Tests;
 using Tests.Specification.SpecificationService.MultiActionTests.Handlers;
@@ -10,52 +10,38 @@ namespace Tests.Specification.SpecificationService.MultiActionTests
 {
     public class Tests : InteractionContext
     {
-        private BehaviorGraph _graph;
-        private FubuMVC.Swank.Specification.Specification _spec;
+        private BodyDescription _request;
+        private BodyDescription _response;
 
         [SetUp]
         public void SetUp()
         {
-            _graph = Behavior.BuildGraph();
+            var graph = Behavior.BuildGraph();
 
-            _graph.AddAction<PostHandler>();
-            var chain = _graph.GetAction<PostHandler>().ParentChain();
+            graph.AddAction<PostHandler>();
+            var chain = graph.GetAction<PostHandler>().ParentChain();
 
             var secondAction = new ActionCall(typeof(Handlers.Widgets.PostHandler), ReflectionHelper.GetMethod<Handlers.Widgets.PostHandler>(x => x.Execute_Id(null)));
 
             chain.AddToEnd(secondAction);
 
-            _spec = BuildSpec<PostHandler>(_graph);
+            var spec = BuildSpec<PostHandler>(graph);
+
+            var endpoint = spec.Modules[0].Resources[0].Endpoints[0];
+            _request = endpoint.Request.Body[0];
+            _response = endpoint.Response.Body[0];
         }
 
         [Test]
-        public void should_only_register_input_and_output_types()
+        public void should_register_input_type_from_first_action()
         {
-            _spec.Types.Count.ShouldEqual(2);
-        }
-
-        [Test]
-        public void should_register_input_type_from_frist_action()
-        {
-            _spec.Types.ShouldContainOneInputType<Request, PostHandler>();
-        }
-
-        [Test]
-        public void should_not_register_input_from_last_action()
-        {
-            _spec.Types.ShouldNotContainAnyInputType<Handlers.Widgets.UnregisteredInput, Handlers.Widgets.PostHandler>();
+            _request.Name.ShouldEqual("Request");
         }
 
         [Test]
         public void should_register_output_type_from_last_action()
         {
-            _spec.Types.ShouldContainOneOutputType<Handlers.Widgets.Data>();
-        }
-
-        [Test]
-        public void should_not_register_output_type_from_first_action()
-        {
-            _spec.Types.ShouldNotContainAnyOutputTypes<UnregisterdOutput>();
+            _response.Name.ShouldEqual("Data");
         }
     }
 }

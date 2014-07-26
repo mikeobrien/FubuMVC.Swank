@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using FubuMVC.Core;
 using FubuMVC.Swank.Description;
+using FubuMVC.Swank.Net;
 
 namespace Tests.Specification.SpecificationService.EndpointTests
 {
@@ -57,6 +58,26 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             {
                 [Description("Some delete action name", "Some delete action description")]
                 public object Execute_Delete_Id(Request request) { return null; }
+            }
+        }
+
+        namespace SecureDescription
+        {
+            public class PublicGetHandler
+            {
+                public object ExecutePublic(object request) { return null; }
+            }
+
+            [Secure]
+            public class SecureGetHandler
+            {
+                public object ExecuteSecureHandler(object request) { return null; }
+            }
+
+            public class SecureActionGetHandler
+            {
+                [Secure]
+                public object ExecuteSecureAction(object request) { return null; }
             }
         }
     }
@@ -155,12 +176,12 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
     namespace StatusCodeDescriptions
     {
-        [StatusCodeDescription(411, "411 error on handler")]
-        [StatusCodeDescription(410, "410 error on handler", "410 error on action description")]
+        [StatusCode(411, "411 error on handler")]
+        [StatusCode(410, "410 error on handler", "410 error on action description")]
         public class StatusCodesGetHandler
         {
-            [StatusCodeDescription(413, "413 error on action")]
-            [StatusCodeDescription(412, "412 error on action", "412 error on action description")]
+            [StatusCode(413, "413 error on action")]
+            [StatusCode(412, "412 error on action", "412 error on action description")]
             public object Execute_StatusCodes(object request) { return null; }
         }
 
@@ -172,16 +193,33 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
     namespace HeaderDescriptions
     {
-        [HeaderDescription(HttpHeaderType.Response, "content-type")]
-        [HeaderDescription(HttpHeaderType.Request, "api-key", "This is a handler description.", true)]
+        [Header(HttpDirection.Response, "content-type", optional: true)]
+        [Header(HttpDirection.Request, "api-key", "This is a handler description.")]
         public class HeadersGetHandler
         {
-            [HeaderDescription(HttpHeaderType.Request, "accept", "This is an endpoint description.", true)]
-            [HeaderDescription(HttpHeaderType.Response, "content-length")]
+            [Header(HttpDirection.Request, "accept", "This is an endpoint description.", true)]
+            [Header(HttpDirection.Response, "content-length")]
             public object Execute_Headers(object request) { return null; }
         }
 
         public class NoHeadersGetHandler
+        {
+            public object Execute_NoHeaders(object request) { return null; }
+        }
+    }
+
+    namespace MimeTypeDescriptions
+    {
+        [MimeType(HttpDirection.Response, MimeType.ApplicationJson)]
+        [MimeType(HttpDirection.Request, MimeType.ApplicationXml)]
+        public class MimeTypesGetHandler
+        {
+            [MimeType(HttpDirection.Request, "text/json")]
+            [MimeType(HttpDirection.Response, "text/xml")]
+            public object Execute_Headers(object request) { return null; }
+        }
+
+        public class NoMimeTypesGetHandler
         {
             public object Execute_NoHeaders(object request) { return null; }
         }

@@ -4,6 +4,7 @@ using System.Reflection;
 using FubuMVC.Core;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Description;
+using FubuMVC.Swank.Net;
 
 namespace FubuMVC.Swank
 {
@@ -15,7 +16,7 @@ namespace FubuMVC.Swank
         {
             var swank = new Swank();
             configure(swank);
-            return swank._configuration;
+            return swank._configuration; 
         }
         
         void IFubuRegistryExtension.Configure(FubuRegistry registry)
@@ -72,8 +73,7 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// This defines the url of the specification endpoint.
-        /// The default is /specification.
+        /// This defines the url of the website endpoint. The default is /.
         /// </summary>
         public Swank AtUrl(string url)
         {
@@ -137,7 +137,7 @@ namespace FubuMVC.Swank
         /// </summary>
         public Swank HideJson()
         {
-            _configuration.DisplayJson = false;
+            _configuration.DisplayJsonFormat = false;
             return this;
         }
 
@@ -146,7 +146,7 @@ namespace FubuMVC.Swank
         /// </summary>
         public Swank HideXml()
         {
-            _configuration.DisplayXml = false;
+            _configuration.DisplayXmlFormat = false;
             return this;
         }
 
@@ -160,56 +160,112 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
+        /// This is the default dictionary key name.
+        /// </summary>
+        public Swank WithDefaultDictionaryKeyName(string keyName)
+        {
+            _configuration.DefaultDictionaryKeyName = keyName;
+            return this;
+        }
+
+        /// <summary>
         /// Indicates whether enum values are represented by a number or string.
         /// </summary>
-        public Swank WithEnumValueTypeOf(EnumValue type)
+        public Swank WithEnumFormat(EnumFormat type)
         {
-            _configuration.EnumValue = type;
+            _configuration.EnumFormat = type;
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a code example to the documentation from an embedded resource. 
+        /// These are named as [filename].[md] for comments and [filename].[mustache] 
+        /// for templates. The name defaults to the filename if not specified.
+        /// </summary>
+        public Swank WithCodeExample(string filename, string name = null)
+        {
+            _configuration.CodeExamples.Add(new Configuration.Example
+            {
+                Filename = filename,
+                Name = name ?? filename
+            });
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a code example to the documentation.  
+        /// </summary>
+        public Swank WithCodeExample(string name, string comments, string template)
+        {
+            _configuration.CodeExamples.Add(new Configuration.Example
+            {
+                Name = name,
+                Comments = comments,
+                Template = template
+            });
             return this;
         }
 
         /// <summary>
         /// This is the format of default and sample DateTime values displayed in the documentation.
         /// </summary>
-        public Swank WithDateTimeFormat(string format)
+        public Swank WithSampleDateTimeFormat(string format)
         {
-            _configuration.DefaultValueDateTimeFormat = format;
+            _configuration.SampleDateTimeFormat = format;
             return this;
         }
 
         /// <summary>
         /// This is the format of default and sample integer values displayed in the documentation.
         /// </summary>
-        public Swank WithIntegerFormat(string format)
+        public Swank WithSampleIntegerFormat(string format)
         {
-            _configuration.DefaultValueIntegerFormat = format;
+            _configuration.SampleIntegerFormat = format;
             return this;
         }
 
         /// <summary>
         /// This is the format of default and sample real values displayed in the documentation.
         /// </summary>
-        public Swank WithRealFormat(string format)
+        public Swank WithSampleRealFormat(string format)
         {
-            _configuration.DefaultValueRealFormat = format;
+            _configuration.SampleRealFormat = format;
             return this;
         }
 
         /// <summary>
         /// This is the format of default and sample TimeSpan values displayed in the documentation.
         /// </summary>
-        public Swank WithTimeSpanFormat(string format)
+        public Swank WithSampleTimeSpanFormat(string format)
         {
-            _configuration.DefaultValueTimeSpanFormat = format;
+            _configuration.SampleTimeSpanFormat = format;
             return this;
         }
 
         /// <summary>
         /// This is the format of default and sample Guid values displayed in the documentation.
         /// </summary>
-        public Swank WithGuidFormat(string format)
+        public Swank WithSampleGuidFormat(string format)
         {
-            _configuration.DefaultValueGuidFormat = format;
+            _configuration.SampleGuidFormat = format;
+            return this;
+        }
+
+        /// <summary>
+        /// Sample string value displayed in the documentation.
+        /// </summary>
+        public Swank WithSampleStringValue(string value)
+        {
+            _configuration.SampleStringValue = value;
+            return this;
+        }
+
+        /// <summary>
+        /// Sample boolean value displayed in the documentation.
+        /// </summary>
+        public Swank WithSampleBoolValue(bool value)
+        {
+            _configuration.SampleBoolValue = value;
             return this;
         }
 
@@ -255,26 +311,6 @@ namespace FubuMVC.Swank
         public Swank WithSampleGuidValue(Guid value)
         {
             _configuration.SampleGuidValue = value;
-            return this;
-        }
-
-        /// <summary>
-        /// This allows you to set the type id convention. 
-        /// The default is a hash of the full type name.
-        /// </summary>
-        public Swank WithTypeIdConvention(Func<Type, string> convention)
-        {
-            _configuration.TypeIdConvention = convention;
-            return this;
-        }
-
-        /// <summary>
-        /// This allows you to set the input type id convention. 
-        /// The default is a hash of the full type name plus the method name.
-        /// </summary>
-        public Swank WithInputTypeIdConvention(Func<Type, MethodInfo, string> convention)
-        {
-            _configuration.InputTypeIdConvention = convention;
             return this;
         }
 
@@ -609,7 +645,8 @@ namespace FubuMVC.Swank
         /// </summary>
         public Swank OverrideHeaders(Action<BehaviorChain, Specification.Header> @override)
         {
-            _configuration.HeaderOverrides.Add(@override);
+            _configuration.RequestHeaderOverrides.Add(@override);
+            _configuration.ResponseHeaderOverrides.Add(@override);
             return this;
         }
 
@@ -619,7 +656,46 @@ namespace FubuMVC.Swank
         public Swank OverrideHeadersWhen(Action<BehaviorChain, Specification.Header> @override,
             Func<BehaviorChain, Specification.Header, bool> when)
         {
-            _configuration.HeaderOverrides.Add(OverrideWhen(@override, when));
+            _configuration.RequestHeaderOverrides.Add(OverrideWhen(@override, when));
+            _configuration.ResponseHeaderOverrides.Add(OverrideWhen(@override, when));
+            return this;
+        }
+
+        /// <summary>
+        /// Allows you to override request header values.
+        /// </summary>
+        public Swank OverrideRequestHeaders(Action<BehaviorChain, Specification.Header> @override)
+        {
+            _configuration.RequestHeaderOverrides.Add(@override);
+            return this;
+        }
+
+        /// <summary>
+        /// Allows you to override request header values when a condition is met.
+        /// </summary>
+        public Swank OverrideRequestHeadersWhen(Action<BehaviorChain, Specification.Header> @override,
+            Func<BehaviorChain, Specification.Header, bool> when)
+        {
+            _configuration.RequestHeaderOverrides.Add(OverrideWhen(@override, when));
+            return this;
+        }
+
+        /// <summary>
+        /// Allows you to override response header values.
+        /// </summary>
+        public Swank OverrideResponseHeaders(Action<BehaviorChain, Specification.Header> @override)
+        {
+            _configuration.ResponseHeaderOverrides.Add(@override);
+            return this;
+        }
+
+        /// <summary>
+        /// Allows you to override response header values when a condition is met.
+        /// </summary>
+        public Swank OverrideResponseHeadersWhen(Action<BehaviorChain, Specification.Header> @override,
+            Func<BehaviorChain, Specification.Header, bool> when)
+        {
+            _configuration.ResponseHeaderOverrides.Add(OverrideWhen(@override, when));
             return this;
         }
 
@@ -681,7 +757,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override type values.
         /// </summary>
-        public Swank OverrideTypes(Action<Type, Specification.Type> @override)
+        public Swank OverrideTypes(Action<Type, Specification.DataType> @override)
         {
             _configuration.TypeOverrides.Add(@override);
             return this;
@@ -690,8 +766,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override type values when a condition is met.
         /// </summary>
-        public Swank OverrideTypesWhen(Action<Type, Specification.Type> @override,
-            Func<Type, Specification.Type, bool> when)
+        public Swank OverrideTypesWhen(Action<Type, Specification.DataType> @override,
+            Func<Type, Specification.DataType, bool> when)
         {
             _configuration.TypeOverrides.Add(OverrideWhen(@override, when));
             return this;

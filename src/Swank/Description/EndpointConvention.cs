@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using FubuCore;
 using FubuCore.Reflection;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Extensions;
-using FubuMVC.Swank.Extensions.Compatibility;
 
 namespace FubuMVC.Swank.Description
 {
@@ -18,6 +19,8 @@ namespace FubuMVC.Swank.Description
             return new EndpointDescription {
                     Name = attribute != null ? attribute.Name : null,
                     Comments = GetEndpointComments(chain),
+                    Secure = action.HasAttribute<SecureAttribute>() ||
+                             action.HandlerType.HasAttribute<SecureAttribute>(),
                     RequestComments = GetDataComments<RequestCommentsAttribute>(action, x => x.Comments, "Request"),
                     ResponseComments = GetDataComments<ResponseCommentsAttribute>(action, x => x.Comments, "Response")
                 };
@@ -34,9 +37,10 @@ namespace FubuMVC.Swank.Description
 
             if (comments.IsEmpty())
             {
-                comments = action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName + "." + action.Method.Name) ??
-                            (!action.HandlerType.HasAttribute<ResourceAttribute>() ?
-                                action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName) : null);
+                comments = action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName + "." + 
+                    action.GetRouteParameters().Join(x => x.Name, "."));
+                if (comments == null && !action.HandlerType.HasAttribute<ResourceAttribute>()) 
+                    comments = action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName);
             }
             return comments;
         }

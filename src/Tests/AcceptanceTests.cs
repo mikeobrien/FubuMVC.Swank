@@ -43,23 +43,21 @@ namespace Tests
         [Test]
         public void should_return_specification_data()
         {
-            var spec = _testWebsite.DownloadString("documentation/data", "application/json")
+            var spec = _testWebsite.DownloadString("documentation/spec", "application/json")
                 .DeserializeJson<FubuMVC.Swank.Specification.Specification>();
-            spec.Types.ShouldNotBeNull();
             spec.Modules.ShouldNotBeNull();
-            spec.Resources.ShouldNotBeNull();
         }
 
         [Test]
         public void should_return_style_content()
         {
-            _testWebsite.DownloadString("_content/swank/swank.css").ShouldNotBeEmpty();
+            _testWebsite.DownloadString("_content/swank/css/swank.css").ShouldNotBeEmpty();
         }
 
         [Test]
         public void should_return_js_content()
         {
-            _testWebsite.DownloadString("_content/swank/swank.js").ShouldNotBeEmpty();
+            _testWebsite.DownloadString("_content/swank/js/swank.js").ShouldNotBeEmpty();
         }
     }
 }

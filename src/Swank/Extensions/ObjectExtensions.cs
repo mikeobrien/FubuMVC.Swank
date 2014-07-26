@@ -48,43 +48,43 @@ namespace FubuMVC.Swank.Extensions
             return new JavaScriptSerializer().Serialize(source);
         }
 
-        public static string ToDefaultValueString(this object value, Configuration configuration)
+        public static string ToSampleValueString(this object value, Configuration configuration)
         {
             var type = value.GetType();
-            if (type == typeof(Decimal)) return ((Decimal)value).ToString(configuration.DefaultValueRealFormat);
-            if (type == typeof(Decimal?)) return ((Decimal?)value).Value.ToString(configuration.DefaultValueRealFormat);
-            if (type == typeof(Double)) return ((Double)value).ToString(configuration.DefaultValueRealFormat);
-            if (type == typeof(Double?)) return ((Double?)value).Value.ToString(configuration.DefaultValueRealFormat);
-            if (type == typeof(Single)) return ((Single)value).ToString(configuration.DefaultValueRealFormat);
-            if (type == typeof(Single?)) return ((Single?)value).Value.ToString(configuration.DefaultValueRealFormat);
+            if (type == typeof(Decimal)) return ((Decimal)value).ToString(configuration.SampleRealFormat);
+            if (type == typeof(Decimal?)) return ((Decimal?)value).Value.ToString(configuration.SampleRealFormat);
+            if (type == typeof(Double)) return ((Double)value).ToString(configuration.SampleRealFormat);
+            if (type == typeof(Double?)) return ((Double?)value).Value.ToString(configuration.SampleRealFormat);
+            if (type == typeof(Single)) return ((Single)value).ToString(configuration.SampleRealFormat);
+            if (type == typeof(Single?)) return ((Single?)value).Value.ToString(configuration.SampleRealFormat);
 
-            if (type == typeof(Byte)) return ((Byte)value).ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(Byte?)) return ((Byte?)value).Value.ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(SByte)) return ((SByte)value).ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(SByte?)) return ((SByte?)value).Value.ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(Int16)) return ((Int16)value).ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(Int16?)) return ((Int16?)value).Value.ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(UInt16)) return ((UInt16)value).ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(UInt16?)) return ((UInt16?)value).Value.ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(Int32)) return ((Int32)value).ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(Int32?)) return ((Int32?)value).Value.ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(UInt32)) return ((UInt32)value).ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(UInt32?)) return ((UInt32?)value).Value.ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(Int64)) return ((Int64)value).ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(Int64?)) return ((Int64?)value).Value.ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(UInt64)) return ((UInt64)value).ToString(configuration.DefaultValueIntegerFormat);
-            if (type == typeof(UInt64?)) return ((UInt64?)value).Value.ToString(configuration.DefaultValueIntegerFormat);
+            if (type == typeof(Byte)) return ((Byte)value).ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(Byte?)) return ((Byte?)value).Value.ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(SByte)) return ((SByte)value).ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(SByte?)) return ((SByte?)value).Value.ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(Int16)) return ((Int16)value).ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(Int16?)) return ((Int16?)value).Value.ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(UInt16)) return ((UInt16)value).ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(UInt16?)) return ((UInt16?)value).Value.ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(Int32)) return ((Int32)value).ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(Int32?)) return ((Int32?)value).Value.ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(UInt32)) return ((UInt32)value).ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(UInt32?)) return ((UInt32?)value).Value.ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(Int64)) return ((Int64)value).ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(Int64?)) return ((Int64?)value).Value.ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(UInt64)) return ((UInt64)value).ToString(configuration.SampleIntegerFormat);
+            if (type == typeof(UInt64?)) return ((UInt64?)value).Value.ToString(configuration.SampleIntegerFormat);
 
-            if (type == typeof(DateTime)) return ((DateTime)value).ToString(configuration.DefaultValueDateTimeFormat);
-            if (type == typeof(DateTime?)) return ((DateTime?)value).Value.ToString(configuration.DefaultValueDateTimeFormat);
+            if (type == typeof(DateTime)) return ((DateTime)value).ToString(configuration.SampleDateTimeFormat);
+            if (type == typeof(DateTime?)) return ((DateTime?)value).Value.ToString(configuration.SampleDateTimeFormat);
 
-            if (type == typeof(TimeSpan)) return ((TimeSpan)value).ToString(configuration.DefaultValueTimeSpanFormat);
-            if (type == typeof(TimeSpan?)) return ((TimeSpan?)value).Value.ToString(configuration.DefaultValueTimeSpanFormat);
+            if (type == typeof(TimeSpan)) return ((TimeSpan)value).ToString(configuration.SampleTimeSpanFormat);
+            if (type == typeof(TimeSpan?)) return ((TimeSpan?)value).Value.ToString(configuration.SampleTimeSpanFormat);
 
-            if (type == typeof(Guid)) return ((Guid)value).ToString(configuration.DefaultValueGuidFormat);
-            if (type == typeof(Guid?)) return ((Guid?)value).Value.ToString(configuration.DefaultValueGuidFormat);
+            if (type == typeof(Guid)) return ((Guid)value).ToString(configuration.SampleGuidFormat);
+            if (type == typeof(Guid?)) return ((Guid?)value).Value.ToString(configuration.SampleGuidFormat);
 
-            if (type.IsEnum) return configuration.EnumValue == EnumValue.AsString ? value.ToString() : ((int)value).ToString();
+            if (type.IsEnum) return configuration.EnumFormat == EnumFormat.AsString ? value.ToString() : ((int)value).ToString();
 
             return value.ToString();
         }

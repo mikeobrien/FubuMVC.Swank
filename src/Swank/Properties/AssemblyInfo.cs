@@ -4,4 +4,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("FubuMVC Swank.")]
 [assembly: AssemblyCompany("Ultraviolet Catastrophe")]
 [assembly: AssemblyProduct("FubuMVC Swank")]
-[assembly: AssemblyCopyright("Copyright (c) 2013 Ultraviolet Catastrophe")]
+[assembly: AssemblyCopyright("Copyright (c) 2015 Ultraviolet Catastrophe")]

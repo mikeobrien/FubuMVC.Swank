@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,44 +8,50 @@ using System.Reflection;
 using FubuCore;
 using MarkdownSharp;
 
-namespace FubuMVC.Swank.Extensions.Compatibility
-{
-    public static class ReflectionExtensions
-    {
-        [Obsolete(".NET 4.5 Compatibility")]
-        public static T GetCustomAttribute<T>(this MemberInfo memberInfo)
-        {
-            return memberInfo.GetCustomAttributes<T>().FirstOrDefault();
-        }
-
-        [Obsolete(".NET 4.5 Compatibility")]
-        public static IEnumerable<T> GetCustomAttributes<T>(this MemberInfo memberInfo)
-        {
-            return memberInfo.GetCustomAttributes(true).OfType<T>();
-        }
-    }
-}
-
 namespace FubuMVC.Swank.Extensions
 {
     public static class ReflectionExtensions
     {
-        public static string GetHash(this Type type)
-        {
-            return type.FullName.Hash();
-        }
-
-        public static string GetHash(this Type type, MethodInfo method)
-        {
-            return (method.DeclaringType.FullName + "." + method.Name + "." + type.FullName).Hash();
-        }
-
         public static bool IsSystemType(this Type type)
         {
             return type.FullName.StartsWith("System.");
         }
 
-        private static readonly Type[] ListTypes = new[] { typeof(IList<>), typeof(List<>) };
+        public static bool IsSimpleType(this Type type)
+        {
+            Func<Type, bool> isSimpleType = x => x.IsPrimitive || x.IsEnum || x == typeof(string) || x == typeof(decimal) ||
+                 x == typeof(DateTime) || x == typeof(TimeSpan) || x == typeof(Guid) || x == typeof(Uri);
+            return isSimpleType(type) || (type.IsNullable() && isSimpleType(Nullable.GetUnderlyingType(type)));
+        }
+
+        public static bool Implements<T>(this Type type)
+        {
+            return type.Implements(typeof(T));
+        }
+
+        public static bool Implements(this Type type, Type @interface)
+        {
+            return type.GetInterfaces().Any(x => @interface ==
+                (x.IsGenericType && @interface.IsGenericType &&
+                 @interface.IsGenericTypeDefinition ? x.GetGenericTypeDefinition() : x));
+        }
+
+        public static Type UnwrapType(this Type type)
+        {
+            if (type.IsDictionary()) return type.GetGenericDictionaryTypes().Value.UnwrapType();
+            if (type.IsArray || type.IsList()) return type.GetListElementType().UnwrapType();
+            if (type.IsNullable()) return type.GetInnerTypeFromNullable().UnwrapType();
+            return type;
+        }
+
+        public static Type GetNullableUnderlyingType(this Type type)
+        {
+            return type.IsNullable() ? type.GetInnerTypeFromNullable() : type;
+        }
+
+        // Lists
+
+        private static readonly Type[] ListTypes = { typeof(IList<>), typeof(List<>) };
 
         public static bool IsListType(this Type type)
         {
@@ -54,7 +61,7 @@ namespace FubuMVC.Swank.Extensions
 
         public static bool ImplementsListType(this Type type)
         {
-            return type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>));
+            return type.Implements(typeof(IList<>));
         }
 
         public static bool InheritsFromListType(this Type type)
@@ -78,6 +85,45 @@ namespace FubuMVC.Swank.Extensions
             return type.IsArray ? type.GetElementType() : type.IsList() ? type.GetListInterface().GetGenericArguments()[0] : null;
         }
 
+        // Dictionaries
+
+        public static bool IsDictionary(this Type type)
+        {
+            return type.IsNonGenericDictionary() || type.IsGenericDictionary();
+        }
+
+        public static bool IsNonGenericDictionary(this Type type)
+        {
+            return type == typeof(IDictionary) || type.Implements<IDictionary>();
+        }
+
+        public static bool IsGenericDictionary(this Type type)
+        {
+            return type.GetInterfaces().Any(x => x.IsGenericDictionaryInterface()) || 
+                type.IsGenericDictionaryInterface();
+        }
+
+        public static bool IsGenericDictionaryInterface(this Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IDictionary<,>);
+        }
+
+        public static KeyValuePair<Type, Type> GetGenericDictionaryTypes(this Type type)
+        {
+            return (type.IsGenericDictionaryInterface() ? type
+                : type.GetInterfaces().First(x => x.IsGenericDictionaryInterface()))
+                .GetGenericArguments()
+                .Map(x => new KeyValuePair<Type, Type>(x[0], x[1]));
+        }
+
+        public static Type MakeConcreteGenericDictionaryType(this Type type)
+        {
+            return type.GetGenericDictionaryTypes()
+                .Map(x => typeof(Dictionary<,>).MakeGenericType(x.Key, x.Value));
+        }
+
+        // Enums
+
         public static FieldInfo[] GetEnumOptions(this Type type)
         {
             type = type.IsNullable() ? Nullable.GetUnderlyingType(type) : type;
@@ -92,6 +138,13 @@ namespace FubuMVC.Swank.Extensions
             return FindTextResourceNamed(assembly, names.AsEnumerable());
         }
 
+        public static string FindTextResourceNamed(this IEnumerable<Assembly> assemblies, params string[] names)
+        {
+            return assemblies
+                .Select(x => x.FindTextResourceNamed(names))
+                .FirstOrDefault(x => x != null);
+        }
+
         public static string FindTextResourceNamed(this Assembly assembly, IEnumerable<string> names)
         {
             var textResources = names
@@ -102,7 +155,7 @@ namespace FubuMVC.Swank.Extensions
                         : y.Equals(x, StringComparison.OrdinalIgnoreCase)));
             if (resourceName == null) return null;
             var text = assembly.GetManifestResourceStream(resourceName).ReadToEnd();
-            return resourceName.EndsWith(".md") ? new Markdown().Transform(text).Trim() : text;
+            return resourceName.EndsWith(".md") ? text.TransformMarkdownBlock() : text;
         }
 
         private static string ReadToEnd(this Stream stream)
@@ -128,30 +181,6 @@ namespace FubuMVC.Swank.Extensions
         {
             return type.GetInterfaces()
                 .FirstOrDefault(x => x == interfaceType || (x.IsGenericType && x.GetGenericTypeDefinition() == interfaceType));
-        }
-
-        public static string GetXmlName(this Type type)
-        {
-            if (type == typeof(String)) return "string";
-            if (type == typeof(Boolean) || type == typeof(Boolean?)) return "boolean";
-            if (type == typeof(Decimal) || type == typeof(Decimal?)) return "decimal";
-            if (type == typeof(Double) || type == typeof(Double?)) return "double";
-            if (type == typeof(Single) || type == typeof(Single?)) return "float";
-            if (type == typeof(Byte) || type == typeof(Byte?)) return "unsignedByte";
-            if (type == typeof(SByte) || type == typeof(SByte?)) return "byte";
-            if (type == typeof(Int16) || type == typeof(Int16?)) return "short";
-            if (type == typeof(UInt16) || type == typeof(UInt16?)) return "unsignedShort";
-            if (type == typeof(Int32) || type == typeof(Int32?)) return "int";
-            if (type == typeof(UInt32) || type == typeof(UInt32?)) return "unsignedInt";
-            if (type == typeof(Int64) || type == typeof(Int64?)) return "long";
-            if (type == typeof(UInt64) || type == typeof(UInt64?)) return "unsignedLong";
-            if (type == typeof(DateTime) || type == typeof(DateTime?)) return "dateTime";
-            if (type == typeof(TimeSpan) || type == typeof(TimeSpan?)) return "duration";
-            if (type == typeof(Guid) || type == typeof(Guid?)) return "guid";
-            if (type == typeof(Char) || type == typeof(Char?)) return "char";
-            if (type == typeof(byte[])) return "base64Binary";
-            if (type.IsArray || type.IsList()) return "ArrayOf" + type.GetListElementType().GetXmlName().InitialCap();
-            return type.IsNullable() ? Nullable.GetUnderlyingType(type).Name : type.Name;
         }
 
         public static bool IsString(this Type type) { return type == typeof(String); }

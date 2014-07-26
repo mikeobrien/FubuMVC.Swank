@@ -9,6 +9,9 @@ _ReSharper.*
 aspnet_client
 *.userprefs
 *.pidb
+.DS_Store
+Thumbs.db
+node_modules
 
 # Fubu bottle sources
 src/*/fubu-content/*

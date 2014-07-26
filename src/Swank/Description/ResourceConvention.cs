@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using FubuCore.Reflection;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Extensions;
-using FubuMVC.Swank.Extensions.Compatibility;
 using FubuMVC.Swank.Specification;
 
 namespace FubuMVC.Swank.Description

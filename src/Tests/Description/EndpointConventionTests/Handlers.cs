@@ -21,7 +21,16 @@ namespace Tests.Description.EndpointConventionTests
 
         namespace ActionDescription
         {
-            public class EmbeddedDescriptionGetHandler { public object Execute_EmbeddedDescription(object request) { return null; } }
+            public class Request
+            {
+                public string Id { get; set; }
+                public string Sort { get; set; }
+            }
+
+            public class EmbeddedDescriptionGetHandler
+            {
+                public object Execute_Id_Sort(Request request) { return null; }
+            }
 
             public class AttrbuteCommentsGetHandler
             {
@@ -56,6 +65,26 @@ namespace Tests.Description.EndpointConventionTests
             public class AttributeGetHandler
             {
                 [ResponseComments("Some response description")]
+                public object Execute(object request) { return null; }
+            }
+        }
+
+        namespace SecureDescription
+        {
+            public class PublicGetHandler
+            {
+                public object Execute(object request) { return null; }
+            }
+
+            [Secure]
+            public class SecureGetHandler
+            {
+                public object Execute(object request) { return null; }
+            }
+
+            public class SecureActionGetHandler
+            {
+                [Secure]
                 public object Execute(object request) { return null; }
             }
         }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+   <metadata>
+      <id>FubuMVC.Swank</id>
+      <version>0.0.0.0</version>
+      <title>FubuMVC Swank</title>
+      <authors>Mike O'Brien</authors>
+      <description>A FubuMVC plugin that allows you to describe and publish documentation for RESTful services.</description>
+      <releaseNotes />
+      <copyright />
+      <language>en-US</language>
+      <licenseUrl>https://github.com/mikeobrien/FubuMVC.Swank/blob/master/LICENSE</licenseUrl>
+      <projectUrl>https://github.com/mikeobrien/FubuMVC.Swank</projectUrl>
+      <owners>Mike O'Brien</owners>
+      <summary>A FubuMVC plugin that allows you to describe and publish documentation for RESTful services.</summary>
+      <iconUrl>https://github.com/mikeobrien/FubuMVC.Swank/raw/master/misc/logo.png</iconUrl>
+      <tags>fubumvc</tags>
+      <dependencies>
+         <dependency id="FubuMVC.Core" version="1.2.0.260" />
+         <dependency id="FubuMVC.Core.Assets" version="0.9.9.43" />
+         <dependency id="FubuMVC.Spark" version="0.9.9.16" />
+         <dependency id="FubuMVC.Media" version="0.9.5.0" />
+         <dependency id="MarkdownSharp" version="1.0.0.0" />
+      </dependencies>
+   </metadata>
+   <files>
+      <file src="src\Swank\bin\FubuMVC.Swank.*" target="lib" />
+   </files>
+</package>

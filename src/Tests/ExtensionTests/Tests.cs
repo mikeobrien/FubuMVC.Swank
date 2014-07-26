@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using FubuMVC.Core.Registration.Routes;
 using FubuMVC.Swank.Extensions;
@@ -45,6 +46,21 @@ namespace Tests.ExtensionTests
         public void should_return_markdown_resource()
         {
             Assembly.GetExecutingAssembly().FindTextResourceNamed("Tests.ExtensionTests.EmbeddedMarkdownResource").ShouldEqual("<p><strong>Some markdown yo!</strong></p>");
+        }
+
+        [Test]
+        [TestCase(typeof(int))]
+        [TestCase(typeof(int?))]
+        [TestCase(typeof(Dictionary<string, int>))]
+        [TestCase(typeof(IDictionary<string, int>))]
+        [TestCase(typeof(Dictionary<string, Dictionary<string, int>>))]
+        [TestCase(typeof(int[]))]
+        [TestCase(typeof(List<int>))]
+        [TestCase(typeof(IList<int>))]
+        [TestCase(typeof(List<List<int>>))]
+        public void should_unwrap_types(Type wrappedType)
+        {
+            wrappedType.UnwrapType().ShouldEqual(typeof(int));
         }
 
         private class Widgets : List<string> { }
@@ -142,19 +158,57 @@ namespace Tests.ExtensionTests
             traversal[2].Index.ShouldEqual(0);
         }
 
+        [Test]
+        public void should_concat()
+        {
+            new List<string> { "oh" }.Concat("hai").ShouldEqual(new List<string> { "oh", "hai" });
+        }
+
+        [Test]
+        public void should_concat_with_null_source()
+        {
+            ((List<string>)null).Concat("hai").ShouldEqual(new List<string> { "hai" });
+        }
+
+        [Test]
+        [TestCase(typeof(String), "string")]
+        [TestCase(typeof(Boolean), "boolean"), TestCase(typeof(Boolean?), "boolean")]
+        [TestCase(typeof(Decimal), "decimal"), TestCase(typeof(Decimal?), "decimal")]
+        [TestCase(typeof(Double), "double"), TestCase(typeof(Double?), "double")]
+        [TestCase(typeof(Single), "float"), TestCase(typeof(Single?), "float")]
+        [TestCase(typeof(Byte), "unsignedByte"), TestCase(typeof(Byte?), "unsignedByte")]
+        [TestCase(typeof(SByte), "byte"), TestCase(typeof(SByte?), "byte")]
+        [TestCase(typeof(Int16), "short"), TestCase(typeof(Int16?), "short")]
+        [TestCase(typeof(UInt16), "unsignedShort"), TestCase(typeof(UInt16?), "unsignedShort")]
+        [TestCase(typeof(Int32), "int"), TestCase(typeof(Int32?), "int")]
+        [TestCase(typeof(UInt32), "unsignedInt"), TestCase(typeof(UInt32?), "unsignedInt")]
+        [TestCase(typeof(Int64), "long"), TestCase(typeof(Int64?), "long")]
+        [TestCase(typeof(UInt64), "unsignedLong"), TestCase(typeof(UInt64?), "unsignedLong")]
+        [TestCase(typeof(DateTime), "dateTime"), TestCase(typeof(DateTime?), "dateTime")]
+        [TestCase(typeof(TimeSpan), "duration"), TestCase(typeof(TimeSpan?), "duration")]
+        [TestCase(typeof(Guid), "uuid"), TestCase(typeof(Guid?), "uuid")]
+        [TestCase(typeof(Char), "char"), TestCase(typeof(Char?), "char")]
+        [TestCase(typeof(Uri), "anyURI")]
+        [TestCase(typeof(byte[]), "base64Binary")]
+        [TestCase(typeof(int[]), "ArrayOfInt")]
+        [TestCase(typeof(List<int>), "ArrayOfInt")]
+        [TestCase(typeof(List<List<int>>), "ArrayOfArrayOfInt")]
+        [TestCase(typeof(Dictionary<string, int>), "DictionaryOfInt")]
+        [TestCase(typeof(Dictionary<string, Dictionary<string, int>>), "DictionaryOfDictionaryOfInt")]
+        [TestCase(typeof(ArgumentException), "ArgumentException")]
+        public void should_return_xml_name(Type type, string name)
+        {
+            type.GetXmlName(false).ShouldEqual(name);
+        }
+
+        [TestCase(typeof(ConsoleColor), true, "string"), TestCase(typeof(ConsoleColor?), true, "string")]
+        [TestCase(typeof(ConsoleColor), false, "int"), TestCase(typeof(ConsoleColor?), false, "int")]
+        public void should_return_enum_xml_name(Type type, bool enumAsString, string name)
+        {
+            type.GetXmlName(enumAsString).ShouldEqual(name);
+        }
+
         enum SomeEnum { Oh, Hai }
-
-        [Test]
-        public void should_get_enum_name()
-        {
-            typeof(SomeEnum).GetXmlName().ShouldEqual("SomeEnum");    
-        }
-
-        [Test]
-        public void should_get_nullable_enum_name()
-        {
-            typeof(SomeEnum?).GetXmlName().ShouldEqual("SomeEnum");
-        }
 
         [Test]
         public void should_get_enum_values()

@@ -28,6 +28,6 @@ namespace TestHarness.Administration.Users
         public string Zip { get; set; }
         [DefaultValue(AddressType.Other)]
         [Comments("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.")]
-        public AddressType Type { get; set; }
+        public AddressType? Type { get; set; }
     }
 }

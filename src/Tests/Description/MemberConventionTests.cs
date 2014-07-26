@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using FubuMVC.Swank.Description;
@@ -11,100 +10,269 @@ namespace Tests.Description
     [TestFixture]
     public class MemberConventionTests
     {
-        private MemberConvention _memberConvention;
-
-        [SetUp]
-        public void Setup()
+        public MemberDescription GetDescription(string property)
         {
-            _memberConvention = new MemberConvention();
+            return new MemberConvention().GetDescription(typeof(Model).GetProperty(property));
         }
 
-        public class Item {}
-        public class Request
+        [Hide]
+        public class HiddenType { }
+
+        public class Model
         {
-            [Comments("This is the id.")]
-            public Guid Id { get; set; }
-            public Guid? NullableId { get; set; }
+            public string NoDescription { get; set; }
+
+            [XmlElement("NewName")]
+            public string CustomXmlElementName { get; set; }
+
+            [DataMember(Name = "NewName")]
+            public string CustomDataMemberName { get; set; }
+
+            [Comments("This is a comment.")]
+            public string WithComments { get; set; }
+
+            [DefaultValue("This is a default.")]
+            public string WithDefaultValue { get; set; }
+
+            [SampleValue("This is a sample.")]
+            public string WithSampleValue { get; set; }
+
             [Optional]
-            public string Sort { get; set; }
-            [XmlElement("R2D2")]
-            public int C3P0 { get; set; }
-            public List<Item> ListOfComplexTypes { get; set; }
-            public List<int> ListOfSimpleTypes { get; set; }
-            [XmlArrayItem("Item")]
-            public List<Item> ListOfComplexTypesWithCustomItemName { get; set; }
-            [XmlArrayItem("Item")]
-            public List<int> ListOfSimpleTypesWithCustomItemName { get; set; }
-            [DataMember(Name = "Tatooine")]
-            public int HanSolo { get; set; }
+            public string Optional { get; set; }
+
+            public int? Nullable { get; set; }
+
+            [XmlArrayItem("ItemName")]
+            public string WithArrayItemName { get; set; }
+
+            [ArrayDescription]
+            public string WithEmptyArrayComments { get; set; }
+
+            [ArrayDescription("NewName", "This is an array comment.", "ItemName", "This is an item comment.")]
+            public string WithArrayDescription { get; set; }
+
+            [DictionaryDescription]
+            public string WithEmptyDictionaryDescription { get; set; }
+
+            [DictionaryDescription("NewName", "This is a dictionary comment.", "KeyName",
+                "This is a key comment.", "This is a value comment.")]
+            public string WithDictionaryDescription { get; set; }
+
+            [XmlIgnoreAttribute]
+            public string XmlIgnored { get; set; }
+
+            [Hide]
+            public string Hidden { get; set; }
+
+            public HiddenType HiddenType { get; set; }
+
+            [FubuMVC.Swank.Description.DescriptionAttribute("NewName", "This is a comment.")]
+            public string WithDescription { get; set; }
+
+            [Obsolete]
+            public string Deprecated { get; set; }
+
+            [Obsolete("DO NOT seek the treasure!")]
+            public string DeprecatedWithMessage { get; set; }
         }
 
         [Test]
-        public void should_return_default_description_of_member()
+        public void should_return_visible_if_not_specified()
         {
-            var description = _memberConvention.GetDescription(typeof(Request).GetProperty("Sort"));
-            description.Name.ShouldEqual("Sort");
-            description.Comments.ShouldBeNull();
+            GetDescription("NoDescription").Hidden.ShouldBeFalse();
         }
 
         [Test]
-        public void should_return_attribute_description_of_member()
+        public void should_return_hidden_if_specified(
+            [Values("XmlIgnored", "Hidden", "HiddenType")] string property)
         {
-            var description = _memberConvention.GetDescription(typeof(Request).GetProperty("Id"));
-            description.Name.ShouldEqual("Id");
-            description.Comments.ShouldEqual("This is the id.");
+            GetDescription(property).Hidden.ShouldBeTrue();
         }
 
         [Test]
-        public void should_indicate_if_the_member_is_set_to_be_required()
+        public void should_return_default_name()
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("Id")).Required.ShouldBeTrue();
-            _memberConvention.GetDescription(typeof(Request).GetProperty("Sort")).Required.ShouldBeFalse();
-            _memberConvention.GetDescription(typeof(Request).GetProperty("NullableId")).Required.ShouldBeFalse();
+            GetDescription("NoDescription").Name.ShouldEqual("NoDescription");
         }
 
         [Test]
-        public void should_return_name_specified_in_xml_element()
+        public void should_return_custom_name(
+            [Values("CustomXmlElementName", "CustomDataMemberName", "WithDescription", 
+                "WithArrayDescription", "WithDictionaryDescription")] string property)
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("C3P0")).Name.ShouldEqual("R2D2");
+            GetDescription(property).Name.ShouldEqual("NewName");
         }
 
         [Test]
-        public void should_return_name_specified_in_data_member()
+        public void should_return_null_comments_if_not_specified()
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("HanSolo")).Name.ShouldEqual("Tatooine");
+            GetDescription("NoDescription").Comments.ShouldBeNull();
         }
 
         [Test]
-        public void should_return_property_type()
+        public void should_return_comments_if_specified(
+            [Values("WithComments", "WithDescription")] string property)
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("C3P0")).Type.ShouldEqual(typeof(int));
+            GetDescription(property).Comments.ShouldEqual("This is a comment.");
         }
 
         [Test]
-        public void should_return_list_element_simple_type()
+        public void should_return_null_default_value_if_not_specified()
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypes")).Type.ShouldEqual(typeof(int));
+            GetDescription("NoDescription").DefaultValue.ShouldBeNull();
         }
 
         [Test]
-        public void should_return_list_element_complex_type()
+        public void should_return_default_value_if_specified()
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypes")).Type.ShouldEqual(typeof(Item));
+            GetDescription("WithDefaultValue").DefaultValue.ShouldEqual("This is a default.");
         }
 
         [Test]
-        public void should_return_list_element_simple_type_custom_item_name()
+        public void should_return_null_sample_value_if_not_specified()
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypes")).ArrayItemName.ShouldBeNull();
-            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypesWithCustomItemName")).ArrayItemName.ShouldEqual("Item");
+            GetDescription("NoDescription").SampleValue.ShouldBeNull();
         }
 
         [Test]
-        public void should_return_list_element_complex_type_custom_item_name()
+        public void should_return_sample_value_if_specified()
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypes")).ArrayItemName.ShouldBeNull();
-            _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypesWithCustomItemName")).ArrayItemName.ShouldEqual("Item");
+            GetDescription("WithSampleValue").SampleValue.ShouldEqual("This is a sample.");
+        }
+
+        [Test]
+        public void should_return_required_if_not_specified()
+        {
+            GetDescription("NoDescription").Optional.ShouldBeFalse();
+        }
+
+        [Test]
+        public void should_return_optional_if_specified()
+        {
+            GetDescription("Optional").Optional.ShouldBeTrue();
+        }
+
+        [Test]
+        public void should_return_optional_if_nullable()
+        {
+            GetDescription("Nullable").Optional.ShouldBeTrue();
+        }
+
+        [Test]
+        public void should_return_not_deprecated()
+        {
+            var description = GetDescription("NoDescription");
+            description.Deprecated.ShouldBeFalse();
+            description.DeprecationMessage.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_deprecated_without_message()
+        {
+            var description = GetDescription("Deprecated");
+            description.Deprecated.ShouldBeTrue();
+            description.DeprecationMessage.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_deprecated_with_message()
+        {
+            var description = GetDescription("DeprecatedWithMessage");
+            description.Deprecated.ShouldBeTrue();
+            description.DeprecationMessage.ShouldEqual("DO NOT seek the treasure!");
+        }
+
+        [Test]
+        public void should_return_null_array_comments_if_not_specified(
+            [Values("NoDescription", "WithEmptyArrayComments")] string property)
+        {
+            GetDescription(property).Comments.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_array_comments_if_specified()
+        {
+            GetDescription("WithArrayDescription").Comments.ShouldEqual("This is an array comment.");
+        }
+
+        [Test]
+        public void should_return_null_array_item_name_if_not_specified()
+        {
+            GetDescription("NoDescription").ArrayItem.Name.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_array_item_name_if_specified(
+            [Values("WithArrayItemName", "WithArrayDescription")] string property)
+        {
+            GetDescription(property).ArrayItem.Name.ShouldEqual("ItemName");
+        }
+
+        [Test]
+        public void should_return_null_array_item_comments_if_not_specified(
+            [Values("NoDescription", "WithEmptyArrayComments")] string property)
+        {
+            GetDescription(property).ArrayItem.Comments.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_array_item_comments_if_specified()
+        {
+            GetDescription("WithArrayDescription").ArrayItem.Comments.ShouldEqual("This is an item comment.");
+        }
+
+        [Test]
+        public void should_return_null_dictionary_comments_if_not_specified(
+            [Values("NoDescription", "WithEmptyDictionaryDescription")] string property)
+        {
+            GetDescription(property).Comments.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_dictionary_comments_if_specified()
+        {
+            GetDescription("WithDictionaryDescription")
+                .Comments.ShouldEqual("This is a dictionary comment.");
+        }
+
+        [Test]
+        public void should_return_null_dictionary_key_name_if_not_specified(
+            [Values("NoDescription", "WithEmptyDictionaryDescription")] string property)
+        {
+            GetDescription(property).DictionaryEntry.KeyName.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_dictionary_key_name_if_specified()
+        {
+            GetDescription("WithDictionaryDescription").DictionaryEntry
+                .KeyName.ShouldEqual("KeyName");
+        }
+
+        [Test]
+        public void should_return_null_dictionary_key_comments_if_not_specified(
+            [Values("NoDescription", "WithEmptyDictionaryDescription")] string property)
+        {
+            GetDescription(property).DictionaryEntry.KeyComments.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_dictionary_key_comments_if_specified()
+        {
+            GetDescription("WithDictionaryDescription").DictionaryEntry.KeyComments.ShouldEqual("This is a key comment.");
+        }
+
+        [Test]
+        public void should_return_null_dictionary_value_comments_if_not_specified(
+            [Values("NoDescription", "WithEmptyDictionaryDescription")] string property)
+        {
+            GetDescription(property).DictionaryEntry.ValueComments.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_dictionary_value_comments_if_specified()
+        {
+            GetDescription("WithDictionaryDescription").DictionaryEntry.ValueComments.ShouldEqual("This is a value comment.");
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FubuMVC.Core.Registration.Nodes;
-using FubuMVC.Swank.Extensions.Compatibility;
+using System.Reflection;
 
 namespace FubuMVC.Swank.Description
 {
@@ -10,8 +10,8 @@ namespace FubuMVC.Swank.Description
         public virtual List<StatusCodeDescription> GetDescription(BehaviorChain chain)
         {
             var action = chain.FirstCall();
-            return action.Method.GetCustomAttributes<StatusCodeDescriptionAttribute>()
-                .Concat(action.HandlerType.GetCustomAttributes<StatusCodeDescriptionAttribute>())
+            return action.Method.GetCustomAttributes<StatusCodeAttribute>()
+                .Concat(action.HandlerType.GetCustomAttributes<StatusCodeAttribute>())
                  .Select(x => new StatusCodeDescription {
                     Code = x.Code,
                     Name = x.Name,

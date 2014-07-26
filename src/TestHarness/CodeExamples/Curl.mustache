@@ -1,0 +1,62 @@
+﻿curl <span style="color: #0000FF">-X</span> <span style="color: #A31515">{{Method}}</span> <span style="color: #0000FF">-v</span> \<br />
+{{#Secure}}
+	&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-u</span> <span style="color: #A31515">accountid\\username:password</span> \<br />
+{{/Secure}}
+{{#Response}}
+	{{#if Body}}
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-H</span> <span style="color: #A31515">"Accept: application/json"</span> \<br />
+	{{/if}}
+{{/Response}}
+{{#Request}}
+	{{#contains MimeTypes 'application/octet-stream' '*/*'}}
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">--data-binary</span> <span style="color: #A31515">@/path/to/file</span> \<br />
+	{{/contains}}
+	{{#if Body}}
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-H</span> <span style="color: #A31515">"Content-Type: application/json"</span> \<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">--data-binary</span> \<br />
+		{{#Body}}
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sample-code-whitespace">{{Whitespace}}</span>
+			{{#IsFirst}}'{{/IsFirst}}
+			{{#IsLast}}&nbsp;{{/IsLast}}
+			{{^IsClosing}}
+				{{#IsMember}}
+					<span style="color: #A31515">"{{Name}}"</span>:&nbsp;
+				{{/IsMember}}
+				{{#IsDictionaryEntry}}
+					<span style="color: #A31515;">"<span style="font-style: italic">[{{Name}}]</span>"</span>:&nbsp;
+				{{/IsDictionaryEntry}}
+			{{/IsClosing}}
+			{{#IsSimpleType}}
+				{{#IsString}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsString}}
+				{{#IsBoolean}}<span style="color: #0000FF">{{SampleValue}}</span>{{/IsBoolean}}
+				{{#IsNumeric}}<span style="color: #0000FF">{{SampleValue}}</span>{{/IsNumeric}}
+				{{#IsDateTime}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsDateTime}}
+				{{#IsDuration}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsDuration}}
+				{{#IsGuid}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsGuid}}
+			{{/IsSimpleType}}
+			{{#IsOpening}}
+				{{#IsArray}}[{{/IsArray}}
+				{{#IsComplexType}}&#123;{{/IsComplexType}}
+				{{#IsDictionary}}&#123;{{/IsDictionary}}
+			{{/IsOpening}}
+			{{#IsClosing}}
+				{{#IsArray}}]{{/IsArray}}
+				{{#IsComplexType}}&#125;{{/IsComplexType}}
+				{{#IsDictionary}}&#125;{{/IsDictionary}}
+			{{/IsClosing}}
+			{{#IsMember}}
+				{{^IsOpening}}
+					{{^IsLastMember}},{{/IsLastMember}}
+				{{/IsOpening}}
+			{{/IsMember}}
+			{{#IsLast}}' &#92;{{/IsLast}}
+			<br />
+		{{/Body}}
+	{{/if}}
+{{/Request}}
+{{#Response}}
+	{{#contains MimeTypes 'application/binary' '*/*'}}
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-o</span> <span style="color: #A31515">/path/to/file</span> \<br />
+	{{/contains}}
+{{/Response}}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">https://services.reachmail.net{{Url}}</span>

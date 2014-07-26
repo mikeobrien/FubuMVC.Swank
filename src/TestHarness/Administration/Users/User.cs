@@ -21,7 +21,7 @@ namespace TestHarness.Administration.Users
         public string Name { get; set; }
         [DefaultValue(UserType.Guest)]
         [Comments("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.")]
-        public UserType Type { get; set; }
+        public UserType? Type { get; set; }
         [Comments("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.")]
         public List<Address> Addresses { get; set; }
     }
