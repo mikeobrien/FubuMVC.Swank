@@ -5,9 +5,10 @@
     "grunt": "~0.4.2",
     "grunt-msbuild": "~0.1.9",
     "grunt-dotnet-assembly-info": "~1.0.9",
-    "grunt-nunit-runner": "~1.0.13"
+    "grunt-nunit-runner": "~2.0.0"
   },
   "devDependencies": {
-    "grunt-nuget": "~0.1.1"
+    "grunt-nuget": "~0.1.1",
+    "grunt-nunit-runner": "~2.0.2"
   }
 }
