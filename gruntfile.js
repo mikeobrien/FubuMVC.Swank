@@ -34,7 +34,7 @@ module.exports = function(grunt) {
             }
         },
         nugetpack: {
-            flexo: {
+            swank: {
                 src: 'FubuMVC.Swank.nuspec',
                 dest: './'
             },
@@ -43,7 +43,7 @@ module.exports = function(grunt) {
             }
         },
         nugetpush: {
-            flexo: {
+            swank: {
                 src: '*.nupkg'
             },
             options: {
