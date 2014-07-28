@@ -48,8 +48,8 @@ namespace Tests.Specification.MergeServiceTests
             option.Comments.ShouldEqual("Some option comments");
             option.Value.ShouldEqual("Some option value");
 
-            spec.Modules.Count.ShouldEqual(1);
-            var module = spec.Modules[0];
+            spec.Modules.Count.ShouldEqual(2);
+            var module = spec.Modules.GetFirstNonDefaultModule();
 
             module.Name.ShouldEqual("Some module");
             module.Comments.ShouldEqual("Some module comments");
@@ -127,8 +127,8 @@ namespace Tests.Specification.MergeServiceTests
 
             var spec = new MergeService().Merge(_spec1, spec2);
 
-            spec.Modules.Count.ShouldEqual(1);
-            var module = spec.Modules[0];
+            spec.Modules.Count.ShouldEqual(2);
+            var module = spec.Modules.GetFirstNonDefaultModule();
 
             module.Name.ShouldEqual("Some module");
             module.Comments.ShouldEqual("Some module comments");
@@ -169,8 +169,8 @@ namespace Tests.Specification.MergeServiceTests
 
             var spec = new MergeService().Merge(_spec1, spec2);
 
-            spec.Modules.Count.ShouldEqual(1);
-            var module = spec.Modules[0];
+            spec.Modules.Count.ShouldEqual(2);
+            var module = spec.Modules.GetFirstNonDefaultModule();
 
             module.Name.ShouldEqual("Some module");
             module.Comments.ShouldEqual("Some module comments");
@@ -204,28 +204,34 @@ namespace Tests.Specification.MergeServiceTests
         public void should_merge_overlapping_resources()
         {
             var spec2 = new FubuMVC.Swank.Specification.Specification {
-                    Resources = new List<Resource> { new Resource {
-                        Name = "Some resource",
-                        Endpoints = new List<Endpoint> { 
-                            new Endpoint {
-                                Url = "/overlappingresource",
-                                Method = "POST"
-                            },
-                            new Endpoint {
-                                Url = "/overlappingresource",
-                                Method = "GET"
+                Modules = new List<Module>
+                {
+                   new Module
+                   {
+                        Name = Module.DefaultName,
+                        Resources = new List<Resource> { new Resource {
+                            Name = "Some resource",
+                            Endpoints = new List<Endpoint> { 
+                                new Endpoint {
+                                    Url = "/overlappingresource",
+                                    Method = "POST"
+                                },
+                                new Endpoint {
+                                    Url = "/overlappingresource",
+                                    Method = "GET"
+                                }
                             }
-                        }
-                    }}
-                };
+                        }} 
+                   }
+                }
+            };
 
             var spec = new MergeService().Merge(_spec1, spec2);
 
-            spec.Modules.Count.ShouldEqual(1);
+            spec.Modules.Count.ShouldEqual(2);
+            spec.Modules.HasDefaultModule().ShouldBeTrue();
 
-            spec.Resources.Count.ShouldEqual(1);
-
-            var resource = spec.Resources[0];
+            var resource = spec.Modules.GetDefaultModule().Resources[0];
             resource.Name.ShouldEqual("Some resource");
             resource.Comments.ShouldEqual("Some resource comments");
             resource.Endpoints.Count.ShouldEqual(3);

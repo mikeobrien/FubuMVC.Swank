@@ -1,4 +1,6 @@
-﻿using FubuMVC.Swank;
+﻿using System.Collections.Generic;
+using System.Linq;
+using FubuMVC.Swank;
 using FubuMVC.Swank.Description;
 using FubuMVC.Swank.Specification;
 using NUnit.Framework;
@@ -60,7 +62,7 @@ namespace Tests.Specification.SpecificationService.ModuleTests
             var spec = BuildSpec<NestedModules.GetHandler>();
 
             spec.Modules.Count.ShouldEqual(2);
-            spec.Resources.Count.ShouldEqual(0);
+            spec.Modules.HasDefaultModule().ShouldBeFalse();
 
             var module = spec.Modules[0];
             module.Name.ShouldEqual("Nested Module");
@@ -82,9 +84,9 @@ namespace Tests.Specification.SpecificationService.ModuleTests
         {
             var spec = BuildSpec<NoModules.GetHandler>();
 
-            spec.Modules.Count.ShouldEqual(0);
-            spec.Resources.Count.ShouldEqual(1);
-            spec.Resources[0].Endpoints.Count.ShouldEqual(1);
+            spec.Modules.Count.ShouldEqual(1);
+            spec.Modules.HasDefaultModule().ShouldBeTrue();
+            spec.Modules.GetDefaultModule().Resources[0].Endpoints.Count.ShouldEqual(1);
         }
 
         [Test]
@@ -92,8 +94,8 @@ namespace Tests.Specification.SpecificationService.ModuleTests
         {
             var spec = BuildSpec<OneModuleAndOrphanedAction.GetHandler>();
 
-            spec.Modules.Count.ShouldEqual(1);
-            spec.Resources.Count.ShouldEqual(1);
+            spec.Modules.Count.ShouldEqual(2);
+            spec.Modules.HasDefaultModule().ShouldBeTrue();
 
             var module = spec.Modules[0];
             module.Name.ShouldEqual("Some Module");
@@ -101,7 +103,7 @@ namespace Tests.Specification.SpecificationService.ModuleTests
             module.Resources[0].Endpoints.Count.ShouldEqual(1);
             module.Resources[0].Endpoints[0].Url.ShouldEqual("/onemoduleandorphanedaction/withmodule/inmodule");
 
-            var resource = spec.Resources[0];
+            var resource = spec.Modules.GetDefaultModule().Resources[0];
             resource.Endpoints.Count.ShouldEqual(1);
             resource.Endpoints[0].Url.ShouldEqual("/onemoduleandorphanedaction/orphan");
         }
@@ -113,7 +115,7 @@ namespace Tests.Specification.SpecificationService.ModuleTests
                     .WithDefaultModule(y => new ModuleDescription { Name = "Default Module" }));
 
             spec.Modules.Count.ShouldEqual(2);
-            spec.Resources.Count.ShouldEqual(0);
+            spec.Modules.HasDefaultModule().ShouldBeFalse();
 
             var module = spec.Modules[0];
             module.Name.ShouldEqual("Default Module");
@@ -135,7 +137,7 @@ namespace Tests.Specification.SpecificationService.ModuleTests
                     .OnOrphanedModuleAction(OrphanedActions.Exclude));
 
             spec.Modules.Count.ShouldEqual(1);
-            spec.Resources.Count.ShouldEqual(0);
+            spec.Modules.HasDefaultModule().ShouldBeFalse();
 
             var module = spec.Modules[0];
             module.Name.ShouldEqual("Some Module");

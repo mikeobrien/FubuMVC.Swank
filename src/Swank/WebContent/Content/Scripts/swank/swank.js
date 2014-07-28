@@ -20,10 +20,8 @@
         var moduleName = idParts[0];
         var resourceName = idParts[1];
 
-        var module = specification.Modules
-                            .filter(function (x) { return x.Name === moduleName; })[0];
-        var resource = (!module ? specification.Resources : module.Resources)
-                            .filter(function (x) { return x.Name === resourceName; })[0];
+        var module = specification.Modules.filter(function (x) { return x.Name === moduleName; })[0];
+        var resource = module.Resources.filter(function (x) { return x.Name === resourceName; })[0];
 
         $('.nav').find("li[data-module='" + moduleName + "']").addClass('active');
         
@@ -238,11 +236,8 @@
         var getHash = function() { return window.location.hash.replace(/^#/, ''); };
         
         if (!specification.Comments && !getHash() &&
-            ((specification.Resources && specification.Resources.length > 0) ||
-             (specification.Modules && specification.Modules.length > 0)))
-            window.location.hash = (specification.Resources && specification.Resources.length > 0) ?
-                                       '_Resources@' + specification.Resources[0].Name :
-                                       specification.Modules[0].Name + '@' + specification.Modules[0].Resources[0].Name;
+            (specification.Modules && specification.Modules.length > 0))
+            window.location.hash = specification.Modules[0].Name + '@' + specification.Modules[0].Resources[0].Name;
 
         $(window).bind('hashchange', function () { render(getHash()); });
     

@@ -14,7 +14,6 @@ namespace FubuMVC.Swank.Specification
         public string Comments { get; set; }
         public List<Type> Types { get; set; }
         public List<Module> Modules { get; set; }
-        public List<Resource> Resources { get; set; }
     }
 
     public class Type : IDescription
@@ -48,6 +47,8 @@ namespace FubuMVC.Swank.Specification
 
     public class Module : IDescription
     {
+        public const string DefaultName = "Resources";
+
         public string Name { get; set; }
         public string Comments { get; set; }
         public List<Resource> Resources { get; set; }

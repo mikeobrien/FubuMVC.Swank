@@ -72,14 +72,21 @@ namespace FubuMVC.Swank.Specification
 
             CheckForOrphanedChains(behaviorMappings);
 
+            var modules = GetModules(behaviorMappings.Where(x => x.Module != null).ToList());
+            var resources = GetResources(behaviorMappings.Where(x => x.Module == null).ToList());
+            if (resources.Any()) modules.Add(new Module
+            {
+                Name = Module.DefaultName,
+                Resources = resources
+            });
+
             var specification = new Specification {
                     Name = _configuration.Name,
                     Comments = _configuration.AppliesToAssemblies
                         .Select(x => x.FindTextResourceNamed("*" + _configuration.Comments))
                         .FirstOrDefault(x => x != null),
                     Types = GatherInputOutputModels(behaviorMappings.Select(x => x.Chain).ToList()),
-                    Modules = GetModules(behaviorMappings.Where(x => x.Module != null).ToList()),
-                    Resources = GetResources(behaviorMappings.Where(x => x.Module == null).ToList())
+                    Modules = modules
                 };
             if (_configuration.MergeSpecificationPath.IsNotEmpty())
                 specification = _mergeService.Merge(specification, _configuration.MergeSpecificationPath);

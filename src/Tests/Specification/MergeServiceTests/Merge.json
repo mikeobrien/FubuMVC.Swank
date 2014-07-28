@@ -91,68 +91,71 @@
                     ]
                 }
             ]
-        } 
-    ],
-    "resources": [
-        {
-            "name": "Some resource",
-            "comments": "Some resource comments",
-            "endpoints": [
-                {
-                    "name": "Some endpoint",
-                    "comments": "Some endpoint comments",
-                    "url": "/some/url",
-                    "method": "METHOD",
-                    "urlParameters": [
-                        { 
-                            "name": "Some url param",
-                            "comments": "Some url param comments",
-                            "type": "Some type",
-                            "options": [
-                                {
-                                    "name": "Some option",
-                                    "value": "Some option value", 
-                                    "comments": "Some option comments"
-                                }                          
-                            ]
-                        }
-                    ],
-                    "querystringParameters": [
-                        { 
-                            "name": "Some querystring",
-                            "comments": "Some querystring comments",
-                            "defaultValue": "Some default value",
-                            "multipleAllowed": true,
-                            "required": true,
-                            "type": "Some type",
-                            "options": [
-                                {
-                                    "name": "Some option", 
-                                    "comments": "Some option comments",
-                                    "value": "Some option value"
-                                }                           
-                            ]
-                        }
-                    ],
-                    "statusCodes": [
-                        {
-                            "name": "Some error",
-                            "comments": "Some error comments",
-                            "code": 999
-                        }
-                    ],
-                    "request": {
-                        "name": "Some request",
-                        "comments": "Some request comments",
-                        "type": "Some type",
-                        "isArray": true
-                    },
-                    "response": {
-                        "name": "Some response",
-                        "comments": "Some response comments",
-                        "type": "Some type",
-                        "isArray": true
-                    }
+        },
+        { 
+            "name": "Resources",
+            "resources": [
+				{
+					"name": "Some resource",
+					"comments": "Some resource comments",
+					"endpoints": [
+						{
+							"name": "Some endpoint",
+							"comments": "Some endpoint comments",
+							"url": "/some/url",
+							"method": "METHOD",
+							"urlParameters": [
+								{ 
+									"name": "Some url param",
+									"comments": "Some url param comments",
+									"type": "Some type",
+									"options": [
+										{
+											"name": "Some option",
+											"value": "Some option value", 
+											"comments": "Some option comments"
+										}                          
+									]
+								}
+							],
+							"querystringParameters": [
+								{ 
+									"name": "Some querystring",
+									"comments": "Some querystring comments",
+									"defaultValue": "Some default value",
+									"multipleAllowed": true,
+									"required": true,
+									"type": "Some type",
+									"options": [
+										{
+											"name": "Some option", 
+											"comments": "Some option comments",
+											"value": "Some option value"
+										}                           
+									]
+								}
+							],
+							"statusCodes": [
+								{
+									"name": "Some error",
+									"comments": "Some error comments",
+									"code": 999
+								}
+							],
+							"request": {
+								"name": "Some request",
+								"comments": "Some request comments",
+								"type": "Some type",
+								"isArray": true
+							},
+							"response": {
+								"name": "Some response",
+								"comments": "Some response comments",
+								"type": "Some type",
+								"isArray": true
+							}
+						}
+					]
                 }
             ]
         }

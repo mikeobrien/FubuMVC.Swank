@@ -47,7 +47,6 @@ namespace Tests
                 .DeserializeJson<FubuMVC.Swank.Specification.Specification>();
             spec.Types.ShouldNotBeNull();
             spec.Modules.ShouldNotBeNull();
-            spec.Resources.ShouldNotBeNull();
         }
 
         [Test]

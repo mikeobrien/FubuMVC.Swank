@@ -50,10 +50,7 @@ namespace FubuMVC.Swank.Specification
                                 Resources = modules.SelectMany(x => x.Resources)
                                     .GroupBy(x => x.Name, x => x, mergeResources)
                                     .OrderBy(x => x.Name).ToList()
-                            }).OrderBy(x => x.Name).ToList(),
-                    Resources = specification1.Resources
-                                    .OuterJoin(specification2.Resources, x => x.Name, mergeResources)
-                                    .OrderBy(x => x.Name).ToList()
+                            }).OrderBy(x => x.Name).ToList()
                 };
         }
     }

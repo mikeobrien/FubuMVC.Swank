@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using FubuCore;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
+using FubuMVC.Swank;
 using FubuMVC.Swank.Extensions;
 using FubuMVC.Swank.Specification;
 using Should;
@@ -115,15 +116,30 @@ namespace Tests
         public static Endpoint GetEndpoint<T>(this FubuMVC.Swank.Specification.Specification specification)
         {
             var url = typeof(T).GetHandlerUrl(new StackFrame(1).GetMethod().DeclaringType.Namespace);
-            return specification.Modules.SelectMany(x => x.Resources).Concat(specification.Resources)
+            return specification.Modules.SelectMany(x => x.Resources)
                 .SelectMany(x => x.Endpoints).FirstOrDefault(x => x.Url.Split('?')[0] == url);
         }
 
         public static Resource GetResource<T>(this FubuMVC.Swank.Specification.Specification specification)
         {
             var url = typeof(T).GetHandlerUrl(new StackFrame(1).GetMethod().DeclaringType.Namespace);
-            return specification.Modules.SelectMany(x => x.Resources).Concat(specification.Resources)
+            return specification.Modules.SelectMany(x => x.Resources)
                 .FirstOrDefault(x => x.Endpoints.Any(y => y.Url == url));
+        }
+
+        public static bool HasDefaultModule(this IEnumerable<FubuMVC.Swank.Specification.Module> modules)
+        {
+            return modules.Any(x => x.Name == FubuMVC.Swank.Specification.Module.DefaultName);
+        }
+
+        public static FubuMVC.Swank.Specification.Module GetDefaultModule(this IEnumerable<FubuMVC.Swank.Specification.Module> modules)
+        {
+            return modules.SingleOrDefault(x => x.Name == FubuMVC.Swank.Specification.Module.DefaultName);
+        }
+
+        public static FubuMVC.Swank.Specification.Module GetFirstNonDefaultModule(this IEnumerable<FubuMVC.Swank.Specification.Module> modules)
+        {
+            return modules.FirstOrDefault(x => x.Name != FubuMVC.Swank.Specification.Module.DefaultName);
         }
 
         public static bool InNamespace<T>(this Type type)
