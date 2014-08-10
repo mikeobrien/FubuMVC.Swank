@@ -372,9 +372,9 @@ namespace FubuMVC.Swank.Specification
                         return _configuration.OptionOverrides.Apply(x, new Option {
                             Name = option.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = option.WhenNotNull(y => y.Comments).OtherwiseDefault(), 
-                            Value = _configuration.EnumValue == EnumValue.AsString ? x.Name : x.GetRawConstantValue().ToString()
+                            OptionValue = _configuration.EnumValue == EnumValue.AsString ? x.Name : x.GetRawConstantValue().ToString()
                         });
-                    }).OrderBy(x => x.Name ?? x.Value).ToList()
+                    }).OrderBy(x => x.Name ?? x.OptionValue).ToList()
              : new List<Option>();
         }
     }

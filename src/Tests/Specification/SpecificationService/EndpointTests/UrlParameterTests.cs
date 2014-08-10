@@ -46,8 +46,8 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var options = Spec.GetEndpoint<UrlParameters.OptionGetHandler>()
                 .GetUrlParameter<UrlParameters.OptionRequest>(x => x.Options).Options;
 
-            options[0].Value.ShouldEqual("Option1");
-            options[1].Value.ShouldEqual("Option3");
+            options[0].OptionValue.ShouldEqual("Option1");
+            options[1].OptionValue.ShouldEqual("Option3");
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
                 .GetUrlParameter<UrlParameters.OptionRequest>(x => x.Options).Options[0];
 
             option.Name.ShouldEqual("Option 1");
-            option.Value.ShouldEqual("Option1");
+            option.OptionValue.ShouldEqual("Option1");
             option.Comments.ShouldEqual("Option 1 description.");
         }
 
@@ -68,7 +68,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
                 .GetUrlParameter<UrlParameters.OptionRequest>(x => x.Options).Options[1];
 
             option.Name.ShouldEqual("Option3");
-            option.Value.ShouldEqual("Option3");
+            option.OptionValue.ShouldEqual("Option3");
             option.Comments.ShouldBeNull();
         }
 
@@ -77,7 +77,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         {
             Spec.GetEndpoint<UrlParameters.OptionGetHandler>()
                 .GetUrlParameter<UrlParameters.OptionRequest>(x => x.Options)
-                .Options.Any(x => x.Value == "Option2").ShouldBeFalse();
+                .Options.Any(x => x.OptionValue == "Option2").ShouldBeFalse();
         }
     }
 }

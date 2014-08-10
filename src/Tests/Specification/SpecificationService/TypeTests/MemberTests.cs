@@ -325,17 +325,17 @@ namespace Tests.Specification.SpecificationService.TypeTests
             var option = member.Options[0];
             option.Name.ShouldEqual("Active yo!");
             option.Comments.ShouldEqual("This is a very nice status.");
-            option.Value.ShouldEqual(numeric ? "1" : "Active");
+            option.OptionValue.ShouldEqual(numeric ? "1" : "Active");
 
             option = member.Options[1];
             option.Name.ShouldEqual("HyperActive");
             option.Comments.ShouldEqual("Very active yo!");
-            option.Value.ShouldEqual(numeric ? "2" : "HyperActive");
+            option.OptionValue.ShouldEqual(numeric ? "2" : "HyperActive");
 
             option = member.Options[2];
             option.Name.ShouldEqual("Inactive");
             option.Comments.ShouldBeNull();
-            option.Value.ShouldEqual(numeric ? "0" : "Inactive");
+            option.OptionValue.ShouldEqual(numeric ? "0" : "Inactive");
         }
 
         [Test]

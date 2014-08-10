@@ -36,7 +36,7 @@ namespace Tests.Specification.SpecificationService.MergeTests
             var option = member.Options[0];
             option.Name.ShouldEqual("SomeOption");
             option.Comments.ShouldEqual("Some option comments");
-            option.Value.ShouldEqual("Some option value");
+            option.OptionValue.ShouldEqual("Some option value");
 
             spec.Modules.Count.ShouldEqual(1);
             var module = spec.Modules[0];
@@ -67,7 +67,7 @@ namespace Tests.Specification.SpecificationService.MergeTests
 
             option = urlParameter.Options[0];
             option.Name.ShouldEqual("Some option");
-            option.Value.ShouldEqual("Some option value");
+            option.OptionValue.ShouldEqual("Some option value");
             option.Comments.ShouldEqual("Some option comments");
 
             endpoint.QuerystringParameters.Count.ShouldEqual(1);
@@ -82,7 +82,7 @@ namespace Tests.Specification.SpecificationService.MergeTests
 
             option = urlParameter.Options[0];
             option.Name.ShouldEqual("Some option");
-            option.Value.ShouldEqual("Some option value");
+            option.OptionValue.ShouldEqual("Some option value");
             option.Comments.ShouldEqual("Some option comments");
 
             endpoint.StatusCodes.Count.ShouldEqual(1);

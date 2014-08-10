@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace FubuMVC.Swank.Specification
 {
@@ -36,13 +39,6 @@ namespace FubuMVC.Swank.Specification
         public string DictionaryKeyType { get; set; }
         public string Type { get; set; }
         public List<Option> Options { get; set; }
-    }
-
-    public class Option : IDescription
-    {
-        public string Name { get; set; }
-        public string Comments { get; set; }
-        public string Value { get; set; }
     }
 
     public class Module : IDescription
@@ -109,13 +105,52 @@ namespace FubuMVC.Swank.Specification
         public bool Optional { get; set; }
     }
 
-    public class Data : IDescription
+    public class Data
+    {
+        public List<DataDescription> Description { get; set; }
+    }
+
+    public class DataDescription : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
-        public string Type { get; set; }
+        public string TypeName { get; set; }
+        public string DefaultValue { get; set; }
+        public bool Required { get; set; }
+        public string Whitespace { get; set; }
+        public bool IsDeprecated { get; set; }
+        public string DeprecationMessage { get; set; }
+
+        public bool IsOpening { get; set; }
+        public bool IsClosing { get; set; }
+        public bool IsMember { get; set; }
+        public bool IsLastMember { get; set; }
+
+        public bool IsSimpleType { get; set; }
+        public bool IsComplexType { get; set; }
         public bool IsArray { get; set; }
         public bool IsDictionary { get; set; }
-        public string DictionaryKeyType { get; set; }
+        public bool IsDictionaryEntry { get; set; }
+
+        public bool IsString { get; set; }
+        public bool IsBoolean { get; set; }
+        public bool IsNumeric { get; set; }
+        public bool IsDateTime { get; set; }
+        public bool IsDuration { get; set; }
+        public bool IsGuid { get; set; }
+
+        public bool IsEnumeration { get; set; }
+        public List<Option> Options { get; set; }
+
+        public string KeyComments { get; set; }
+        public string KeyTypeName { get; set; }
+        public bool KeyIsEnumeration { get; set; }
+        public List<Option> KeyOptions { get; set; }
+    }
+
+    public class Option
+    {
+        public string OptionValue { get; set; }
+        public string OptionComments { get; set; }
     }
 }
