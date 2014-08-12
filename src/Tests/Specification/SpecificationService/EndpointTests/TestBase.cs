@@ -45,8 +45,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
                                                                                    new OptionConvention(),
                                                                                    new StatusCodeConvention(),
                                                                                    new HeaderConvention(),
-                                                                                   new TypeConvention(),
-                                                                                   new MergeService());
+                                                                                   new TypeConvention());
             return specBuilder.Generate();
         }
     }

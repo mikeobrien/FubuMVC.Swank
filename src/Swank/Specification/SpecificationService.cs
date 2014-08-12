@@ -10,7 +10,7 @@ using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank.Specification
 {
-    public class SpecificationService : ISpecificationService
+    public class SpecificationService
     {
         private class BehaviorMapping
         {
@@ -36,7 +36,6 @@ namespace FubuMVC.Swank.Specification
         private readonly IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>> _statusCodeConvention;
         private readonly IDescriptionConvention<BehaviorChain, List<HeaderDescription>> _headerConvention;
         private readonly IDescriptionConvention<System.Type, TypeDescription> _typeConvention;
-        private readonly MergeService _mergeService;
 
         public SpecificationService(
             Configuration configuration, 
@@ -49,8 +48,7 @@ namespace FubuMVC.Swank.Specification
             IDescriptionConvention<FieldInfo, OptionDescription> optionConvention,
             IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>> statusCodeConvention,
             IDescriptionConvention<BehaviorChain, List<HeaderDescription>> headerConvention,
-            IDescriptionConvention<System.Type, TypeDescription> typeConvention,
-            MergeService mergeService)
+            IDescriptionConvention<System.Type, TypeDescription> typeConvention)
         {
             _configuration = configuration;
             _behaviors = behaviors;
@@ -62,7 +60,6 @@ namespace FubuMVC.Swank.Specification
             _optionConvention = optionConvention;
             _statusCodeConvention = statusCodeConvention;
             _typeConvention = typeConvention;
-            _mergeService = mergeService;
             _headerConvention = headerConvention;
         }
 
@@ -88,8 +85,6 @@ namespace FubuMVC.Swank.Specification
                     Types = GatherInputOutputModels(behaviorMappings.Select(x => x.Chain).ToList()),
                     Modules = modules
                 };
-            if (_configuration.MergeSpecificationPath.IsNotEmpty())
-                specification = _mergeService.Merge(specification, _configuration.MergeSpecificationPath);
             return specification;
         }
 
@@ -372,9 +367,9 @@ namespace FubuMVC.Swank.Specification
                         return _configuration.OptionOverrides.Apply(x, new Option {
                             Name = option.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = option.WhenNotNull(y => y.Comments).OtherwiseDefault(), 
-                            OptionValue = _configuration.EnumValue == EnumValue.AsString ? x.Name : x.GetRawConstantValue().ToString()
+                            Value = _configuration.EnumValue == EnumValue.AsString ? x.Name : x.GetRawConstantValue().ToString()
                         });
-                    }).OrderBy(x => x.Name ?? x.OptionValue).ToList()
+                    }).OrderBy(x => x.Name).ToList()
              : new List<Option>();
         }
     }

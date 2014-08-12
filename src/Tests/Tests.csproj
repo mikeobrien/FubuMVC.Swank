@@ -100,11 +100,9 @@
     <Compile Include="TestExtensions.cs" />
     <Compile Include="Specification\OverrideTests\Handlers.cs" />
     <Compile Include="Specification\OverrideTests\Tests.cs" />
-    <Compile Include="Specification\MergeServiceTests\Tests.cs" />
     <Compile Include="Specification\SpecificationService\EndpointTests\HeadersTests.cs" />
     <Compile Include="Specification\SpecificationService\Tests\Handlers.cs" />
     <Compile Include="Specification\SpecificationService\Tests\Tests.cs" />
-    <Compile Include="Specification\SpecificationService\MergeTests\Tests.cs" />
     <Compile Include="Specification\SpecificationService\TypeTests\MemberTests.cs" />
     <Compile Include="Specification\SpecificationService\TypeTests\Handlers.cs" />
     <Compile Include="Specification\SpecificationService\TypeTests\Tests.cs" />
@@ -148,12 +146,6 @@
     <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\RequestDescription\EmbeddedHandlerDescriptionGetHandler.Request.md" />
     <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\ResponseDescription\EmbeddedHandlerDescriptionGetHandler.Response.md" />
     <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\ResponseDescription\EmbeddedDescriptionGetHandler.Execute.Response.md" />
-    <None Include="Specification\MergeServiceTests\Merge.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Specification\SpecificationService\MergeTests\Merge.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
     <EmbeddedResource Include="Specification\SpecificationService\EndpointTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Execute_EmbeddedDescription.md" />
     <EmbeddedResource Include="ExtensionTests\EmbeddedMarkdownResource.md" />

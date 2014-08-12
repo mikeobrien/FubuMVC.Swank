@@ -47,8 +47,7 @@ namespace Tests.Specification.SpecificationService.Tests
                                                                         new OptionConvention(),
                                                                         new StatusCodeConvention(),
                                                                         new HeaderConvention(),
-                                                                        new TypeConvention(),
-                                                                        new MergeService()).Generate();
+                                                                        new TypeConvention()).Generate();
         
         }
     }

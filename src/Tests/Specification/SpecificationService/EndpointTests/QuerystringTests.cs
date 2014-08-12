@@ -153,8 +153,8 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var options = Spec.GetEndpoint<Querystrings.OptionGetHandler>()
                 .GetQuerystring<Querystrings.OptionRequest>(x => x.Options).Options;
 
-            options[0].OptionValue.ShouldEqual("Option1");
-            options[1].OptionValue.ShouldEqual("Option3");
+            options[0].Value.ShouldEqual("Option1");
+            options[1].Value.ShouldEqual("Option3");
         }
 
         [Test]
@@ -164,7 +164,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
                 .GetQuerystring<Querystrings.OptionRequest>(x => x.Options).Options[0];
 
             option.Name.ShouldEqual("Option 1");
-            option.OptionValue.ShouldEqual("Option1");
+            option.Value.ShouldEqual("Option1");
             option.Comments.ShouldEqual("Option 1 description.");
         }
 
@@ -175,7 +175,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
                 .GetQuerystring<Querystrings.OptionRequest>(x => x.Options).Options[1];
 
             option.Name.ShouldEqual("Option3");
-            option.OptionValue.ShouldEqual("Option3");
+            option.Value.ShouldEqual("Option3");
             option.Comments.ShouldBeNull();
         }
 
@@ -183,7 +183,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         public void should_hide_querystring_options_marked_with_the_hide_attribute()
         {
             Spec.GetEndpoint<Querystrings.OptionGetHandler>()
-                .GetQuerystring<Querystrings.OptionRequest>(x => x.Options).Options.Any(x => x.OptionValue == "Option2").ShouldBeFalse();
+                .GetQuerystring<Querystrings.OptionRequest>(x => x.Options).Options.Any(x => x.Value == "Option2").ShouldBeFalse();
         }
     }
 }

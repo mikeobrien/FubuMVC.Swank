@@ -1,44 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace FubuMVC.Swank.Specification
 {
-    public interface IDescription
-    {
-        string Name { get; set; }
-        string Comments { get; set; }
-    }
-
     public class Specification : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
         public List<Type> Types { get; set; }
         public List<Module> Modules { get; set; }
-    }
-
-    public class Type : IDescription
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Comments { get; set; }
-        public List<Member> Members { get; set; }
-    }
-
-    public class Member : IDescription
-    {
-        public string Name { get; set; }
-        public string Comments { get; set; }
-        public bool Required { get; set; }
-        public string DefaultValue { get; set; }
-        public bool IsArray { get; set; }
-        public string ArrayItemName { get; set; }
-        public bool IsDictionary { get; set; }
-        public string DictionaryKeyType { get; set; }
-        public string Type { get; set; }
-        public List<Option> Options { get; set; }
     }
 
     public class Module : IDescription
@@ -107,50 +76,81 @@ namespace FubuMVC.Swank.Specification
 
     public class Data
     {
-        public List<DataDescription> Description { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public string Type { get; set; }
+        public bool IsArray { get; set; }
+        public List<Schema> Schema { get; set; }
     }
 
-    public class DataDescription : IDescription
+    public class Schema : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
         public string TypeName { get; set; }
         public string DefaultValue { get; set; }
-        public bool Required { get; set; }
+        public bool? Required { get; set; }
+        public bool? Optional { get; set; }
         public string Whitespace { get; set; }
-        public bool IsDeprecated { get; set; }
+        public bool? IsDeprecated { get; set; }
         public string DeprecationMessage { get; set; }
 
-        public bool IsOpening { get; set; }
-        public bool IsClosing { get; set; }
-        public bool IsMember { get; set; }
-        public bool IsLastMember { get; set; }
+        public bool? IsOpening { get; set; }
+        public bool? IsClosing { get; set; }
+        public bool? IsMember { get; set; }
+        public bool? IsLastMember { get; set; }
 
-        public bool IsSimpleType { get; set; }
-        public bool IsComplexType { get; set; }
-        public bool IsArray { get; set; }
-        public bool IsDictionary { get; set; }
-        public bool IsDictionaryEntry { get; set; }
+        public bool? IsSimpleType { get; set; }
+        public bool? IsComplexType { get; set; }
+        public bool? IsArray { get; set; }
+        public bool? IsDictionary { get; set; }
+        public bool? IsDictionaryEntry { get; set; }
 
-        public bool IsString { get; set; }
-        public bool IsBoolean { get; set; }
-        public bool IsNumeric { get; set; }
-        public bool IsDateTime { get; set; }
-        public bool IsDuration { get; set; }
-        public bool IsGuid { get; set; }
+        public bool? IsString { get; set; }
+        public bool? IsBoolean { get; set; }
+        public bool? IsNumeric { get; set; }
+        public bool? IsDateTime { get; set; }
+        public bool? IsDuration { get; set; }
+        public bool? IsGuid { get; set; }
 
-        public bool IsEnumeration { get; set; }
         public List<Option> Options { get; set; }
 
-        public string KeyComments { get; set; }
-        public string KeyTypeName { get; set; }
-        public bool KeyIsEnumeration { get; set; }
-        public List<Option> KeyOptions { get; set; }
+        public Key Key { get; set; }
+    }
+
+    public class Key
+    {
+        public string Comments { get; set; }
+        public string TypeName { get; set; }
+        public List<Option> Options { get; set; }
+    }
+
+    public class Type : IDescription
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public List<Member> Members { get; set; }
+    }
+
+    public class Member : IDescription
+    {
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public bool Required { get; set; }
+        public string DefaultValue { get; set; }
+        public bool IsArray { get; set; }
+        public string ArrayItemName { get; set; }
+        public bool IsDictionary { get; set; }
+        public string DictionaryKeyType { get; set; }
+        public string Type { get; set; }
+        public List<Option> Options { get; set; }
     }
 
     public class Option
     {
-        public string OptionValue { get; set; }
-        public string OptionComments { get; set; }
+        public string Name { get; set; }
+        public string Value { get; set; }
+        public string Comments { get; set; }
     }
 }

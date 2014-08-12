@@ -3,6 +3,7 @@ using System.Reflection;
 using FubuMVC.Core;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Description;
+using FubuMVC.Swank.Documentation;
 using FubuMVC.Swank.Extensions;
 using FubuMVC.Swank.Specification;
 
@@ -20,7 +21,7 @@ namespace FubuMVC.Swank
             });
             
             Routes
-                .HomeIs<ViewGetHandler>(x => x.Execute())
+                .HomeIs<GetHandler>(x => x.Execute())
                 .IgnoreMethodSuffix("Execute")
                 .IgnoreControllerNamesEntirely()
                 .IgnoreControllerNamespaceEntirely()
@@ -29,7 +30,6 @@ namespace FubuMVC.Swank
             Services(x =>
             {
                 x.AddService(configuration);
-                x.AddService<ISpecificationService, CachedSpecificationService>();
                 x.AddService<IDescriptionConvention<BehaviorChain, ModuleDescription>>(configuration.ModuleConvention.Type, configuration.ModuleConvention.Config)
                  .AddService<IDescriptionConvention<BehaviorChain, ResourceDescription>>(configuration.ResourceConvention.Type, configuration.ResourceConvention.Config)
                  .AddService<IDescriptionConvention<BehaviorChain, EndpointDescription>>(configuration.EndpointConvention.Type, configuration.EndpointConvention.Config)
