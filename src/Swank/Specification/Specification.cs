@@ -74,16 +74,14 @@ namespace FubuMVC.Swank.Specification
         public bool Optional { get; set; }
     }
 
-    public class Data
+    public class Data : IDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
-        public string Type { get; set; }
-        public bool IsArray { get; set; }
         public List<Schema> Schema { get; set; }
     }
 
-    public class Schema : IDescription
+    public class Schema
     {
         public string Name { get; set; }
         public string Comments { get; set; }
@@ -97,40 +95,55 @@ namespace FubuMVC.Swank.Specification
 
         public bool? IsOpening { get; set; }
         public bool? IsClosing { get; set; }
+
         public bool? IsMember { get; set; }
         public bool? IsLastMember { get; set; }
 
         public bool? IsSimpleType { get; set; }
-        public bool? IsComplexType { get; set; }
-        public bool? IsArray { get; set; }
-        public bool? IsDictionary { get; set; }
-        public bool? IsDictionaryEntry { get; set; }
-
         public bool? IsString { get; set; }
         public bool? IsBoolean { get; set; }
         public bool? IsNumeric { get; set; }
         public bool? IsDateTime { get; set; }
         public bool? IsDuration { get; set; }
         public bool? IsGuid { get; set; }
-
         public List<Option> Options { get; set; }
 
-        public Key Key { get; set; }
+        public bool? IsComplexType { get; set; }
+
+        public bool? IsArray { get; set; }
+
+        public bool? IsDictionary { get; set; }
+        public bool? IsDictionaryEntry { get; set; }
+        public Key DictionaryKey { get; set; }
     }
 
     public class Key
     {
         public string Comments { get; set; }
-        public string TypeName { get; set; }
+        public string Type { get; set; }
         public List<Option> Options { get; set; }
     }
 
     public class Type : IDescription
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
+        public Type Ancestor { get; set; }
+
         public string Name { get; set; }
         public string Comments { get; set; }
+
+        public bool IsSimple { get; set; }
+        public List<Option> Options { get; set; }
+
+        public bool IsComplex { get; set; }
         public List<Member> Members { get; set; }
+
+        public bool IsArray { get; set; }
+        public Type ArrayItemType { get; set; }
+
+        public bool IsDictionary { get; set; }
+        public Type DictionaryKeyType { get; set; }
+        public Type DictionaryValueType { get; set; }
     }
 
     public class Member : IDescription
@@ -139,12 +152,7 @@ namespace FubuMVC.Swank.Specification
         public string Comments { get; set; }
         public bool Required { get; set; }
         public string DefaultValue { get; set; }
-        public bool IsArray { get; set; }
-        public string ArrayItemName { get; set; }
-        public bool IsDictionary { get; set; }
-        public string DictionaryKeyType { get; set; }
-        public string Type { get; set; }
-        public List<Option> Options { get; set; }
+        public Type Type { get; set; }
     }
 
     public class Option

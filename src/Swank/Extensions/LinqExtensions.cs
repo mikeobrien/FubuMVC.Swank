@@ -47,5 +47,18 @@ namespace FubuMVC.Swank.Extensions
         {
             return map(source);
         }
+
+        public static IEnumerable<TResult> SelectOrEmpty<T, TResult>(
+            this IEnumerable<T> source, Func<T, TResult> map)
+        {
+            return (source ?? Enumerable.Empty<T>()).Select(map);
+        }
+
+        public static TResult MapOrEmpty<T, TResult>(this T source, Func<T, TResult> map)
+            where T : class 
+            where TResult : class 
+        {
+            return source != null ? map(source) : null;
+        }
     }
 }

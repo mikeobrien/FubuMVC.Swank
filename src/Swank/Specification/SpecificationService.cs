@@ -82,7 +82,6 @@ namespace FubuMVC.Swank.Specification
                     Comments = _configuration.AppliesToAssemblies
                         .Select(x => x.FindTextResourceNamed("*" + _configuration.Comments))
                         .FirstOrDefault(x => x != null),
-                    Types = GatherInputOutputModels(behaviorMappings.Select(x => x.Chain).ToList()),
                     Modules = modules
                 };
             return specification;
@@ -149,28 +148,6 @@ namespace FubuMVC.Swank.Specification
                 .OrderBy(x => x.Name).ToList();
         }
 
-        private static IEnumerable<TypeContext> RootInputAndOutputModels(BehaviorChain chain)
-        {
-            var firstCall = chain.FirstCall();
-            var lastCall = chain.LastCall();
-
-            if (firstCall.HasInput &&
-                !chain.Route.AllowsGet() &&
-                !chain.Route.AllowsDelete())
-            {
-                var inputType = firstCall.InputType();
-                inputType = inputType.GetListElementType() ?? inputType;
-                yield return new TypeContext(inputType, chain: chain);
-            }
-
-            if (lastCall.HasOutput)
-            {
-                var outputType = lastCall.OutputType();
-                outputType = outputType.GetListElementType() ?? outputType;
-                yield return new TypeContext(outputType);
-            }
-        }
-
         private List<TypeContext> GetTypes(TypeContext type)
         {
             var properties = type.Type.IsProjection()
@@ -224,7 +201,7 @@ namespace FubuMVC.Swank.Specification
                                 IsArray = description.IsArray,
                                 ArrayItemName = description.WhenNotNull(y => y.ArrayItemName).OtherwiseDefault(),
                                 IsDictionary = description.IsDictionary,
-                                DictionaryKeyType = description.IsDictionary ? getType(description.DictionaryKeyType) : "",
+                                Key = description.IsDictionary ? getType(description.DictionaryKeyType) : "",
                                 Options = GetOptions(description.Type)
                             });
                     })
@@ -273,13 +250,72 @@ namespace FubuMVC.Swank.Specification
                         StatusCodes = GetStatusCodes(chain),
                         Headers = GetHeaders(chain),
                         Request = chain.FirstCall().HasInput && (route.AllowsPost() || route.AllowsPut())
-                            ? _configuration.RequestOverrides.Apply(chain, GetData(chain.InputType(), endpoint.RequestComments, chain.FirstCall().Method))
+                            ? _configuration.RequestOverrides.Apply(chain, GetRequestData(chain.InputType(), endpoint))
                             : null,
                         Response = chain.LastCall().HasOutput
-                            ? _configuration.ResponseOverrides.Apply(chain, GetData(chain.LastCall().OutputType(), endpoint.ResponseComments))
+                            ? _configuration.ResponseOverrides.Apply(chain, GetResponseData(chain.LastCall().OutputType(), endpoint))
                             : null
                     });
                 }).OrderBy(x => x.Url.Split('?').First()).ThenBy(x => HttpVerbRank(x.Method)).ToList();
+        }
+
+        private Data GetRequestData(BehaviorChain chain, EndpointDescription endpoint)
+        {
+            var firstCall = chain.FirstCall();
+
+            if (!firstCall.HasInput ||
+                chain.Route.AllowsGet() ||
+                chain.Route.AllowsDelete()) return null;
+
+            var inputType = firstCall.InputType();
+            return GetData(inputType, endpoint.RequestComments, chain.FirstCall().Method);
+        }
+
+        private Data GetResponseData(BehaviorChain chain, EndpointDescription endpoint)
+        {
+            var lastCall = chain.LastCall();
+
+            if (!lastCall.HasOutput) return null;
+
+            var outputType = lastCall.OutputType();
+            return GetData(outputType, endpoint.ResponseComments);
+        }
+
+        private Data GetData(System.Type type, string comments, MethodInfo method = null)
+        {
+            var dataType = _typeConvention.GetDescription(type);
+            return new Data
+            {
+                    Name = dataType.WhenNotNull(y => y.Name).OtherwiseDefault(),
+                    Comments = comments,
+                    IsArray = type.IsArray || type.IsList(),
+                    //IsDictionary = ,
+                    //Key = ,
+                    //Schema = 
+            };
+        }
+
+        private List<TypeContext> WalkTypeGraph(System.Type type)
+        {
+            type = type.GetListElementType() ?? type;
+            var properties = type.IsProjection()
+                ? type.GetProjectionProperties()
+                : _typeCache.GetPropertiesFor(type).Select(x => x.Value);
+
+            var types = properties
+                .Where(x => !x.IsHidden() &&
+                            !(x.PropertyType.GetListElementType() ?? x.PropertyType).IsSystemType() &&
+                            !x.PropertyType.IsEnum &&
+                            !x.IsAutoBound())
+                .Select(x => new TypeContext(x.PropertyType.GetListElementType() ?? x.PropertyType, type))
+                .DistinctBy(x => x.Type, x => x.Chain)
+                .ToList();
+
+            return types.Concat(types
+                            .Where(x => type.Traverse(y => y.Parent).All(y => y.Type != x.Type))
+                            .SelectMany(GetTypes))
+                        .DistinctBy(x => x.Type, x => x.Chain)
+                        .ToList();
         }
 
         private List<UrlParameter> GetUrlParameters(BehaviorChain chain)
@@ -342,20 +378,6 @@ namespace FubuMVC.Swank.Specification
                     Optional = x.Optional
                 })).OrderBy(x => x.Type).ThenBy(x => x.Name).ToList();
         }
-
-        private Data GetData(System.Type type, string comments, MethodInfo action = null)
-        {
-            var dataType = _typeConvention.GetDescription(type);
-            var rootType = dataType.WhenNotNull(x => x.Type).Otherwise(type);
-            return new Data
-                {
-                    Name = dataType.WhenNotNull(y => y.Name).OtherwiseDefault(),
-                    Comments = comments,
-                    Type = action.WhenNotNull(x => _configuration.InputTypeIdConvention(rootType, x))
-                            .Otherwise(_configuration.TypeIdConvention(rootType)),
-                    IsArray = type.IsArray || type.IsList()
-                };
-        } 
 
         private List<Option> GetOptions(System.Type type)
         {

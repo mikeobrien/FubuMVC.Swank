@@ -1,6 +1,6 @@
 ﻿<use namespace="System.Web" />
 <use namespace="FubuMVC.Swank.Extensions" />
-<viewdata model="FubuMVC.Swank.Specification.HandlerResponse" />
+<viewdata model="FubuMVC.Swank.Documentation.Response" />
 <!DOCTYPE html>
 <html lang="en">
   <head>

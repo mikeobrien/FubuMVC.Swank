@@ -99,12 +99,6 @@
         return context.replace(/(\{.*?\})/g, '<span class="highlight-text"><b>$1</b></span>');
     });
 
-    Handlebars.registerHelper('when', function (predicate, options) {
-        var declarations = '';
-        for (var field in this) declarations += field + ' = this.' + field + ',';
-        if (eval(declarations + predicate)) { return options.fn(this); }
-    });
-    
     var initialize = function () {
 
         var getHash = function() { return window.location.hash.replace(/^#/, ''); };

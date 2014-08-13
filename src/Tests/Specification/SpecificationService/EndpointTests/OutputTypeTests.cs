@@ -49,16 +49,16 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         [Test]
         public void should_set_the_datatype_for__output_types_to_a_hash_of_the_datatype()
         {
-            Spec.GetEndpoint<OutputTypeDescriptions.GetHandler>().Response.Type
+            Spec.GetEndpoint<OutputTypeDescriptions.GetHandler>().Response.TypeId
                 .ShouldEqual(typeof(OutputTypeDescriptions.GetResponse).GetHash());
 
-            Spec.GetEndpoint<OutputTypeDescriptions.PostHandler>().Response.Type
+            Spec.GetEndpoint<OutputTypeDescriptions.PostHandler>().Response.TypeId
                 .ShouldEqual(typeof(OutputTypeDescriptions.PostResponse).GetHash());
 
-            Spec.GetEndpoint<OutputTypeDescriptions.PutHandler>().Response.Type
+            Spec.GetEndpoint<OutputTypeDescriptions.PutHandler>().Response.TypeId
                 .ShouldEqual(typeof(OutputTypeDescriptions.PutResponse).GetHash());
 
-            Spec.GetEndpoint<OutputTypeDescriptions.DeleteHandler>().Response.Type
+            Spec.GetEndpoint<OutputTypeDescriptions.DeleteHandler>().Response.TypeId
                 .ShouldEqual(typeof(OutputTypeDescriptions.DeleteResponse).GetHash());
         }
 
@@ -69,7 +69,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
             response.Name.ShouldEqual("ArrayOfResponseItem");
             response.Comments.ShouldBeNull();
-            response.Type.ShouldEqual(typeof(OutputTypeDescriptions.ResponseItem).GetHash());
+            response.TypeId.ShouldEqual(typeof(OutputTypeDescriptions.ResponseItem).GetHash());
             response.IsArray.ShouldBeTrue();
         }
 
@@ -80,7 +80,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
             response.Name.ShouldEqual("ArrayOfResponseItem");
             response.Comments.ShouldBeNull();
-            response.Type.ShouldEqual(typeof(OutputTypeDescriptions.ResponseItem).GetHash());
+            response.TypeId.ShouldEqual(typeof(OutputTypeDescriptions.ResponseItem).GetHash());
             response.IsArray.ShouldBeTrue();
         }
 
@@ -91,7 +91,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
             response.Name.ShouldEqual("NewItemName");
             response.Comments.ShouldBeNull();
-            response.Type.ShouldEqual(typeof(OutputTypeDescriptions.OverridenResponseItem).GetHash());
+            response.TypeId.ShouldEqual(typeof(OutputTypeDescriptions.OverridenResponseItem).GetHash());
             response.IsArray.ShouldBeFalse();
         }
 
@@ -102,7 +102,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
             response.Name.ShouldEqual("NewCollectionName");
             response.Comments.ShouldBeNull();
-            response.Type.ShouldEqual(typeof(OutputTypeDescriptions.OverridenResponseItem).GetHash());
+            response.TypeId.ShouldEqual(typeof(OutputTypeDescriptions.OverridenResponseItem).GetHash());
             response.IsArray.ShouldBeTrue();
         }
     }

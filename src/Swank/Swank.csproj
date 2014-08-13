@@ -110,11 +110,12 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Conventions.cs" />
     <Compile Include="Description\Assert.cs" />
+    <Compile Include="Extensions\LazyCache.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="Specification\BehaviorSource.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
-    <Compile Include="Documentation\SpecificationFactory.cs" />
+    <Compile Include="Specification\SchemaFactory.cs" />
     <Compile Include="Specification\IDescription.cs" />
     <Compile Include="Specification\OrphanedModuleActionException.cs" />
     <Compile Include="Specification\OrphanedResourceActionException.cs" />
@@ -146,7 +147,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Specification\Specification.cs" />
-    <Compile Include="Documentation\ViewModels.cs" />
     <Compile Include="Specification\SpecificationService.cs" />
     <Compile Include="Specification\TypeContext.cs" />
     <Compile Include="Documentation\GetHandler.cs" />

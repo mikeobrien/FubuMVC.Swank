@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FubuMVC.Swank.Specification;
 
 namespace FubuMVC.Swank.Documentation
 {
@@ -9,19 +10,20 @@ namespace FubuMVC.Swank.Documentation
         public bool ShowJsonFormat { get; set; }
         public List<string> Scripts { get; set; }
         public List<string> Stylesheets { get; set; }
-        public SpecificationModel Specification { get; set; }
+        public Specification.Specification Specification { get; set; }
     }
 
     public class GetHandler
     {
-        private readonly SpecificationFactory _specificationFactory;
         private readonly Configuration _configuration;
+        private readonly LazyCache<Specification.Specification> _specification = 
+            new LazyCache<Specification.Specification>();
 
         public GetHandler(
-            SpecificationFactory specificationFactory, 
+            SpecificationService specificationService, 
             Configuration configuration)
         {
-            _specificationFactory = specificationFactory;
+            _specification.UseFactory(specificationService.Generate);
             _configuration = configuration;
         }
 
@@ -33,13 +35,13 @@ namespace FubuMVC.Swank.Documentation
                 Stylesheets = _configuration.Stylesheets,
                 ShowXmlFormat = _configuration.DisplayXmlFormat,
                 ShowJsonFormat = _configuration.DisplayJsonFormat,
-                Specification = _specificationFactory.Create()
+                Specification = _specification.Value
             };
         }
 
-        public SpecificationModel DataExecute()
+        public Specification.Specification DataExecute()
         {
-            return _specificationFactory.Create();
+            return _specification.Value;
         }
     }
 }
