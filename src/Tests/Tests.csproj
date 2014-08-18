@@ -97,6 +97,7 @@
     <Compile Include="Description\ResourceConventionTests\Handlers.cs" />
     <Compile Include="Specification\SpecificationService\MultiActionTests\Handlers.cs" />
     <Compile Include="Specification\SpecificationService\MultiActionTests\Tests.cs" />
+    <Compile Include="Specification\TypeGraphFactoryTests\Tests.cs" />
     <Compile Include="TestExtensions.cs" />
     <Compile Include="Specification\OverrideTests\Handlers.cs" />
     <Compile Include="Specification\OverrideTests\Tests.cs" />
@@ -195,6 +196,7 @@
       <Name>TestHarness</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

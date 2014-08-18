@@ -6,7 +6,7 @@ namespace FubuMVC.Swank.Specification
     {
         public string Name { get; set; }
         public string Comments { get; set; }
-        public List<Type> Types { get; set; }
+        public List<DataType> Types { get; set; }
         public List<Module> Modules { get; set; }
     }
 
@@ -74,9 +74,8 @@ namespace FubuMVC.Swank.Specification
         public bool Optional { get; set; }
     }
 
-    public class Data : IDescription
+    public class Data
     {
-        public string Name { get; set; }
         public string Comments { get; set; }
         public List<Schema> Schema { get; set; }
     }
@@ -124,11 +123,8 @@ namespace FubuMVC.Swank.Specification
         public List<Option> Options { get; set; }
     }
 
-    public class Type : IDescription
+    public class DataType : IDescription
     {
-        public int Id { get; set; }
-        public Type Ancestor { get; set; }
-
         public string Name { get; set; }
         public string Comments { get; set; }
 
@@ -139,11 +135,22 @@ namespace FubuMVC.Swank.Specification
         public List<Member> Members { get; set; }
 
         public bool IsArray { get; set; }
-        public Type ArrayItemType { get; set; }
+        public ArrayItem ArrayItem { get; set; }
 
         public bool IsDictionary { get; set; }
-        public Type DictionaryKeyType { get; set; }
-        public Type DictionaryValueType { get; set; }
+        public DictionaryEntry DictionaryEntry { get; set; }
+    }
+
+    public class ArrayItem
+    {
+        public string Name { get; set; }
+        public DataType Type { get; set; }
+    }
+
+    public class DictionaryEntry
+    {
+        public DataType KeyType { get; set; }
+        public DataType ValueType { get; set; }
     }
 
     public class Member : IDescription
@@ -152,7 +159,7 @@ namespace FubuMVC.Swank.Specification
         public string Comments { get; set; }
         public bool Required { get; set; }
         public string DefaultValue { get; set; }
-        public Type Type { get; set; }
+        public DataType Type { get; set; }
     }
 
     public class Option

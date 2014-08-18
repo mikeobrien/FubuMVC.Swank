@@ -9,9 +9,7 @@ namespace FubuMVC.Swank.Description
     {
         public virtual TypeDescription GetDescription(System.Type type)
         {
-            var elementType = type.GetListElementType();
             return new TypeDescription {
-                Type = elementType ?? type,
                 Name = type.GetCustomAttribute<XmlRootAttribute>()
                             .WhenNotNull(x => x.ElementName)
                             .Otherwise(type.GetCustomAttribute<XmlTypeAttribute>()

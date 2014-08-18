@@ -259,26 +259,6 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// This allows you to set the type id convention. 
-        /// The default is a hash of the full type name.
-        /// </summary>
-        public Swank WithTypeIdConvention(Func<Type, string> convention)
-        {
-            _configuration.TypeIdConvention = convention;
-            return this;
-        }
-
-        /// <summary>
-        /// This allows you to set the input type id convention. 
-        /// The default is a hash of the full type name plus the method name.
-        /// </summary>
-        public Swank WithInputTypeIdConvention(Func<Type, MethodInfo, string> convention)
-        {
-            _configuration.InputTypeIdConvention = convention;
-            return this;
-        }
-
-        /// <summary>
         /// This allows you to set the module convention.
         /// </summary>
         public Swank WithModuleConvention<T>() where T : IDescriptionConvention<BehaviorChain, ModuleDescription>
@@ -681,7 +661,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override type values.
         /// </summary>
-        public Swank OverrideTypes(Action<Type, Specification.Type> @override)
+        public Swank OverrideTypes(Action<Type, Specification.DataType> @override)
         {
             _configuration.TypeOverrides.Add(@override);
             return this;
@@ -690,8 +670,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override type values when a condition is met.
         /// </summary>
-        public Swank OverrideTypesWhen(Action<Type, Specification.Type> @override,
-            Func<Type, Specification.Type, bool> when)
+        public Swank OverrideTypesWhen(Action<Type, Specification.DataType> @override,
+            Func<Type, Specification.DataType, bool> when)
         {
             _configuration.TypeOverrides.Add(OverrideWhen(@override, when));
             return this;

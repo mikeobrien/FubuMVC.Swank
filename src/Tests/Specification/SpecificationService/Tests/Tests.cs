@@ -36,18 +36,26 @@ namespace Tests.Specification.SpecificationService.Tests
             var behaviorSource = new BehaviorSource(graph, configuration);
             var resourceConvention = new ResourceConvention(new MarkerConvention<ResourceDescription>(), behaviorSource);
             var moduleConvention = new ModuleConvention(new MarkerConvention<ModuleDescription>());
-
-            return new FubuMVC.Swank.Specification.SpecificationService(configuration,
-                                                                        behaviorSource,
-                                                                        new TypeDescriptorCache(),
-                                                                        moduleConvention,
-                                                                        resourceConvention,
-                                                                        new EndpointConvention(),
-                                                                        new MemberConvention(),
-                                                                        new OptionConvention(),
-                                                                        new StatusCodeConvention(),
-                                                                        new HeaderConvention(),
-                                                                        new TypeConvention()).Generate();
+            var typeCache = new TypeDescriptorCache();
+            var typeConvention = new TypeConvention();
+            var memberConvention = new MemberConvention();
+            return new FubuMVC.Swank.Specification.SpecificationService(
+                configuration,
+                behaviorSource,
+                typeCache,
+                moduleConvention,
+                resourceConvention,
+                new EndpointConvention(),
+                memberConvention,
+                new StatusCodeConvention(),
+                new HeaderConvention(),
+                typeConvention,
+                new TypeGraphFactory(
+                    configuration,
+                    typeCache,
+                    typeConvention,
+                    memberConvention,
+                    new OptionConvention())).Generate();
         
         }
     }

@@ -1,4 +1,5 @@
-﻿using FubuMVC.Swank.Extensions;
+﻿using System;
+using FubuMVC.Swank.Extensions;
 using NUnit.Framework;
 using Should;
 
@@ -11,9 +12,9 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         {
             var request = Spec.GetEndpoint<InputTypeDescriptions.PostHandler>().Request;
 
-            request.Name.ShouldEqual("PostRequest");
             request.Comments.ShouldEqual("Some post request description");
-            request.IsArray.ShouldBeFalse();
+            throw new NotImplementedException();
+            //request.IsArray.ShouldBeFalse();
         }
 
         [Test]
@@ -21,21 +22,22 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         {
             var request = Spec.GetEndpoint<InputTypeDescriptions.PutHandler>().Request;
 
-            request.Name.ShouldEqual("PutRequest");
             request.Comments.ShouldEqual("Some put request description");
-            request.IsArray.ShouldBeFalse();
+            throw new NotImplementedException();
+            //request.IsArray.ShouldBeFalse();
         }
 
         [Test]
         public void should_set_the_datatype_for_post_input_post_and_put_types_to_a_hash_of_the_datatype_and_handler_method()
         {
-            Spec.GetEndpoint<InputTypeDescriptions.PostHandler>().Request.TypeId
-                .ShouldEqual(typeof(InputTypeDescriptions.PostRequest)
-                    .GetHash(typeof(InputTypeDescriptions.PostHandler).GetExecuteMethod()));
+            throw new NotImplementedException();
+            //Spec.GetEndpoint<InputTypeDescriptions.PostHandler>().Request.TypeId
+            //    .ShouldEqual(typeof(InputTypeDescriptions.PostRequest)
+            //        .GetHash(typeof(InputTypeDescriptions.PostHandler).GetExecuteMethod()));
 
-            Spec.GetEndpoint<InputTypeDescriptions.PutHandler>().Request.TypeId
-                .ShouldEqual(typeof(InputTypeDescriptions.PutRequest)
-                    .GetHash(typeof(InputTypeDescriptions.PutHandler).GetExecuteMethod()));
+            //Spec.GetEndpoint<InputTypeDescriptions.PutHandler>().Request.TypeId
+            //    .ShouldEqual(typeof(InputTypeDescriptions.PutRequest)
+            //        .GetHash(typeof(InputTypeDescriptions.PutHandler).GetExecuteMethod()));
         }
 
         [Test]
@@ -55,11 +57,11 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         {
             var request = Spec.GetEndpoint<InputTypeDescriptions.CollectionPostHandler>().Request;
 
-            request.Name.ShouldEqual("ArrayOfRequestItem");
             request.Comments.ShouldBeNull();
-            request.TypeId.ShouldEqual(typeof(InputTypeDescriptions.RequestItem)
-                .GetHash(typeof(InputTypeDescriptions.CollectionPostHandler).GetExecuteMethod()));
-            request.IsArray.ShouldBeTrue();
+            throw new NotImplementedException();
+            //request.TypeId.ShouldEqual(typeof(InputTypeDescriptions.RequestItem)
+            //    .GetHash(typeof(InputTypeDescriptions.CollectionPostHandler).GetExecuteMethod()));
+            //request.IsArray.ShouldBeTrue();
         }
 
         [Test]
@@ -67,11 +69,11 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         {
             var request = Spec.GetEndpoint<InputTypeDescriptions.InheritedCollectionPostHandler>().Request;
 
-            request.Name.ShouldEqual("ArrayOfRequestItem");
             request.Comments.ShouldBeNull();
-            request.TypeId.ShouldEqual(typeof(InputTypeDescriptions.RequestItem)
-                .GetHash(typeof(InputTypeDescriptions.InheritedCollectionPostHandler).GetExecuteMethod()));
-            request.IsArray.ShouldBeTrue();
+            throw new NotImplementedException();
+            //request.TypeId.ShouldEqual(typeof(InputTypeDescriptions.RequestItem)
+            //    .GetHash(typeof(InputTypeDescriptions.InheritedCollectionPostHandler).GetExecuteMethod()));
+            //request.IsArray.ShouldBeTrue();
         }
 
         [Test]
@@ -79,11 +81,11 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         {
             var request = Spec.GetEndpoint<InputTypeDescriptions.OverridenRequestPostHandler>().Request;
 
-            request.Name.ShouldEqual("NewItemName");
             request.Comments.ShouldBeNull();
-            request.TypeId.ShouldEqual(typeof(InputTypeDescriptions.OverridenRequestItem)
-                .GetHash(typeof(InputTypeDescriptions.OverridenRequestPostHandler).GetExecuteMethod()));
-            request.IsArray.ShouldBeFalse();
+            throw new NotImplementedException();
+            //request.TypeId.ShouldEqual(typeof(InputTypeDescriptions.OverridenRequestItem)
+            //    .GetHash(typeof(InputTypeDescriptions.OverridenRequestPostHandler).GetExecuteMethod()));
+            //request.IsArray.ShouldBeFalse();
         }
 
         [Test]
@@ -91,11 +93,11 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         {
             var request = Spec.GetEndpoint<InputTypeDescriptions.OverridenCollectionPostHandler>().Request;
 
-            request.Name.ShouldEqual("NewCollectionName");
             request.Comments.ShouldBeNull();
-            request.TypeId.ShouldEqual(typeof(InputTypeDescriptions.OverridenRequestItem)
-                .GetHash(typeof(InputTypeDescriptions.OverridenCollectionPostHandler).GetExecuteMethod()));
-            request.IsArray.ShouldBeTrue();
+            throw new NotImplementedException();
+            //request.TypeId.ShouldEqual(typeof(InputTypeDescriptions.OverridenRequestItem)
+            //    .GetHash(typeof(InputTypeDescriptions.OverridenCollectionPostHandler).GetExecuteMethod()));
+            //request.IsArray.ShouldBeTrue();
         }
     }
 }

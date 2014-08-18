@@ -7,7 +7,7 @@ namespace FubuMVC.Swank.Specification
 {
     public class SchemaFactory
     {
-        public SchemaFactory(List<Type> types)
+        public SchemaFactory(List<DataType> types)
         {
             
         }

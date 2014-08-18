@@ -35,17 +35,26 @@ namespace Tests.Specification.SpecificationService.EndpointTests
                     x.AppliesToThisAssembly().Where(ActionFilter).WithEnumValueTypeOf(EnumValue.AsString);
                     if (configure != null) configure(x);
                 });
-            var specBuilder = new FubuMVC.Swank.Specification.SpecificationService(configuration,
-                                                                                   new BehaviorSource(graph, configuration),
-                                                                                   new TypeDescriptorCache(),
-                                                                                   moduleConvention,
-                                                                                   resourceConvention,
-                                                                                   new EndpointConvention(),
-                                                                                   new MemberConvention(),
-                                                                                   new OptionConvention(),
-                                                                                   new StatusCodeConvention(),
-                                                                                   new HeaderConvention(),
-                                                                                   new TypeConvention());
+            var typeCache = new TypeDescriptorCache();
+            var memberConvention = new MemberConvention();
+            var typeConvention = new TypeConvention();
+            var specBuilder = new FubuMVC.Swank.Specification.SpecificationService(
+                configuration,
+                new BehaviorSource(graph, configuration),
+                typeCache,
+                moduleConvention,
+                resourceConvention,
+                new EndpointConvention(),
+                memberConvention,
+                new StatusCodeConvention(),
+                new HeaderConvention(),
+                typeConvention,
+                new TypeGraphFactory(
+                    configuration, 
+                    typeCache, 
+                    typeConvention, 
+                    memberConvention, 
+                    new OptionConvention()));
             return specBuilder.Generate();
         }
     }

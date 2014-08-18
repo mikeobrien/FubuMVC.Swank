@@ -6,22 +6,22 @@ namespace Tests.Description.MarkerConventionTests
     {
         namespace NoDescription
         {
-            public class Description : DescriptionBase { }
+            public class Description : FubuMVC.Swank.Description.Description { }
         }
 
         namespace Description
         {
-            public class Description : DescriptionBase { public Description() { Name = "Some Description"; Comments = "Some comments."; } }
+            public class Description : FubuMVC.Swank.Description.Description { public Description() { Name = "Some Description"; Comments = "Some comments."; } }
         }
 
         namespace EmbeddedTextComments
         {
-            public class Description : DescriptionBase { public Description() { Name = "Some Text Description"; } }
+            public class Description : FubuMVC.Swank.Description.Description { public Description() { Name = "Some Text Description"; } }
         }
 
         namespace EmbeddedMarkdownComments
         {
-            public class Description : DescriptionBase { public Description() { Name = "Some Markdown Description"; } }
+            public class Description : FubuMVC.Swank.Description.Description { public Description() { Name = "Some Markdown Description"; } }
         }
     }
 
@@ -29,19 +29,19 @@ namespace Tests.Description.MarkerConventionTests
     {
         namespace AFirstMarker
         {
-            public class LastDescription : DescriptionBase { public LastDescription() { Name = "Last Description"; } }
-            public class FirstDescription : DescriptionBase { public FirstDescription() { Name = "First Description"; } }
+            public class LastDescription : FubuMVC.Swank.Description.Description { public LastDescription() { Name = "Last Description"; } }
+            public class FirstDescription : FubuMVC.Swank.Description.Description { public FirstDescription() { Name = "First Description"; } }
         }
 
         namespace ZeeLastMarker
         {
-            public class LastDescription : DescriptionBase { public LastDescription() { Name = "Last Description"; } }
-            public class FirstDescription : DescriptionBase { public FirstDescription() { Name = "First Description"; } }
+            public class LastDescription : FubuMVC.Swank.Description.Description { public LastDescription() { Name = "Last Description"; } }
+            public class FirstDescription : FubuMVC.Swank.Description.Description { public FirstDescription() { Name = "First Description"; } }
         }
     }
 
     namespace MarkerCommentsPriority
     {
-        public class Description : DescriptionBase { public Description() { Name = "Some Description"; Comments = "Some comments."; } }
+        public class Description : FubuMVC.Swank.Description.Description { public Description() { Name = "Some Description"; Comments = "Some comments."; } }
     }
 }

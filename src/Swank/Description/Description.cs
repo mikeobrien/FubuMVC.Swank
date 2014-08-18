@@ -2,11 +2,11 @@
 
 namespace FubuMVC.Swank.Description
 {
-    public class DescriptionBase
+    public class Description
     {
-        public DescriptionBase() {}
+        public Description() {}
 
-        public DescriptionBase(string name, string comments = null)
+        public Description(string name, string comments = null)
         {
             Name = name;
             Comments = comments;
@@ -17,7 +17,7 @@ namespace FubuMVC.Swank.Description
 
         public override bool Equals(object obj)
         {
-            return obj is DescriptionBase && ((DescriptionBase)obj).Name == Name;
+            return obj is Description && ((Description)obj).Name == Name;
         }
 
         public override int GetHashCode()

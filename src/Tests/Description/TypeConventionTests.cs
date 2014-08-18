@@ -18,7 +18,6 @@ namespace Tests.Description
         {
             var type = typeof(SomeType);
             var description = new TypeConvention().GetDescription(type);
-            description.Type.ShouldEqual(type);
             description.Name.ShouldEqual("SomeType");
             description.Comments.ShouldBeNull();
         }
@@ -27,7 +26,6 @@ namespace Tests.Description
         public void should_return_default_description_of_list_datatype()
         {
             var description = new TypeConvention().GetDescription(typeof(List<SomeType>));
-            description.Type.ShouldEqual(typeof(SomeType));
             description.Name.ShouldEqual("ArrayOfSomeType");
             description.Comments.ShouldBeNull();
         }
@@ -40,7 +38,6 @@ namespace Tests.Description
         {
             var type = typeof(SomeTypeWithComments);
             var description = new TypeConvention().GetDescription(type);
-            description.Type.ShouldEqual(type);
             description.Name.ShouldEqual("SomeTypeWithComments");
             description.Comments.ShouldEqual("This is a type with comments.");
         }
@@ -53,7 +50,6 @@ namespace Tests.Description
         {
             var type = typeof(SomeTypeWithXmlName);
             var description = new TypeConvention().GetDescription(type);
-            description.Type.ShouldEqual(type);
             description.Name.ShouldEqual("SomeType");
             description.Comments.ShouldBeNull();
         }
@@ -66,7 +62,6 @@ namespace Tests.Description
         {
             var type = typeof(SomeTypeWithXmlRootName);
             var description = new TypeConvention().GetDescription(type);
-            description.Type.ShouldEqual(type);
             description.Name.ShouldEqual("SomeRoot");
             description.Comments.ShouldBeNull();
         }
@@ -79,7 +74,6 @@ namespace Tests.Description
         {
             var type = typeof(SomeTypeWithDataContractName);
             var description = new TypeConvention().GetDescription(type);
-            description.Type.ShouldEqual(type);
             description.Name.ShouldEqual("SomeType");
             description.Comments.ShouldBeNull();
         }
@@ -91,7 +85,6 @@ namespace Tests.Description
         public void should_return_attribute_description_of_inherited_list_datatype()
         {
             var description = new TypeConvention().GetDescription(typeof(SomeTypes));
-            description.Type.ShouldEqual(typeof(SomeType));
             description.Name.ShouldEqual("ArrayOfSomeType");
             description.Comments.ShouldEqual("These are some types.");
         }
@@ -106,7 +99,6 @@ namespace Tests.Description
         public void should_return_attribute_description_of_inherited_list_datatype_with_xml_type_attribute()
         {
             var description = new TypeConvention().GetDescription(typeof(SomeMoarTypes));
-            description.Type.ShouldEqual(typeof(SomeType));
             description.Name.ShouldEqual("SomeTypes");
             description.Comments.ShouldEqual("These are some moar types.");
         }
@@ -115,7 +107,6 @@ namespace Tests.Description
         public void should_return_name_of_inherited_list_datatype_with_collection_data_contract_attribute()
         {
             var description = new TypeConvention().GetDescription(typeof(SomeCollectionWithDataContractName));
-            description.Type.ShouldEqual(typeof(SomeType));
             description.Name.ShouldEqual("SomeTypes");
             description.Comments.ShouldBeNull();
         }
@@ -124,7 +115,6 @@ namespace Tests.Description
         public void should_initial_cap_list_primitive_type_name()
         {
             var description = new TypeConvention().GetDescription(typeof(List<Int64>));
-            description.Type.ShouldEqual(typeof(Int64));
             description.Name.ShouldEqual("ArrayOfLong");
         }
     }

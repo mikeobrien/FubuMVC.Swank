@@ -12,19 +12,16 @@ namespace FubuMVC.Swank.Extensions
 {
     public static class ReflectionExtensions
     {
-        public static string GetHash(this Type type)
-        {
-            return type.FullName.Hash();
-        }
-
-        public static string GetHash(this Type type, MethodInfo method)
-        {
-            return (method.DeclaringType.FullName + "." + method.Name + "." + type.FullName).Hash();
-        }
-
         public static bool IsSystemType(this Type type)
         {
             return type.FullName.StartsWith("System.");
+        }
+
+        public static bool IsSimpleType(this Type type)
+        {
+            Func<Type, bool> isSimpleType = x => x.IsPrimitive || x.IsEnum || x == typeof(string) || x == typeof(decimal) ||
+                 x == typeof(DateTime) || x == typeof(TimeSpan) || x == typeof(Guid) || x == typeof(Uri);
+            return isSimpleType(type) || (type.IsNullable() && isSimpleType(Nullable.GetUnderlyingType(type)));
         }
 
         public static bool Implements<T>(this Type type)
@@ -41,7 +38,7 @@ namespace FubuMVC.Swank.Extensions
 
         // Lists
 
-        private static readonly Type[] ListTypes = new[] { typeof(IList<>), typeof(List<>) };
+        private static readonly Type[] ListTypes = { typeof(IList<>), typeof(List<>) };
 
         public static bool IsListType(this Type type)
         {

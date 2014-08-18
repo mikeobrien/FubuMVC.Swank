@@ -53,9 +53,6 @@ namespace FubuMVC.Swank
             SampleTimeSpanValue = TimeSpan.FromHours(0);
             SampleGuidValue = Guid.Empty;
 
-            TypeIdConvention = x => x.GetHash();
-            InputTypeIdConvention = (t, m) => t.GetHash(m);
-
             ModuleConvention = new Service<IDescriptionConvention<BehaviorChain, ModuleDescription>> { Type = typeof(ModuleConvention) };
             ResourceConvention = new Service<IDescriptionConvention<BehaviorChain, ResourceDescription>> { Type = typeof(ResourceConvention) };
             EndpointConvention = new Service<IDescriptionConvention<BehaviorChain, EndpointDescription>> { Type = typeof(EndpointConvention) };
@@ -74,7 +71,7 @@ namespace FubuMVC.Swank
             HeaderOverrides = new List<Action<BehaviorChain, Header>>();
             RequestOverrides = new List<Action<BehaviorChain, Data>>();
             ResponseOverrides = new List<Action<BehaviorChain, Data>>();
-            TypeOverrides = new List<Action<Type, Specification.Type>>();
+            TypeOverrides = new List<Action<Type, DataType>>();
             MemberOverrides = new List<Action<PropertyInfo, Member>>();
             OptionOverrides = new List<Action<FieldInfo, Option>>();
         }
@@ -110,9 +107,6 @@ namespace FubuMVC.Swank
         public TimeSpan SampleTimeSpanValue { get; set; }
         public Guid SampleGuidValue { get; set; }
 
-        public Func<Type, string> TypeIdConvention { get; set; }
-        public Func<Type, MethodInfo, string> InputTypeIdConvention { get; set; }
-
         public Service<IDescriptionConvention<BehaviorChain, ModuleDescription>> ModuleConvention { get; set; }
         public Service<IDescriptionConvention<BehaviorChain, ResourceDescription>> ResourceConvention { get; set; }
         public Service<IDescriptionConvention<BehaviorChain, EndpointDescription>> EndpointConvention { get; set; }
@@ -131,7 +125,7 @@ namespace FubuMVC.Swank
         public List<Action<BehaviorChain, Header>> HeaderOverrides { get; set; }
         public List<Action<BehaviorChain, Data>> RequestOverrides { get; set; }
         public List<Action<BehaviorChain, Data>> ResponseOverrides { get; set; }
-        public List<Action<Type, Specification.Type>> TypeOverrides { get; set; }
+        public List<Action<Type, DataType>> TypeOverrides { get; set; }
         public List<Action<PropertyInfo, Member>> MemberOverrides { get; set; }
         public List<Action<FieldInfo, Option>> OptionOverrides { get; set; }
     }

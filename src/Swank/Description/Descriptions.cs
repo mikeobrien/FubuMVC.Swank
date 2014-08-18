@@ -1,6 +1,6 @@
 ﻿namespace FubuMVC.Swank.Description
 {
-    public class ModuleDescription : DescriptionBase
+    public class ModuleDescription : Description
     {
         public ModuleDescription() {}
         public ModuleDescription(string name, string comments = null) : base(name, comments) { }
@@ -12,7 +12,7 @@
         public ResourceDescription(string name, string comments = null) : base(name, comments) { }
     }
 
-    public class ResourceDescription : DescriptionBase
+    public class ResourceDescription : Description
     {
         public ResourceDescription() {}
         public ResourceDescription(string name, string comments = null) : base(name, comments) { }
@@ -20,39 +20,39 @@
         public System.Type Handler { get; set; }
     }
 
-    public class EndpointDescription : DescriptionBase
+    public class EndpointDescription : Description
     {
         public string RequestComments { get; set; }
         public string ResponseComments { get; set; }
     }
 
-    public class MemberDescription : DescriptionBase
+    public class MemberDescription : Description
     {
         public object DefaultValue { get; set; }
         public bool Required { get; set; }
-        public System.Type Type { get; set; }
-        public bool IsArray { get; set; }
-        public string ArrayItemName { get; set; }
-        public bool IsDictionary { get; set; }
-        public System.Type DictionaryKeyType { get; set; }
+        public Description ArrayItem { get; set; }
+        public DictionaryDescription DictionaryEntry { get; set; }
     }
 
-    public class OptionDescription : DescriptionBase { }
+    public class DictionaryDescription
+    {
+        public Description Key { get; set; }
+        public Description Value { get; set; }
+    }
+
+    public class OptionDescription : Description { }
 
     public enum HttpHeaderType { Request, Response }
-    public class HeaderDescription : DescriptionBase
+    public class HeaderDescription : Description
     {
         public HttpHeaderType Type { get; set; }
         public bool Optional { get; set; }
     }
 
-    public class StatusCodeDescription : DescriptionBase
+    public class StatusCodeDescription : Description
     {
         public int Code { get; set; }
     }
 
-    public class TypeDescription : DescriptionBase
-    {
-        public System.Type Type { get; set; }
-    }
+    public class TypeDescription : Description { }
 }

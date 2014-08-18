@@ -10,12 +10,12 @@ namespace Tests.Description.MarkerConventionTests
     [TestFixture]
     public class Tests
     {
-        private IList<DescriptionBase> _descriptions;
+        private IList<FubuMVC.Swank.Description.Description> _descriptions;
 
         [SetUp]
         public void Setup()
         {
-            _descriptions = new MarkerConvention<DescriptionBase>().GetDescriptions(Assembly.GetExecutingAssembly())
+            _descriptions = new MarkerConvention<FubuMVC.Swank.Description.Description>().GetDescriptions(Assembly.GetExecutingAssembly())
                 .Where(x => x.GetType().InNamespace<Tests>()).ToList();
         }
 

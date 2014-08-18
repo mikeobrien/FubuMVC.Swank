@@ -1,4 +1,5 @@
-﻿using FubuCore.Reflection;
+﻿using System;
+using FubuCore.Reflection;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
 using NUnit.Framework;
@@ -37,25 +38,29 @@ namespace Tests.Specification.SpecificationService.MultiActionTests
         [Test]
         public void should_register_input_type_from_frist_action()
         {
-            _spec.Types.ShouldContainOneInputType<Request, PostHandler>();
+            throw new NotImplementedException();
+            //_spec.Types.ShouldContainOneInputType<Request, PostHandler>();
         }
 
         [Test]
         public void should_not_register_input_from_last_action()
         {
-            _spec.Types.ShouldNotContainAnyInputType<Handlers.Widgets.UnregisteredInput, Handlers.Widgets.PostHandler>();
+            throw new NotImplementedException();
+            //_spec.Types.ShouldNotContainAnyInputType<Handlers.Widgets.UnregisteredInput, Handlers.Widgets.PostHandler>();
         }
 
         [Test]
         public void should_register_output_type_from_last_action()
         {
-            _spec.Types.ShouldContainOneOutputType<Handlers.Widgets.Data>();
+            throw new NotImplementedException();
+            //_spec.Types.ShouldContainOneOutputType<Handlers.Widgets.Data>();
         }
 
         [Test]
         public void should_not_register_output_type_from_first_action()
         {
-            _spec.Types.ShouldNotContainAnyOutputTypes<UnregisterdOutput>();
+            throw new NotImplementedException();
+            //_spec.Types.ShouldNotContainAnyOutputTypes<UnregisterdOutput>();
         }
     }
 }
