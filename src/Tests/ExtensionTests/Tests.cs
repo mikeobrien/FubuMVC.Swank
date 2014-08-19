@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using FubuMVC.Core.Registration.Routes;
 using FubuMVC.Swank.Extensions;
@@ -45,6 +46,21 @@ namespace Tests.ExtensionTests
         public void should_return_markdown_resource()
         {
             Assembly.GetExecutingAssembly().FindTextResourceNamed("Tests.ExtensionTests.EmbeddedMarkdownResource").ShouldEqual("<p><strong>Some markdown yo!</strong></p>");
+        }
+
+        [Test]
+        [TestCase(typeof(int))]
+        [TestCase(typeof(int?))]
+        [TestCase(typeof(Dictionary<string, int>))]
+        [TestCase(typeof(IDictionary<string, int>))]
+        [TestCase(typeof(Dictionary<string, Dictionary<string, int>>))]
+        [TestCase(typeof(int[]))]
+        [TestCase(typeof(List<int>))]
+        [TestCase(typeof(IList<int>))]
+        [TestCase(typeof(List<List<int>>))]
+        public void should_unwrap_types(Type wrappedType)
+        {
+            wrappedType.UnwrapType().ShouldEqual(typeof(int));
         }
 
         private class Widgets : List<string> { }
@@ -140,6 +156,18 @@ namespace Tests.ExtensionTests
             traversal[0].Index.ShouldEqual(2);
             traversal[1].Index.ShouldEqual(1);
             traversal[2].Index.ShouldEqual(0);
+        }
+
+        [Test]
+        public void should_concat()
+        {
+            new List<string> { "oh" }.Concat("hai").ShouldEqual(new List<string> { "oh", "hai" });
+        }
+
+        [Test]
+        public void should_concat_with_null_source()
+        {
+            ((List<string>)null).Concat("hai").ShouldEqual(new List<string> { "hai" });
         }
 
         enum SomeEnum { Oh, Hai }

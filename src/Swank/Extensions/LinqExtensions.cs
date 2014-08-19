@@ -63,7 +63,7 @@ namespace FubuMVC.Swank.Extensions
 
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> source, T item)
         {
-            return new List<T>(source) { item };
+            return source != null ? new List<T>(source) { item } : new List<T> { item };
         } 
     }
 }

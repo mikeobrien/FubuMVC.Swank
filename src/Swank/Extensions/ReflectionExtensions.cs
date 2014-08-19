@@ -36,6 +36,14 @@ namespace FubuMVC.Swank.Extensions
                  @interface.IsGenericTypeDefinition ? x.GetGenericTypeDefinition() : x));
         }
 
+        public static Type UnwrapType(this Type type)
+        {
+            if (type.IsDictionary()) return type.GetGenericDictionaryTypes().Value.UnwrapType();
+            if (type.IsArray || type.IsList()) return type.GetListElementType().UnwrapType();
+            if (type.IsNullable()) return type.GetInnerTypeFromNullable().UnwrapType();
+            return type;
+        }
+
         // Lists
 
         private static readonly Type[] ListTypes = { typeof(IList<>), typeof(List<>) };

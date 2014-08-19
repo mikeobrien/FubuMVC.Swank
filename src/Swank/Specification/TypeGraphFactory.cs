@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 using FubuCore;
 using FubuCore.Reflection;
 using FubuMVC.Core.Registration.Nodes;
@@ -33,12 +32,17 @@ namespace FubuMVC.Swank.Specification
             _typeConvention = typeConvention;
         }
 
-        public DataType BuildGraph(Type type, MethodInfo method = null)
+        public DataType BuildGraph(Type type, bool inputGraph, ActionCall action = null)
         {
-            return BuildGraph(type, null, null, method);
+            return BuildGraph(type, inputGraph, null, null, action);
         }
 
-        private DataType BuildGraph(Type type, IEnumerable<Type> ancestors = null, string itemName = null, MethodInfo method = null)
+        private DataType BuildGraph(
+            Type type, 
+            bool inputGraph,
+            IEnumerable<Type> ancestors = null, 
+            MemberDescription memberDescription = null,
+            ActionCall action = null)
         {
             var description = _typeConvention.GetDescription(type);
 
@@ -54,8 +58,10 @@ namespace FubuMVC.Swank.Specification
                 dataType.IsDictionary = true;
                 dataType.DictionaryEntry = new DictionaryEntry
                 {
-                    KeyType = BuildGraph(types.Key, ancestors),
-                    ValueType = BuildGraph(types.Value, ancestors)
+                    KeyComments = memberDescription.WhenNotNull(x => x.DictionaryEntry.KeyComments).OtherwiseDefault(),
+                    KeyType = BuildGraph(types.Key, inputGraph, ancestors),
+                    ValueComments = memberDescription.WhenNotNull(x => x.DictionaryEntry.ValueComments).OtherwiseDefault(),
+                    ValueType = BuildGraph(types.Value, inputGraph, ancestors)
                 };
             }
             else if (type.IsArray || type.IsList())
@@ -63,8 +69,9 @@ namespace FubuMVC.Swank.Specification
                 dataType.IsArray = true;
                 dataType.ArrayItem = new ArrayItem
                 {
-                    Name = itemName,
-                    Type = BuildGraph(type.GetListElementType(), ancestors)
+                    Name = memberDescription.WhenNotNull(x => x.ArrayItem.Name).OtherwiseDefault(),
+                    Comments = memberDescription.WhenNotNull(x => x.ArrayItem.Comments).OtherwiseDefault(),
+                    Type = BuildGraph(type.GetListElementType(), inputGraph, ancestors)
                 };
             }
             else if (type.IsSimpleType())
@@ -75,134 +82,56 @@ namespace FubuMVC.Swank.Specification
             else
             {
                 dataType.IsComplex = true;
-                //if (ancestors.Any(x => x == type))
+                dataType.Members = 
+                    (type.IsProjection() ?
+                       type.GetProjectionProperties() :
+                       _typeCache.GetPropertiesFor(type).Select(x => x.Value))
+                    .Where(x => 
+                        !x.IsAutoBound() &&
+                        !x.IsQuerystring(action) &&
+                        !x.IsUrlParameter(action))
+                    .Select(x => new {
+                        Ancestors = ancestors.Concat(type),
+                        Type = x.PropertyType,
+                        UnwrappedType = x.PropertyType.UnwrapType(),
+                        Description = _memberConvention.GetDescription(x)
+                    })
+                    .Where(x => x.Ancestors.All(y => y != x.UnwrappedType) &&
+                                !x.Description.Hidden)
+                    .Select(x => new Member
+                    {
+                        Name = x.Description.WhenNotNull(y => y.Name).OtherwiseDefault(),
+                        Comments = x.Description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
+                        DefaultValue = x.Description.WhenNotNull(y => y.DefaultValue)
+                            .WhenNotNull(z => z.ToDefaultValueString(_configuration)).OtherwiseDefault(),
+                        Required = inputGraph && !x.Type.IsNullable() && x.Description.WhenNotNull(y => !y.Optional).OtherwiseDefault(),
+                        Optional = inputGraph && (x.Type.IsNullable() || x.Description.WhenNotNull(y => y.Optional).OtherwiseDefault()),
+                        Type = BuildGraph(x.Type, inputGraph, ancestors, x.Description)
+                    }).ToList();
             }
 
-            return dataType;
-
-            //type = type.GetListElementType() ?? type;
-            //var properties = type.IsProjection()
-            //    ? type.GetProjectionProperties()
-            //    : _typeCache.GetPropertiesFor(type).Select(x => x.Value);
-
-            //var types = properties
-            //    .Where(x => !x.IsHidden() &&
-            //                !(x.PropertyType.GetListElementType() ?? x.PropertyType).IsSystemType() &&
-            //                !x.PropertyType.IsEnum &&
-            //                !x.IsAutoBound())
-            //    .Select(x => new TypeContext(x.PropertyType.GetListElementType() ?? x.PropertyType, type))
-            //    .DistinctBy(x => x.Type, x => x.Chain)
-            //    .ToList();
-
-            //return types.Concat(types
-            //                .Where(x => type.Traverse(y => y.Parent).All(y => y.Type != x.Type))
-            //                .SelectMany(GetTypes))
-            //            .DistinctBy(x => x.Type, x => x.Chain)
-            //            .ToList();
+            return _configuration.TypeOverrides.Apply(type, dataType);
         }
 
         public List<Option> BuildOptions(Type type)
         {
-            return type.IsEnum || (type.IsNullable() && Nullable.GetUnderlyingType(type).IsEnum) ?
+            return !type.IsEnum || (type.IsNullable() && !Nullable.GetUnderlyingType(type).IsEnum) ? new List<Option>() :
                 type.GetEnumOptions()
-                    .Where(x => !x.HasAttribute<HideAttribute>())
-                    .Select(x =>
+                    .Select(x => new
                     {
-                        var option = _optionConvention.GetDescription(x);
-                        return _configuration.OptionOverrides.Apply(x, new Option
+                        Option = x,
+                        Description = _optionConvention.GetDescription(x)
+                    })
+                    .Where(x => !x.Description.Hidden)
+                    .Select(x => 
+                        _configuration.OptionOverrides.Apply(x.Option, new Option
                         {
-                            Name = option.WhenNotNull(y => y.Name).OtherwiseDefault(),
-                            Comments = option.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                            Value = _configuration.EnumValue == EnumValue.AsString ? x.Name : x.GetRawConstantValue().ToString()
-                        });
-                    }).OrderBy(x => x.Name).ToList()
-             : new List<Option>();
+                            Name = x.Description.WhenNotNull(y => y.Name).OtherwiseDefault(),
+                            Comments = x.Description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
+                            Value = _configuration.EnumValue == EnumValue.AsString ? x.Option.Name : 
+                                        x.Option.GetRawConstantValue().ToString()
+                        }))
+                    .OrderBy(x => x.Name).ToList();
         }
-
-        //private List<DataType> GatherInputOutputModels(IEnumerable<BehaviorChain> chains)
-        //{
-        //    var rootInputOutputModels = chains.SelectMany(RootInputAndOutputModels).ToList();
-
-        //    return rootInputOutputModels
-        //        .Concat(rootInputOutputModels.SelectMany(GetTypes))
-        //        .DistinctBy(x => x.Type, x => x.Chain)
-        //        .Select(cxt =>
-        //        {
-        //            var description = _typeConvention.GetDescription(cxt.Type);
-        //            var type = description.WhenNotNull(y => y.Type).Otherwise(cxt.Type);
-
-        //            return _configuration.TypeOverrides.Apply(cxt.Type, new DataType
-        //            {
-        //                Id = cxt.Chain != null
-        //                    ? _configuration.InputTypeIdConvention(type, cxt.Chain.FirstCall().Method)
-        //                    : _configuration.TypeIdConvention(type),
-        //                Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
-        //                Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-        //                Members = GetMembers(type, cxt.Chain)
-        //            });
-        //        })
-        //        .OrderBy(x => x.Name).ToList();
-        //}
-
-        //private List<TypeContext> GetTypes(TypeContext type)
-        //{
-        //    var properties = type.Type.IsProjection()
-        //        ? type.Type.GetProjectionProperties()
-        //        : _typeCache.GetPropertiesFor(type.Type).Select(x => x.Value);
-
-        //    var types = properties
-        //        .Where(x => !x.IsHidden() &&
-        //                    !(x.PropertyType.GetListElementType() ?? x.PropertyType).IsSystemType() &&
-        //                    !x.PropertyType.IsEnum &&
-        //                    !x.IsAutoBound())
-        //        .Select(x => new TypeContext(x.PropertyType.GetListElementType() ?? x.PropertyType, type))
-        //        .DistinctBy(x => x.Type, x => x.Chain)
-        //        .ToList();
-
-        //    return types.Concat(types
-        //                    .Where(x => type.Traverse(y => y.Parent).All(y => y.Type != x.Type))
-        //                    .SelectMany(GetTypes))
-        //                .DistinctBy(x => x.Type, x => x.Chain)
-        //                .ToList();
-        //}
-
-        //private List<Member> GetMembers(System.Type type, BehaviorChain chain)
-        //{
-        //    var action = chain != null ? chain.FirstCall() : null;
-
-        //    var properties = type.IsProjection()
-        //        ? type.GetProjectionProperties()
-        //        : _typeCache.GetPropertiesFor(type).Select(x => x.Value);
-
-        //    Func<System.Type, string> getType = x =>
-        //            x.IsSystemType() || x.IsEnum
-        //                ? x.GetXmlName()
-        //                : _configuration.TypeIdConvention(x);
-
-        //    return properties
-        //        .Where(x => !x.IsHidden() &&
-        //                    !x.IsAutoBound() &&
-        //                    !x.IsQuerystring(action) &&
-        //                    !x.IsUrlParameter(action))
-        //        .Select(x =>
-        //        {
-        //            var description = _memberConvention.GetDescription(x);
-        //            return _configuration.MemberOverrides.Apply(x,
-        //                new Member
-        //                {
-        //                    Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
-        //                    Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-        //                    DefaultValue = description.WhenNotNull(y => y.DefaultValue).WhenNotNull(z => z.ToDefaultValueString(_configuration)).OtherwiseDefault(),
-        //                    Required = description.WhenNotNull(y => y.Required).OtherwiseDefault(),
-        //                    Type = getType(description.Type),
-        //                    IsArray = description.IsArray,
-        //                    ArrayItemName = description.WhenNotNull(y => y.ArrayItemName).OtherwiseDefault(),
-        //                    IsDictionary = description.IsDictionary,
-        //                    Key = description.IsDictionary ? getType(description.DictionaryKeyType) : "",
-        //                    Options = BuildOptions(description.Type)
-        //                });
-        //        })
-        //        .ToList();
-        //}
     }
 }

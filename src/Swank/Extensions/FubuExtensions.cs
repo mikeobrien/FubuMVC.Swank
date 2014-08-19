@@ -50,43 +50,24 @@ namespace FubuMVC.Swank.Extensions
             return RequestPropertyValueSource.IsSystemProperty(property);
         }
 
-        public static bool IsHidden(this PropertyInfo property)
-        {
-            return property.PropertyType.HasAttribute<HideAttribute>() || 
-            property.HasAttribute<HideAttribute>() ||
-            property.HasAttribute<XmlIgnoreAttribute>(); 
-        }
-
         public static bool IsUrlParameter(this PropertyInfo property, ActionCall action)
         {
-            if (action == null)
-            {
-                return false;
-            }
+            if (action == null) return false;
 
             var route = action.ParentChain().Route;
 
-            if (route.Input == null)
-            {
-                return false;
-            }
+            if (route.Input == null) return false;
 
             return route.Input.RouteParameters.Any(x => x.Name == property.Name);
         }
 
         public static bool IsQuerystring(this PropertyInfo property, ActionCall action)
         {
-            if (action == null)
-            {
-                return false;
-            }
+            if (action == null) return false;
 
             var route = action.ParentChain().Route;
 
-            if (route.Input == null)
-            {
-                return false;
-            }
+            if (route.Input == null) return false;
 
             return route.Input.RouteParameters.All(x => x.Name != property.Name) &&
                    (property.HasAttribute<QueryStringAttribute>() ||

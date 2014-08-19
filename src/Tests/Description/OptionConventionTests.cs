@@ -21,7 +21,9 @@ namespace Tests.Description
             Option2,
             Option1,
             [Comments("This is option 3!")]
-            Option3
+            Option3,
+            [Hide]
+            HiddenOption
         }
 
         [Test]
@@ -46,6 +48,18 @@ namespace Tests.Description
             var description = _optionConvention.GetDescription(typeof(Options).GetField("Option3"));
             description.Name.ShouldEqual("Option3");
             description.Comments.ShouldEqual("This is option 3!");
+        }
+
+        [Test]
+        public void should_return_not_hidden_when_not_configured()
+        {
+            _optionConvention.GetDescription(typeof(Options).GetField("Option1")).Hidden.ShouldBeFalse();
+        }
+
+        [Test]
+        public void should_return_hidden_when_configured()
+        {
+            _optionConvention.GetDescription(typeof(Options).GetField("HiddenOption")).Hidden.ShouldBeTrue();
         }
     }
 }

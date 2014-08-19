@@ -141,15 +141,18 @@ namespace FubuMVC.Swank.Specification
         public DictionaryEntry DictionaryEntry { get; set; }
     }
 
-    public class ArrayItem
+    public class ArrayItem : IDescription
     {
         public string Name { get; set; }
+        public string Comments { get; set; }
         public DataType Type { get; set; }
     }
 
     public class DictionaryEntry
     {
+        public string KeyComments { get; set; }
         public DataType KeyType { get; set; }
+        public string ValueComments { get; set; }
         public DataType ValueType { get; set; }
     }
 
@@ -158,6 +161,7 @@ namespace FubuMVC.Swank.Specification
         public string Name { get; set; }
         public string Comments { get; set; }
         public bool Required { get; set; }
+        public bool Optional { get; set; }
         public string DefaultValue { get; set; }
         public DataType Type { get; set; }
     }

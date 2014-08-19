@@ -184,32 +184,26 @@ namespace FubuMVC.Swank.Specification
                 chain.Route.AllowsGet() ||
                 chain.Route.AllowsDelete()) return null;
 
-            var inputType = firstCall.InputType();
-            return GetData(inputType, endpoint.RequestComments, chain.FirstCall().Method);
+            return new Data
+            {
+                Comments = endpoint.RequestComments,
+                Schema = BuildSchema(_typeGraphFactory.BuildGraph(firstCall.InputType(), true, chain.FirstCall()))
+            };
         }
 
         private Data GetResponseData(BehaviorChain chain, EndpointDescription endpoint)
         {
             var lastCall = chain.LastCall();
-
             if (!lastCall.HasOutput) return null;
-
-            var outputType = lastCall.OutputType();
-            return GetData(outputType, endpoint.ResponseComments);
-        }
-
-        private Data GetData(Type type, string comments, MethodInfo method = null)
-        {
             return new Data
             {
-                Comments = comments,
-                Schema = BuildSchema(type, method)
+                Comments = endpoint.ResponseComments,
+                Schema = BuildSchema(_typeGraphFactory.BuildGraph(lastCall.OutputType(), false))
             };
         }
 
-        private List<Schema> BuildSchema(Type type, MethodInfo method = null)
+        private List<Schema> BuildSchema(DataType type)
         {
-            var dataType = _typeGraphFactory.BuildGraph(type, method);
             var schema = new List<Schema>();
             return schema;
         } 
@@ -249,7 +243,7 @@ namespace FubuMVC.Swank.Specification
                         Options = _typeGraphFactory.BuildOptions(x.Value.PropertyType),
                         DefaultValue = description.DefaultValue.WhenNotNull(y => y.ToDefaultValueString(_configuration)).OtherwiseDefault(),
                         MultipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList(),
-                        Required = description.Required
+                        Required = description.Optional
                     });
                 }).OrderBy(x => x.Name).ToList();
         }

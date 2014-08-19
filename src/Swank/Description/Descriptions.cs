@@ -29,18 +29,22 @@
     public class MemberDescription : Description
     {
         public object DefaultValue { get; set; }
-        public bool Required { get; set; }
+        public bool Optional { get; set; }
+        public bool Hidden { get; set; }
         public Description ArrayItem { get; set; }
         public DictionaryDescription DictionaryEntry { get; set; }
     }
 
     public class DictionaryDescription
     {
-        public Description Key { get; set; }
-        public Description Value { get; set; }
+        public string KeyComments { get; set; }
+        public string ValueComments { get; set; }
     }
 
-    public class OptionDescription : Description { }
+    public class OptionDescription : Description
+    {
+        public bool Hidden { get; set; }
+    }
 
     public enum HttpHeaderType { Request, Response }
     public class HeaderDescription : Description

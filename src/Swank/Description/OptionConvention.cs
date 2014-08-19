@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using FubuCore.Reflection;
 using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank.Description
@@ -12,7 +13,8 @@ namespace FubuMVC.Swank.Description
                     Name = description.WhenNotNull(x => x.Name).Otherwise(field.Name),
                     Comments = description.WhenNotNull(x => x.Comments)
                         .Otherwise(field.GetCustomAttribute<CommentsAttribute>()
-                                        .WhenNotNull(x => x.Comments).OtherwiseDefault())
+                                        .WhenNotNull(x => x.Comments).OtherwiseDefault()),
+                    Hidden = field.HasAttribute<HideAttribute>()
                 };
         }
     }

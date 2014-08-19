@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using FubuMVC.Swank.Description;
 using NUnit.Framework;
@@ -11,148 +9,172 @@ namespace Tests.Description
     [TestFixture]
     public class MemberConventionTests
     {
-        private MemberConvention _memberConvention;
-
-        [SetUp]
-        public void Setup()
+        public MemberDescription GetDescription(string property)
         {
-            _memberConvention = new MemberConvention();
+            return new MemberConvention().GetDescription(typeof(Model).GetProperty(property));
         }
 
-        public class Item {}
-        public class Request
+        [Hide]
+        public class HiddenType { }
+
+        public class Model
         {
-            [Comments("This is the id.")]
-            public Guid Id { get; set; }
-            public Guid? NullableId { get; set; }
+            public string NoDescription { get; set; }
+
+            [XmlElement("NewName")]
+            public string CustomXmlElementName { get; set; }
+
+            [DataMember(Name = "NewName")]
+            public string CustomDataMemberName { get; set; }
+
+            [Comments("This is a comment.")]
+            public string WithComments { get; set; }
+
+            [DefaultValue("This is a default.")]
+            public string WithDefaultValue { get; set; }
+
             [Optional]
-            public string Sort { get; set; }
-            [XmlElement("R2D2")]
-            public int C3P0 { get; set; }
-            public List<Item> ListOfComplexTypes { get; set; }
-            public List<int> ListOfSimpleTypes { get; set; }
+            public string Optional { get; set; }
+
             [XmlArrayItem("Item")]
-            public List<Item> ListOfComplexTypesWithCustomItemName { get; set; }
-            [XmlArrayItem("Item")]
-            public List<int> ListOfSimpleTypesWithCustomItemName { get; set; }
-            public Dictionary<string, int> DictionaryOfSimpleTypes { get; set; }
-            public Dictionary<string, Item> DictionaryOfComplexTypes { get; set; }
-            [DataMember(Name = "Tatooine")]
-            public int HanSolo { get; set; }
+            public string WithArrayItemName { get; set; }
+
+            [ArrayComments]
+            public string WithEmptyArrayItemComments { get; set; }
+
+            [ArrayComments("This is a comment.", "This is an item comment.")]
+            public string WithArrayItemComments { get; set; }
+
+            [DictionaryComments]
+            public string WithEmptyDictionaryComments { get; set; }
+
+            [DictionaryComments("This is a comment.", "This is a key comment.", "This is a value comment.")]
+            public string WithDictionaryComments { get; set; }
+
+            [XmlIgnoreAttribute]
+            public string XmlIgnored { get; set; }
+
+            [Hide]
+            public string Hidden { get; set; }
+
+            public HiddenType HiddenType { get; set; }
         }
 
         [Test]
-        public void should_return_default_description_of_member()
+        public void should_return_visible_if_not_specified()
         {
-            var description = _memberConvention.GetDescription(typeof(Request).GetProperty("Sort"));
-            description.Name.ShouldEqual("Sort");
-            description.Comments.ShouldBeNull();
+            GetDescription("NoDescription").Hidden.ShouldBeFalse();
         }
 
         [Test]
-        public void should_return_attribute_description_of_member()
+        public void should_return_hidden_if_specified(
+            [Values("XmlIgnored", "Hidden", "HiddenType")] string property)
         {
-            var description = _memberConvention.GetDescription(typeof(Request).GetProperty("Id"));
-            description.Name.ShouldEqual("Id");
-            description.Comments.ShouldEqual("This is the id.");
+            GetDescription(property).Hidden.ShouldBeTrue();
         }
 
         [Test]
-        public void should_indicate_if_the_member_is_set_to_be_required()
+        public void should_return_default_name()
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("Id")).Required.ShouldBeTrue();
-            _memberConvention.GetDescription(typeof(Request).GetProperty("Sort")).Required.ShouldBeFalse();
-            _memberConvention.GetDescription(typeof(Request).GetProperty("NullableId")).Required.ShouldBeFalse();
+            GetDescription("NoDescription").Name.ShouldEqual("NoDescription");
         }
 
         [Test]
-        public void should_return_name_specified_in_xml_element()
+        public void should_return_custom_name(
+            [Values("CustomXmlElementName", "CustomDataMemberName")] string property)
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("C3P0")).Name.ShouldEqual("R2D2");
+            GetDescription(property).Name.ShouldEqual("NewName");
         }
 
         [Test]
-        public void should_return_name_specified_in_data_member()
+        public void should_return_null_comments_if_not_specified()
         {
-            _memberConvention.GetDescription(typeof(Request).GetProperty("HanSolo")).Name.ShouldEqual("Tatooine");
+            GetDescription("NoDescription").Comments.ShouldBeNull();
         }
 
         [Test]
-        public void should_fail()
+        public void should_return_comments_if_specified(
+            [Values("WithComments", 
+                "WithArrayItemComments", 
+                "WithDictionaryComments")] 
+                    string property)
         {
-            throw new NotImplementedException();
+            GetDescription(property).Comments.ShouldEqual("This is a comment.");
         }
 
-        //[Test]
-        //public void should_return_property_type()
-        //{
-        //    _memberConvention.GetDescription(typeof(Request).GetProperty("C3P0")).Type.ShouldEqual(typeof(int));
-        //}
+        [Test]
+        public void should_return_null_default_value_if_not_specified()
+        {
+            GetDescription("NoDescription").DefaultValue.ShouldBeNull();
+        }
 
-        //[Test]
-        //public void should_return_list_element_simple_type()
-        //{
-        //    var description = _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypes"));
-        //    description.IsArray.ShouldBeTrue();
-        //    description.IsDictionary.ShouldBeFalse();
-        //    description.Type.ShouldEqual(typeof(int));
-        //}
+        [Test]
+        public void should_return_default_value_if_specified()
+        {
+            GetDescription("WithDefaultValue").DefaultValue.ShouldEqual("This is a default.");
+        }
 
-        //[Test]
-        //public void should_return_list_element_complex_type()
-        //{
-        //    var description = _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypes"));
-        //    description.IsArray.ShouldBeTrue();
-        //    description.IsDictionary.ShouldBeFalse();
-        //    description.Type.ShouldEqual(typeof(Item));
-        //}
+        [Test]
+        public void should_return_required_if_not_specified()
+        {
+            GetDescription("NoDescription").Optional.ShouldBeFalse();
+        }
 
-        //[Test]
-        //public void should_return_list_element_simple_type_custom_item_name()
-        //{
-        //    var description = _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypes"));
-        //    description.IsArray.ShouldBeTrue();
-        //    description.IsDictionary.ShouldBeFalse();
-        //    description.ArrayItemName.ShouldBeNull();
+        [Test]
+        public void should_return_optional_if_specified()
+        {
+            GetDescription("Optional").Optional.ShouldBeTrue();
+        }
 
-        //    description = _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfSimpleTypesWithCustomItemName"));
-        //    description.IsArray.ShouldBeTrue();
-        //    description.IsDictionary.ShouldBeFalse();
-        //    description.ArrayItemName.ShouldEqual("Item");
-        //}
+        [Test]
+        public void should_return_null_array_item_name_if_not_specified()
+        {
+            GetDescription("NoDescription").ArrayItem.Name.ShouldBeNull();
+        }
 
-        //[Test]
-        //public void should_return_list_element_complex_type_custom_item_name()
-        //{
-        //    var description = _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypes"));
-        //    description.IsArray.ShouldBeTrue();
-        //    description.IsDictionary.ShouldBeFalse();
-        //    description.ArrayItemName.ShouldBeNull();
+        [Test]
+        public void should_return_array_item_name_if_specified()
+        {
+            GetDescription("WithArrayItemName").ArrayItem.Name.ShouldEqual("Item");
+        }
 
-        //    description = _memberConvention.GetDescription(typeof(Request).GetProperty("ListOfComplexTypesWithCustomItemName"));
-        //    description.IsArray.ShouldBeTrue();
-        //    description.IsDictionary.ShouldBeFalse();
-        //    description.ArrayItemName.ShouldEqual("Item");
-        //}
+        [Test]
+        public void should_return_null_array_item_comments_if_not_specified(
+            [Values("NoDescription", "WithEmptyArrayItemComments")] string property)
+        {
+            GetDescription(property).ArrayItem.Comments.ShouldBeNull();
+        }
 
-        //[Test]
-        //public void should_return_dictionary_of_simple_type()
-        //{
-        //    var description = _memberConvention.GetDescription(typeof(Request).GetProperty("DictionaryOfSimpleTypes"));
-        //    description.IsDictionary.ShouldBeTrue();
-        //    description.IsArray.ShouldBeFalse();
-        //    description.Type.ShouldEqual(typeof(int));
-        //    description.DictionaryKeyType.ShouldEqual(typeof(string));
-        //}
+        [Test]
+        public void should_return_array_item_comments_if_specified()
+        {
+            GetDescription("WithArrayItemComments").ArrayItem.Comments.ShouldEqual("This is an item comment.");
+        }
 
-        //[Test]
-        //public void should_return_dictionary_of_complex_type()
-        //{
-        //    var description = _memberConvention.GetDescription(typeof(Request).GetProperty("DictionaryOfComplexTypes"));
-        //    description.IsDictionary.ShouldBeTrue();
-        //    description.IsArray.ShouldBeFalse();
-        //    description.Type.ShouldEqual(typeof(Item));
-        //    description.DictionaryKeyType.ShouldEqual(typeof(string));
-        //}
+        [Test]
+        public void should_return_null_dictionary_key_comments_if_not_specified(
+            [Values("NoDescription", "WithEmptyDictionaryComments")] string property)
+        {
+            GetDescription(property).DictionaryEntry.KeyComments.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_dictionary_key_comments_if_specified()
+        {
+            GetDescription("WithDictionaryComments").DictionaryEntry.KeyComments.ShouldEqual("This is a key comment.");
+        }
+
+        [Test]
+        public void should_return_null_dictionary_value_comments_if_not_specified(
+            [Values("NoDescription", "WithEmptyDictionaryComments")] string property)
+        {
+            GetDescription(property).DictionaryEntry.ValueComments.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_dictionary_value_comments_if_specified()
+        {
+            GetDescription("WithDictionaryComments").DictionaryEntry.ValueComments.ShouldEqual("This is a value comment.");
+        }
     }
 }
