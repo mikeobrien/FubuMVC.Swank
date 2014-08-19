@@ -37,7 +37,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
                 });
             var typeCache = new TypeDescriptorCache();
             var memberConvention = new MemberConvention();
-            var typeConvention = new TypeConvention();
+            var optionFactory = new OptionFactory(configuration, new OptionConvention());
             var specBuilder = new FubuMVC.Swank.Specification.SpecificationService(
                 configuration,
                 new BehaviorSource(graph, configuration),
@@ -48,13 +48,13 @@ namespace Tests.Specification.SpecificationService.EndpointTests
                 memberConvention,
                 new StatusCodeConvention(),
                 new HeaderConvention(),
-                typeConvention,
                 new TypeGraphFactory(
                     configuration, 
-                    typeCache, 
-                    typeConvention, 
-                    memberConvention, 
-                    new OptionConvention()));
+                    typeCache,
+                    new TypeConvention(), 
+                    memberConvention,
+                    optionFactory), 
+                new OptionFactory(configuration, new OptionConvention()));
             return specBuilder.Generate();
         }
     }

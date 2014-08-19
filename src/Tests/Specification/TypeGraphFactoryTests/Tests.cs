@@ -24,7 +24,7 @@ namespace Tests.Specification.TypeGraphFactoryTests
                 new TypeDescriptorCache(), 
                 new TypeConvention(), 
                 new MemberConvention(), 
-                new OptionConvention());
+                new OptionFactory(configuration, new OptionConvention()));
         }
 
         public class ComplexType

@@ -37,11 +37,11 @@ namespace Tests.Specification.SpecificationService.Tests
             var resourceConvention = new ResourceConvention(new MarkerConvention<ResourceDescription>(), behaviorSource);
             var moduleConvention = new ModuleConvention(new MarkerConvention<ModuleDescription>());
             var typeCache = new TypeDescriptorCache();
-            var typeConvention = new TypeConvention();
             var memberConvention = new MemberConvention();
+            var optionFactory = new OptionFactory(configuration, new OptionConvention());
             return new FubuMVC.Swank.Specification.SpecificationService(
                 configuration,
-                behaviorSource,
+                new BehaviorSource(graph, configuration),
                 typeCache,
                 moduleConvention,
                 resourceConvention,
@@ -49,14 +49,13 @@ namespace Tests.Specification.SpecificationService.Tests
                 memberConvention,
                 new StatusCodeConvention(),
                 new HeaderConvention(),
-                typeConvention,
                 new TypeGraphFactory(
                     configuration,
                     typeCache,
-                    typeConvention,
+                    new TypeConvention(),
                     memberConvention,
-                    new OptionConvention())).Generate();
-        
+                    optionFactory),
+                new OptionFactory(configuration, new OptionConvention())).Generate();
         }
     }
 

@@ -34,8 +34,8 @@ namespace FubuMVC.Swank.Specification
         private readonly IDescriptionConvention<PropertyInfo, MemberDescription> _memberConvention;
         private readonly IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>> _statusCodeConvention;
         private readonly IDescriptionConvention<BehaviorChain, List<HeaderDescription>> _headerConvention;
-        private readonly IDescriptionConvention<Type, TypeDescription> _typeConvention;
         private readonly TypeGraphFactory _typeGraphFactory;
+        private readonly OptionFactory _optionFactory;
 
         public SpecificationService(
             Configuration configuration, 
@@ -47,8 +47,8 @@ namespace FubuMVC.Swank.Specification
             IDescriptionConvention<PropertyInfo, MemberDescription> memberConvention,
             IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>> statusCodeConvention,
             IDescriptionConvention<BehaviorChain, List<HeaderDescription>> headerConvention,
-            IDescriptionConvention<Type, TypeDescription> typeConvention,
-            TypeGraphFactory typeGraphFactory)
+            TypeGraphFactory typeGraphFactory,
+            OptionFactory optionFactory)
         {
             _configuration = configuration;
             _behaviors = behaviors;
@@ -58,8 +58,8 @@ namespace FubuMVC.Swank.Specification
             _endpointConvention = endpointConvention;
             _memberConvention = memberConvention;
             _statusCodeConvention = statusCodeConvention;
-            _typeConvention = typeConvention;
             _typeGraphFactory = typeGraphFactory;
+            _optionFactory = optionFactory;
             _headerConvention = headerConvention;
         }
 
@@ -221,7 +221,7 @@ namespace FubuMVC.Swank.Specification
                             Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                             Type = property.PropertyType.GetXmlName(),
-                            Options = _typeGraphFactory.BuildOptions(property.PropertyType)
+                            Options = _optionFactory.BuildOptions(property.PropertyType)
                         });
                 }).ToList();
         }
@@ -240,7 +240,7 @@ namespace FubuMVC.Swank.Specification
                         Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                         Type = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).GetXmlName(),
-                        Options = _typeGraphFactory.BuildOptions(x.Value.PropertyType),
+                        Options = _optionFactory.BuildOptions(x.Value.PropertyType),
                         DefaultValue = description.DefaultValue.WhenNotNull(y => y.ToDefaultValueString(_configuration)).OtherwiseDefault(),
                         MultipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList(),
                         Required = description.Optional

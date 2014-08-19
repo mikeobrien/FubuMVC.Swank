@@ -58,6 +58,9 @@ namespace Tests.Description
             public string Hidden { get; set; }
 
             public HiddenType HiddenType { get; set; }
+
+            [FubuMVC.Swank.Description.DescriptionAttribute("NewName", "This is a comment.")]
+            public string WithDescription { get; set; }
         }
 
         [Test]
@@ -81,7 +84,7 @@ namespace Tests.Description
 
         [Test]
         public void should_return_custom_name(
-            [Values("CustomXmlElementName", "CustomDataMemberName")] string property)
+            [Values("CustomXmlElementName", "CustomDataMemberName", "WithDescription")] string property)
         {
             GetDescription(property).Name.ShouldEqual("NewName");
         }
@@ -96,7 +99,8 @@ namespace Tests.Description
         public void should_return_comments_if_specified(
             [Values("WithComments", 
                 "WithArrayItemComments", 
-                "WithDictionaryComments")] 
+                "WithDictionaryComments",
+                "WithDescription")] 
                     string property)
         {
             GetDescription(property).Comments.ShouldEqual("This is a comment.");

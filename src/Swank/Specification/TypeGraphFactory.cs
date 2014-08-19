@@ -15,7 +15,7 @@ namespace FubuMVC.Swank.Specification
         private readonly Configuration _configuration;
         private readonly ITypeDescriptorCache _typeCache;
         private readonly IDescriptionConvention<PropertyInfo, MemberDescription> _memberConvention;
-        private readonly IDescriptionConvention<FieldInfo, OptionDescription> _optionConvention;
+        private readonly OptionFactory _optionFactory;
         private readonly IDescriptionConvention<Type, TypeDescription> _typeConvention;
 
         public TypeGraphFactory(
@@ -23,12 +23,12 @@ namespace FubuMVC.Swank.Specification
             ITypeDescriptorCache typeCache,
             IDescriptionConvention<Type, TypeDescription> typeConvention,
             IDescriptionConvention<PropertyInfo, MemberDescription> memberConvention,
-            IDescriptionConvention<FieldInfo, OptionDescription> optionConvention)
+            OptionFactory optionFactory)
         {
             _configuration = configuration;
             _typeCache = typeCache;
             _memberConvention = memberConvention;
-            _optionConvention = optionConvention;
+            _optionFactory = optionFactory;
             _typeConvention = typeConvention;
         }
 
@@ -52,86 +52,91 @@ namespace FubuMVC.Swank.Specification
                 Comments = description.Comments
             };
 
-            if (type.IsDictionary())
-            {
-                var types = type.GetGenericDictionaryTypes();
-                dataType.IsDictionary = true;
-                dataType.DictionaryEntry = new DictionaryEntry
-                {
-                    KeyComments = memberDescription.WhenNotNull(x => x.DictionaryEntry.KeyComments).OtherwiseDefault(),
-                    KeyType = BuildGraph(types.Key, inputGraph, ancestors),
-                    ValueComments = memberDescription.WhenNotNull(x => x.DictionaryEntry.ValueComments).OtherwiseDefault(),
-                    ValueType = BuildGraph(types.Value, inputGraph, ancestors)
-                };
-            }
+            if (type.IsDictionary()) 
+                BuildDictionary(dataType, type, inputGraph, ancestors, memberDescription);
             else if (type.IsArray || type.IsList())
-            {
-                dataType.IsArray = true;
-                dataType.ArrayItem = new ArrayItem
-                {
-                    Name = memberDescription.WhenNotNull(x => x.ArrayItem.Name).OtherwiseDefault(),
-                    Comments = memberDescription.WhenNotNull(x => x.ArrayItem.Comments).OtherwiseDefault(),
-                    Type = BuildGraph(type.GetListElementType(), inputGraph, ancestors)
-                };
-            }
-            else if (type.IsSimpleType())
-            {
-                dataType.IsSimple = true;
-                if (type.IsEnum) dataType.Options = BuildOptions(type);
-            }
-            else
-            {
-                dataType.IsComplex = true;
-                dataType.Members = 
-                    (type.IsProjection() ?
-                       type.GetProjectionProperties() :
-                       _typeCache.GetPropertiesFor(type).Select(x => x.Value))
-                    .Where(x => 
-                        !x.IsAutoBound() &&
-                        !x.IsQuerystring(action) &&
-                        !x.IsUrlParameter(action))
-                    .Select(x => new {
-                        Ancestors = ancestors.Concat(type),
-                        Type = x.PropertyType,
-                        UnwrappedType = x.PropertyType.UnwrapType(),
-                        Description = _memberConvention.GetDescription(x)
-                    })
-                    .Where(x => x.Ancestors.All(y => y != x.UnwrappedType) &&
-                                !x.Description.Hidden)
-                    .Select(x => new Member
-                    {
-                        Name = x.Description.WhenNotNull(y => y.Name).OtherwiseDefault(),
-                        Comments = x.Description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                        DefaultValue = x.Description.WhenNotNull(y => y.DefaultValue)
-                            .WhenNotNull(z => z.ToDefaultValueString(_configuration)).OtherwiseDefault(),
-                        Required = inputGraph && !x.Type.IsNullable() && x.Description.WhenNotNull(y => !y.Optional).OtherwiseDefault(),
-                        Optional = inputGraph && (x.Type.IsNullable() || x.Description.WhenNotNull(y => y.Optional).OtherwiseDefault()),
-                        Type = BuildGraph(x.Type, inputGraph, ancestors, x.Description)
-                    }).ToList();
-            }
+                BuildList(dataType, type, inputGraph, ancestors, memberDescription);
+            else if (type.IsSimpleType()) BuildSimpleType(dataType, type);
+            else BuildComplexType(dataType, type, inputGraph, ancestors, action);
 
             return _configuration.TypeOverrides.Apply(type, dataType);
         }
 
-        public List<Option> BuildOptions(Type type)
+        private void BuildDictionary(
+            DataType dataType, 
+            Type type, 
+            bool inputGraph,
+            IEnumerable<Type> ancestors, 
+            MemberDescription memberDescription)
         {
-            return !type.IsEnum || (type.IsNullable() && !Nullable.GetUnderlyingType(type).IsEnum) ? new List<Option>() :
-                type.GetEnumOptions()
-                    .Select(x => new
-                    {
-                        Option = x,
-                        Description = _optionConvention.GetDescription(x)
-                    })
-                    .Where(x => !x.Description.Hidden)
-                    .Select(x => 
-                        _configuration.OptionOverrides.Apply(x.Option, new Option
-                        {
-                            Name = x.Description.WhenNotNull(y => y.Name).OtherwiseDefault(),
-                            Comments = x.Description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                            Value = _configuration.EnumValue == EnumValue.AsString ? x.Option.Name : 
-                                        x.Option.GetRawConstantValue().ToString()
-                        }))
-                    .OrderBy(x => x.Name).ToList();
+            var types = type.GetGenericDictionaryTypes();
+            dataType.IsDictionary = true;
+            dataType.DictionaryEntry = new DictionaryEntry
+            {
+                KeyComments = memberDescription.WhenNotNull(x => x.DictionaryEntry.KeyComments).OtherwiseDefault(),
+                KeyType = BuildGraph(types.Key, inputGraph, ancestors),
+                ValueComments = memberDescription.WhenNotNull(x => x.DictionaryEntry.ValueComments).OtherwiseDefault(),
+                ValueType = BuildGraph(types.Value, inputGraph, ancestors)
+            };
+        }
+
+        private void BuildList(
+            DataType dataType,
+            Type type,
+            bool inputGraph,
+            IEnumerable<Type> ancestors,
+            MemberDescription memberDescription)
+        {
+            dataType.IsArray = true;
+            dataType.ArrayItem = new ArrayItem
+            {
+                Name = memberDescription.WhenNotNull(x => x.ArrayItem.Name).OtherwiseDefault(),
+                Comments = memberDescription.WhenNotNull(x => x.ArrayItem.Comments).OtherwiseDefault(),
+                Type = BuildGraph(type.GetListElementType(), inputGraph, ancestors)
+            };
+        }
+
+        private void BuildSimpleType(DataType dataType, Type type)
+        {
+            dataType.IsSimple = true;
+            if (type.IsEnum) dataType.Options = _optionFactory.BuildOptions(type);
+        }
+
+        private void BuildComplexType(
+            DataType dataType,
+            Type type,
+            bool inputGraph,
+            IEnumerable<Type> ancestors,
+            ActionCall action)
+        {
+            dataType.IsComplex = true;
+            dataType.Members =
+                (type.IsProjection() ?
+                   type.GetProjectionProperties() :
+                   _typeCache.GetPropertiesFor(type).Select(x => x.Value))
+                .Where(x =>
+                    !x.IsAutoBound() &&
+                    !x.IsQuerystring(action) &&
+                    !x.IsUrlParameter(action))
+                .Select(x => new
+                {
+                    Ancestors = ancestors.Concat(type),
+                    Type = x.PropertyType,
+                    UnwrappedType = x.PropertyType.UnwrapType(),
+                    Description = _memberConvention.GetDescription(x)
+                })
+                .Where(x => x.Ancestors.All(y => y != x.UnwrappedType) &&
+                            !x.Description.Hidden)
+                .Select(x => new Member
+                {
+                    Name = x.Description.WhenNotNull(y => y.Name).OtherwiseDefault(),
+                    Comments = x.Description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
+                    DefaultValue = x.Description.WhenNotNull(y => y.DefaultValue)
+                        .WhenNotNull(z => z.ToDefaultValueString(_configuration)).OtherwiseDefault(),
+                    Required = inputGraph && !x.Type.IsNullable() && x.Description.WhenNotNull(y => !y.Optional).OtherwiseDefault(),
+                    Optional = inputGraph && (x.Type.IsNullable() || x.Description.WhenNotNull(y => y.Optional).OtherwiseDefault()),
+                    Type = BuildGraph(x.Type, inputGraph, ancestors, x.Description)
+                }).ToList();
         }
     }
 }
