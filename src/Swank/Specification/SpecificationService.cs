@@ -187,7 +187,7 @@ namespace FubuMVC.Swank.Specification
             return new Data
             {
                 Comments = endpoint.RequestComments,
-                Schema = BuildSchema(_typeGraphFactory.BuildGraph(firstCall.InputType(), true, chain.FirstCall()))
+                Schema = BuildSchema(_typeGraphFactory.BuildGraph(firstCall.InputType(), chain.FirstCall()))
             };
         }
 
@@ -198,7 +198,7 @@ namespace FubuMVC.Swank.Specification
             return new Data
             {
                 Comments = endpoint.ResponseComments,
-                Schema = BuildSchema(_typeGraphFactory.BuildGraph(lastCall.OutputType(), false))
+                Schema = BuildSchema(_typeGraphFactory.BuildGraph(lastCall.OutputType()))
             };
         }
 

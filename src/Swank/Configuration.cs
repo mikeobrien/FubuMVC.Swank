@@ -43,7 +43,7 @@ namespace FubuMVC.Swank
 
             DefaultValueDateTimeFormat = "g";
             DefaultValueIntegerFormat = "0";
-            DefaultValueRealFormat = "0.0";
+            DefaultValueRealFormat = "0.#####";
             DefaultValueTimeSpanFormat = "g";
             DefaultValueGuidFormat = "D";
 

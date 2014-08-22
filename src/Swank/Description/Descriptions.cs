@@ -58,5 +58,9 @@
         public int Code { get; set; }
     }
 
-    public class TypeDescription : Description { }
+    public class TypeDescription : Description
+    {
+        public Description ArrayItem { get; set; }
+        public DictionaryDescription DictionaryEntry { get; set; }
+    }
 }

@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{C4D75C21-2205-4F4C-9B5C-3BAB0CE9849D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "X:\Development\FubuMVC.Swank\src\Tests\Tests.csproj", "{C4D75C21-2205-4F4C-9B5C-3BAB0CE9849D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swank", "Swank\Swank.csproj", "{B24D9A42-67E1-4878-A910-BADE3248926E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swank", "X:\Development\FubuMVC.Swank\src\Swank\Swank.csproj", "{B24D9A42-67E1-4878-A910-BADE3248926E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHarness", "TestHarness\TestHarness.csproj", "{3F0D282D-075C-4C40-8C95-5F41EF4B9E55}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHarness", "X:\Development\FubuMVC.Swank\src\TestHarness\TestHarness.csproj", "{3F0D282D-075C-4C40-8C95-5F41EF4B9E55}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{20F63604-11AD-4D4E-A2C2-DEB03DFB0B1E}"
 	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
+		X:\Development\FubuMVC.Swank\src\.nuget\packages.config = X:\Development\FubuMVC.Swank\src\.nuget\packages.config
 	EndProjectSection
 EndProject
 Global

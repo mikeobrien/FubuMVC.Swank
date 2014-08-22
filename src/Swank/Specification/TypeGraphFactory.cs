@@ -32,9 +32,9 @@ namespace FubuMVC.Swank.Specification
             _typeConvention = typeConvention;
         }
 
-        public DataType BuildGraph(Type type, bool inputGraph, ActionCall action = null)
+        public DataType BuildGraph(Type type, ActionCall action = null)
         {
-            return BuildGraph(type, inputGraph, null, null, action);
+            return BuildGraph(type, action != null, null, null, action);
         }
 
         private DataType BuildGraph(
@@ -52,10 +52,10 @@ namespace FubuMVC.Swank.Specification
                 Comments = description.Comments
             };
 
-            if (type.IsDictionary()) 
-                BuildDictionary(dataType, type, inputGraph, ancestors, memberDescription);
+            if (type.IsDictionary())
+                BuildDictionary(dataType, type, description, inputGraph, ancestors, memberDescription);
             else if (type.IsArray || type.IsList())
-                BuildList(dataType, type, inputGraph, ancestors, memberDescription);
+                BuildList(dataType, type, description, inputGraph, ancestors, memberDescription);
             else if (type.IsSimpleType()) BuildSimpleType(dataType, type);
             else BuildComplexType(dataType, type, inputGraph, ancestors, action);
 
@@ -65,6 +65,7 @@ namespace FubuMVC.Swank.Specification
         private void BuildDictionary(
             DataType dataType, 
             Type type, 
+            TypeDescription typeDescription,
             bool inputGraph,
             IEnumerable<Type> ancestors, 
             MemberDescription memberDescription)
@@ -73,9 +74,11 @@ namespace FubuMVC.Swank.Specification
             dataType.IsDictionary = true;
             dataType.DictionaryEntry = new DictionaryEntry
             {
-                KeyComments = memberDescription.WhenNotNull(x => x.DictionaryEntry.KeyComments).OtherwiseDefault(),
+                KeyComments = memberDescription.WhenNotNull(x => x.DictionaryEntry.KeyComments).OtherwiseDefault() ??
+                              typeDescription.WhenNotNull(x => x.DictionaryEntry.KeyComments).OtherwiseDefault(),
                 KeyType = BuildGraph(types.Key, inputGraph, ancestors),
-                ValueComments = memberDescription.WhenNotNull(x => x.DictionaryEntry.ValueComments).OtherwiseDefault(),
+                ValueComments = memberDescription.WhenNotNull(x => x.DictionaryEntry.ValueComments).OtherwiseDefault() ??
+                                typeDescription.WhenNotNull(x => x.DictionaryEntry.ValueComments).OtherwiseDefault(),
                 ValueType = BuildGraph(types.Value, inputGraph, ancestors)
             };
         }
@@ -83,16 +86,19 @@ namespace FubuMVC.Swank.Specification
         private void BuildList(
             DataType dataType,
             Type type,
+            TypeDescription typeDescription,
             bool inputGraph,
             IEnumerable<Type> ancestors,
             MemberDescription memberDescription)
         {
             dataType.IsArray = true;
+            var itemType = BuildGraph(type.GetListElementType(), inputGraph, ancestors);
             dataType.ArrayItem = new ArrayItem
             {
-                Name = memberDescription.WhenNotNull(x => x.ArrayItem.Name).OtherwiseDefault(),
-                Comments = memberDescription.WhenNotNull(x => x.ArrayItem.Comments).OtherwiseDefault(),
-                Type = BuildGraph(type.GetListElementType(), inputGraph, ancestors)
+                Name = memberDescription.WhenNotNull(x => x.ArrayItem.Name).OtherwiseDefault() ?? itemType.Name,
+                Comments = memberDescription.WhenNotNull(x => x.ArrayItem.Comments).OtherwiseDefault() ??
+                           typeDescription.ArrayItem.WhenNotNull(x => x.Comments).OtherwiseDefault(),
+                Type = itemType
             };
         }
 

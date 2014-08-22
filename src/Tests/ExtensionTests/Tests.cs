@@ -170,19 +170,38 @@ namespace Tests.ExtensionTests
             ((List<string>)null).Concat("hai").ShouldEqual(new List<string> { "hai" });
         }
 
+        [Test]
+        [TestCase(typeof(String), "string")]
+        [TestCase(typeof(Boolean), "boolean"), TestCase(typeof(Boolean?), "boolean")]
+        [TestCase(typeof(Decimal), "decimal"), TestCase(typeof(Decimal?), "decimal")]
+        [TestCase(typeof(Double), "double"), TestCase(typeof(Double?), "double")]
+        [TestCase(typeof(Single), "float"), TestCase(typeof(Single?), "float")]
+        [TestCase(typeof(Byte), "unsignedByte"), TestCase(typeof(Byte?), "unsignedByte")]
+        [TestCase(typeof(SByte), "byte"), TestCase(typeof(SByte?), "byte")]
+        [TestCase(typeof(Int16), "short"), TestCase(typeof(Int16?), "short")]
+        [TestCase(typeof(UInt16), "unsignedShort"), TestCase(typeof(UInt16?), "unsignedShort")]
+        [TestCase(typeof(Int32), "int"), TestCase(typeof(Int32?), "int")]
+        [TestCase(typeof(UInt32), "unsignedInt"), TestCase(typeof(UInt32?), "unsignedInt")]
+        [TestCase(typeof(Int64), "long"), TestCase(typeof(Int64?), "long")]
+        [TestCase(typeof(UInt64), "unsignedLong"), TestCase(typeof(UInt64?), "unsignedLong")]
+        [TestCase(typeof(DateTime), "dateTime"), TestCase(typeof(DateTime?), "dateTime")]
+        [TestCase(typeof(TimeSpan), "duration"), TestCase(typeof(TimeSpan?), "duration")]
+        [TestCase(typeof(Guid), "uuid"), TestCase(typeof(Guid?), "uuid")]
+        [TestCase(typeof(Char), "char"), TestCase(typeof(Char?), "char")]
+        [TestCase(typeof(Uri), "anyURI")]
+        [TestCase(typeof(byte[]), "base64Binary")]
+        [TestCase(typeof(int[]), "ArrayOfInt")]
+        [TestCase(typeof(List<int>), "ArrayOfInt")]
+        [TestCase(typeof(List<List<int>>), "ArrayOfArrayOfInt")]
+        [TestCase(typeof(Dictionary<string, int>), "DictionaryOfInt")]
+        [TestCase(typeof(Dictionary<string, Dictionary<string, int>>), "DictionaryOfDictionaryOfInt")]
+        [TestCase(typeof(ConsoleColor), "ConsoleColor")]
+        public void should_return_xml_name(Type type, string name)
+        {
+            type.GetXmlName().ShouldEqual(name);
+        }
+
         enum SomeEnum { Oh, Hai }
-
-        [Test]
-        public void should_get_enum_name()
-        {
-            typeof(SomeEnum).GetXmlName().ShouldEqual("SomeEnum");    
-        }
-
-        [Test]
-        public void should_get_nullable_enum_name()
-        {
-            typeof(SomeEnum?).GetXmlName().ShouldEqual("SomeEnum");
-        }
 
         [Test]
         public void should_get_enum_values()

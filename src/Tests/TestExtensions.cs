@@ -43,6 +43,11 @@ namespace Tests
             return graph.Actions().Where(x => x.HandlerType == typeof(T)).ToList();
         }
 
+        public static ActionCall AddAndGetAction<T>(this BehaviorGraph graph, string verb = null)
+        {
+            return AddAction(graph, typeof(T), verb).ActionsForHandler<T>().First();
+        }
+
         public static BehaviorGraph AddAction<T>(this BehaviorGraph graph, string verb = null)
         {
             return AddAction(graph, typeof(T), verb);

@@ -40,10 +40,10 @@ namespace Tests.Description
             public string WithArrayItemName { get; set; }
 
             [ArrayComments]
-            public string WithEmptyArrayItemComments { get; set; }
+            public string WithEmptyArrayComments { get; set; }
 
             [ArrayComments("This is a comment.", "This is an item comment.")]
-            public string WithArrayItemComments { get; set; }
+            public string WithArrayComments { get; set; }
 
             [DictionaryComments]
             public string WithEmptyDictionaryComments { get; set; }
@@ -98,7 +98,7 @@ namespace Tests.Description
         [Test]
         public void should_return_comments_if_specified(
             [Values("WithComments", 
-                "WithArrayItemComments", 
+                "WithArrayComments", 
                 "WithDictionaryComments",
                 "WithDescription")] 
                     string property)
@@ -144,7 +144,7 @@ namespace Tests.Description
 
         [Test]
         public void should_return_null_array_item_comments_if_not_specified(
-            [Values("NoDescription", "WithEmptyArrayItemComments")] string property)
+            [Values("NoDescription", "WithEmptyArrayComments")] string property)
         {
             GetDescription(property).ArrayItem.Comments.ShouldBeNull();
         }
@@ -152,7 +152,7 @@ namespace Tests.Description
         [Test]
         public void should_return_array_item_comments_if_specified()
         {
-            GetDescription("WithArrayItemComments").ArrayItem.Comments.ShouldEqual("This is an item comment.");
+            GetDescription("WithArrayComments").ArrayItem.Comments.ShouldEqual("This is an item comment.");
         }
 
         [Test]

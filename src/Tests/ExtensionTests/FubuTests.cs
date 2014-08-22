@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using FubuMVC.Core.Registration.Routes;
 using FubuMVC.Media.Projections;
 using FubuMVC.Swank.Extensions;
-using NSubstitute;
 using NUnit.Framework;
 using Should;
 using System.Linq;

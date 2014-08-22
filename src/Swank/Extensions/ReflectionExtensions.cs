@@ -188,10 +188,12 @@ namespace FubuMVC.Swank.Extensions
             if (type == typeof(UInt64) || type == typeof(UInt64?)) return "unsignedLong";
             if (type == typeof(DateTime) || type == typeof(DateTime?)) return "dateTime";
             if (type == typeof(TimeSpan) || type == typeof(TimeSpan?)) return "duration";
-            if (type == typeof(Guid) || type == typeof(Guid?)) return "guid";
+            if (type == typeof(Guid) || type == typeof(Guid?)) return "uuid";
             if (type == typeof(Char) || type == typeof(Char?)) return "char";
+            if (type == typeof(Uri)) return "anyURI";
             if (type == typeof(byte[])) return "base64Binary";
             if (type.IsArray || type.IsList()) return "ArrayOf" + type.GetListElementType().GetXmlName().InitialCap();
+            if (type.IsDictionary()) return "DictionaryOf" + type.GetGenericDictionaryTypes().Value.GetXmlName().InitialCap();
             return type.IsNullable() ? Nullable.GetUnderlyingType(type).Name : type.Name;
         }
 

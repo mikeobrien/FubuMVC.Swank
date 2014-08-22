@@ -16,20 +16,14 @@ namespace FubuMVC.Swank.Description
             var description = property.GetCustomAttribute<DescriptionAttribute>();
 
             return new MemberDescription {
-                Name = description.WhenNotNull(x => x.Name).Otherwise(
-                        property.GetCustomAttribute<XmlElementAttribute>()
-                            .WhenNotNull(x => x.ElementName)
-                            .Otherwise(property.GetCustomAttribute<DataMemberAttribute>()
-                                .WhenNotNull(x => x.Name)
-                                .Otherwise(property.Name))),
-                Comments = description.WhenNotNull(x => x.Comments).Otherwise(
-                        property.GetCustomAttribute<CommentsAttribute>()
-                            .WhenNotNull(x => x.Comments)
-                            .Otherwise(arrayComments
-                                .WhenNotNull(x => x.Comments)
-                                    .Otherwise(dictionaryComments
-                                        .WhenNotNull(x => x.Comments)
-                                        .OtherwiseDefault()))),
+                Name = description.WhenNotNull(x => x.Name).OtherwiseDefault() ??
+                    property.GetCustomAttribute<XmlElementAttribute>().WhenNotNull(x => x.ElementName).OtherwiseDefault() ??
+                    property.GetCustomAttribute<DataMemberAttribute>().WhenNotNull(x => x.Name).OtherwiseDefault() ??
+                    property.Name,
+                Comments = arrayComments.WhenNotNull(x => x.Comments).OtherwiseDefault() ??
+                    dictionaryComments.WhenNotNull(x => x.Comments).OtherwiseDefault() ??
+                    description.WhenNotNull(x => x.Comments).OtherwiseDefault() ??
+                    property.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments).OtherwiseDefault(),
                 DefaultValue = property.GetCustomAttribute<DefaultValueAttribute>()
                                        .WhenNotNull(x => x.Value).OtherwiseDefault(),
                 Optional = property.HasAttribute<OptionalAttribute>() && !property.PropertyType.IsNullable(),
