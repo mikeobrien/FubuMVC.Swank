@@ -28,11 +28,7 @@ module.exports = function(grunt) {
             }
         },
         nunit: {
-            test: {
-                files: {
-                    src:  ['src/FubuMVC.Swank.sln']
-                }
-            }
+            files: ['src/FubuMVC.Swank.sln'],
             options: {
                 teamcity: true
             }
