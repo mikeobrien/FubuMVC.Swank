@@ -35,5 +35,13 @@ namespace FubuMVC.Swank.Extensions
         {
             return items != null && items.Any() ? initialValue + items.Select(item).Aggregate((a, i) => a + seperator + i) : @default;
         }
+
+        public static string Repeat(this string value, int count)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            var buffer = "";
+            for (var i = 0; i < count; i++) buffer += value;
+            return buffer;
+        }
     }
 }

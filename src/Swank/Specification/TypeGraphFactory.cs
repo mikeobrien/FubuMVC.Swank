@@ -141,6 +141,8 @@ namespace FubuMVC.Swank.Specification
                         .WhenNotNull(z => z.ToDefaultValueString(_configuration)).OtherwiseDefault(),
                     Required = inputGraph && !x.Type.IsNullable() && x.Description.WhenNotNull(y => !y.Optional).OtherwiseDefault(),
                     Optional = inputGraph && (x.Type.IsNullable() || x.Description.WhenNotNull(y => y.Optional).OtherwiseDefault()),
+                    Deprecated = x.Description.Deprecated,
+                    DeprecationMessage = x.Description.DeprecationMessage,
                     Type = BuildGraph(x.Type, inputGraph, ancestors, x.Description)
                 }).ToList();
         }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Xml.Serialization;
 using FubuCore.Reflection;
 using FubuMVC.Core;
-using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Media.Projections;
 using FubuMVC.Swank;
 using FubuMVC.Swank.Description;
@@ -13,10 +12,10 @@ using FubuMVC.Swank.Specification;
 using NUnit.Framework;
 using Should;
 
-namespace Tests.Specification.TypeGraphFactoryTests
+namespace Tests.Specification
 {
     [TestFixture]
-    public class Tests
+    public class TypeGraphFactoryTests
     {
         public TypeGraphFactory CreateFactory(Action<Configuration> configure = null)
         {
@@ -576,9 +575,42 @@ namespace Tests.Specification.TypeGraphFactoryTests
                 .Members.Single().Name.ShouldEqual("Member");
         }
 
+        public class ComplexTypeWithDeprecatedMembers
+        {
+            [Obsolete]
+            public string DeprecatedMember { get; set; }
+
+            [Obsolete("DO NOT seek the treasure!")]
+            public string DeprecatedMemberWithMessage { get; set; }
+        }
+
+        [Test]
+        public void should_indicate_if_member_is_deprecated()
+        {
+            var members = should_be_complex_type(CreateFactory().BuildGraph(
+                typeof(ComplexTypeWithDeprecatedMembers)), 2).Members;
+
+            should_match_member(members[0], "DeprecatedMember",
+                deprecated: true,
+                type: x => should_be_simple_type(x, "string"));
+        }
+
+        [Test]
+        public void should_indicate_if_member_is_deprecated_with_message()
+        {
+            var members = should_be_complex_type(CreateFactory().BuildGraph(
+                typeof(ComplexTypeWithDeprecatedMembers)), 2).Members;
+
+            should_match_member(members[1], "DeprecatedMemberWithMessage",
+                deprecated: true,
+                deprecatedMessage: "DO NOT seek the treasure!",
+                type: x => should_be_simple_type(x, "string"));
+        }
+
         public void should_match_member(Member member, string name,
-            string comments = null, string defaultValue = null, 
-            bool required = false, bool optional = false, 
+            string comments = null, string defaultValue = null,
+            bool required = false, bool optional = false,
+            bool deprecated = false, string deprecatedMessage = null, 
             Action<DataType> type = null)
         {
             member.Name.ShouldEqual(name);
@@ -587,6 +619,8 @@ namespace Tests.Specification.TypeGraphFactoryTests
             member.Required.ShouldEqual(required);
             member.Optional.ShouldEqual(optional);
             member.Type.ShouldNotBeNull();
+            member.Deprecated.ShouldEqual(deprecated);
+            member.DeprecationMessage.ShouldEqual(deprecatedMessage);
             if (type != null) type(member.Type);
         }
 

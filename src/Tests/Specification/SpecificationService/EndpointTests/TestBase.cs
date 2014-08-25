@@ -54,6 +54,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
                     new TypeConvention(), 
                     memberConvention,
                     optionFactory), 
+                new DataDescriptionFactory(), 
                 new OptionFactory(configuration, new OptionConvention()));
             return specBuilder.Generate();
         }

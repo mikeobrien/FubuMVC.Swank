@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using FubuMVC.Swank.Description;
 using NUnit.Framework;
@@ -61,6 +62,12 @@ namespace Tests.Description
 
             [FubuMVC.Swank.Description.DescriptionAttribute("NewName", "This is a comment.")]
             public string WithDescription { get; set; }
+
+            [Obsolete]
+            public string Deprecated { get; set; }
+
+            [Obsolete("DO NOT seek the treasure!")]
+            public string DeprecatedWithMessage { get; set; }
         }
 
         [Test]
@@ -128,6 +135,30 @@ namespace Tests.Description
         public void should_return_optional_if_specified()
         {
             GetDescription("Optional").Optional.ShouldBeTrue();
+        }
+
+        [Test]
+        public void should_return_not_deprecated()
+        {
+            var description = GetDescription("NoDescription");
+            description.Deprecated.ShouldBeFalse();
+            description.DeprecationMessage.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_deprecated_without_message()
+        {
+            var description = GetDescription("Deprecated");
+            description.Deprecated.ShouldBeTrue();
+            description.DeprecationMessage.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_deprecated_with_message()
+        {
+            var description = GetDescription("DeprecatedWithMessage");
+            description.Deprecated.ShouldBeTrue();
+            description.DeprecationMessage.ShouldEqual("DO NOT seek the treasure!");
         }
 
         [Test]

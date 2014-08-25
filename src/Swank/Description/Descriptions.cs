@@ -31,6 +31,8 @@
         public object DefaultValue { get; set; }
         public bool Optional { get; set; }
         public bool Hidden { get; set; }
+        public bool Deprecated { get; set; }
+        public string DeprecationMessage { get; set; }
         public Description ArrayItem { get; set; }
         public DictionaryDescription DictionaryEntry { get; set; }
     }

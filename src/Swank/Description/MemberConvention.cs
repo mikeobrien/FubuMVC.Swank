@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using FubuCore;
@@ -12,8 +13,9 @@ namespace FubuMVC.Swank.Description
         public virtual MemberDescription GetDescription(PropertyInfo property)
         {
             var arrayComments = property.GetAttribute<ArrayCommentsAttribute>();
-            var dictionaryComments = property.GetCustomAttribute<DictionaryCommentsAttribute>();
-            var description = property.GetCustomAttribute<DescriptionAttribute>();
+            var dictionaryComments = property.GetAttribute<DictionaryCommentsAttribute>();
+            var description = property.GetAttribute<DescriptionAttribute>();
+            var obsolete = property.GetAttribute<ObsoleteAttribute>();
 
             return new MemberDescription {
                 Name = description.WhenNotNull(x => x.Name).OtherwiseDefault() ??
@@ -30,6 +32,8 @@ namespace FubuMVC.Swank.Description
                 Hidden = property.PropertyType.HasAttribute<HideAttribute>() || 
                     property.HasAttribute<HideAttribute>() ||
                     property.HasAttribute<XmlIgnoreAttribute>(),
+                Deprecated = obsolete != null,
+                DeprecationMessage = obsolete.WhenNotNull(x => x.Message).OtherwiseDefault(),
                 ArrayItem = new Description
                 {
                     Name = property.GetAttribute<XmlArrayItemAttribute>()

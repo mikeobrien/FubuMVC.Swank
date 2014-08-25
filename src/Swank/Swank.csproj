@@ -116,7 +116,7 @@
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Specification\OptionFactory.cs" />
-    <Compile Include="Specification\SchemaFactory.cs" />
+    <Compile Include="Specification\DataDescriptionFactory.cs" />
     <Compile Include="Specification\IDescription.cs" />
     <Compile Include="Specification\OrphanedModuleActionException.cs" />
     <Compile Include="Specification\OrphanedResourceActionException.cs" />

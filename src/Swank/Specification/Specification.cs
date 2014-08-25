@@ -77,10 +77,10 @@ namespace FubuMVC.Swank.Specification
     public class Data
     {
         public string Comments { get; set; }
-        public List<Schema> Schema { get; set; }
+        public List<DataDescription> Description { get; set; }
     }
 
-    public class Schema
+    public class DataDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
@@ -163,6 +163,8 @@ namespace FubuMVC.Swank.Specification
         public bool Required { get; set; }
         public bool Optional { get; set; }
         public string DefaultValue { get; set; }
+        public bool Deprecated { get; set; }
+        public string DeprecationMessage { get; set; }
         public DataType Type { get; set; }
     }
 

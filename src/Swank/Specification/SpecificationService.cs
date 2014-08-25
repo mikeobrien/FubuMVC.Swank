@@ -35,6 +35,7 @@ namespace FubuMVC.Swank.Specification
         private readonly IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>> _statusCodeConvention;
         private readonly IDescriptionConvention<BehaviorChain, List<HeaderDescription>> _headerConvention;
         private readonly TypeGraphFactory _typeGraphFactory;
+        private readonly DataDescriptionFactory _dataDescriptionFactory;
         private readonly OptionFactory _optionFactory;
 
         public SpecificationService(
@@ -48,6 +49,7 @@ namespace FubuMVC.Swank.Specification
             IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>> statusCodeConvention,
             IDescriptionConvention<BehaviorChain, List<HeaderDescription>> headerConvention,
             TypeGraphFactory typeGraphFactory,
+            DataDescriptionFactory dataDescriptionFactory,
             OptionFactory optionFactory)
         {
             _configuration = configuration;
@@ -59,6 +61,7 @@ namespace FubuMVC.Swank.Specification
             _memberConvention = memberConvention;
             _statusCodeConvention = statusCodeConvention;
             _typeGraphFactory = typeGraphFactory;
+            _dataDescriptionFactory = dataDescriptionFactory;
             _optionFactory = optionFactory;
             _headerConvention = headerConvention;
         }
@@ -187,7 +190,7 @@ namespace FubuMVC.Swank.Specification
             return new Data
             {
                 Comments = endpoint.RequestComments,
-                Schema = BuildSchema(_typeGraphFactory.BuildGraph(firstCall.InputType(), chain.FirstCall()))
+                Description = _dataDescriptionFactory.Create(_typeGraphFactory.BuildGraph(firstCall.InputType(), chain.FirstCall()))
             };
         }
 
@@ -198,15 +201,9 @@ namespace FubuMVC.Swank.Specification
             return new Data
             {
                 Comments = endpoint.ResponseComments,
-                Schema = BuildSchema(_typeGraphFactory.BuildGraph(lastCall.OutputType()))
+                Description = _dataDescriptionFactory.Create(_typeGraphFactory.BuildGraph(lastCall.OutputType()))
             };
         }
-
-        private List<Schema> BuildSchema(DataType type)
-        {
-            var schema = new List<Schema>();
-            return schema;
-        } 
 
         private List<UrlParameter> GetUrlParameters(BehaviorChain chain)
         {

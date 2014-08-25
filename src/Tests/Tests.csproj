@@ -98,7 +98,8 @@
     <Compile Include="Specification\SpecificationService\MultiActionTests\Handlers.cs" />
     <Compile Include="Specification\SpecificationService\MultiActionTests\Tests.cs" />
     <Compile Include="Specification\OptionFactoryTests.cs" />
-    <Compile Include="Specification\TypeGraphFactoryTests\Tests.cs" />
+    <Compile Include="Specification\DataDescriptionFactoryTests.cs" />
+    <Compile Include="Specification\TypeGraphFactoryTests.cs" />
     <Compile Include="TestExtensions.cs" />
     <Compile Include="Specification\OverrideTests\Handlers.cs" />
     <Compile Include="Specification\OverrideTests\Tests.cs" />
