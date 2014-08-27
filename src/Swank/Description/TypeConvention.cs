@@ -9,6 +9,13 @@ namespace FubuMVC.Swank.Description
 {
     public class TypeConvention : IDescriptionConvention<Type, TypeDescription>
     {
+        private readonly Configuration _configuration;
+
+        public TypeConvention(Configuration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public virtual TypeDescription GetDescription(Type type)
         {
             var arrayComments = type.GetAttribute<ArrayCommentsAttribute>();
@@ -19,7 +26,7 @@ namespace FubuMVC.Swank.Description
                     type.GetCustomAttribute<XmlTypeAttribute>().WhenNotNull(x => x.TypeName).OtherwiseDefault() ??
                     type.GetCustomAttribute<DataContractAttribute>().WhenNotNull(x => x.Name).OtherwiseDefault() ??
                     type.GetCustomAttribute<CollectionDataContractAttribute>().WhenNotNull(x => x.Name).OtherwiseDefault() ??
-                    type.GetXmlName(),
+                    type.GetXmlName(_configuration.EnumValue == EnumValue.AsString),
                 Comments = type.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments).OtherwiseDefault(),
                 ArrayItem = new Description
                 {

@@ -195,10 +195,17 @@ namespace Tests.ExtensionTests
         [TestCase(typeof(List<List<int>>), "ArrayOfArrayOfInt")]
         [TestCase(typeof(Dictionary<string, int>), "DictionaryOfInt")]
         [TestCase(typeof(Dictionary<string, Dictionary<string, int>>), "DictionaryOfDictionaryOfInt")]
-        [TestCase(typeof(ConsoleColor), "ConsoleColor")]
+        [TestCase(typeof(ArgumentException), "ArgumentException")]
         public void should_return_xml_name(Type type, string name)
         {
-            type.GetXmlName().ShouldEqual(name);
+            type.GetXmlName(false).ShouldEqual(name);
+        }
+
+        [TestCase(typeof(ConsoleColor), true, "string"), TestCase(typeof(ConsoleColor?), true, "string")]
+        [TestCase(typeof(ConsoleColor), false, "int"), TestCase(typeof(ConsoleColor?), false, "int")]
+        public void should_return_enum_xml_name(Type type, bool enumAsString, string name)
+        {
+            type.GetXmlName(enumAsString).ShouldEqual(name);
         }
 
         enum SomeEnum { Oh, Hai }

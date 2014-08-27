@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using FubuMVC.Swank;
 using FubuMVC.Swank.Description;
 using NUnit.Framework;
 using Should;
@@ -13,7 +14,7 @@ namespace Tests.Description
     {
         public TypeDescription GetDescription(Type type)
         {
-            return new TypeConvention().GetDescription(type);
+            return new TypeConvention(new Configuration()).GetDescription(type);
         }
 
         public TypeDescription GetDescription<T>()

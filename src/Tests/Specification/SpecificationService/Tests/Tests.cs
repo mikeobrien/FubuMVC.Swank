@@ -52,10 +52,10 @@ namespace Tests.Specification.SpecificationService.Tests
                 new TypeGraphFactory(
                     configuration,
                     typeCache,
-                    new TypeConvention(),
+                    new TypeConvention(configuration),
                     memberConvention,
                     optionFactory),
-                new DataDescriptionFactory(), 
+                new DataDescriptionFactory(configuration), 
                 new OptionFactory(configuration, new OptionConvention())).Generate();
         }
     }

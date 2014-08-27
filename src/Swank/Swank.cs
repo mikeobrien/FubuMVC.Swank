@@ -214,6 +214,24 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
+        /// Sample string value displayed in the documentation.
+        /// </summary>
+        public Swank WithSampleStringValue(string value)
+        {
+            _configuration.SampleStringValue = value;
+            return this;
+        }
+
+        /// <summary>
+        /// Sample boolean value displayed in the documentation.
+        /// </summary>
+        public Swank WithSampleBoolValue(bool value)
+        {
+            _configuration.SampleBoolValue = value;
+            return this;
+        }
+
+        /// <summary>
         /// Sample DateTime value displayed in the documentation.
         /// </summary>
         public Swank WithSampleDateTimeValue(DateTime value)

@@ -51,10 +51,10 @@ namespace Tests.Specification.SpecificationService.EndpointTests
                 new TypeGraphFactory(
                     configuration, 
                     typeCache,
-                    new TypeConvention(), 
+                    new TypeConvention(configuration), 
                     memberConvention,
                     optionFactory), 
-                new DataDescriptionFactory(), 
+                new DataDescriptionFactory(configuration), 
                 new OptionFactory(configuration, new OptionConvention()));
             return specBuilder.Generate();
         }

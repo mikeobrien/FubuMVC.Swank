@@ -47,6 +47,8 @@ namespace FubuMVC.Swank
             DefaultValueTimeSpanFormat = "g";
             DefaultValueGuidFormat = "D";
 
+            SampleStringValue = "";
+            SampleBoolValue = false;
             SampleDateTimeValue = DateTime.Now;
             SampleIntegerValue = 0;
             SampleRealValue = 0;
@@ -101,6 +103,8 @@ namespace FubuMVC.Swank
         public string DefaultValueTimeSpanFormat { get; set; }
         public string DefaultValueGuidFormat { get; set; }
 
+        public string SampleStringValue { get; set; }
+        public bool SampleBoolValue { get; set; }
         public DateTime SampleDateTimeValue { get; set; }
         public int SampleIntegerValue { get; set; }
         public decimal SampleRealValue { get; set; }

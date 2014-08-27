@@ -171,30 +171,33 @@ namespace FubuMVC.Swank.Extensions
                 .FirstOrDefault(x => x == interfaceType || (x.IsGenericType && x.GetGenericTypeDefinition() == interfaceType));
         }
 
-        public static string GetXmlName(this Type type)
+        public static string GetXmlName(this Type type, bool enumIsString)
         {
+            if (type.IsNullable()) type = Nullable.GetUnderlyingType(type);
+            if (type.IsEnum) type = enumIsString ? typeof(string) : type.GetEnumUnderlyingType();
+
             if (type == typeof(String)) return "string";
-            if (type == typeof(Boolean) || type == typeof(Boolean?)) return "boolean";
-            if (type == typeof(Decimal) || type == typeof(Decimal?)) return "decimal";
-            if (type == typeof(Double) || type == typeof(Double?)) return "double";
-            if (type == typeof(Single) || type == typeof(Single?)) return "float";
-            if (type == typeof(Byte) || type == typeof(Byte?)) return "unsignedByte";
-            if (type == typeof(SByte) || type == typeof(SByte?)) return "byte";
-            if (type == typeof(Int16) || type == typeof(Int16?)) return "short";
-            if (type == typeof(UInt16) || type == typeof(UInt16?)) return "unsignedShort";
-            if (type == typeof(Int32) || type == typeof(Int32?)) return "int";
-            if (type == typeof(UInt32) || type == typeof(UInt32?)) return "unsignedInt";
-            if (type == typeof(Int64) || type == typeof(Int64?)) return "long";
-            if (type == typeof(UInt64) || type == typeof(UInt64?)) return "unsignedLong";
-            if (type == typeof(DateTime) || type == typeof(DateTime?)) return "dateTime";
-            if (type == typeof(TimeSpan) || type == typeof(TimeSpan?)) return "duration";
-            if (type == typeof(Guid) || type == typeof(Guid?)) return "uuid";
-            if (type == typeof(Char) || type == typeof(Char?)) return "char";
+            if (type == typeof(Boolean)) return "boolean";
+            if (type == typeof(Decimal)) return "decimal";
+            if (type == typeof(Double)) return "double";
+            if (type == typeof(Single)) return "float";
+            if (type == typeof(Byte)) return "unsignedByte";
+            if (type == typeof(SByte)) return "byte";
+            if (type == typeof(Int16)) return "short";
+            if (type == typeof(UInt16)) return "unsignedShort";
+            if (type == typeof(Int32)) return "int";
+            if (type == typeof(UInt32)) return "unsignedInt";
+            if (type == typeof(Int64)) return "long";
+            if (type == typeof(UInt64)) return "unsignedLong";
+            if (type == typeof(DateTime)) return "dateTime";
+            if (type == typeof(TimeSpan)) return "duration";
+            if (type == typeof(Guid)) return "uuid";
+            if (type == typeof(Char)) return "char";
             if (type == typeof(Uri)) return "anyURI";
             if (type == typeof(byte[])) return "base64Binary";
-            if (type.IsArray || type.IsList()) return "ArrayOf" + type.GetListElementType().GetXmlName().InitialCap();
-            if (type.IsDictionary()) return "DictionaryOf" + type.GetGenericDictionaryTypes().Value.GetXmlName().InitialCap();
-            return type.IsNullable() ? Nullable.GetUnderlyingType(type).Name : type.Name;
+            if (type.IsArray || type.IsList()) return "ArrayOf" + type.GetListElementType().GetXmlName(enumIsString).InitialCap();
+            if (type.IsDictionary()) return "DictionaryOf" + type.GetGenericDictionaryTypes().Value.GetXmlName(enumIsString).InitialCap();
+            return type.Name;
         }
 
         public static bool IsString(this Type type) { return type == typeof(String); }

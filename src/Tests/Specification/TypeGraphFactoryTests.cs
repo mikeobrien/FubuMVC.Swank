@@ -24,7 +24,7 @@ namespace Tests.Specification
             return new TypeGraphFactory(
                 configuration, 
                 new TypeDescriptorCache(), 
-                new TypeConvention(), 
+                new TypeConvention(configuration), 
                 new MemberConvention(), 
                 new OptionFactory(configuration, new OptionConvention()));
         }
@@ -114,31 +114,51 @@ namespace Tests.Specification
 
         public enum Options
         {
-            [Comments("First option.")]
-            Option1,
-            [Comments("Second option.")]
-            Option2
+            Option,
+            [Comments("This is an option.")]
+            OptionWithComments
         }
 
         [Test]
-        public void should_create_simple_type_options()
+        public void should_create_simple_type_string_options()
         {
             var type = typeof(Options);
             var dataType = CreateFactory().BuildGraph(type);
 
-            dataType.Name.ShouldEqual(type.GetXmlName());
+            dataType.Name.ShouldEqual("int");
             dataType.IsSimple.ShouldBeTrue();
             dataType.Options.Count.ShouldEqual(2);
 
             var option = dataType.Options[0];
-            option.Name.ShouldEqual("Option1");
+            option.Name.ShouldEqual("Option");
             option.Value.ShouldEqual("0");
-            option.Comments.ShouldEqual("First option.");
+            option.Comments.ShouldBeNull();
             
             option = dataType.Options[1];
-            option.Name.ShouldEqual("Option2");
+            option.Name.ShouldEqual("OptionWithComments");
             option.Value.ShouldEqual("1");
-            option.Comments.ShouldEqual("Second option.");
+            option.Comments.ShouldEqual("This is an option.");
+        }
+
+        [Test]
+        public void should_create_simple_type_numeric_options()
+        {
+            var type = typeof(Options);
+            var dataType = CreateFactory(x => x.EnumValue = EnumValue.AsString).BuildGraph(type);
+
+            dataType.Name.ShouldEqual("string");
+            dataType.IsSimple.ShouldBeTrue();
+            dataType.Options.Count.ShouldEqual(2);
+
+            var option = dataType.Options[0];
+            option.Name.ShouldEqual("Option");
+            option.Value.ShouldEqual("Option");
+            option.Comments.ShouldBeNull();
+
+            option = dataType.Options[1];
+            option.Name.ShouldEqual("OptionWithComments");
+            option.Value.ShouldEqual("OptionWithComments");
+            option.Comments.ShouldEqual("This is an option.");
         }
 
         // Arrays
