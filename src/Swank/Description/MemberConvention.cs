@@ -13,7 +13,7 @@ namespace FubuMVC.Swank.Description
         public virtual MemberDescription GetDescription(PropertyInfo property)
         {
             var arrayComments = property.GetAttribute<ArrayCommentsAttribute>();
-            var dictionaryComments = property.GetAttribute<DictionaryCommentsAttribute>();
+            var dictionaryDescription = property.GetAttribute<DictionaryDescriptionAttribute>();
             var description = property.GetAttribute<DescriptionAttribute>();
             var obsolete = property.GetAttribute<ObsoleteAttribute>();
 
@@ -21,9 +21,10 @@ namespace FubuMVC.Swank.Description
                 Name = description.WhenNotNull(x => x.Name).OtherwiseDefault() ??
                     property.GetCustomAttribute<XmlElementAttribute>().WhenNotNull(x => x.ElementName).OtherwiseDefault() ??
                     property.GetCustomAttribute<DataMemberAttribute>().WhenNotNull(x => x.Name).OtherwiseDefault() ??
+                    dictionaryDescription.WhenNotNull(x => x.Name).OtherwiseDefault() ??
                     property.Name,
                 Comments = arrayComments.WhenNotNull(x => x.Comments).OtherwiseDefault() ??
-                    dictionaryComments.WhenNotNull(x => x.Comments).OtherwiseDefault() ??
+                    dictionaryDescription.WhenNotNull(x => x.Comments).OtherwiseDefault() ??
                     description.WhenNotNull(x => x.Comments).OtherwiseDefault() ??
                     property.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments).OtherwiseDefault(),
                 DefaultValue = property.GetCustomAttribute<DefaultValueAttribute>()
@@ -42,8 +43,9 @@ namespace FubuMVC.Swank.Description
                 },
                 DictionaryEntry = new DictionaryDescription
                 {
-                    KeyComments = dictionaryComments.WhenNotNull(x => x.KeyComments).OtherwiseDefault(),
-                    ValueComments = dictionaryComments.WhenNotNull(x => x.ValueComments).OtherwiseDefault()
+                    KeyName = dictionaryDescription.WhenNotNull(x => x.KeyName).OtherwiseDefault(),
+                    KeyComments = dictionaryDescription.WhenNotNull(x => x.KeyComments).OtherwiseDefault(),
+                    ValueComments = dictionaryDescription.WhenNotNull(x => x.ValueComments).OtherwiseDefault()
                 }
             };
         }

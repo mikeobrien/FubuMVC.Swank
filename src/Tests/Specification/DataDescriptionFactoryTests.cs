@@ -105,8 +105,9 @@ namespace Tests.Specification
 
             description[1].ShouldBeSimpleTypeMember("OptionMember", "int", 2, "0", 
                 x => x.IsNumeric()
-                    .WithOption("Option", "0")
-                    .WithOptionAndComments("OptionWithComments", "1", "This is an option."), 
+                    .Options
+                        .WithOption("Option", "0")
+                        .WithOptionAndComments("OptionWithComments", "1", "This is an option."), 
                 x => x.IsLastMember());
 
             description[2].ShouldBeComplexType("ComplexTypeWithSimpleOptionMember", 1, x => x.Closing());
@@ -124,8 +125,9 @@ namespace Tests.Specification
 
             description[1].ShouldBeSimpleTypeMember("OptionMember", "string", 2, "Option",
                 x => x.IsString()
-                    .WithOption("Option")
-                    .WithOptionAndComments("OptionWithComments", "This is an option."),
+                    .Options
+                        .WithOption("Option")
+                        .WithOptionAndComments("OptionWithComments", "This is an option."),
                 x => x.IsLastMember());
 
             description[2].ShouldBeComplexType("ComplexTypeWithSimpleOptionMember", 1, x => x.Closing());
@@ -206,19 +208,19 @@ namespace Tests.Specification
             description.Count.ShouldEqual(5);
             description[0].ShouldBeComplexType(type.Name, 1, x => x.Opening());
 
-            description[1].ShouldBeArrayTypeMember("ArrayMember", 2, true, x => x.IsLastMember());
+            description[1].ShouldBeArrayMember("ArrayMember", 2, x => x.Opening(), x => x.IsLastMember());
 
             description[2].ShouldBeSimpleType(itemName, "string", 3, "", x => x.IsString());
 
-            description[3].ShouldBeArrayTypeMember("ArrayMember", 2, false, x => x.IsLastMember());
+            description[3].ShouldBeArrayMember("ArrayMember", 2, x => x.Closing(), x => x.IsLastMember());
 
             description[4].ShouldBeComplexType(type.Name, 1, x => x.Closing());
         }
 
         public class ComplexTypeWithDictionaryMember
         {
-            [DictionaryComments("This is a dictionary", 
-                "This is the key.", "This is the value.")]
+            [DictionaryDescription(comments: "This is a dictionary", 
+                keyComments: "This is the key.", valueComments: "This is the value.")]
             public Dictionary<string, string> DictionaryMember { get; set; }
         }
 
@@ -231,14 +233,16 @@ namespace Tests.Specification
 
             description[0].ShouldBeComplexType("ComplexTypeWithDictionaryMember", 1, x => x.Opening());
 
-            description[1].ShouldBeDictionaryTypeMember("DictionaryMember", 2, true,
+            description[1].ShouldBeDictionaryMember("DictionaryMember", 2, x => x.Opening(),
                 x => x.Comments("This is a dictionary").IsLastMember());
 
-            //should_be_a_dictionary_entry(description[2], itemName, SimpleType.String, 3, "");
+            description[2].ShouldBeSimpleTypeDictionaryEntry("string", "string", "string", 3, "", 
+               x => x.IsString().Comments("This is the value."),
+               x => x.Comments("This is the key."));
 
-            description[3].ShouldBeDictionaryTypeMember("DictionaryMember", 2, false, x => x.IsLastMember());
+            description[3].ShouldBeDictionaryMember("DictionaryMember", 2, x => x.Closing(), x => x.IsLastMember());
 
-            description[4].ShouldBeComplexType("", 1, x => x.Closing());
+            description[4].ShouldBeComplexType("ComplexTypeWithDictionaryMember", 1, x => x.Closing());
         }
 
         // Arrays
@@ -248,6 +252,231 @@ namespace Tests.Specification
 
     public static class DataDescriptionAssertions
     {
+        // Simple type assertions
+
+        public static void ShouldBeSimpleType(this DataDescription source,
+            string name, string typeName, int level, string defaultValue,
+            Action<SimpleTypeDsl> simpleTypeProperties)
+        {
+            source.ShouldMatchData(CreateSimpleType(name, typeName, 
+                level, defaultValue, simpleTypeProperties));
+        }
+
+        public static void ShouldBeSimpleTypeMember(this DataDescription source,
+            string name, string typeName, int level, string defaultValue,
+            Action<SimpleTypeDsl> simpleTypeProperties,
+            Action<MemberDsl> memberProperties = null)
+        {
+            var compare = CreateSimpleType(name, typeName, 
+                level, defaultValue, simpleTypeProperties);
+            compare.IsMember = true;
+            if (memberProperties != null) memberProperties(new MemberDsl(compare));
+            source.ShouldMatchData(compare);
+        }
+
+        public static void ShouldBeSimpleTypeDictionaryEntry(this DataDescription source,
+            string name, string keyTypeName, string valueTypeName, int level, string defaultValue,
+            Action<SimpleTypeDsl> simpleTypeProperties,
+            Action<DictionaryEntryDsl> dictionaryEntryProperties = null)
+        {
+            var compare = CreateSimpleType(name, valueTypeName,
+                level, defaultValue, simpleTypeProperties);
+            compare.IsDictionaryEntry = true;
+            compare.DictionaryKey = new Key { TypeName = keyTypeName };
+            if (dictionaryEntryProperties != null) 
+                dictionaryEntryProperties(new DictionaryEntryDsl(compare));
+            source.ShouldMatchData(compare);
+        }
+
+        private static DataDescription CreateSimpleType(
+            string name, string typeName, int level, string defaultValue,
+            Action<SimpleTypeDsl> simpleTypeProperties)
+        {
+            var simpleType = new DataDescription
+            {
+                Name = name,
+                TypeName = typeName,
+                IsSimpleType = true,
+                DefaultValue = defaultValue,
+                Whitespace = DataDescriptionFactory.Whitespace.Repeat(level)
+            };
+            simpleTypeProperties(new SimpleTypeDsl(simpleType));
+            return simpleType;
+        }
+
+        public class SimpleTypeDsl
+        {
+            private readonly DataDescription _data;
+            public SimpleTypeDsl(DataDescription data) { _data = data; }
+            public SimpleTypeDsl Comments(string comments) { _data.Comments = comments; return this; }
+            public SimpleTypeDsl IsString() { _data.IsString = true; return this; }
+            public SimpleTypeDsl IsBoolean() { _data.IsBoolean = true; return this; }
+            public SimpleTypeDsl IsNumeric() { _data.IsNumeric = true; return this; }
+            public SimpleTypeDsl IsDateTime() { _data.IsDateTime = true; return this; }
+            public SimpleTypeDsl IsDuration() { _data.IsDuration = true; return this; }
+            public SimpleTypeDsl IsGuid() { _data.IsGuid = true; return this; }
+
+            public OptionDsl Options
+            {
+                get { return new OptionDsl(_data.Options = _data.Options ?? new List<Option>()); }
+            }
+        }
+
+        // Array assertions
+
+        public static void ShouldBeArray(
+            this DataDescription source, string name, int level,
+            Action<ArrayDsl> properties)
+        {
+            source.ShouldMatchData(CreateArray(name, level, properties));
+        }
+
+        public static void ShouldBeArrayMember(
+            this DataDescription source, string name, int level,
+            Action<ArrayDsl> arrayProperties,
+            Action<MemberDsl> memberProperties = null)
+        {
+            var compare = CreateArray(name, level, arrayProperties);
+            compare.IsMember = true;
+            if (memberProperties != null) memberProperties(new MemberDsl(compare));
+            source.ShouldMatchData(compare);
+        }
+
+        public static void ShouldBeArrayDictionaryEntry(
+            this DataDescription source, string name, string keyTypeName, int level,
+            Action<ArrayDsl> arrayProperties,
+            Action<DictionaryEntryDsl> dictionaryEntryProperties = null)
+        {
+            var compare = CreateArray(name, level, arrayProperties);
+            compare.IsDictionaryEntry = true;
+            compare.DictionaryKey = new Key { TypeName = keyTypeName };
+            if (dictionaryEntryProperties != null)
+                dictionaryEntryProperties(new DictionaryEntryDsl(compare));
+            source.ShouldMatchData(compare);
+        }
+
+        private static DataDescription CreateArray(
+            string name, int level, Action<ArrayDsl> properties)
+        {
+            var arrayType = new DataDescription
+            {
+                Name = name,
+                IsArray = true,
+                Whitespace = DataDescriptionFactory.Whitespace.Repeat(level)
+            };
+            if (properties != null) properties(new ArrayDsl(arrayType));
+            return arrayType;
+        }
+
+        public class ArrayDsl
+        {
+            private readonly DataDescription _data;
+            public ArrayDsl(DataDescription data) { _data = data; }
+            public ArrayDsl Comments(string comments) { _data.Comments = comments; return this; }
+            public ArrayDsl Opening() { _data.IsOpening = true; return this; }
+            public ArrayDsl Closing() { _data.IsClosing = true; return this; }
+        }
+
+        // Dictionary assertions
+
+        public static void ShouldBeDictionary(
+            this DataDescription source, string name, int level,
+            Action<DictionaryDsl> properties)
+        {
+            source.ShouldMatchData(CreateDictionary(name, level, properties));
+        }
+
+        public static void ShouldBeDictionaryMember(
+            this DataDescription source, string name, int level,
+            Action<DictionaryDsl> dictionaryProperties,
+            Action<MemberDsl> memberProperties = null)
+        {
+            var compare = CreateDictionary(name, level, dictionaryProperties);
+            compare.IsMember = true;
+            if (memberProperties != null) memberProperties(new MemberDsl(compare));
+            source.ShouldMatchData(compare);
+        }
+
+        public static void ShouldBeDictionaryDictionaryEntry(
+            this DataDescription source, string name, string keyTypeName, int level,
+            Action<DictionaryDsl> dictionaryProperties,
+            Action<DictionaryEntryDsl> dictionaryEntryProperties = null)
+        {
+            var compare = CreateDictionary(name, level, dictionaryProperties);
+            compare.IsDictionaryEntry = true;
+            compare.DictionaryKey = new Key { TypeName = keyTypeName };
+            if (dictionaryEntryProperties != null)
+                dictionaryEntryProperties(new DictionaryEntryDsl(compare));
+            source.ShouldMatchData(compare);
+        }
+
+        private static DataDescription CreateDictionary(
+            string name, int level, Action<DictionaryDsl> properties)
+        {
+            var dictionaryType = new DataDescription
+            {
+                Name = name,
+                IsDictionary = true,
+                Whitespace = DataDescriptionFactory.Whitespace.Repeat(level)
+            };
+            if (properties != null) properties(new DictionaryDsl(dictionaryType));
+            return dictionaryType;
+        }
+
+        public class DictionaryDsl
+        {
+            private readonly DataDescription _data;
+            public DictionaryDsl(DataDescription data) { _data = data; }
+            public DictionaryDsl Comments(string comments) { _data.Comments = comments; return this; }
+            public DictionaryDsl Opening() { _data.IsOpening = true; return this; }
+            public DictionaryDsl Closing() { _data.IsClosing = true; return this; }
+        }
+
+        // Complex type assertions
+
+        public static void ShouldBeComplexType(this DataDescription source,
+            string name, int level, Action<ComplexTypeDsl> properties)
+        {
+            source.ShouldMatchData(CreateComplexType(name, level, properties));
+        }
+
+        public static void ShouldBeComplexTypeMember(
+            this DataDescription source, string name, int level,
+            Action<ComplexTypeDsl> complexTypeProperties = null,
+            Action<MemberDsl> memberProperties = null)
+        {
+            var compare = CreateComplexType(name, level, complexTypeProperties);
+            compare.IsMember = true;
+            if (memberProperties != null) memberProperties(new MemberDsl(compare));
+            source.ShouldMatchData(compare);
+        }
+
+        public static void ShouldBeComplexTypeDictionaryEntry(
+            this DataDescription source, string name, string keyTypeName, int level,
+            Action<ComplexTypeDsl> complexTypeProperties = null,
+            Action<ComplexTypeDsl> dictionaryEntryProperties = null)
+        {
+            var compare = CreateComplexType(name, level, complexTypeProperties);
+            compare.IsDictionaryEntry = true;
+            compare.DictionaryKey = new Key { TypeName = keyTypeName };
+            if (dictionaryEntryProperties != null)
+                dictionaryEntryProperties(new ComplexTypeDsl(compare));
+            source.ShouldMatchData(compare);
+        }
+
+        private static DataDescription CreateComplexType(
+            string name, int level, Action<ComplexTypeDsl> properties = null)
+        {
+            var complexType = new DataDescription
+            {
+                Name = name,
+                IsComplexType = true,
+                Whitespace = DataDescriptionFactory.Whitespace.Repeat(level)
+            };
+            if (properties != null) properties(new ComplexTypeDsl(complexType));
+            return complexType;
+        }
+
         public class ComplexTypeDsl
         {
             private readonly DataDescription _data;
@@ -257,54 +486,17 @@ namespace Tests.Specification
             public ComplexTypeDsl Closing() { _data.IsClosing = true; return this; }
         }
 
-        public static void ShouldBeComplexType(this DataDescription source, 
-            string name, int level, Action<ComplexTypeDsl> properties)
+        // Common assertion DSL's
+
+        public class DictionaryEntryDsl
         {
-            var compare = new DataDescription
-            {
-                Name = name, 
-                IsComplexType = true,
-                Whitespace = DataDescriptionFactory.Whitespace.Repeat(level)
-            };
-            properties(new ComplexTypeDsl(compare));
-            source.ShouldMatchData(compare);
-        }
+            private readonly Key _key;
+            public DictionaryEntryDsl(DataDescription data) { _key = data.DictionaryKey; }
+            public DictionaryEntryDsl Comments(string comments) { _key.Comments = comments; return this; }
 
-        public class SimpleTypeDsl
-        {
-            private readonly DataDescription _data;
-            public SimpleTypeDsl(DataDescription data) { _data = data; }
-            public SimpleTypeDsl IsString() { _data.IsString = true; return this; }
-            public SimpleTypeDsl IsBoolean() { _data.IsBoolean = true; return this; }
-            public SimpleTypeDsl IsNumeric() { _data.IsNumeric = true; return this; }
-            public SimpleTypeDsl IsDateTime() { _data.IsDateTime = true; return this; }
-            public SimpleTypeDsl IsDuration() { _data.IsDuration = true; return this; }
-            public SimpleTypeDsl IsGuid() { _data.IsGuid = true; return this; }
-
-            public SimpleTypeDsl WithOption(string value)
+            public OptionDsl Options
             {
-                WithOption(new Option { Value = value }); return this;
-            }
-
-            public SimpleTypeDsl WithOption(string name, string value)
-            {
-                WithOption(new Option { Name = name, Value = value }); return this;
-            }
-
-            public SimpleTypeDsl WithOptionAndComments(string value, string comments)
-            {
-                WithOption(new Option { Value = value, Comments = comments }); return this;
-            }
-
-            public SimpleTypeDsl WithOptionAndComments(string name, string value, string comments)
-            {
-                WithOption(new Option { Name = name, Value = value, Comments = comments }); return this;
-            }
-
-            private SimpleTypeDsl WithOption(Option option)
-            {
-                if (_data.Options == null) _data.Options = new List<Option>();
-                _data.Options.Add(option); return this;
+                get { return new OptionDsl(_key.Options = _key.Options ?? new List<Option>()); }
             }
         }
 
@@ -325,91 +517,38 @@ namespace Tests.Specification
             }
         }
 
-        public static void ShouldBeSimpleType(this DataDescription source,
-            string name, string typeName, int level, string defaultValue,
-            Action<SimpleTypeDsl> simpleTypeProperties)
+        public class OptionDsl
         {
-            var compare = new DataDescription
+            private readonly List<Option> _options;
+            public OptionDsl(List<Option> options) { _options = options; }
+
+            public OptionDsl WithOption(string value)
             {
-                Name = name,
-                TypeName = typeName,
-                IsSimpleType = true,
-                DefaultValue = defaultValue,
-                Whitespace = DataDescriptionFactory.Whitespace.Repeat(level)
-            };
-            simpleTypeProperties(new SimpleTypeDsl(compare));
-            source.ShouldMatchData(compare);
+                return WithOption(new Option { Value = value });
+            }
+
+            public OptionDsl WithOption(string name, string value)
+            {
+                return WithOption(new Option { Name = name, Value = value });
+            }
+
+            public OptionDsl WithOptionAndComments(string value, string comments)
+            {
+                return WithOption(new Option { Value = value, Comments = comments });
+            }
+
+            public OptionDsl WithOptionAndComments(string name, string value, string comments)
+            {
+                return WithOption(new Option { Name = name, Value = value, Comments = comments });
+            }
+
+            private OptionDsl WithOption(Option option)
+            {
+                _options.Add(option); return this;
+            }
         }
 
-        public static void ShouldBeSimpleTypeMember(this DataDescription source,
-            string name, string typeName, int level, string defaultValue,
-            Action<SimpleTypeDsl> simpleTypeProperties,
-            Action<MemberDsl> memberProperties = null)
-        {
-            var compare = new DataDescription
-            {
-                Name = name,
-                TypeName = typeName,
-                IsMember = true,
-                IsSimpleType = true,
-                DefaultValue = defaultValue,
-                Whitespace = DataDescriptionFactory.Whitespace.Repeat(level)
-            };
-            simpleTypeProperties(new SimpleTypeDsl(compare));
-            if (memberProperties != null) memberProperties(new MemberDsl(compare));
-            source.ShouldMatchData(compare);
-        }
-
-        public static void ShouldBeArrayTypeMember(
-            this DataDescription source, string name, int level, bool opening,
-            Action<MemberDsl> memberProperties = null)
-        {
-            var compare = new DataDescription
-            {
-                Name = name,
-                IsMember = true,
-                IsArray = true,
-                Whitespace = DataDescriptionFactory.Whitespace.Repeat(level)
-            };
-            if (opening) compare.IsOpening = true;
-            else compare.IsClosing = true;
-            if (memberProperties != null) memberProperties(new MemberDsl(compare));
-            source.ShouldMatchData(compare);
-        }
-
-        public static void ShouldBeDictionaryTypeMember(
-            this DataDescription source, string name, int level, bool opening,
-            Action<MemberDsl> memberProperties = null)
-        {
-            var compare = new DataDescription
-            {
-                Name = name,
-                IsMember = true,
-                IsDictionary = true,
-                Whitespace = DataDescriptionFactory.Whitespace.Repeat(level)
-            };
-            if (opening) compare.IsOpening = true;
-            else compare.IsClosing = true;
-            if (memberProperties != null) memberProperties(new MemberDsl(compare));
-            source.ShouldMatchData(compare);
-        }
-
-        public static void ShouldBeDictionaryEntry(
-            this DataDescription source, string name, int level, bool opening,
-            Action<MemberDsl> memberProperties = null)
-        {
-            var compare = new DataDescription
-            {
-                Name = name,
-                IsMember = true,
-                IsDictionary = true,
-                Whitespace = DataDescriptionFactory.Whitespace.Repeat(level)
-            };
-            if (opening) compare.IsOpening = true;
-            else compare.IsClosing = true;
-            if (memberProperties != null) memberProperties(new MemberDsl(compare));
-            source.ShouldMatchData(compare);
-        }
+        // Common assertions
 
         private static void ShouldMatchData(this DataDescription source, DataDescription compare)
         {
@@ -448,7 +587,7 @@ namespace Tests.Specification
             if (compare.DictionaryKey == null) source.DictionaryKey.ShouldBeNull();
             else
             {
-                source.DictionaryKey.Type.ShouldEqual(compare.DictionaryKey.Type);
+                source.DictionaryKey.TypeName.ShouldEqual(compare.DictionaryKey.TypeName);
                 source.DictionaryKey.Comments.ShouldEqual(compare.DictionaryKey.Comments);
                 source.DictionaryKey.Options.ShouldEqualOptions(compare.Options);
             }

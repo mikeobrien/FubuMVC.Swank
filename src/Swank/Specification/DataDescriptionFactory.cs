@@ -19,164 +19,250 @@ namespace FubuMVC.Swank.Specification
         public List<DataDescription> Create(DataType type)
         {
             var data = new List<DataDescription>();
-            WalkGraph(data, type, 1);
+            WalkGraph(data, type, 0);
             return data;
         }
 
-        private void WalkGraph(List<DataDescription> data, DataType type, int level, string name = null)
+        private void WalkGraph(List<DataDescription> data, DataType type, int level, 
+            Action<DataDescription> opening = null, 
+            Action<DataDescription> closing = null)
         {
-            if (type.IsSimple) CreateSimpleType(data, type, name, level);
-            else if (type.IsArray) WalkArray(data, type, name, level);
-            else if (type.IsDictionary) WalkDictionary(data, type, name, level);
-            else if (type.IsComplex) WalkComplexType(data, type, name, level);
+            if (type.IsSimple) WalkSimpleType(data, type, level, opening);
+            else if (type.IsArray) WalkArray(data, type, level, opening, closing);
+            else if (type.IsDictionary) WalkDictionary(data, type, level, opening, closing);
+            else if (type.IsComplex) WalkComplexType(data, type, level, opening, closing);
         }
 
-        private void WalkArray(List<DataDescription> data, DataType type, string name, int level)
+        private void WalkSimpleType(
+            List<DataDescription> description, 
+            DataType type, int level,
+            Action<DataDescription> opening)
         {
+            var data = new DataDescription
+            {
+                Name = type.Name,
+                TypeName = type.Name,
+                Comments = type.Comments,
+                Whitespace = Whitespace.Repeat(level),
+                IsSimpleType = true
+            };
+
+            switch (type.Name)
+            {
+                case Xml.UnsignedLongType:
+                case Xml.LongType:
+                case Xml.UnsignedIntType:
+                case Xml.IntType:
+                case Xml.UnsignedShortType:
+                case Xml.ShortType:
+                case Xml.ByteType:
+                case Xml.UnsignedByteType:
+                    data.IsNumeric = true;
+                    data.DefaultValue = _configuration.SampleIntegerValue.ToDefaultValueString(_configuration);
+                    break;
+                case Xml.FloatType:
+                case Xml.DoubleType:
+                case Xml.DecimalType: 
+                    data.IsNumeric = true;
+                    data.DefaultValue = _configuration.SampleRealValue.ToDefaultValueString(_configuration);
+                    break;
+                case Xml.BooleanType: 
+                    data.IsBoolean = true;
+                    data.DefaultValue = _configuration.SampleBoolValue.ToString().ToLower();
+                    break;
+                case Xml.DateTimeType: 
+                    data.IsDateTime = true;
+                    data.DefaultValue = _configuration.SampleDateTimeValue.ToDefaultValueString(_configuration);
+                   break;
+                case Xml.DurationType: 
+                    data.IsDuration = true;
+                    data.DefaultValue = _configuration.SampleTimeSpanValue.ToDefaultValueString(_configuration);
+                    break;
+                case Xml.UuidType: 
+                    data.IsGuid = true;
+                    data.DefaultValue = _configuration.SampleGuidValue.ToDefaultValueString(_configuration);
+                    break;
+                default: 
+                    data.IsString = true;
+                    data.DefaultValue = _configuration.SampleStringValue; 
+                    break;
+            }
+
+            data.Options = WalkOptions(type, x => data.DefaultValue = x.First().Value);
+
+            if (opening != null) opening(data);
+            description.Add(data);
         }
 
-        private void WalkDictionary(List<DataDescription> data, DataType type, string name, int level)
+        private List<Option> WalkOptions(DataType type, 
+            Action<List<Option>> whenOptions = null)
         {
+            List<Option> options = null;
+            if (type.Options != null && type.Options.Any())
+            {
+                options = new List<Option>(type.Options.Select(x => new Option
+                {
+                    Name = x.Name == x.Value ? null : x.Name,
+                    Value = x.Value,
+                    Comments = x.Comments
+                }));
+                if (whenOptions != null) whenOptions(options);
+            }
+            return options;
         }
 
-        private void WalkComplexType(List<DataDescription> data, DataType type, string name, int level)
+        private void WalkArray(List<DataDescription> data, DataType type, int level,
+            Action<DataDescription> opening = null,
+            Action<DataDescription> closing = null)
         {
-            data.Add(new DataDescription
+            var arrayOpening = new DataDescription
+            {
+                Name = type.Name,
+                Comments = type.Comments,
+                Whitespace = Whitespace.Repeat(level),
+                IsOpening = true,
+                IsArray = true
+            };
+
+            if (opening != null) opening(arrayOpening);
+
+            data.Add(arrayOpening);
+
+            WalkGraph(data, type.ArrayItem.Type, level + 1,
+                x =>
+                {
+                    if (type.ArrayItem != null)
+                    {
+                        if (type.ArrayItem.Name != null)
+                            x.Name = type.ArrayItem.Name;
+                        if (type.ArrayItem.Comments != null)
+                            x.Comments = type.ArrayItem.Comments;
+                    }
+                },
+                x =>
+                {
+                    if (type.ArrayItem != null && type.ArrayItem.Name != null)
+                            x.Name = type.ArrayItem.Name;
+                });
+
+            var arrayClosing = new DataDescription
+            {
+                Name = type.Name,
+                Whitespace = Whitespace.Repeat(level),
+                IsClosing = true,
+                IsArray = true
+            };
+
+            if (closing != null) closing(arrayClosing);
+
+            data.Add(arrayClosing);
+        }
+
+        private void WalkDictionary(List<DataDescription> data, DataType type, int level,
+            Action<DataDescription> opening = null,
+            Action<DataDescription> closing = null)
+        {
+            var dictionaryOpening = new DataDescription
+            {
+                Name = type.Name,
+                Comments = type.Comments,
+                Whitespace = Whitespace.Repeat(level),
+                IsOpening = true,
+                IsDictionary = true
+            };
+
+            if (opening != null) opening(dictionaryOpening);
+
+            data.Add(dictionaryOpening);
+
+            WalkGraph(data, type.DictionaryEntry.ValueType, level + 1,
+                x =>
+                {
+                    x.Name = _configuration.DefaultDictionaryKeyName;
+                    x.IsDictionaryEntry = true;
+                    if (type.DictionaryEntry.ValueComments != null)
+                        x.Comments = type.DictionaryEntry.ValueComments;
+                    x.DictionaryKey = new Key
+                    {
+                        TypeName = type.DictionaryEntry.KeyType.Name,
+                        Options = WalkOptions(type.DictionaryEntry.KeyType),
+                        Comments = type.DictionaryEntry.KeyComments
+                    };
+                },
+                x =>
+                {
+                    x.IsDictionaryEntry = true;
+                });
+
+            var dictionaryClosing = new DataDescription
+            {
+                Name = type.Name,
+                Whitespace = Whitespace.Repeat(level),
+                IsClosing = true,
+                IsDictionary = true
+            };
+
+            if (closing != null) closing(dictionaryClosing);
+
+            data.Add(dictionaryClosing);
+        }
+
+        private void WalkComplexType(List<DataDescription> data, DataType type, int level,
+            Action<DataDescription> opening = null,
+            Action<DataDescription> closing = null)
+        {
+            var complexOpening = new DataDescription
             {
                 Name = type.Name,
                 Comments = type.Comments,
                 Whitespace = Whitespace.Repeat(level),
                 IsOpening = true,
                 IsComplexType = true
-            });
+            };
+
+            if (opening != null) opening(complexOpening);
+
+            data.Add(complexOpening);
 
             foreach (var member in type.Members)
             {
-                var description = new DataDescription
-                {
-                    Name = member.Name,
-                    Comments = member.Comments,
-                    DefaultValue = member.DefaultValue,
-                    Whitespace = Whitespace.Repeat(level + 1),
-                    IsMember = true
-                };
+                var lastMember = member == type.Members.Last();
 
-                if (member == type.Members.Last()) description.IsLastMember = true;
-                if (!member.Type.IsSimple) description.IsOpening = true;
-                if (member.Required) description.Required = true;
-                if (member.Optional) description.Optional = true;
+                WalkGraph(data, member.Type, level + 1, 
+                    x => {
+                        x.Name = member.Name;
+                        x.Comments = member.Comments;
+                        x.DefaultValue = member.DefaultValue ?? x.DefaultValue;
+                        x.IsMember = true;
+                        if (lastMember) x.IsLastMember = true;
+                        if (!member.Type.IsSimple) x.IsOpening = true;
+                        if (member.Required) x.Required = true;
+                        if (member.Optional) x.Optional = true;
 
-                if (member.Deprecated)
-                {
-                    description.IsDeprecated = true;
-                    description.DeprecationMessage = member.DeprecationMessage;
-                }
-
-                data.Add(description);
-
-                if (member.Type.IsSimple) DescribeSimpleType(description, member.Type, member.DefaultValue);
-                if (member.Type.IsArray)
-                {
-                    description.IsArray = true;
-                    WalkGraph(data, member.Type.ArrayItem.Type, level + 2, member.Type.ArrayItem.Name);
-                }
-                if (member.Type.IsDictionary)
-                {
-                    description.IsDictionary = true;
-                    WalkGraph(data, member.Type, level + 2);
-                }
-                if (!member.Type.IsSimple)
-                    data.Add(new DataDescription
-                    {
-                        Name = description.Name,
-                        TypeName = description.TypeName,
-                        Whitespace = description.Whitespace,
-                        IsMember = true,
-                        IsLastMember = description.IsLastMember,
-                        IsClosing = true,
-                        IsArray = description.IsArray,
-                        IsDictionary = description.IsDictionary,
-                        IsComplexType = description.IsComplexType
+                        if (member.Deprecated)
+                        {
+                            x.IsDeprecated = true;
+                            x.DeprecationMessage = member.DeprecationMessage;
+                        }
+                    }, 
+                    x => {
+                        x.Name = member.Name;
+                        x.IsMember = true;
+                        if (lastMember) x.IsLastMember = true;
                     });
             }
 
-            data.Add(new DataDescription
+            var complexClosing = new DataDescription
             {
                 Name = type.Name,
                 Whitespace = Whitespace.Repeat(level),
                 IsClosing = true,
                 IsComplexType = true
-            });
-        }
+            };
 
-        private void CreateSimpleType(List<DataDescription> data, DataType type, string name, int level)
-        {
-            data.Add(DescribeSimpleType(new DataDescription
-            {
-                Name = name ?? type.Name,
-                Comments = type.Comments,
-                TypeName = type.Name,
-                Whitespace = Whitespace.Repeat(level)
-            }, type));
-        }
+            if (closing != null) closing(complexClosing);
 
-        private DataDescription DescribeSimpleType(DataDescription data, DataType type, string defaultValue = null)
-        {
-            data.TypeName = type.Name;
-            data.IsSimpleType = true;
-
-            switch (type.Name)
-            {
-                case "unsignedLong":
-                case "long":
-                case "unsignedInt":
-                case "int":
-                case "unsignedShort":
-                case "short":
-                case "byte":
-                case "unsignedByte":
-                    data.IsNumeric = true;
-                    data.DefaultValue = defaultValue ?? _configuration.SampleIntegerValue.ToDefaultValueString(_configuration);
-                    break;
-                case "float":
-                case "double":
-                case "decimal": 
-                    data.IsNumeric = true;
-                    data.DefaultValue = defaultValue ?? _configuration.SampleRealValue.ToDefaultValueString(_configuration);
-                    break;
-                case "boolean": 
-                    data.IsBoolean = true;
-                    data.DefaultValue = (defaultValue ?? _configuration.SampleBoolValue.ToString()).ToLower();
-                    break;
-                case "dateTime": 
-                    data.IsDateTime = true;
-                    data.DefaultValue = defaultValue ?? _configuration.SampleDateTimeValue.ToDefaultValueString(_configuration);
-                   break;
-                case "duration": 
-                    data.IsDuration = true;
-                    data.DefaultValue = defaultValue ?? _configuration.SampleTimeSpanValue.ToDefaultValueString(_configuration);
-                    break;
-                case "uuid": 
-                    data.IsGuid = true;
-                    data.DefaultValue = defaultValue ?? _configuration.SampleGuidValue.ToDefaultValueString(_configuration);
-                    break;
-                default: 
-                    data.IsString = true;
-                    data.DefaultValue = defaultValue ?? _configuration.SampleStringValue; 
-                    break;
-            }
-
-            if (type.Options != null && type.Options.Any())
-            {
-                data.DefaultValue = type.Options.First().Value;
-                data.Options = new List<Option>(type.Options.Select(x => new Option
-                {
-                    Name = x.Name == x.Value ? null : x.Name,
-                    Value = x.Value,
-                    Comments = x.Comments
-                }));
-            }
-            return data;
+            data.Add(complexClosing);
         }
     }
 }

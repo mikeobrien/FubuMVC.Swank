@@ -201,14 +201,14 @@
 
     <script type="text/html" id="swank-data-json-template">
         <span class="sample-code-whitespace">{{Whitespace}}</span>
-        {{#IsMember}}
-            {{^IsClosing}}
-                <span style="color: #A31515">"{{Name}}"</span>: 
-            {{/IsClosing}}
-        {{/IsMember}}
-        {{#IsDictionaryEntry}}
-            <span style="color: #A31515;">"<span style="font-style: italic">[{{Name}}]</span>"</span>: 
-        {{/IsDictionaryEntry}}
+        {{^IsClosing}}
+            {{#IsMember}}
+                    <span style="color: #A31515">"{{Name}}"</span>: 
+            {{/IsMember}}
+            {{#IsDictionaryEntry}}
+                <span style="color: #A31515;">"<span style="font-style: italic">[{{Name}}]</span>"</span>: 
+            {{/IsDictionaryEntry}}
+        {{/IsClosing}}
         {{#IsSimpleType}}
             {{#IsString}}"{{DefaultValue}}"{{/IsString}}
             {{#IsBoolean}}{{DefaultValue}}{{/IsBoolean}}
@@ -224,8 +224,8 @@
         {{/IsOpening}}
         {{#IsClosing}}
             {{#IsArray}}]{{/IsArray}}
-            {{#IsComplexType}}}{{/IsComplexType}}
-            {{#IsDictionary}}}{{/IsDictionary}}
+            {{#IsComplexType}} }{{/IsComplexType}}
+            {{#IsDictionary}} }{{/IsDictionary}}
         {{/IsClosing}}
         {{#IsMember}}
             {{^IsOpening}}
@@ -268,7 +268,7 @@
             {{/IsDictionaryEntry}}
             {{#IsDictionaryEntry}}
                 <div class="panel panel-default">
-                    {{#with Key}}
+                    {{#with DictionaryKey}}
                         <div class="panel-heading {{#unless Options}}empty{{/unless}}">
                             <span class="label label-default">Key</span>
                             <strong><code class="code-inline">{{{TypeName}}}</code></strong>
@@ -309,7 +309,7 @@
                 </tr>
             </thead>
             <tbody>  
-                {{#Schema}}
+                {{#Description}}
                     <tr>
                         <td class="sample-code json" title="Click to copy json..." style="width: 300px;">
                            {{> jsonDataFormat}}
@@ -321,7 +321,7 @@
                             {{> dataDescription}}
                         </td>
                     </tr>
-                {{/Schema}}
+                {{/Description}}
             </tbody>
         </table>
     </script>

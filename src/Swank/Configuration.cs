@@ -39,6 +39,8 @@ namespace FubuMVC.Swank
             DefaultResourceFactory = x => new ResourceDescription { Name = x.Route.GetRouteResource() };
             OrphanedResourceActions = OrphanedActions.UseDefault;
 
+            DefaultDictionaryKeyName = "key";
+
             EnumValue = EnumValue.AsNumber;
 
             DefaultValueDateTimeFormat = "g";
@@ -94,6 +96,8 @@ namespace FubuMVC.Swank
         public OrphanedActions OrphanedResourceActions { get; set; }
         public Func<BehaviorChain, ModuleDescription> DefaultModuleFactory { get; set; }
         public Func<BehaviorChain, ResourceDescription> DefaultResourceFactory { get; set; }
+
+        public string DefaultDictionaryKeyName { get; set; }
 
         public EnumValue EnumValue { get; set; }
 

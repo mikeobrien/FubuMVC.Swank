@@ -65,17 +65,19 @@
 
             $(window).resize(function () { $('.code-raw-container').remove(); });
 
-            $('td.code').click(function () {
+            $('td.sample-code').click(function () {
                 var table = $(this).closest("table");
-                var code = table.find('.code.json:visible, .code.xml:visible').map(function () { return $(this).text(); }).get().join("\r\n");
-                var top = table.find('.code:visible:first');
-                var bottom = table.find('.code:visible:last');
-                var container = $('<div class="code-raw-container" style="' +
+                var code = table.find('.sample-code.json:visible, .sample-code.xml:visible')
+                    .map(function () { return $(this).text().replace(/\r?\n|\r/g, ''); })
+                    .get().join("\r\n");
+                var top = table.find('.sample-code:visible:first');
+                var bottom = table.find('.sample-code:visible:last');
+                var container = $('<div class="sample-code-raw-container" style="' +
                     'top: ' + (top.offset().top + 1) + 'px;' +
                     'left: ' + (top.offset().left + 1) + 'px;' +
                     'width: ' + (top.outerWidth() - 2) + 'px;' +
                     'height: ' + ((bottom.offset().top - top.offset().top) + bottom.outerHeight() - 2) + 'px;' +
-                    '"><textarea class="code-raw">' + code + '</textarea></div>').appendTo(content);
+                    '"><textarea class="sample-code-raw">' + code + '</textarea></div>').appendTo(content);
                 $(container).find('textarea').select().blur(function (x) { $(x.target).parent().remove(); });
             });
         } else {

@@ -109,9 +109,12 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Conventions.cs" />
+    <Compile Include="Description\ArrayCommentsAttribute.cs" />
     <Compile Include="Description\Assert.cs" />
+    <Compile Include="Description\DictionaryCommentsAttribute.cs" />
     <Compile Include="Extensions\LazyCache.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
+    <Compile Include="Extensions\Xml.cs" />
     <Compile Include="Specification\BehaviorSource.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />

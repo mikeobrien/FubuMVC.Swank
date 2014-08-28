@@ -160,6 +160,15 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
+        /// This is the default dictionary key name.
+        /// </summary>
+        public Swank WithDefaultDictionaryKeyName(string keyName)
+        {
+            _configuration.DefaultDictionaryKeyName = keyName;
+            return this;
+        }
+
+        /// <summary>
         /// Indicates whether enum values are represented by a number or string.
         /// </summary>
         public Swank WithEnumValueTypeOf(EnumValue type)

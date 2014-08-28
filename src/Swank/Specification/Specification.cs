@@ -119,7 +119,7 @@ namespace FubuMVC.Swank.Specification
     public class Key
     {
         public string Comments { get; set; }
-        public string Type { get; set; }
+        public string TypeName { get; set; }
         public List<Option> Options { get; set; }
     }
 

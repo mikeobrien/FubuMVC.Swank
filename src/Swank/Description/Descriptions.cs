@@ -39,6 +39,7 @@
 
     public class DictionaryDescription
     {
+        public string KeyName { get; set; }
         public string KeyComments { get; set; }
         public string ValueComments { get; set; }
     }
