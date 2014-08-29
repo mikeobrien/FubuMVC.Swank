@@ -203,10 +203,10 @@
         <span class="sample-code-whitespace">{{Whitespace}}</span>
         {{^IsClosing}}
             {{#IsMember}}
-                    <span style="color: #A31515">"{{Name}}"</span>: 
+                    <span style="color: #A31515">"{{Name}}"</span>:&nbsp;
             {{/IsMember}}
             {{#IsDictionaryEntry}}
-                <span style="color: #A31515;">"<span style="font-style: italic">[{{Name}}]</span>"</span>: 
+                <span style="color: #A31515;">"<span style="font-style: italic">[{{Name}}]</span>"</span>:&nbsp;
             {{/IsDictionaryEntry}}
         {{/IsClosing}}
         {{#IsSimpleType}}
@@ -219,13 +219,13 @@
         {{/IsSimpleType}}
         {{#IsOpening}}
             {{#IsArray}}[{{/IsArray}}
-            {{#IsComplexType}}{ {{/IsComplexType}}
-            {{#IsDictionary}}{ {{/IsDictionary}}
+            {{#IsComplexType}}&#123;{{/IsComplexType}}
+            {{#IsDictionary}}&#123;{{/IsDictionary}}
         {{/IsOpening}}
         {{#IsClosing}}
             {{#IsArray}}]{{/IsArray}}
-            {{#IsComplexType}} }{{/IsComplexType}}
-            {{#IsDictionary}} }{{/IsDictionary}}
+            {{#IsComplexType}}&#125;{{/IsComplexType}}
+            {{#IsDictionary}}&#125;{{/IsDictionary}}
         {{/IsClosing}}
         {{#IsMember}}
             {{^IsOpening}}
@@ -277,18 +277,20 @@
                         {{#if Options}}{{> options}}{{/if}}
                     {{/with}}
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading {{#unless Options}}empty{{/unless}}">
-                        <span class="label label-default">Value</span>
-                        {{#IsDictionary}}<span class="badge badge-info">Dictionary</span>{{/IsDictionary}}
-                        {{#IsArray}}<span class="badge badge-info">Array</span>{{/IsArray}}
-                        {{#IsSimpleType}}
-                            <strong><code class="code-inline">{{{TypeName}}}</code></strong>
-                        {{/IsSimpleType}}
-                        {{{Comments}}}
+                {{#either TypeName Comments}}
+                    <div class="panel panel-default">
+                        <div class="panel-heading {{#unless Options}}empty{{/unless}}">
+                            <span class="label label-default">Value</span>
+                            {{#IsDictionary}}<span class="badge badge-info">Dictionary</span>{{/IsDictionary}}
+                            {{#IsArray}}<span class="badge badge-info">Array</span>{{/IsArray}}
+                            {{#IsSimpleType}}
+                                <strong><code class="code-inline">{{{TypeName}}}</code></strong>
+                            {{/IsSimpleType}}
+                            {{{Comments}}}
+                        </div>
+                        {{#if Options}}{{> options}}{{/if}}
                     </div>
-                    {{#if Options}}{{> options}}{{/if}}
-                </div>
+                {{/either}}
             {{/IsDictionaryEntry}}
         {{/IsClosing}}
     </script>
@@ -300,8 +302,12 @@
                 <tr>
                     <th class="sample-selector-header" style="width: 300px;">
                         <div class="btn-group sample-selector">
-                            <button class="btn show-json active" title="Json">{}</button>
-                            <button class="btn show-xml " title="Xml">&lt;/&gt;</button>
+                          <if condition='Model.ShowJsonFormat'>
+                            <button class="btn show-json active?{Model.ShowJsonFormat}" title="Json">{}</button>
+                          </if>
+                          <if condition='Model.ShowXmlFormat'>
+                            <button class="btn show-xml active?{!Model.ShowJsonFormat}" title="Xml">&lt;/&gt;</button>
+                          </if>
                         </div>
                         <div class="sample-copy-hint">Click below to copy</div>
                     </th>
@@ -311,12 +317,10 @@
             <tbody>  
                 {{#Description}}
                     <tr>
-                        <td class="sample-code json" title="Click to copy json..." style="width: 300px;">
-                           {{> jsonDataFormat}}
-                        </td>
-                        <td class="sample-code xml" title="Click to copy xml..." style="width: 300px;display: none;">
-                           {{> xmlDataFormat}}
-                        </td>
+                        <td class="sample-code json" title="Click to copy json..." 
+                            style="display: none;?{!Model.ShowJsonFormat}">{{> jsonDataFormat}}</td>
+                        <td class="sample-code xml" title="Click to copy xml..." 
+                            style="display: none;?{Model.ShowJsonFormat}">{{> xmlDataFormat}}</td>
                         <td>
                             {{> dataDescription}}
                         </td>

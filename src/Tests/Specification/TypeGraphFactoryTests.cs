@@ -254,23 +254,29 @@ namespace Tests.Specification
         public void should_create_dictionary_with_comments()
         {
             should_be_dictionary_type(CreateFactory().BuildGraph(typeof(DictionaryWithComments)),
-                "This is a dictionary.");
+                comments: "This is a dictionary.");
         }
 
-        [DictionaryComments("This is an dictionary.", "This is a dictionary key.", "This is a dictionary value.")]
+        [DictionaryDescription("DictionaryName", "This is an dictionary.", 
+            "KeyName", "This is a dictionary key.", "This is a dictionary value.")]
         public class DictionaryWithDictionaryComments : Dictionary<string, int> { }
 
         [Test]
         public void should_create_dictionary_with_dictionary_comments()
         {
             should_be_dictionary_type(CreateFactory().BuildGraph(typeof(DictionaryWithDictionaryComments)),
-                "This is an dictionary.", "This is a dictionary key.", "This is a dictionary value.");
+                name: "DictionaryName",
+                comments: "This is an dictionary.",
+                keyName: "KeyName",
+                keyComments: "This is a dictionary key.", 
+                valueComments: "This is a dictionary value.");
         }
 
         public class DictionaryMember
         {
             public Dictionary<string, int> MemberWithoutComments { get; set; }
-            [DictionaryComments("This is an dictionary.", "This is a dictionary key.", "This is a dictionary value.")]
+            [DictionaryDescription("DictionaryName", "This is a dictionary.",
+                "KeyName", "This is a dictionary key.", "This is a dictionary value.")]
             public Dictionary<string, int> MemberWithComments { get; set; }
         }
 
@@ -282,17 +288,20 @@ namespace Tests.Specification
         }
 
         [Test]
-        public void should_create_dictionary_member_with_comments()
+        public void should_create_dictionary_member_with_description()
         {
             should_be_dictionary_type(CreateFactory().BuildGraph(typeof(DictionaryMember))
-                .Members.Single(x => x.Name == "MemberWithComments").Type,
-                keyComments: "This is a dictionary key.", valueComments: "This is a dictionary value.");
+                .Members.Single(x => x.Name == "DictionaryName").Type,
+                comments: "This is a dictionary.",
+                keyName: "KeyName",
+                keyComments: "This is a dictionary key.", 
+                valueComments: "This is a dictionary value.");
         }
 
-        public void should_be_dictionary_type(DataType type, string comments = null,
-            string keyComments = null, string valueComments = null)
+        public void should_be_dictionary_type(DataType type, string name = null, string comments = null,
+            string keyName = null, string keyComments = null, string valueComments = null)
         {
-            type.Name.ShouldEqual("DictionaryOfInt");
+            type.Name.ShouldEqual(name ?? "DictionaryOfInt");
             type.Comments.ShouldEqual(comments);
 
             type.IsArray.ShouldBeFalse();

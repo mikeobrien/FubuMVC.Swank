@@ -72,6 +72,8 @@ namespace FubuMVC.Swank.Specification
         {
             var types = type.GetGenericDictionaryTypes();
             dataType.IsDictionary = true;
+            dataType.Comments = memberDescription.WhenNotNull(x => x.Comments)
+                .OtherwiseDefault() ?? dataType.Comments;
             dataType.DictionaryEntry = new DictionaryEntry
             {
                 KeyComments = memberDescription.WhenNotNull(x => x.DictionaryEntry.KeyComments).OtherwiseDefault() ??

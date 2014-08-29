@@ -30,6 +30,8 @@ namespace TestHarness.Exports.Distributors
         [Comments("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.")]
         public Dictionary<string, Address> Locations { get; set; }
         [Comments("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.")]
+        public Dictionary<string, Address2> Locations2 { get; set; }
+        [Comments("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo est, molestie eget laoreet eu, tincidunt sed nibh.")]
         public Dictionary<string, DistributorType> LocationTypes { get; set; }
     }
 }

@@ -170,6 +170,7 @@ blockquote p {
     font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
     cursor: hand;
     cursor: pointer;
+    width: 350px;
     max-width: 350px;
     white-space:nowrap;
     text-overflow: ellipsis;

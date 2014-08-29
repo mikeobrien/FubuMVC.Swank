@@ -129,7 +129,7 @@ namespace Tests.Description
         [ArrayComments]
         public class WithEmptyArrayComments : List<int> { }
 
-        [ArrayComments("This is a comment.", "This is an item comment.")]
+        [ArrayComments("This is an array comment.", "This is an item comment.")]
         public class WithArrayComments : List<int> { }
 
         [Test]
@@ -142,7 +142,7 @@ namespace Tests.Description
         [Test]
         public void should_return_array_comments_if_specified()
         {
-            GetDescription<WithArrayComments>().Comments.ShouldEqual("This is a comment.");
+            GetDescription<WithArrayComments>().Comments.ShouldEqual("This is an array comment.");
         }
 
         [Test]
@@ -158,17 +158,34 @@ namespace Tests.Description
             GetDescription<WithArrayComments>().ArrayItem.Comments.ShouldEqual("This is an item comment.");
         }
 
-        public class WithNoDictionaryComments : Dictionary<string, int> { }
+        public class WithNoDictionaryDescription : Dictionary<string, int> { }
 
-        [DictionaryComments]
-        public class WithEmptyDictionaryComments : Dictionary<string, int> { }
+        [DictionaryDescription]
+        public class WithEmptyDictionaryDescription : Dictionary<string, int> { }
 
-        [DictionaryComments("This is a comment.", "This is a key comment.", "This is a value comment.")]
-        public class WithDictionaryComments : Dictionary<string, int> { }
+        [DictionaryDescription("DictionaryName", "This is a comment.", "KeyName", 
+            "This is a key comment.", "This is a value comment.")]
+        public class WithDictionaryDescription : Dictionary<string, int> { }
+
+        [Test]
+        public void should_return_default_dictionary_name_if_not_specified(
+            [Values(typeof(WithNoDictionaryDescription),
+                typeof(WithEmptyDictionaryDescription))] Type type)
+        {
+            GetDescription(type).Name.ShouldEqual("DictionaryOfInt");
+        }
+
+        [Test]
+        public void should_return_custom_dictionary_name_if_specified()
+        {
+            GetDescription<WithDictionaryDescription>()
+                .Name.ShouldEqual("DictionaryName");
+        }
 
         [Test]
         public void should_return_null_dictionary_comments_if_not_specified(
-            [Values(typeof(WithNoDictionaryComments), typeof(WithEmptyDictionaryComments))] Type type)
+            [Values(typeof(WithNoDictionaryDescription), 
+                typeof(WithEmptyDictionaryDescription))] Type type)
         {
             GetDescription(type).Comments.ShouldBeNull();
         }
@@ -176,12 +193,27 @@ namespace Tests.Description
         [Test]
         public void should_return_dictionary_comments_if_specified()
         {
-            GetDescription<WithDictionaryComments>().Comments.ShouldEqual("This is a comment.");
+            GetDescription<WithDictionaryDescription>()
+                .Comments.ShouldEqual("This is a comment.");
+        }
+
+        [Test]
+        public void should_return_null_dictionary_key_name_if_not_specified(
+            [Values(typeof(WithNoDictionaryDescription), typeof(WithEmptyDictionaryDescription))] Type type)
+        {
+            GetDescription(type).DictionaryEntry.KeyName.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_dictionary_key_name_if_specified()
+        {
+            GetDescription<WithDictionaryDescription>()
+                .DictionaryEntry.KeyName.ShouldEqual("KeyName");
         }
 
         [Test]
         public void should_return_null_dictionary_key_comments_if_not_specified(
-            [Values(typeof(WithNoDictionaryComments), typeof(WithEmptyDictionaryComments))] Type type)
+            [Values(typeof(WithNoDictionaryDescription), typeof(WithEmptyDictionaryDescription))] Type type)
         {
             GetDescription(type).DictionaryEntry.KeyComments.ShouldBeNull();
         }
@@ -189,12 +221,13 @@ namespace Tests.Description
         [Test]
         public void should_return_dictionary_key_comments_if_specified()
         {
-            GetDescription<WithDictionaryComments>().DictionaryEntry.KeyComments.ShouldEqual("This is a key comment.");
+            GetDescription<WithDictionaryDescription>()
+                .DictionaryEntry.KeyComments.ShouldEqual("This is a key comment.");
         }
 
         [Test]
         public void should_return_null_dictionary_value_comments_if_not_specified(
-            [Values(typeof(WithNoDictionaryComments), typeof(WithEmptyDictionaryComments))] Type type)
+            [Values(typeof(WithNoDictionaryDescription), typeof(WithEmptyDictionaryDescription))] Type type)
         {
             GetDescription(type).DictionaryEntry.ValueComments.ShouldBeNull();
         }
@@ -202,7 +235,8 @@ namespace Tests.Description
         [Test]
         public void should_return_dictionary_value_comments_if_specified()
         {
-            GetDescription<WithDictionaryComments>().DictionaryEntry.ValueComments.ShouldEqual("This is a value comment.");
+            GetDescription<WithDictionaryDescription>().DictionaryEntry
+                .ValueComments.ShouldEqual("This is a value comment.");
         }
     }
 }

@@ -43,14 +43,15 @@ namespace Tests.Description
             [ArrayComments]
             public string WithEmptyArrayComments { get; set; }
 
-            [ArrayComments("This is a comment.", "This is an item comment.")]
+            [ArrayComments("This is an array comment.", "This is an item comment.")]
             public string WithArrayComments { get; set; }
 
-            [DictionaryComments]
-            public string WithEmptyDictionaryComments { get; set; }
+            [DictionaryDescription]
+            public string WithEmptyDictionaryDescription { get; set; }
 
-            [DictionaryComments("This is a comment.", "This is a key comment.", "This is a value comment.")]
-            public string WithDictionaryComments { get; set; }
+            [DictionaryDescription("DictionaryName", "This is a dictionary comment.", "KeyName",
+                "This is a key comment.", "This is a value comment.")]
+            public string WithDictionaryDescription { get; set; }
 
             [XmlIgnoreAttribute]
             public string XmlIgnored { get; set; }
@@ -104,11 +105,7 @@ namespace Tests.Description
 
         [Test]
         public void should_return_comments_if_specified(
-            [Values("WithComments", 
-                "WithArrayComments", 
-                "WithDictionaryComments",
-                "WithDescription")] 
-                    string property)
+            [Values("WithComments", "WithDescription")] string property)
         {
             GetDescription(property).Comments.ShouldEqual("This is a comment.");
         }
@@ -162,6 +159,19 @@ namespace Tests.Description
         }
 
         [Test]
+        public void should_return_null_array_comments_if_not_specified(
+            [Values("NoDescription", "WithEmptyArrayComments")] string property)
+        {
+            GetDescription(property).Comments.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_array_comments_if_specified()
+        {
+            GetDescription("WithArrayComments").Comments.ShouldEqual("This is an array comment.");
+        }
+
+        [Test]
         public void should_return_null_array_item_name_if_not_specified()
         {
             GetDescription("NoDescription").ArrayItem.Name.ShouldBeNull();
@@ -187,8 +197,50 @@ namespace Tests.Description
         }
 
         [Test]
+        public void should_return_null_dictionary_name_if_not_specified(
+            [Values("NoDescription", "WithEmptyDictionaryDescription")] string property)
+        {
+            GetDescription(property).Name.ShouldEqual(property);
+        }
+
+        [Test]
+        public void should_return_dictionary_name_if_specified()
+        {
+            GetDescription("WithDictionaryDescription")
+                .Name.ShouldEqual("DictionaryName");
+        }
+
+        [Test]
+        public void should_return_null_dictionary_comments_if_not_specified(
+            [Values("NoDescription", "WithEmptyDictionaryDescription")] string property)
+        {
+            GetDescription(property).Comments.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_dictionary_comments_if_specified()
+        {
+            GetDescription("WithDictionaryDescription")
+                .Comments.ShouldEqual("This is a dictionary comment.");
+        }
+
+        [Test]
+        public void should_return_null_dictionary_key_name_if_not_specified(
+            [Values("NoDescription", "WithEmptyDictionaryDescription")] string property)
+        {
+            GetDescription(property).DictionaryEntry.KeyName.ShouldBeNull();
+        }
+
+        [Test]
+        public void should_return_dictionary_key_name_if_specified()
+        {
+            GetDescription("WithDictionaryDescription").DictionaryEntry
+                .KeyName.ShouldEqual("KeyName");
+        }
+
+        [Test]
         public void should_return_null_dictionary_key_comments_if_not_specified(
-            [Values("NoDescription", "WithEmptyDictionaryComments")] string property)
+            [Values("NoDescription", "WithEmptyDictionaryDescription")] string property)
         {
             GetDescription(property).DictionaryEntry.KeyComments.ShouldBeNull();
         }
@@ -196,12 +248,12 @@ namespace Tests.Description
         [Test]
         public void should_return_dictionary_key_comments_if_specified()
         {
-            GetDescription("WithDictionaryComments").DictionaryEntry.KeyComments.ShouldEqual("This is a key comment.");
+            GetDescription("WithDictionaryDescription").DictionaryEntry.KeyComments.ShouldEqual("This is a key comment.");
         }
 
         [Test]
         public void should_return_null_dictionary_value_comments_if_not_specified(
-            [Values("NoDescription", "WithEmptyDictionaryComments")] string property)
+            [Values("NoDescription", "WithEmptyDictionaryDescription")] string property)
         {
             GetDescription(property).DictionaryEntry.ValueComments.ShouldBeNull();
         }
@@ -209,7 +261,7 @@ namespace Tests.Description
         [Test]
         public void should_return_dictionary_value_comments_if_specified()
         {
-            GetDescription("WithDictionaryComments").DictionaryEntry.ValueComments.ShouldEqual("This is a value comment.");
+            GetDescription("WithDictionaryDescription").DictionaryEntry.ValueComments.ShouldEqual("This is a value comment.");
         }
     }
 }

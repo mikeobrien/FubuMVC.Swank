@@ -191,6 +191,7 @@ namespace FubuMVC.Swank.Specification
                 },
                 x =>
                 {
+                    x.Name = _configuration.DefaultDictionaryKeyName;
                     x.IsDictionaryEntry = true;
                 });
 

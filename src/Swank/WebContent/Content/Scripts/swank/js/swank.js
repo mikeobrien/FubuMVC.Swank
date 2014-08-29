@@ -1,13 +1,17 @@
 ﻿$(function () {
     
+    String.prototype.flatten = function() {
+        return this.trim().split(/\r?\n/).map(function(x) { return x.trim(); }).join('');
+    }
+
     var moduleTemplate = Handlebars.compile($('#swank-module-template').html());
     var resourceTemplate = Handlebars.compile($('#swank-resource-template').html());
 
     Handlebars.registerPartial("headers", $("#swank-headers-template").html());
     Handlebars.registerPartial("urlParameters", $("#swank-url-parameters-template").html());
     Handlebars.registerPartial("querystring", $("#swank-querystring-template").html());
-    Handlebars.registerPartial("jsonDataFormat", $("#swank-data-json-template").html());
-    Handlebars.registerPartial("xmlDataFormat", $("#swank-data-xml-template").html());
+    Handlebars.registerPartial("jsonDataFormat", $("#swank-data-json-template").html().flatten());
+    Handlebars.registerPartial("xmlDataFormat", $("#swank-data-xml-template").html().flatten());
     Handlebars.registerPartial("dataDescription", $("#swank-data-description-template").html());
     Handlebars.registerPartial("data", $("#swank-data-template").html());
     Handlebars.registerPartial("statusCodes", $("#swank-status-codes-template").html());
@@ -68,7 +72,7 @@
             $('td.sample-code').click(function () {
                 var table = $(this).closest("table");
                 var code = table.find('.sample-code.json:visible, .sample-code.xml:visible')
-                    .map(function () { return $(this).text().replace(/\r?\n|\r/g, ''); })
+                    .map(function () { return $(this).text(); })
                     .get().join("\r\n");
                 var top = table.find('.sample-code:visible:first');
                 var bottom = table.find('.sample-code:visible:last');
@@ -99,6 +103,13 @@
     
     Handlebars.registerHelper('formatUrl', function (context) {
         return context.replace(/(\{.*?\})/g, '<span class="highlight-text"><b>$1</b></span>');
+    });
+
+    Handlebars.registerHelper('either', function (value1, value2, options) {
+        if (value1 || value2) {
+            return options.fn(this);
+        }
+        return options.inverse(this);
     });
 
     var initialize = function () {

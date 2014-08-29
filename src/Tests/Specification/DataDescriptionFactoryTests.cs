@@ -47,10 +47,10 @@ namespace Tests.Specification
 
             description.Count.ShouldEqual(2);
 
-            description[0].ShouldBeComplexType("ComplexTypeWithNoMembers", 1,
+            description[0].ShouldBeComplexType("ComplexTypeWithNoMembers", 0,
                 x => x.Opening().Comments("Complex type comments"));
             
-            description[1].ShouldBeComplexType("ComplexTypeWithNoMembers", 1, x => x.Closing());
+            description[1].ShouldBeComplexType("ComplexTypeWithNoMembers", 0, x => x.Closing());
         }
 
         public class ComplexTypeWithSimpleMembers
@@ -70,16 +70,16 @@ namespace Tests.Specification
 
             description.Count.ShouldEqual(8);
 
-            description[0].ShouldBeComplexType("ComplexTypeWithSimpleMembers", 1, x => x.Opening());
+            description[0].ShouldBeComplexType("ComplexTypeWithSimpleMembers", 0, x => x.Opening());
 
-            description[1].ShouldBeSimpleTypeMember("StringMember", "string", 2, "", x => x.IsString());
-            description[2].ShouldBeSimpleTypeMember("BooleanMember", "boolean", 2, "false", x => x.IsBoolean());
-            description[3].ShouldBeSimpleTypeMember("DateTimeMember", "dateTime", 2, DateTime.Now.ToString("g"), x => x.IsDateTime());
-            description[4].ShouldBeSimpleTypeMember("DurationMember", "duration", 2, "0:00:00", x => x.IsDuration());
-            description[5].ShouldBeSimpleTypeMember("UuidMember", "uuid", 2, "00000000-0000-0000-0000-000000000000", x => x.IsGuid());
-            description[6].ShouldBeSimpleTypeMember("NumericMember", "int", 2, "0", x => x.IsNumeric(), x => x.IsLastMember());
+            description[1].ShouldBeSimpleTypeMember("StringMember", "string", 1, "", x => x.IsString());
+            description[2].ShouldBeSimpleTypeMember("BooleanMember", "boolean", 1, "false", x => x.IsBoolean());
+            description[3].ShouldBeSimpleTypeMember("DateTimeMember", "dateTime", 1, DateTime.Now.ToString("g"), x => x.IsDateTime());
+            description[4].ShouldBeSimpleTypeMember("DurationMember", "duration", 1, "0:00:00", x => x.IsDuration());
+            description[5].ShouldBeSimpleTypeMember("UuidMember", "uuid", 1, "00000000-0000-0000-0000-000000000000", x => x.IsGuid());
+            description[6].ShouldBeSimpleTypeMember("NumericMember", "int", 1, "0", x => x.IsNumeric(), x => x.IsLastMember());
 
-            description[7].ShouldBeComplexType("ComplexTypeWithSimpleMembers", 1, x => x.Closing());
+            description[7].ShouldBeComplexType("ComplexTypeWithSimpleMembers", 0, x => x.Closing());
         }
 
         public enum Options
@@ -101,16 +101,16 @@ namespace Tests.Specification
 
             description.Count.ShouldEqual(3);
 
-            description[0].ShouldBeComplexType("ComplexTypeWithSimpleOptionMember", 1, x => x.Opening());
+            description[0].ShouldBeComplexType("ComplexTypeWithSimpleOptionMember", 0, x => x.Opening());
 
-            description[1].ShouldBeSimpleTypeMember("OptionMember", "int", 2, "0", 
+            description[1].ShouldBeSimpleTypeMember("OptionMember", "int", 1, "0", 
                 x => x.IsNumeric()
                     .Options
                         .WithOption("Option", "0")
                         .WithOptionAndComments("OptionWithComments", "1", "This is an option."), 
                 x => x.IsLastMember());
 
-            description[2].ShouldBeComplexType("ComplexTypeWithSimpleOptionMember", 1, x => x.Closing());
+            description[2].ShouldBeComplexType("ComplexTypeWithSimpleOptionMember", 0, x => x.Closing());
         }
 
         [Test]
@@ -121,16 +121,16 @@ namespace Tests.Specification
 
             description.Count.ShouldEqual(3);
 
-            description[0].ShouldBeComplexType("ComplexTypeWithSimpleOptionMember", 1, x => x.Opening());
+            description[0].ShouldBeComplexType("ComplexTypeWithSimpleOptionMember", 0, x => x.Opening());
 
-            description[1].ShouldBeSimpleTypeMember("OptionMember", "string", 2, "Option",
+            description[1].ShouldBeSimpleTypeMember("OptionMember", "string", 1, "Option",
                 x => x.IsString()
                     .Options
                         .WithOption("Option")
                         .WithOptionAndComments("OptionWithComments", "This is an option."),
                 x => x.IsLastMember());
 
-            description[2].ShouldBeComplexType("ComplexTypeWithSimpleOptionMember", 1, x => x.Closing());
+            description[2].ShouldBeComplexType("ComplexTypeWithSimpleOptionMember", 0, x => x.Closing());
         }
 
         public class ComplexTypeWithOptionalMember
@@ -154,15 +154,15 @@ namespace Tests.Specification
 
             description.Count.ShouldEqual(4);
 
-            description[0].ShouldBeComplexType("ComplexTypeWithOptionalMember", 1, x => x.Opening());
+            description[0].ShouldBeComplexType("ComplexTypeWithOptionalMember", 0, x => x.Opening());
 
-            description[1].ShouldBeSimpleTypeMember("OptionalMember", "string", 2, "", x => x.IsString(),
+            description[1].ShouldBeSimpleTypeMember("OptionalMember", "string", 1, "", x => x.IsString(),
                 x => x.Optional());
 
-            description[2].ShouldBeSimpleTypeMember("RequiredMember", "string", 2, "", x => x.IsString(),
+            description[2].ShouldBeSimpleTypeMember("RequiredMember", "string", 1, "", x => x.IsString(),
                 x => x.Required().IsLastMember());
 
-            description[3].ShouldBeComplexType("ComplexTypeWithOptionalMember", 1, x => x.Closing());
+            description[3].ShouldBeComplexType("ComplexTypeWithOptionalMember", 0, x => x.Closing());
         }
 
         public class ComplexTypeWithDeprecatedMember
@@ -178,12 +178,12 @@ namespace Tests.Specification
 
             description.Count.ShouldEqual(3);
 
-            description[0].ShouldBeComplexType("ComplexTypeWithDeprecatedMember", 1, x => x.Opening());
+            description[0].ShouldBeComplexType("ComplexTypeWithDeprecatedMember", 0, x => x.Opening());
 
-            description[1].ShouldBeSimpleTypeMember("DeprecatedMember", "string", 2, "", x => x.IsString(),
+            description[1].ShouldBeSimpleTypeMember("DeprecatedMember", "string", 1, "", x => x.IsString(),
                 x => x.IsDeprecated("Why u no use different one??").IsLastMember());
 
-            description[2].ShouldBeComplexType("ComplexTypeWithDeprecatedMember", 1, x => x.Closing());
+            description[2].ShouldBeComplexType("ComplexTypeWithDeprecatedMember", 0, x => x.Closing());
         }
 
         public class ComplexTypeWithArrayMembers
@@ -206,15 +206,15 @@ namespace Tests.Specification
             var description = BuildDescription(type);
 
             description.Count.ShouldEqual(5);
-            description[0].ShouldBeComplexType(type.Name, 1, x => x.Opening());
+            description[0].ShouldBeComplexType(type.Name, 0, x => x.Opening());
 
-            description[1].ShouldBeArrayMember("ArrayMember", 2, x => x.Opening(), x => x.IsLastMember());
+            description[1].ShouldBeArrayMember("ArrayMember", 1, x => x.Opening(), x => x.IsLastMember());
 
-            description[2].ShouldBeSimpleType(itemName, "string", 3, "", x => x.IsString());
+            description[2].ShouldBeSimpleType(itemName, "string", 2, "", x => x.IsString());
 
-            description[3].ShouldBeArrayMember("ArrayMember", 2, x => x.Closing(), x => x.IsLastMember());
+            description[3].ShouldBeArrayMember("ArrayMember", 1, x => x.Closing(), x => x.IsLastMember());
 
-            description[4].ShouldBeComplexType(type.Name, 1, x => x.Closing());
+            description[4].ShouldBeComplexType(type.Name, 0, x => x.Closing());
         }
 
         public class ComplexTypeWithDictionaryMember
@@ -231,23 +231,63 @@ namespace Tests.Specification
 
             description.Count.ShouldEqual(5);
 
-            description[0].ShouldBeComplexType("ComplexTypeWithDictionaryMember", 1, x => x.Opening());
+            description[0].ShouldBeComplexType("ComplexTypeWithDictionaryMember", 0, x => x.Opening());
 
-            description[1].ShouldBeDictionaryMember("DictionaryMember", 2, x => x.Opening(),
+            description[1].ShouldBeDictionaryMember("DictionaryMember", 1, x => x.Opening(),
                 x => x.Comments("This is a dictionary").IsLastMember());
 
-            description[2].ShouldBeSimpleTypeDictionaryEntry("string", "string", "string", 3, "", 
+            description[2].ShouldBeSimpleTypeDictionaryEntry("key", "string", "string", 2, "", 
                x => x.IsString().Comments("This is the value."),
                x => x.Comments("This is the key."));
 
-            description[3].ShouldBeDictionaryMember("DictionaryMember", 2, x => x.Closing(), x => x.IsLastMember());
+            description[3].ShouldBeDictionaryMember("DictionaryMember", 1, x => x.Closing(), x => x.IsLastMember());
 
-            description[4].ShouldBeComplexType("ComplexTypeWithDictionaryMember", 1, x => x.Closing());
+            description[4].ShouldBeComplexType("ComplexTypeWithDictionaryMember", 0, x => x.Closing());
         }
 
         // Arrays
 
+        [Test]
+        public void should_create_an_array_of_simple_types()
+        {
+            var description = BuildDescription<List<string>>();
+
+            description.Count.ShouldEqual(3);
+
+            description[0].ShouldBeArray("ArrayOfString", 0, x => x.Opening());
+
+            description[1].ShouldBeSimpleType("string", "string", 1, "", x => x.IsString());
+
+            description[2].ShouldBeArray("ArrayOfString", 0, x => x.Closing());
+        }
+
+        // TODO: Array with custom name
+        // TODO: Array with custom item name
+        // TODO: Array with comments
+
+        // TODO: Array of enum strings
+        // TODO: Array of enum ints
+        // TODO: Array of complex types
+        // TODO: Array of arrays
+        // TODO: Array of dictionaries
+
         // Dictionaries
+
+        // TODO: Dictionary with custom name
+        // TODO: Dictionary with comments
+        // TODO: Dictionary with custom key name
+        // TODO: Dictionary with key comments
+        // TODO: Dictionary with custom value name
+        // TODO: Dictionary with value comments
+
+        // TODO: Dictionary of simple types
+        // TODO: Dictionary of enum key strings
+        // TODO: Dictionary of enum key ints
+        // TODO: Dictionary of enum value strings
+        // TODO: Dictionary of enum value ints
+        // TODO: Dictionary of complex types
+        // TODO: Dictionary of arrays
+        // TODO: Dictionary of dictionaries
     }
 
     public static class DataDescriptionAssertions

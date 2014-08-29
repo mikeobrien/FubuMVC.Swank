@@ -29,6 +29,7 @@ namespace FubuMVC.Swank.Description
                     dictionaryDescription.WhenNotNull(x => x.Name).OtherwiseDefault() ??
                     type.GetXmlName(_configuration.EnumValue == EnumValue.AsString),
                 Comments = type.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments).OtherwiseDefault() ??
+                    arrayComments.WhenNotNull(x => x.Comments).OtherwiseDefault() ??
                     dictionaryDescription.WhenNotNull(x => x.Comments).OtherwiseDefault(),
                 ArrayItem = new Description
                 {
