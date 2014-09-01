@@ -37,19 +37,19 @@ namespace Tests.Description
             [Optional]
             public string Optional { get; set; }
 
-            [XmlArrayItem("Item")]
+            [XmlArrayItem("ItemName")]
             public string WithArrayItemName { get; set; }
 
-            [ArrayComments]
+            [ArrayDescription]
             public string WithEmptyArrayComments { get; set; }
 
-            [ArrayComments("This is an array comment.", "This is an item comment.")]
-            public string WithArrayComments { get; set; }
+            [ArrayDescription("NewName", "This is an array comment.", "ItemName", "This is an item comment.")]
+            public string WithArrayDescription { get; set; }
 
             [DictionaryDescription]
             public string WithEmptyDictionaryDescription { get; set; }
 
-            [DictionaryDescription("DictionaryName", "This is a dictionary comment.", "KeyName",
+            [DictionaryDescription("NewName", "This is a dictionary comment.", "KeyName",
                 "This is a key comment.", "This is a value comment.")]
             public string WithDictionaryDescription { get; set; }
 
@@ -92,7 +92,8 @@ namespace Tests.Description
 
         [Test]
         public void should_return_custom_name(
-            [Values("CustomXmlElementName", "CustomDataMemberName", "WithDescription")] string property)
+            [Values("CustomXmlElementName", "CustomDataMemberName", "WithDescription", 
+                "WithArrayDescription", "WithDictionaryDescription")] string property)
         {
             GetDescription(property).Name.ShouldEqual("NewName");
         }
@@ -168,7 +169,7 @@ namespace Tests.Description
         [Test]
         public void should_return_array_comments_if_specified()
         {
-            GetDescription("WithArrayComments").Comments.ShouldEqual("This is an array comment.");
+            GetDescription("WithArrayDescription").Comments.ShouldEqual("This is an array comment.");
         }
 
         [Test]
@@ -178,9 +179,10 @@ namespace Tests.Description
         }
 
         [Test]
-        public void should_return_array_item_name_if_specified()
+        public void should_return_array_item_name_if_specified(
+            [Values("WithArrayItemName", "WithArrayDescription")] string property)
         {
-            GetDescription("WithArrayItemName").ArrayItem.Name.ShouldEqual("Item");
+            GetDescription(property).ArrayItem.Name.ShouldEqual("ItemName");
         }
 
         [Test]
@@ -193,21 +195,7 @@ namespace Tests.Description
         [Test]
         public void should_return_array_item_comments_if_specified()
         {
-            GetDescription("WithArrayComments").ArrayItem.Comments.ShouldEqual("This is an item comment.");
-        }
-
-        [Test]
-        public void should_return_null_dictionary_name_if_not_specified(
-            [Values("NoDescription", "WithEmptyDictionaryDescription")] string property)
-        {
-            GetDescription(property).Name.ShouldEqual(property);
-        }
-
-        [Test]
-        public void should_return_dictionary_name_if_specified()
-        {
-            GetDescription("WithDictionaryDescription")
-                .Name.ShouldEqual("DictionaryName");
+            GetDescription("WithArrayDescription").ArrayItem.Comments.ShouldEqual("This is an item comment.");
         }
 
         [Test]

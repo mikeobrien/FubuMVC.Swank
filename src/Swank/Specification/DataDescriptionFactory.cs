@@ -178,7 +178,8 @@ namespace FubuMVC.Swank.Specification
             WalkGraph(data, type.DictionaryEntry.ValueType, level + 1,
                 x =>
                 {
-                    x.Name = _configuration.DefaultDictionaryKeyName;
+                    x.Name = type.DictionaryEntry.KeyName ?? 
+                        _configuration.DefaultDictionaryKeyName;
                     x.IsDictionaryEntry = true;
                     if (type.DictionaryEntry.ValueComments != null)
                         x.Comments = type.DictionaryEntry.ValueComments;

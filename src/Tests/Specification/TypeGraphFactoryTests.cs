@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Serialization;
 using FubuCore.Reflection;
 using FubuMVC.Core;
 using FubuMVC.Media.Projections;
 using FubuMVC.Swank;
 using FubuMVC.Swank.Description;
-using FubuMVC.Swank.Extensions;
 using FubuMVC.Swank.Specification;
 using NUnit.Framework;
 using Should;
@@ -180,45 +178,49 @@ namespace Tests.Specification
         public void should_create_array_with_comments()
         {
             should_be_array_type(CreateFactory().BuildGraph(typeof(ListWithComments)),
-                "This is an array.");
+                comments: "This is an array.");
         }
 
-        [ArrayComments("This is an array.", "This is an array item.")]
-        public class ListWithArrayComments : List<int> { }
+        [ArrayDescription("ArrayName", "This is an array comment.", 
+            "ItemName", "This is an item comment.")]
+        public class ListWithArrayDescription : List<int> { }
 
         [Test]
-        public void should_create_array_with_array_comments()
+        public void should_create_array_with_array_description()
         {
-            should_be_array_type(CreateFactory().BuildGraph(typeof(ListWithArrayComments)),
-                "This is an array.", itemComments: "This is an array item.");
+            should_be_array_type(CreateFactory().BuildGraph(typeof(ListWithArrayDescription)),
+                name: "ArrayName", comments: "This is an array comment.",
+                itemName: "ItemName", itemComments: "This is an item comment.");
         }
 
         public class ArrayMember
         {
             public List<int> MemberWithoutComments { get; set; }
-            [XmlArrayItem("Item"), ArrayComments(itemComments: "This is an array item.")]
+            [ArrayDescription("ArrayName", "This is an array comment.", 
+                "ItemName", "This is an item comment.")]
             public List<int> MemberWithComments { get; set; }
         }
 
         [Test]
-        public void should_create_array_member_without_comments()
+        public void should_create_array_member_without_description()
         {
             should_be_array_type(CreateFactory().BuildGraph(typeof(ArrayMember))
                 .Members.Single(x => x.Name == "MemberWithoutComments").Type);
         }
 
         [Test]
-        public void should_create_array_member_with_comments()
+        public void should_create_array_member_with_description()
         {
             should_be_array_type(CreateFactory().BuildGraph(typeof(ArrayMember))
-                .Members.Single(x => x.Name == "MemberWithComments").Type,
-                itemName: "Item", itemComments:"This is an array item.");
+                .Members.Single(x => x.Name == "ArrayName").Type,
+                comments: "This is an array comment.",
+                itemName: "ItemName", itemComments: "This is an item comment.");
         }
 
-        public void should_be_array_type(DataType type, string comments = null, 
+        public void should_be_array_type(DataType type, string name = null, string comments = null, 
             string itemName = "int", string itemComments = null)
         {
-            type.Name.ShouldEqual("ArrayOfInt");
+            type.Name.ShouldEqual(name ?? "ArrayOfInt");
             type.Comments.ShouldEqual(comments);
 
             type.IsArray.ShouldBeTrue();
@@ -315,6 +317,7 @@ namespace Tests.Specification
 
             type.IsDictionary.ShouldBeTrue();
             type.DictionaryEntry.ShouldNotBeNull();
+            type.DictionaryEntry.KeyName.ShouldEqual(keyName);
             type.DictionaryEntry.KeyComments.ShouldEqual(keyComments);
             should_be_simple_type(type.DictionaryEntry.KeyType, "string");
             type.DictionaryEntry.ValueComments.ShouldEqual(valueComments);

@@ -219,8 +219,9 @@ namespace Tests.Specification
 
         public class ComplexTypeWithDictionaryMember
         {
-            [DictionaryDescription(comments: "This is a dictionary", 
-                keyComments: "This is the key.", valueComments: "This is the value.")]
+            [DictionaryDescription("Entries", "This is a dictionary.",
+                "KeyName", "This is a dictionary key.",
+                "This is a dictionary value.")]
             public Dictionary<string, string> DictionaryMember { get; set; }
         }
 
@@ -233,61 +234,259 @@ namespace Tests.Specification
 
             description[0].ShouldBeComplexType("ComplexTypeWithDictionaryMember", 0, x => x.Opening());
 
-            description[1].ShouldBeDictionaryMember("DictionaryMember", 1, x => x.Opening(),
-                x => x.Comments("This is a dictionary").IsLastMember());
+            description[1].ShouldBeDictionaryMember("Entries", 1, x => x.Opening(),
+                x => x.Comments("This is a dictionary.").IsLastMember());
 
-            description[2].ShouldBeSimpleTypeDictionaryEntry("key", "string", "string", 2, "", 
-               x => x.IsString().Comments("This is the value."),
-               x => x.Comments("This is the key."));
+            description[2].ShouldBeSimpleTypeDictionaryEntry("KeyName", "string", "string", 2, "",
+               x => x.IsString().Comments("This is a dictionary value."),
+               x => x.KeyComments("This is a dictionary key."));
 
-            description[3].ShouldBeDictionaryMember("DictionaryMember", 1, x => x.Closing(), x => x.IsLastMember());
+            description[3].ShouldBeDictionaryMember("Entries", 1, x => x.Closing(), x => x.IsLastMember());
 
             description[4].ShouldBeComplexType("ComplexTypeWithDictionaryMember", 0, x => x.Closing());
         }
 
         // Arrays
 
+        [ArrayDescription("Items", "This is an array", 
+            "Item", "This is an array item.")]
+        public class ArrayType : List<string> { }
+
         [Test]
-        public void should_create_an_array_of_simple_types()
+        public void should_create_an_array_with_a_description()
         {
-            var description = BuildDescription<List<string>>();
+            var description = BuildDescription<ArrayType>();
+
+            description.Count.ShouldEqual(3);
+
+            description[0].ShouldBeArray("Items", 0, x => x
+                .Comments("This is an array").Opening());
+
+            description[1].ShouldBeSimpleType("Item", "string", 1, "", x => x
+                .Comments("This is an array item.").IsString());
+
+            description[2].ShouldBeArray("Items", 0, x => x.Closing());
+        }
+
+        public enum ArrayOptions { Option1, Option2 }
+
+        [Test]
+        public void should_create_an_array_of_numeric_options()
+        {
+            var description = BuildDescription<List<ArrayOptions>>();
+
+            description.Count.ShouldEqual(3);
+
+            description[0].ShouldBeArray("ArrayOfInt", 0, x => x.Opening());
+
+            description[1].ShouldBeSimpleType("int", "int", 1, "0", x => x.IsNumeric()
+                .Options
+                    .WithOption("Option1", "0")
+                    .WithOption("Option2", "1")); 
+
+            description[2].ShouldBeArray("ArrayOfInt", 0, x => x.Closing());
+        }
+
+        [Test]
+        public void should_create_an_array_of_string_options()
+        {
+            var description = BuildDescription<List<ArrayOptions>>(x => x.EnumValue = EnumValue.AsString);
 
             description.Count.ShouldEqual(3);
 
             description[0].ShouldBeArray("ArrayOfString", 0, x => x.Opening());
 
-            description[1].ShouldBeSimpleType("string", "string", 1, "", x => x.IsString());
+            description[1].ShouldBeSimpleType("string", "string", 1, "Option1", x => x.IsString()
+                .Options
+                    .WithOption("Option1")
+                    .WithOption("Option2"));
 
             description[2].ShouldBeArray("ArrayOfString", 0, x => x.Closing());
         }
 
-        // TODO: Array with custom name
-        // TODO: Array with custom item name
-        // TODO: Array with comments
+        public class ArrayComplexType { public string Member { get; set; } }
 
-        // TODO: Array of enum strings
-        // TODO: Array of enum ints
-        // TODO: Array of complex types
-        // TODO: Array of arrays
-        // TODO: Array of dictionaries
+        [Test]
+        public void should_create_an_array_of_complex_types()
+        {
+            var description = BuildDescription<List<ArrayComplexType>>();
+
+            description.Count.ShouldEqual(5);
+
+            description[0].ShouldBeArray("ArrayOfArrayComplexType", 0, x => x.Opening());
+
+            description[1].ShouldBeComplexType("ArrayComplexType", 1, x => x.Opening());
+
+            description[2].ShouldBeSimpleTypeMember("Member", "string", 2, "", 
+                x => x.IsString(), x => x.IsLastMember());
+
+            description[3].ShouldBeComplexType("ArrayComplexType", 1, x => x.Closing());
+
+            description[4].ShouldBeArray("ArrayOfArrayComplexType", 0, x => x.Closing());
+        }
+
+        [Test]
+        public void should_create_an_array_of_arrays()
+        {
+            var description = BuildDescription<List<List<string>>>();
+
+            description.Count.ShouldEqual(5);
+
+            description[0].ShouldBeArray("ArrayOfArrayOfString", 0, x => x.Opening());
+
+            description[1].ShouldBeArray("ArrayOfString", 1, x => x.Opening());
+
+            description[2].ShouldBeSimpleType("string", "string", 2, "", x => x.IsString());
+
+            description[3].ShouldBeArray("ArrayOfString", 1, x => x.Closing());
+
+            description[4].ShouldBeArray("ArrayOfArrayOfString", 0, x => x.Closing());
+        }
+
+        [Test]
+        public void should_create_an_array_of_dictionaries()
+        {
+            var description = BuildDescription<List<Dictionary<string, int>>>();
+
+            description.Count.ShouldEqual(5);
+
+            description[0].ShouldBeArray("ArrayOfDictionaryOfInt", 0, x => x.Opening());
+
+            description[1].ShouldBeDictionary("DictionaryOfInt", 1, x => x.Opening());
+
+            description[2].ShouldBeSimpleTypeDictionaryEntry("key", "string", "int", 2, "0",
+                x => x.IsNumeric());
+
+            description[3].ShouldBeDictionary("DictionaryOfInt", 1, x => x.Closing());
+
+            description[4].ShouldBeArray("ArrayOfDictionaryOfInt", 0, x => x.Closing());
+        }
 
         // Dictionaries
 
-        // TODO: Dictionary with custom name
-        // TODO: Dictionary with comments
-        // TODO: Dictionary with custom key name
-        // TODO: Dictionary with key comments
-        // TODO: Dictionary with custom value name
-        // TODO: Dictionary with value comments
+        [DictionaryDescription("Entries", "This is a dictionary.",
+            "KeyName", "This is a dictionary key.", 
+            "This is a dictionary value.")]
+        public class DictionaryType : Dictionary<string, int> { }
 
-        // TODO: Dictionary of simple types
-        // TODO: Dictionary of enum key strings
-        // TODO: Dictionary of enum key ints
-        // TODO: Dictionary of enum value strings
-        // TODO: Dictionary of enum value ints
-        // TODO: Dictionary of complex types
-        // TODO: Dictionary of arrays
-        // TODO: Dictionary of dictionaries
+        [Test]
+        public void should_create_a_dictionary_with_a_description()
+        {
+            var description = BuildDescription<DictionaryType>();
+
+            description.Count.ShouldEqual(3);
+
+            description[0].ShouldBeDictionary("Entries", 0, x => x
+                .Comments("This is a dictionary.").Opening());
+
+            description[1].ShouldBeSimpleTypeDictionaryEntry("KeyName", "string", "int", 1, "0",
+                x => x.IsNumeric().Comments("This is a dictionary value."), 
+                x => x.KeyComments("This is a dictionary key."));
+
+            description[2].ShouldBeDictionary("Entries", 0, x => x.Closing());
+        }
+
+        public enum DictionaryKeyOptions { KeyOption1, KeyOption2 }
+        public enum DictionaryValueOptions { ValueOption1, ValueOption2 }
+
+        [Test]
+        public void should_create_an_dictionary_of_numeric_options()
+        {
+            var description = BuildDescription<Dictionary<DictionaryKeyOptions, DictionaryValueOptions>>();
+
+            description.Count.ShouldEqual(3);
+
+            description[0].ShouldBeDictionary("DictionaryOfInt", 0, x => x.Opening());
+
+            description[1].ShouldBeSimpleTypeDictionaryEntry("key", "int", "int", 1, "0",
+                x => x.IsNumeric()
+                    .Options
+                        .WithOption("ValueOption1", "0")
+                        .WithOption("ValueOption2", "1"),
+                x => x.KeyOptions
+                    .WithOption("KeyOption1", "0")
+                    .WithOption("KeyOption2", "1"));
+
+            description[2].ShouldBeDictionary("DictionaryOfInt", 0, x => x.Closing());
+        }
+
+        [Test]
+        public void should_create_an_dictionary_of_string_options()
+        {
+            var description = BuildDescription<Dictionary<DictionaryKeyOptions, DictionaryValueOptions>>(x => x.EnumValue = EnumValue.AsString);
+
+            description.Count.ShouldEqual(3);
+
+            description[0].ShouldBeDictionary("DictionaryOfString", 0, x => x.Opening());
+
+            description[1].ShouldBeSimpleTypeDictionaryEntry("key", "string", "string", 1, "ValueOption1",
+                x => x.IsString()
+                    .Options
+                        .WithOption("ValueOption1")
+                        .WithOption("ValueOption2"),
+                x => x.KeyOptions
+                    .WithOption("KeyOption1")
+                    .WithOption("KeyOption2"));
+
+            description[2].ShouldBeDictionary("DictionaryOfString", 0, x => x.Closing());
+        }
+        public class DictionaryComplexType { public string Member { get; set; } }
+
+        [Test]
+        public void should_create_a_dictionary_of_complex_types()
+        {
+            var description = BuildDescription<Dictionary<string, DictionaryComplexType>>();
+
+            description.Count.ShouldEqual(5);
+
+            description[0].ShouldBeDictionary("DictionaryOfDictionaryComplexType", 0, x => x.Opening());
+
+            description[1].ShouldBeOpeningComplexTypeDictionaryEntry("key", "string", 1);
+
+            description[2].ShouldBeSimpleTypeMember("Member", "string", 2, "",
+                x => x.IsString(), x => x.IsLastMember());
+
+            description[3].ShouldBeClosingComplexTypeDictionaryEntry("key", 1);
+
+            description[4].ShouldBeDictionary("DictionaryOfDictionaryComplexType", 0, x => x.Closing());
+        }
+
+        [Test]
+        public void should_create_a_dictionary_of_arrays()
+        {
+            var description = BuildDescription<Dictionary<string, List<int>>>();
+
+            description.Count.ShouldEqual(5);
+
+            description[0].ShouldBeDictionary("DictionaryOfArrayOfInt", 0, x => x.Opening());
+
+            description[1].ShouldBeOpeningArrayDictionaryEntry("key", "string", 1);
+
+            description[2].ShouldBeSimpleType("int", "int", 2, "0", x => x.IsNumeric());
+
+            description[3].ShouldBeClosingArrayDictionaryEntry("key", 1);
+
+            description[4].ShouldBeDictionary("DictionaryOfArrayOfInt", 0, x => x.Closing());
+        }
+
+        [Test]
+        public void should_create_a_dictionary_of_dictionaries()
+        {
+            var description = BuildDescription<Dictionary<string, Dictionary<string, int>>>();
+
+            description.Count.ShouldEqual(5);
+
+            description[0].ShouldBeDictionary("DictionaryOfDictionaryOfInt", 0, x => x.Opening());
+
+            description[1].ShouldBeOpeningDictionaryDictionaryEntry("key", "string", 1);
+
+            description[2].ShouldBeSimpleTypeDictionaryEntry("key", "string", "int", 2, "0",
+                x => x.IsNumeric());
+
+            description[3].ShouldBeClosingDictionaryDictionaryEntry("key", 1);
+
+            description[4].ShouldBeDictionary("DictionaryOfDictionaryOfInt", 0, x => x.Closing());
+        }
     }
 
     public static class DataDescriptionAssertions
@@ -317,14 +516,14 @@ namespace Tests.Specification
         public static void ShouldBeSimpleTypeDictionaryEntry(this DataDescription source,
             string name, string keyTypeName, string valueTypeName, int level, string defaultValue,
             Action<SimpleTypeDsl> simpleTypeProperties,
-            Action<DictionaryEntryDsl> dictionaryEntryProperties = null)
+            Action<DictionaryKeyDsl> dictionaryEntryProperties = null)
         {
             var compare = CreateSimpleType(name, valueTypeName,
                 level, defaultValue, simpleTypeProperties);
             compare.IsDictionaryEntry = true;
             compare.DictionaryKey = new Key { TypeName = keyTypeName };
             if (dictionaryEntryProperties != null) 
-                dictionaryEntryProperties(new DictionaryEntryDsl(compare));
+                dictionaryEntryProperties(new DictionaryKeyDsl(compare));
             source.ShouldMatchData(compare);
         }
 
@@ -382,16 +581,27 @@ namespace Tests.Specification
             source.ShouldMatchData(compare);
         }
 
-        public static void ShouldBeArrayDictionaryEntry(
+        public static void ShouldBeOpeningArrayDictionaryEntry(
             this DataDescription source, string name, string keyTypeName, int level,
-            Action<ArrayDsl> arrayProperties,
-            Action<DictionaryEntryDsl> dictionaryEntryProperties = null)
+            Action<ArrayDsl> arrayProperties = null,
+            Action<DictionaryKeyDsl> dictionaryKeyProperties = null)
         {
             var compare = CreateArray(name, level, arrayProperties);
+            compare.IsOpening = true;
             compare.IsDictionaryEntry = true;
             compare.DictionaryKey = new Key { TypeName = keyTypeName };
-            if (dictionaryEntryProperties != null)
-                dictionaryEntryProperties(new DictionaryEntryDsl(compare));
+            if (dictionaryKeyProperties != null)
+                dictionaryKeyProperties(new DictionaryKeyDsl(compare));
+            source.ShouldMatchData(compare);
+        }
+
+        public static void ShouldBeClosingArrayDictionaryEntry(
+            this DataDescription source, string name, int level,
+            Action<ArrayDsl> arrayProperties = null)
+        {
+            var compare = CreateArray(name, level, arrayProperties);
+            compare.IsClosing = true;
+            compare.IsDictionaryEntry = true;
             source.ShouldMatchData(compare);
         }
 
@@ -440,13 +650,37 @@ namespace Tests.Specification
         public static void ShouldBeDictionaryDictionaryEntry(
             this DataDescription source, string name, string keyTypeName, int level,
             Action<DictionaryDsl> dictionaryProperties,
-            Action<DictionaryEntryDsl> dictionaryEntryProperties = null)
+            Action<DictionaryKeyDsl> dictionaryKeyProperties = null)
         {
             var compare = CreateDictionary(name, level, dictionaryProperties);
             compare.IsDictionaryEntry = true;
             compare.DictionaryKey = new Key { TypeName = keyTypeName };
-            if (dictionaryEntryProperties != null)
-                dictionaryEntryProperties(new DictionaryEntryDsl(compare));
+            if (dictionaryKeyProperties != null)
+                dictionaryKeyProperties(new DictionaryKeyDsl(compare));
+            source.ShouldMatchData(compare);
+        }
+
+        public static void ShouldBeOpeningDictionaryDictionaryEntry(
+            this DataDescription source, string name, string keyTypeName, int level,
+            Action<DictionaryDsl> dictionaryProperties = null,
+            Action<DictionaryKeyDsl> dictionaryKeyProperties = null)
+        {
+            var compare = CreateDictionary(name, level, dictionaryProperties);
+            compare.IsOpening = true;
+            compare.IsDictionaryEntry = true;
+            compare.DictionaryKey = new Key { TypeName = keyTypeName };
+            if (dictionaryKeyProperties != null)
+                dictionaryKeyProperties(new DictionaryKeyDsl(compare));
+            source.ShouldMatchData(compare);
+        }
+
+        public static void ShouldBeClosingDictionaryDictionaryEntry(
+            this DataDescription source, string name, int level,
+            Action<DictionaryDsl> dictionaryKeyProperties = null)
+        {
+            var compare = CreateDictionary(name, level, dictionaryKeyProperties);
+            compare.IsClosing = true;
+            compare.IsDictionaryEntry = true;
             source.ShouldMatchData(compare);
         }
 
@@ -491,16 +725,27 @@ namespace Tests.Specification
             source.ShouldMatchData(compare);
         }
 
-        public static void ShouldBeComplexTypeDictionaryEntry(
+        public static void ShouldBeOpeningComplexTypeDictionaryEntry(
             this DataDescription source, string name, string keyTypeName, int level,
             Action<ComplexTypeDsl> complexTypeProperties = null,
-            Action<ComplexTypeDsl> dictionaryEntryProperties = null)
+            Action<DictionaryKeyDsl> dictionaryKeyProperties = null)
         {
             var compare = CreateComplexType(name, level, complexTypeProperties);
+            compare.IsOpening = true;
             compare.IsDictionaryEntry = true;
             compare.DictionaryKey = new Key { TypeName = keyTypeName };
-            if (dictionaryEntryProperties != null)
-                dictionaryEntryProperties(new ComplexTypeDsl(compare));
+            if (dictionaryKeyProperties != null)
+                dictionaryKeyProperties(new DictionaryKeyDsl(compare));
+            source.ShouldMatchData(compare);
+        }
+
+        public static void ShouldBeClosingComplexTypeDictionaryEntry(
+            this DataDescription source, string name, int level,
+            Action<ComplexTypeDsl> complexTypeProperties = null)
+        {
+            var compare = CreateComplexType(name, level, complexTypeProperties);
+            compare.IsClosing = true;
+            compare.IsDictionaryEntry = true;
             source.ShouldMatchData(compare);
         }
 
@@ -528,13 +773,13 @@ namespace Tests.Specification
 
         // Common assertion DSL's
 
-        public class DictionaryEntryDsl
+        public class DictionaryKeyDsl
         {
             private readonly Key _key;
-            public DictionaryEntryDsl(DataDescription data) { _key = data.DictionaryKey; }
-            public DictionaryEntryDsl Comments(string comments) { _key.Comments = comments; return this; }
+            public DictionaryKeyDsl(DataDescription data) { _key = data.DictionaryKey; }
+            public DictionaryKeyDsl KeyComments(string comments) { _key.Comments = comments; return this; }
 
-            public OptionDsl Options
+            public OptionDsl KeyOptions
             {
                 get { return new OptionDsl(_key.Options = _key.Options ?? new List<Option>()); }
             }
@@ -629,7 +874,7 @@ namespace Tests.Specification
             {
                 source.DictionaryKey.TypeName.ShouldEqual(compare.DictionaryKey.TypeName);
                 source.DictionaryKey.Comments.ShouldEqual(compare.DictionaryKey.Comments);
-                source.DictionaryKey.Options.ShouldEqualOptions(compare.Options);
+                source.DictionaryKey.Options.ShouldEqualOptions(compare.DictionaryKey.Options);
             }
         }
 

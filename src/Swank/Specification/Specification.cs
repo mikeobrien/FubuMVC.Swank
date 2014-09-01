@@ -150,10 +150,12 @@ namespace FubuMVC.Swank.Specification
 
     public class DictionaryEntry
     {
-        public string KeyComments { get; set; }
+        public string KeyName { get; set; }
         public DataType KeyType { get; set; }
-        public string ValueComments { get; set; }
+        public string KeyComments { get; set; }
+
         public DataType ValueType { get; set; }
+        public string ValueComments { get; set; }
     }
 
     public class Member : IDescription

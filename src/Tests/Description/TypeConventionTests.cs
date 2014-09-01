@@ -126,23 +126,33 @@ namespace Tests.Description
 
         public class WithNoArrayComments : List<int> { }
 
-        [ArrayComments]
+        [ArrayDescription]
         public class WithEmptyArrayComments : List<int> { }
 
-        [ArrayComments("This is an array comment.", "This is an item comment.")]
+        [ArrayDescription("ArrayName", "This is an array comment.", "ItemName", "This is an item comment.")]
         public class WithArrayComments : List<int> { }
 
         [Test]
         public void should_return_null_array_comments_if_not_specified(
             [Values(typeof(WithNoArrayComments), typeof(WithEmptyArrayComments))] Type type)
         {
-            GetDescription(type).Comments.ShouldBeNull();
+            var description = GetDescription(type);
+
+            description.Name.ShouldEqual("ArrayOfInt");
+            description.Comments.ShouldBeNull();
+            description.ArrayItem.Name.ShouldBeNull();
+            description.ArrayItem.Comments.ShouldBeNull();
         }
 
         [Test]
         public void should_return_array_comments_if_specified()
         {
-            GetDescription<WithArrayComments>().Comments.ShouldEqual("This is an array comment.");
+            var description = GetDescription<WithArrayComments>();
+
+            description.Name.ShouldEqual("ArrayName");
+            description.Comments.ShouldEqual("This is an array comment.");
+            description.ArrayItem.Name.ShouldEqual("ItemName");
+            description.ArrayItem.Comments.ShouldEqual("This is an item comment.");
         }
 
         [Test]

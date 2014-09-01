@@ -12,7 +12,7 @@ namespace FubuMVC.Swank.Description
     {
         public virtual MemberDescription GetDescription(PropertyInfo property)
         {
-            var arrayComments = property.GetAttribute<ArrayCommentsAttribute>();
+            var arrayDescription = property.GetAttribute<ArrayDescriptionAttribute>();
             var dictionaryDescription = property.GetAttribute<DictionaryDescriptionAttribute>();
             var description = property.GetAttribute<DescriptionAttribute>();
             var obsolete = property.GetAttribute<ObsoleteAttribute>();
@@ -21,11 +21,8 @@ namespace FubuMVC.Swank.Description
                 Name = description.WhenNotNull(x => x.Name).OtherwiseDefault() ??
                     property.GetCustomAttribute<XmlElementAttribute>().WhenNotNull(x => x.ElementName).OtherwiseDefault() ??
                     property.GetCustomAttribute<DataMemberAttribute>().WhenNotNull(x => x.Name).OtherwiseDefault() ??
-                    dictionaryDescription.WhenNotNull(x => x.Name).OtherwiseDefault() ??
                     property.Name,
-                Comments = arrayComments.WhenNotNull(x => x.Comments).OtherwiseDefault() ??
-                    dictionaryDescription.WhenNotNull(x => x.Comments).OtherwiseDefault() ??
-                    description.WhenNotNull(x => x.Comments).OtherwiseDefault() ??
+                Comments = description.WhenNotNull(x => x.Comments).OtherwiseDefault() ??
                     property.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments).OtherwiseDefault(),
                 DefaultValue = property.GetCustomAttribute<DefaultValueAttribute>()
                                        .WhenNotNull(x => x.Value).OtherwiseDefault(),
@@ -37,9 +34,9 @@ namespace FubuMVC.Swank.Description
                 DeprecationMessage = obsolete.WhenNotNull(x => x.Message).OtherwiseDefault(),
                 ArrayItem = new Description
                 {
-                    Name = property.GetAttribute<XmlArrayItemAttribute>()
-                                   .WhenNotNull(x => x.ElementName).OtherwiseDefault(),
-                    Comments = arrayComments.WhenNotNull(x => x.ItemComments).OtherwiseDefault()
+                    Name = property.GetAttribute<XmlArrayItemAttribute>().WhenNotNull(x => x.ElementName).OtherwiseDefault() ??
+                           arrayDescription.WhenNotNull(x => x.ItemName).OtherwiseDefault(),
+                    Comments = arrayDescription.WhenNotNull(x => x.ItemComments).OtherwiseDefault()
                 },
                 DictionaryEntry = new DictionaryDescription
                 {

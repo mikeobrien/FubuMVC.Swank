@@ -55,7 +55,7 @@ namespace FubuMVC.Swank.Specification
             if (type.IsDictionary())
                 BuildDictionary(dataType, type, description, inputGraph, ancestors, memberDescription);
             else if (type.IsArray || type.IsList())
-                BuildList(dataType, type, description, inputGraph, ancestors, memberDescription);
+                BuildArray(dataType, type, description, inputGraph, ancestors, memberDescription);
             else if (type.IsSimpleType()) BuildSimpleType(dataType, type);
             else BuildComplexType(dataType, type, inputGraph, ancestors, action);
 
@@ -72,10 +72,11 @@ namespace FubuMVC.Swank.Specification
         {
             var types = type.GetGenericDictionaryTypes();
             dataType.IsDictionary = true;
-            dataType.Comments = memberDescription.WhenNotNull(x => x.Comments)
-                .OtherwiseDefault() ?? dataType.Comments;
+            dataType.Comments = memberDescription.WhenNotNull(x => x.Comments).OtherwiseDefault() ?? dataType.Comments;
             dataType.DictionaryEntry = new DictionaryEntry
             {
+                KeyName = memberDescription.WhenNotNull(x => x.DictionaryEntry.KeyName).OtherwiseDefault() ??
+                          typeDescription.WhenNotNull(x => x.DictionaryEntry.KeyName).OtherwiseDefault(),
                 KeyComments = memberDescription.WhenNotNull(x => x.DictionaryEntry.KeyComments).OtherwiseDefault() ??
                               typeDescription.WhenNotNull(x => x.DictionaryEntry.KeyComments).OtherwiseDefault(),
                 KeyType = BuildGraph(types.Key, inputGraph, ancestors),
@@ -85,7 +86,7 @@ namespace FubuMVC.Swank.Specification
             };
         }
 
-        private void BuildList(
+        private void BuildArray(
             DataType dataType,
             Type type,
             TypeDescription typeDescription,
@@ -94,10 +95,12 @@ namespace FubuMVC.Swank.Specification
             MemberDescription memberDescription)
         {
             dataType.IsArray = true;
+            dataType.Comments = memberDescription.WhenNotNull(x => x.Comments).OtherwiseDefault() ?? dataType.Comments;
             var itemType = BuildGraph(type.GetListElementType(), inputGraph, ancestors);
             dataType.ArrayItem = new ArrayItem
             {
-                Name = memberDescription.WhenNotNull(x => x.ArrayItem.Name).OtherwiseDefault() ?? itemType.Name,
+                Name = memberDescription.WhenNotNull(x => x.ArrayItem.Name).OtherwiseDefault() ??
+                       typeDescription.WhenNotNull(x => x.ArrayItem.Name).OtherwiseDefault() ?? itemType.Name,
                 Comments = memberDescription.WhenNotNull(x => x.ArrayItem.Comments).OtherwiseDefault() ??
                            typeDescription.ArrayItem.WhenNotNull(x => x.Comments).OtherwiseDefault(),
                 Type = itemType
