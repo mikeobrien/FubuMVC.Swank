@@ -131,6 +131,7 @@ namespace FubuMVC.Swank.Specification
                     !x.IsUrlParameter(action))
                 .Select(x => new
                 {
+                    Property = x,
                     Ancestors = ancestors.Concat(type),
                     Type = x.PropertyType,
                     UnwrappedType = x.PropertyType.UnwrapType(),
@@ -138,7 +139,7 @@ namespace FubuMVC.Swank.Specification
                 })
                 .Where(x => x.Ancestors.All(y => y != x.UnwrappedType) &&
                             !x.Description.Hidden)
-                .Select(x => new Member
+                .Select(x => _configuration.MemberOverrides.Apply(x.Property, new Member
                 {
                     Name = x.Description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                     Comments = x.Description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
@@ -149,7 +150,7 @@ namespace FubuMVC.Swank.Specification
                     Deprecated = x.Description.Deprecated,
                     DeprecationMessage = x.Description.DeprecationMessage,
                     Type = BuildGraph(x.Type, inputGraph, ancestors, x.Description)
-                }).ToList();
+                })).ToList();
         }
     }
 }

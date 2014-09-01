@@ -56,8 +56,9 @@ namespace Tests.Specification.OverrideTests
                 .OverrideTypesWhen((y, z) => z.Comments = z.Comments + "3", (y, z) => z.Comments.EndsWith("2"))
                 .OverrideTypesWhen((y, z) => z.Comments = z.Comments + "4", (y, z) => z.Comments.EndsWith("2")));
 
-            spec.Types[0].Name.ShouldEqual("Data1");
-            spec.Types[0].Comments.ShouldEqual("Some comments23");
+            var request = spec.Modules[0].Resources[0].Endpoints[0].Request.Description[0];
+            request.Name.ShouldEqual("Data1");
+            request.Comments.ShouldEqual("Some comments23");
         }
 
         [Test]
@@ -68,9 +69,10 @@ namespace Tests.Specification.OverrideTests
                 .OverrideMembers((y, z) => z.Comments = z.Comments + "2")
                 .OverrideMembersWhen((y, z) => z.Comments = z.Comments + "3", (y, z) => z.Comments.EndsWith("2"))
                 .OverrideMembersWhen((y, z) => z.Comments = z.Comments + "4", (y, z) => z.Comments.EndsWith("2")));
-
-            spec.Types[0].Members[0].Name.ShouldEqual("Id1");
-            spec.Types[0].Members[0].Comments.ShouldEqual("Some comments23");
+            
+            var request = spec.Modules[0].Resources[0].Endpoints[0].Request.Description[1];
+            request.Name.ShouldEqual("Id1");
+            request.Comments.ShouldEqual("Some comments23");
         }
 
         [Test]
@@ -82,9 +84,10 @@ namespace Tests.Specification.OverrideTests
                 .OverrideOptionsWhen((y, z) => z.Comments = z.Comments + "3", (y, z) => z.Comments.EndsWith("2"))
                 .OverrideOptionsWhen((y, z) => z.Comments = z.Comments + "4", (y, z) => z.Comments.EndsWith("2")));
 
-            new NotImplementedException();
-            //spec.Types[0].Members[0].Options[0].Name.ShouldEqual("SomeName1");
-            //spec.Types[0].Members[0].Options[0].Comments.ShouldEqual("Some comments23");
+
+            var request = spec.Modules[0].Resources[0].Endpoints[0].Request.Description[1];
+            request.Options[0].Name.ShouldEqual("SomeName1");
+            request.Options[0].Comments.ShouldEqual("Some comments23");
         }
 
         [Test]
@@ -117,22 +120,22 @@ namespace Tests.Specification.OverrideTests
         public void should_override_request()
         {
             var spec = BuildSpec<Handlers.PostHandler>(x => x
-                .OverrideRequest((a, b) => b.Comments = b.Comments + "2")
-                .OverrideRequestWhen((a, b) => b.Comments = b.Comments + "3", (a, b) => b.Comments.EndsWith("2"))
-                .OverrideRequestWhen((a, b) => b.Comments = b.Comments + "4", (a, b) => b.Comments.EndsWith("2")));
+                .OverrideRequest((a, b) => b.Comments += "2")
+                .OverrideRequestWhen((a, b) => b.Comments += "3", (a, b) => b.Comments.EndsWith("2"))
+                .OverrideRequestWhen((a, b) => b.Comments += "4", (a, b) => b.Comments.EndsWith("2")));
 
-            spec.Modules[0].Resources[0].Endpoints[0].Request.Comments.ShouldEqual("Some comments23");
+            spec.Modules[0].Resources[0].Endpoints[0].Request.Comments.ShouldEqual("Some request comments23");
         }
 
         [Test]
         public void should_override_response()
         {
             var spec = BuildSpec<Handlers.GetHandler>(x => x
-                .OverrideResponse((a, b) => b.Comments = b.Comments + "2")
-                .OverrideResponseWhen((a, b) => b.Comments = b.Comments + "3", (a, b) => b.Comments.EndsWith("2"))
-                .OverrideResponseWhen((a, b) => b.Comments = b.Comments + "4", (a, b) => b.Comments.EndsWith("2")));
+                .OverrideResponse((a, b) => b.Comments += "2")
+                .OverrideResponseWhen((a, b) => b.Comments += "3", (a, b) => b.Comments.EndsWith("2"))
+                .OverrideResponseWhen((a, b) => b.Comments += "4", (a, b) => b.Comments.EndsWith("2")));
 
-            spec.Modules[0].Resources[0].Endpoints[1].Response.Comments.ShouldEqual("Some comments23");
+            spec.Modules[0].Resources[0].Endpoints[1].Response.Comments.ShouldEqual("Some response comments23");
         }
 
         [Test]

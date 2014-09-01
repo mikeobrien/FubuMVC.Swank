@@ -654,7 +654,7 @@ namespace FubuMVC.Swank
         /// </summary>
         public Swank OverrideResponse(Action<BehaviorChain, Specification.Data> @override)
         {
-            //_configuration.ResponseOverrides.Add(@override);
+            _configuration.ResponseOverrides.Add(@override);
             return this;
         }
 

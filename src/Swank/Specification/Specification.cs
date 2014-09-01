@@ -6,7 +6,6 @@ namespace FubuMVC.Swank.Specification
     {
         public string Name { get; set; }
         public string Comments { get; set; }
-        public List<DataType> Types { get; set; }
         public List<Module> Modules { get; set; }
     }
 

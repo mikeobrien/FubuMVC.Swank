@@ -169,12 +169,8 @@ namespace FubuMVC.Swank.Specification
                         QuerystringParameters = querystring,
                         StatusCodes = GetStatusCodes(chain),
                         Headers = GetHeaders(chain),
-                        Request = chain.FirstCall().HasInput && (route.AllowsPost() || route.AllowsPut())
-                            ? _configuration.RequestOverrides.Apply(chain, GetRequestData(chain, endpoint))
-                            : null,
-                        Response = chain.LastCall().HasOutput
-                            ? _configuration.ResponseOverrides.Apply(chain, GetResponseData(chain, endpoint))
-                            : null
+                        Request = GetRequestData(chain, endpoint),
+                        Response = GetResponseData(chain, endpoint)
                     });
                 }).OrderBy(x => x.Url.Split('?').First()).ThenBy(x => HttpVerbRank(x.Method)).ToList();
         }
@@ -187,22 +183,22 @@ namespace FubuMVC.Swank.Specification
                 chain.Route.AllowsGet() ||
                 chain.Route.AllowsDelete()) return null;
 
-            return new Data
+            return _configuration.RequestOverrides.Apply(chain, new Data
             {
                 Comments = endpoint.RequestComments,
                 Description = _dataDescriptionFactory.Create(_typeGraphFactory.BuildGraph(firstCall.InputType(), chain.FirstCall()))
-            };
+            });
         }
 
         private Data GetResponseData(BehaviorChain chain, EndpointDescription endpoint)
         {
             var lastCall = chain.LastCall();
             if (!lastCall.HasOutput) return null;
-            return new Data
+            return _configuration.ResponseOverrides.Apply(chain, new Data
             {
                 Comments = endpoint.ResponseComments,
                 Description = _dataDescriptionFactory.Create(_typeGraphFactory.BuildGraph(lastCall.OutputType()))
-            };
+            });
         }
 
         private List<UrlParameter> GetUrlParameters(BehaviorChain chain)
@@ -240,7 +236,7 @@ namespace FubuMVC.Swank.Specification
                         Options = _optionFactory.BuildOptions(x.Value.PropertyType),
                         DefaultValue = description.DefaultValue.WhenNotNull(y => y.ToDefaultValueString(_configuration)).OtherwiseDefault(),
                         MultipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList(),
-                        Required = description.Optional
+                        Required = !description.Optional
                     });
                 }).OrderBy(x => x.Name).ToList();
         }

@@ -53,7 +53,7 @@ namespace Tests.Specification
         }
 
         [Test]
-        public void should_create_overrided_type()
+        public void should_override_type()
         {
             var type = CreateFactory(x => x.TypeOverrides.Add((t, d) =>
             {
@@ -63,6 +63,26 @@ namespace Tests.Specification
 
             type.Name.ShouldEqual("TypeWithCommentsTypeWithComments");
             type.Comments.ShouldEqual("This is a type.TypeWithComments");
+        }
+
+        public class TypeWithOverridedMember
+        {
+            [Comments("This is a member.")]
+            public string Member { get; set; }
+        }
+
+        [Test]
+        public void should_override_type_members()
+        {
+            var type = CreateFactory(x => x.MemberOverrides.Add((p, m) =>
+            {
+                m.Name += p.Name;
+                m.Comments += p.Name;
+            })).BuildGraph(typeof(TypeWithOverridedMember));
+
+            var member = type.Members.Single();
+            member.Name.ShouldEqual("MemberMember");
+            member.Comments.ShouldEqual("This is a member.Member");
         }
 
         // Simple types
@@ -605,6 +625,36 @@ namespace Tests.Specification
             should_be_complex_type(CreateFactory()
                 .BuildGraph(typeof(CyclicDictionaryModel)), 1)
                 .Members.Single().Name.ShouldEqual("Member");
+        }
+
+        public class ComplexTypeWithHiddenMember
+        {
+            [Hide]
+            public string HiddenMember { get; set; }
+        }
+
+        [Test]
+        public void should_exclude_a_member_if_it_is_hidden()
+        {
+            CreateFactory().BuildGraph(
+                typeof(ComplexTypeWithHiddenMember))
+                .Members.Any(x => x.Name == "HiddenMember").ShouldBeFalse();
+        }
+
+        [Hide]
+        public class HiddenType { }
+
+        public class ComplexTypeWithHiddenTypeMember
+        {
+            public HiddenType HiddenTypeMember { get; set; }
+        }
+
+        [Test]
+        public void should_exclude_a_member_if_its_type_is_hidden()
+        {
+            CreateFactory().BuildGraph(
+                typeof(ComplexTypeWithHiddenTypeMember))
+                .Members.Any(x => x.Name == "HiddenTypeMember").ShouldBeFalse();
         }
 
         public class ComplexTypeWithDeprecatedMembers

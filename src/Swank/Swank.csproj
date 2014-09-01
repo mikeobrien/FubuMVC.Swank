@@ -112,6 +112,7 @@
     <Compile Include="Description\ArrayDescriptionAttribute.cs" />
     <Compile Include="Description\Assert.cs" />
     <Compile Include="Description\DictionaryDescriptionAttribute.cs" />
+    <Compile Include="Documentation\DataGetHandler.cs" />
     <Compile Include="Extensions\LazyCache.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="Extensions\Xml.cs" />

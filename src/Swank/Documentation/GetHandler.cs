@@ -38,10 +38,5 @@ namespace FubuMVC.Swank.Documentation
                 Specification = _specification.Value
             };
         }
-
-        public Specification.Specification DataExecute()
-        {
-            return _specification.Value;
-        }
     }
 }

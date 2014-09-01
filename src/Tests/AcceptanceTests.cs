@@ -45,7 +45,6 @@ namespace Tests
         {
             var spec = _testWebsite.DownloadString("documentation/data", "application/json")
                 .DeserializeJson<FubuMVC.Swank.Specification.Specification>();
-            spec.Types.ShouldNotBeNull();
             spec.Modules.ShouldNotBeNull();
         }
 

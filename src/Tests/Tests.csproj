@@ -106,9 +106,6 @@
     <Compile Include="Specification\SpecificationService\EndpointTests\HeadersTests.cs" />
     <Compile Include="Specification\SpecificationService\Tests\Handlers.cs" />
     <Compile Include="Specification\SpecificationService\Tests\Tests.cs" />
-    <Compile Include="Specification\SpecificationService\TypeTests\MemberTests.cs" />
-    <Compile Include="Specification\SpecificationService\TypeTests\Handlers.cs" />
-    <Compile Include="Specification\SpecificationService\TypeTests\Tests.cs" />
     <Compile Include="Description\TypeConventionTests.cs" />
     <Compile Include="Description\StatusCodeConventionTests.cs" />
     <Compile Include="Description\OptionConventionTests.cs" />

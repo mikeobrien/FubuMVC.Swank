@@ -26,7 +26,7 @@ namespace FubuMVC.Swank.Description
                     property.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments).OtherwiseDefault(),
                 DefaultValue = property.GetCustomAttribute<DefaultValueAttribute>()
                                        .WhenNotNull(x => x.Value).OtherwiseDefault(),
-                Optional = property.HasAttribute<OptionalAttribute>() && !property.PropertyType.IsNullable(),
+                Optional = property.HasAttribute<OptionalAttribute>() || property.PropertyType.IsNullable(),
                 Hidden = property.PropertyType.HasAttribute<HideAttribute>() || 
                     property.HasAttribute<HideAttribute>() ||
                     property.HasAttribute<XmlIgnoreAttribute>(),

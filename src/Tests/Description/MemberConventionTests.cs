@@ -37,6 +37,8 @@ namespace Tests.Description
             [Optional]
             public string Optional { get; set; }
 
+            public int? Nullable { get; set; }
+
             [XmlArrayItem("ItemName")]
             public string WithArrayItemName { get; set; }
 
@@ -133,6 +135,12 @@ namespace Tests.Description
         public void should_return_optional_if_specified()
         {
             GetDescription("Optional").Optional.ShouldBeTrue();
+        }
+
+        [Test]
+        public void should_return_optional_if_nullable()
+        {
+            GetDescription("Nullable").Optional.ShouldBeTrue();
         }
 
         [Test]
