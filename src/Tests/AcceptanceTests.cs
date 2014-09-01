@@ -51,13 +51,13 @@ namespace Tests
         [Test]
         public void should_return_style_content()
         {
-            _testWebsite.DownloadString("_content/swank/swank.css").ShouldNotBeEmpty();
+            _testWebsite.DownloadString("_content/swank/css/swank.css").ShouldNotBeEmpty();
         }
 
         [Test]
         public void should_return_js_content()
         {
-            _testWebsite.DownloadString("_content/swank/swank.js").ShouldNotBeEmpty();
+            _testWebsite.DownloadString("_content/swank/js/swank.js").ShouldNotBeEmpty();
         }
     }
 }
