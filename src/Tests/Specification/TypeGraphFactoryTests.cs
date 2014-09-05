@@ -138,9 +138,9 @@ namespace Tests.Specification
         }
 
         [Test]
-        public void should_create_simple_type_string_options()
+        public void should_create_simple_type_string_options(
+            [Values(typeof(Options), typeof(Options?))]Type type)
         {
-            var type = typeof(Options);
             var dataType = CreateFactory().BuildGraph(type);
 
             dataType.Name.ShouldEqual("int");
@@ -159,9 +159,9 @@ namespace Tests.Specification
         }
 
         [Test]
-        public void should_create_simple_type_numeric_options()
+        public void should_create_simple_type_numeric_options(
+            [Values(typeof(Options), typeof(Options?))]Type type)
         {
-            var type = typeof(Options);
             var dataType = CreateFactory(x => x.EnumValue = EnumValue.AsString).BuildGraph(type);
 
             dataType.Name.ShouldEqual("string");

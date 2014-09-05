@@ -31,6 +31,11 @@ namespace FubuMVC.Swank.Specification
             else if (type.IsArray) WalkArray(data, type, level, opening, closing);
             else if (type.IsDictionary) WalkDictionary(data, type, level, opening, closing);
             else if (type.IsComplex) WalkComplexType(data, type, level, opening, closing);
+            if (level == 0)
+            {
+                data.First().IsFirst = true;
+                data.Last().IsLast = true;
+            }
         }
 
         private void WalkSimpleType(

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using FubuCore;
 using FubuCore.Reflection;
@@ -34,9 +35,10 @@ namespace FubuMVC.Swank.Description
 
             if (comments.IsEmpty())
             {
-                comments = action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName + "." + action.Method.Name) ??
-                            (!action.HandlerType.HasAttribute<ResourceAttribute>() ?
-                                action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName) : null);
+                comments = action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName + "." + 
+                    action.GetRouteParameters().Join(x => x.Name, "."));
+                if (comments == null && !action.HandlerType.HasAttribute<ResourceAttribute>()) 
+                    comments = action.HandlerType.Assembly.FindTextResourceNamed(action.HandlerType.FullName);
             }
             return comments;
         }

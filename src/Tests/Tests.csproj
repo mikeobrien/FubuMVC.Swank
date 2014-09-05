@@ -88,6 +88,7 @@
     <Compile Include="AcceptanceTests.cs" />
     <Compile Include="Description\HeaderConventionTests.cs" />
     <Compile Include="EmbeddedCommentsTests.cs" />
+    <Compile Include="ExtensionTests\StringTests.cs" />
     <Compile Include="ExtensionTests\FubuTests.cs" />
     <Compile Include="Specification\ActionSourceTests\Handlers.cs" />
     <Compile Include="Specification\ActionSourceTests\Tests.cs" />
@@ -137,7 +138,7 @@
     <EmbeddedResource Include="Description\ResourceConventionTests\ResourceDescriptions\EmbeddedMarkdownComments\Resource.md" />
     <EmbeddedResource Include="Description\ModuleConventionTests\ModuleDescriptions\EmbeddedMarkdownComments\Module.md" />
     <EmbeddedResource Include="Description\MarkerConventionTests\MarkerDescriptions\EmbeddedMarkdownComments\Description.md" />
-    <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Execute_EmbeddedDescription.md" />
+    <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Id.Sort.md" />
     <EmbeddedResource Include="Description\EndpointConventionTests\ControllerResource\Controller.md" />
     <EmbeddedResource Include="Description\MarkerConventionTests\MarkerCommentsPriority\Description.md" />
     <EmbeddedResource Include="Description\ResourceConventionTests\ResourceCommentsPriority\Resource.md" />
@@ -147,7 +148,7 @@
     <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\ResponseDescription\EmbeddedHandlerDescriptionGetHandler.Response.md" />
     <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\ResponseDescription\EmbeddedDescriptionGetHandler.Execute.Response.md" />
     <None Include="packages.config" />
-    <EmbeddedResource Include="Specification\SpecificationService\EndpointTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.Execute_EmbeddedDescription.md" />
+    <EmbeddedResource Include="Specification\SpecificationService\EndpointTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.md" />
     <EmbeddedResource Include="ExtensionTests\EmbeddedMarkdownResource.md" />
     <EmbeddedResource Include="Specification\SpecificationService\ModuleTests\ModuleDescriptions\EmbeddedMarkdownComments\Module.md" />
     <EmbeddedResource Include="Specification\SpecificationService\ResourceTests\ResourceDescriptions\EmbeddedMarkdownComments\Resource.md" />

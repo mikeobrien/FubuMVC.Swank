@@ -9,6 +9,10 @@ body {
     min-height: 600px;
 }
 
+.download-icon {
+    font-size: 16px;
+}
+
 .footer {
     padding: 30px 0;
     margin-top: 70px;
@@ -35,9 +39,26 @@ blockquote p {
     padding: 9px 0;
 }
 
+.navbar {
+    font-size: 14px;
+}
+
 .navbar-inner .container {
     width: 100%;
     padding-left: 10px;
+}
+
+.tab-content {
+    background-color: white;
+    padding: 1px 10px 1px 10px;
+    border: 1px solid #ddd;
+    border-top-color: transparent;
+}
+
+.dropdown-menu .glyphicon
+{
+    font-size: 12px;
+    padding-right: 8px;
 }
 
 .btn {
@@ -77,7 +98,11 @@ blockquote p {
     border-color: #E2BD71;
 }
 
-.code-inline {
+pre code {
+    border: 0;
+}
+
+code {
     border: 1px solid #e1e1e8;
 }
 
@@ -137,6 +162,14 @@ blockquote p {
     background-color: #F9F9F9;
 }
 
+td .table {
+    margin-top: 10px;
+}
+
+.table > tbody > tr > td {
+    line-height: 20px;
+}
+
 /* Request/response documentation */
 
 .sample-selector-header {
@@ -155,7 +188,7 @@ blockquote p {
 .sample-copy-hint {
     float: right;
     line-height: 26px;
-    color: #8B8B8;
+    color: #8B8B8B;
     font-weight: normal;
     padding-right: 5px
 }
@@ -170,8 +203,7 @@ blockquote p {
     font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
     cursor: hand;
     cursor: pointer;
-    width: 350px;
-    max-width: 350px;
+    max-width: 450px;
     white-space:nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -291,14 +323,15 @@ blockquote p {
     display: inline-block;
     padding: 3px 0 3px 10px;
     vertical-align: middle;
-    font-size: 16px;
+    font-size: 14px;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     margin: 0;
     max-width: 670px;
 }
 
 .endpoint-name {
     float: right;
-    margin: 6px 5px 0 0;
+    margin: 8px 5px 0 0;
     max-width: 170px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -306,7 +339,7 @@ blockquote p {
 
 .endpoint-toggle {
     float: right;
-    margin: 5px 10px 0 0;
+    margin: 9px 10px 0 0;
 }
 
 .endpoint-body {
@@ -327,4 +360,12 @@ blockquote p {
     -khtml-border-bottom-right-radius: 6px;
     border-bottom-right-radius: 6px;
     margin: 0 0 20px 0;
+}
+
+/* Code examples */
+
+.code-example {
+    min-width: 250px;
+    cursor: hand;
+    cursor: pointer;
 }

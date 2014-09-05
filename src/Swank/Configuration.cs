@@ -16,6 +16,14 @@ namespace FubuMVC.Swank
 
     public class Configuration
     {
+        public class Example
+        {
+            public string Filename { get; set; }
+            public string Name { get; set; }
+            public string Comments { get; set; }
+            public string Template { get; set; }
+        }
+
         public class Service<T>
         {
             public Type Type { get; set; }
@@ -24,7 +32,7 @@ namespace FubuMVC.Swank
 
         public Configuration()
         {
-            Url = "specification";
+            Url = "";
             Name = "API";
             Comments = "Comments";
             Copyright = "Copyright &copy; {0}".ToFormat(DateTime.Now.Year);
@@ -42,6 +50,8 @@ namespace FubuMVC.Swank
             DefaultDictionaryKeyName = "key";
 
             EnumValue = EnumValue.AsNumber;
+
+            CodeExamples = new List<Example>();
 
             DefaultValueDateTimeFormat = "g";
             DefaultValueIntegerFormat = "0";
@@ -79,7 +89,7 @@ namespace FubuMVC.Swank
             MemberOverrides = new List<Action<PropertyInfo, Member>>();
             OptionOverrides = new List<Action<FieldInfo, Option>>();
         }
-        
+
         public string Url { get; set; }
         public string Name { get; set; }
         public string Comments { get; set; }
@@ -100,6 +110,8 @@ namespace FubuMVC.Swank
         public string DefaultDictionaryKeyName { get; set; }
 
         public EnumValue EnumValue { get; set; }
+
+        public List<Configuration.Example> CodeExamples { get; set; }
 
         public string DefaultValueDateTimeFormat { get; set; }
         public string DefaultValueIntegerFormat { get; set; }

@@ -13,7 +13,7 @@ namespace FubuMVC.Swank.Documentation
             _specification.UseFactory(specificationService.Generate);
         }
 
-        public Specification.Specification DataExecute()
+        public Specification.Specification SpecExecute()
         {
             return _specification.Value;
         }

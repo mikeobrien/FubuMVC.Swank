@@ -27,7 +27,8 @@ namespace FubuMVC.Swank.Description
              var types = assembly.GetTypes().Where(x => x.IsPublic).ToList();
              var validNames = types.Select(x => x.FullName)
                   .Concat(types.Select(x => x.Namespace).Distinct())
-                  .Concat(types.SelectMany(x => x.GetMethods().Where(y => y.IsPublic).Select(y => x.FullName + "." + y.Name)))
+                  .Concat(types.SelectMany(x => x.GetMethods().Where(y => y.IsPublic)
+                      .Select(y => x.FullName + "." + y.Name.Replace("Execute_", "").Replace("_", "."))))
                   .Join(new[] { "", ".Resource", ".Request", ".Response" }, x => true, x => true, (x, y) => x + y)
                   .Join(new[] { ".md", ".html", ".txt" }, x => true, x => true, (x, y) => x + y)
                   .ToList();

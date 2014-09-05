@@ -289,6 +289,9 @@
     <Content Include="fubu-content\FubuMVC.Diagnostics\WebContent\Shared\_global.spark" />
     <Content Include="fubu-content\FubuMVC.Diagnostics\WebContent\Visualization\BehaviorNode.spark" />
     <Content Include="fubu-content\FubuMVC.Diagnostics\WebContent\web.config" />
+    <EmbeddedResource Include="CodeExamples\CSharp.md" />
+    <EmbeddedResource Include="CodeExamples\CSharp.mustache" />
+    <EmbeddedResource Include="CodeExamples\Curl.mustache" />
     <None Include="fubu-content\FubuMVC.Diagnostics\WebContent\web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

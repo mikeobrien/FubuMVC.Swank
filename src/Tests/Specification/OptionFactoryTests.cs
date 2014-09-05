@@ -38,9 +38,10 @@ namespace Tests.Specification
         }
 
         [Test]
-        public void should_return_options_in_alphanumeric_order()
+        public void should_return_options_in_alphanumeric_order(
+            [Values(typeof(EnumOrder), typeof(EnumOrder?))]Type type)
         {
-            var options = GetOptions<EnumOrder>();
+            var options = GetOptions(type);
 
             options.Count.ShouldEqual(3);
 

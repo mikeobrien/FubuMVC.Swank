@@ -6,6 +6,12 @@ namespace FubuMVC.Swank.Extensions
 {
     public static class LinqExtensions
     {
+        public static string Join<TItem, TResult>(
+            this IEnumerable<TItem> source, Func<TItem, TResult> result, string delimiter)
+        {
+            return string.Join(delimiter, source.Select(result).ToArray());
+        } 
+
         public static IEnumerable<TResult> SelectDistinct<TItem, TResult>(
             this IEnumerable<TItem> source, Func<TItem, TResult> result)
         {

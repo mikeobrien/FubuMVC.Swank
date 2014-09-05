@@ -44,6 +44,11 @@ namespace FubuMVC.Swank.Extensions
             return type;
         }
 
+        public static Type GetNullableUnderlyingType(this Type type)
+        {
+            return type.IsNullable() ? type.GetInnerTypeFromNullable() : type;
+        }
+
         // Lists
 
         private static readonly Type[] ListTypes = { typeof(IList<>), typeof(List<>) };
@@ -131,6 +136,13 @@ namespace FubuMVC.Swank.Extensions
         public static string FindTextResourceNamed(this Assembly assembly, params string[] names)
         {
             return FindTextResourceNamed(assembly, names.AsEnumerable());
+        }
+
+        public static string FindTextResourceNamed(this IEnumerable<Assembly> assemblies, params string[] names)
+        {
+            return assemblies
+                .Select(x => x.FindTextResourceNamed(names))
+                .FirstOrDefault(x => x != null);
         }
 
         public static string FindTextResourceNamed(this Assembly assembly, IEnumerable<string> names)

@@ -296,11 +296,11 @@ public class UserGetHandler
 public class UserGetHandler
 {
 	[Comments("These are some lovely comments.")]
-    public UserModel Execute_Id() { ... } 
+    public UserModel Execute_Id_Sort() { ... } 
 }
 ```
 
-Comments can alternatively be specified in an embedded file. The embedded filename must be the same as the handler class or the handler class plus the method name, save `.cs` the extension. For example the comments filename for the endpoint above would either be `UserGetHandler.[md|html|txt]` or `UserGetHandler.Execute_Id.[md|html|txt]`. If the handler class has more than one action or has the `ResourceAttribute` applied, the latter convention is required. 
+Comments can alternatively be specified in an embedded file. The embedded filename must be the same as the handler class and optionally folowed by a `.` seperated list of the url parameters if the class contains more than one action. For example the comments filename for the endpoint above would either be `UserGetHandler.[md|html|txt]` or `UserGetHandler.Id.Sort.[md|html|txt]`. If the handler class has more than one action or has the `ResourceAttribute` applied, the latter convention is required. 
 
 ##### Request/Response
 

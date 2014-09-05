@@ -82,9 +82,7 @@ namespace FubuMVC.Swank.Specification
 
             var specification = new Specification {
                     Name = _configuration.Name,
-                    Comments = _configuration.AppliesToAssemblies
-                        .Select(x => x.FindTextResourceNamed("*" + _configuration.Comments))
-                        .FirstOrDefault(x => x != null),
+                    Comments = _configuration.AppliesToAssemblies.FindTextResourceNamed("*" + _configuration.Comments),
                     Modules = modules
                 };
             return specification;

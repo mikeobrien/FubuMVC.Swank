@@ -72,8 +72,7 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// This defines the url of the specification endpoint.
-        /// The default is /specification.
+        /// This defines the url of the website endpoint. The default is /.
         /// </summary>
         public Swank AtUrl(string url)
         {
@@ -174,6 +173,35 @@ namespace FubuMVC.Swank
         public Swank WithEnumValueTypeOf(EnumValue type)
         {
             _configuration.EnumValue = type;
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a code example to the documentation from an embedded resource. 
+        /// These are named as [filename].[md] for comments and [filename].[mustache] 
+        /// for templates. The name defaults to the filename if not specified.
+        /// </summary>
+        public Swank WithCodeExample(string filename, string name = null)
+        {
+            _configuration.CodeExamples.Add(new Configuration.Example
+            {
+                Filename = filename,
+                Name = name ?? filename
+            });
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a code example to the documentation.  
+        /// </summary>
+        public Swank WithCodeExample(string name, string comments, string template)
+        {
+            _configuration.CodeExamples.Add(new Configuration.Example
+            {
+                Name = name,
+                Comments = comments,
+                Template = template
+            });
             return this;
         }
 

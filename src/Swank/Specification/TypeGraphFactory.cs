@@ -110,7 +110,8 @@ namespace FubuMVC.Swank.Specification
         private void BuildSimpleType(DataType dataType, Type type)
         {
             dataType.IsSimple = true;
-            if (type.IsEnum) dataType.Options = _optionFactory.BuildOptions(type);
+            if (type.GetNullableUnderlyingType().IsEnum) 
+                dataType.Options = _optionFactory.BuildOptions(type);
         }
 
         private void BuildComplexType(

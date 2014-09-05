@@ -31,8 +31,10 @@ namespace TestHarness
                 .WithCopyright("Copyright &copy; {year} Test Harness")
                 .WithStylesheets("~/styles/style.css")
                 .WithScripts("~/scripts/script.js")
+                .WithCodeExample("Curl")
+                .WithCodeExample("CSharp", "C#")
                 .MergeThisSpecification("~/spec.json")
-                //.WithEnumValueTypeOf(EnumValue.AsString)
+                .WithEnumValueTypeOf(EnumValue.AsString)
                 .OverrideEndpoints((action, endpoint) => endpoint
                     .StatusCodes.Add(new StatusCode { Code = 404, Name = "Not Found", Comments = "The item was not found!" }))
                 .OverridePropertiesWhen((propertyinfo, property) => property.Comments = "This is the id of the user.",

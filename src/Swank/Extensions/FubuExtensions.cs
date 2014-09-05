@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Xml.Serialization;
 using FubuCore.Reflection;
 using FubuMVC.Core;
 using FubuMVC.Core.Http.AspNet;
@@ -13,7 +11,6 @@ using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Core.Registration.ObjectGraph;
 using FubuMVC.Core.Registration.Routes;
 using FubuMVC.Media.Projections;
-using FubuMVC.Swank.Description;
 
 namespace FubuMVC.Swank.Extensions
 {
@@ -22,6 +19,12 @@ namespace FubuMVC.Swank.Extensions
         public static bool IsSwank(this ActionCall action)
         {
             return action.HandlerType.Assembly == Assembly.GetExecutingAssembly();
+        }
+        
+        public static IEnumerable<RouteParameter> GetRouteParameters(this ActionCall action)
+        {
+            var input = action.ParentChain().Route.Input;
+            return input != null ? input.RouteParameters : Enumerable.Empty<RouteParameter>();
         }
 
         public static string GetRouteResource(this IRouteDefinition route)

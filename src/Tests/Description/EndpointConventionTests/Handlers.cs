@@ -21,7 +21,16 @@ namespace Tests.Description.EndpointConventionTests
 
         namespace ActionDescription
         {
-            public class EmbeddedDescriptionGetHandler { public object Execute_EmbeddedDescription(object request) { return null; } }
+            public class Request
+            {
+                public string Id { get; set; }
+                public string Sort { get; set; }
+            }
+
+            public class EmbeddedDescriptionGetHandler
+            {
+                public object Execute_Id_Sort(Request request) { return null; }
+            }
 
             public class AttrbuteCommentsGetHandler
             {

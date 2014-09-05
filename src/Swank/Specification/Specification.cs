@@ -83,6 +83,8 @@ namespace FubuMVC.Swank.Specification
     {
         public string Name { get; set; }
         public string Comments { get; set; }
+        public bool? IsFirst { get; set; }
+        public bool? IsLast { get; set; }
         public string TypeName { get; set; }
         public string DefaultValue { get; set; }
         public bool? Required { get; set; }

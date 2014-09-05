@@ -23,7 +23,8 @@ namespace FubuMVC.Swank.Specification
 
         public List<Option> BuildOptions(Type type)
         {
-            return !type.IsEnum || (type.IsNullable() && !Nullable.GetUnderlyingType(type).IsEnum) ? new List<Option>() :
+            type = type.GetNullableUnderlyingType();
+            return !type.IsEnum ? new List<Option>() :
                 type.GetEnumOptions()
                     .Select(x => new
                     {

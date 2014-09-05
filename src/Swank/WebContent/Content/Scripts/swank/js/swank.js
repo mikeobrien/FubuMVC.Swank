@@ -1,8 +1,4 @@
 ﻿$(function () {
-    
-    String.prototype.flatten = function() {
-        return this.trim().split(/\r?\n/).map(function(x) { return x.trim(); }).join('');
-    }
 
     var moduleTemplate = Handlebars.compile($('#swank-module-template').html());
     var resourceTemplate = Handlebars.compile($('#swank-resource-template').html());
@@ -14,9 +10,10 @@
     Handlebars.registerPartial("xmlDataFormat", $("#swank-data-xml-template").html().flatten());
     Handlebars.registerPartial("dataDescription", $("#swank-data-description-template").html());
     Handlebars.registerPartial("data", $("#swank-data-template").html());
+    Handlebars.registerPartial("codeExamples", $("#swank-code-examples-template").html());
     Handlebars.registerPartial("statusCodes", $("#swank-status-codes-template").html());
     Handlebars.registerPartial("options", $("#swank-options-template").html());
-
+    
     var render = function (id) {
             
         $('.nav').find('li').removeClass('active');
@@ -69,6 +66,16 @@
 
             $(window).resize(function () { $('.code-raw-container').remove(); });
 
+            function createCodeBox(top, left, width, height, code) {
+                var container = $('<div class="sample-code-raw-container" style="' +
+                    'top: ' + (top) + 'px;' +
+                    'left: ' + (left) + 'px;' +
+                    'width: ' + (width) + 'px;' +
+                    'height: ' + (height) + 'px;' +
+                    '"><textarea class="sample-code-raw">' + code + '</textarea></div>').appendTo(content);
+                $(container).find('textarea').select().blur(function (x) { $(x.target).parent().remove(); });
+            }
+
             $('td.sample-code').click(function () {
                 var table = $(this).closest("table");
                 var code = table.find('.sample-code.json:visible, .sample-code.xml:visible')
@@ -76,13 +83,21 @@
                     .get().join("\r\n");
                 var top = table.find('.sample-code:visible:first');
                 var bottom = table.find('.sample-code:visible:last');
-                var container = $('<div class="sample-code-raw-container" style="' +
-                    'top: ' + (top.offset().top + 1) + 'px;' +
-                    'left: ' + (top.offset().left + 1) + 'px;' +
-                    'width: ' + (top.outerWidth() - 2) + 'px;' +
-                    'height: ' + ((bottom.offset().top - top.offset().top) + bottom.outerHeight() - 2) + 'px;' +
-                    '"><textarea class="sample-code-raw">' + code + '</textarea></div>').appendTo(content);
-                $(container).find('textarea').select().blur(function (x) { $(x.target).parent().remove(); });
+                createCodeBox(
+                    top.offset().top + 1,
+                    top.offset().left + 1,
+                    top.outerWidth() - 2,
+                    (bottom.offset().top - top.offset().top) + bottom.outerHeight() - 2,
+                    code);
+            });
+
+            $('.code-example').click(function () {
+                createCodeBox(
+                    this.offsetTop,
+                    this.offsetLeft,
+                    this.offsetWidth,
+                    this.offsetHeight,
+                    $(this).text());
             });
         } else {
             content.html('No module our resource specified.');
