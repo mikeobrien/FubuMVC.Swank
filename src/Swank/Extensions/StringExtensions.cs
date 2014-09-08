@@ -16,6 +16,12 @@ namespace FubuMVC.Swank.Extensions
             return value[0].ToString().ToUpper() + (value.Length > 1 ? value.Substring(1) : "");
         }
 
+        public static string Hash(this string value)
+        {
+            using (var hash = MD5.Create())
+                return hash.ComputeHash(Encoding.Unicode.GetBytes(value)).ToHex().ToLower();
+        }
+
         private static string ToHex(this IEnumerable<byte> bytes)
         {
             return bytes.Select(b => string.Format("{0:X2}", b)).Aggregate((a, i) => a + i);

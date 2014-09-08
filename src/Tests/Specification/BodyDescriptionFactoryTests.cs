@@ -14,14 +14,14 @@ using Should;
 namespace Tests.Specification
 {
     [TestFixture]
-    public class DataDescriptionFactoryTests
+    public class BodyDescriptionFactoryTests
     {
         public List<DataDescription> BuildDescription(Type type,
             Action<Configuration> configure = null, ActionCall action = null)
         {
             var configuration = new Configuration();
             if (configure != null) configure(configuration);
-            return new DataDescriptionFactory(configuration).Create(new TypeGraphFactory(
+            return new BodyDescriptionFactory(configuration).Create(new TypeGraphFactory(
                 configuration,
                 new TypeDescriptorCache(),
                 new TypeConvention(configuration),
@@ -537,7 +537,7 @@ namespace Tests.Specification
                 TypeName = typeName,
                 IsSimpleType = true,
                 DefaultValue = defaultValue,
-                Whitespace = DataDescriptionFactory.Whitespace.Repeat(level)
+                Whitespace = BodyDescriptionFactory.Whitespace.Repeat(level)
             };
             simpleTypeProperties(new SimpleTypeDsl(simpleType));
             return simpleType;
@@ -612,7 +612,7 @@ namespace Tests.Specification
             {
                 Name = name,
                 IsArray = true,
-                Whitespace = DataDescriptionFactory.Whitespace.Repeat(level)
+                Whitespace = BodyDescriptionFactory.Whitespace.Repeat(level)
             };
             if (properties != null) properties(new ArrayDsl(arrayType));
             return arrayType;
@@ -693,7 +693,7 @@ namespace Tests.Specification
             {
                 Name = name,
                 IsDictionary = true,
-                Whitespace = DataDescriptionFactory.Whitespace.Repeat(level)
+                Whitespace = BodyDescriptionFactory.Whitespace.Repeat(level)
             };
             if (properties != null) properties(new DictionaryDsl(dictionaryType));
             return dictionaryType;
@@ -760,7 +760,7 @@ namespace Tests.Specification
             {
                 Name = name,
                 IsComplexType = true,
-                Whitespace = DataDescriptionFactory.Whitespace.Repeat(level)
+                Whitespace = BodyDescriptionFactory.Whitespace.Repeat(level)
             };
             if (properties != null) properties(new ComplexTypeDsl(complexType));
             return complexType;

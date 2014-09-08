@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceptanceTests.cs" />
+    <Compile Include="Description\MimeTypeConventionTests.cs" />
     <Compile Include="Description\HeaderConventionTests.cs" />
     <Compile Include="EmbeddedCommentsTests.cs" />
     <Compile Include="ExtensionTests\StringTests.cs" />
@@ -96,10 +97,11 @@
     <Compile Include="Description\EndpointConventionTests\Handlers.cs" />
     <Compile Include="Description\ModuleConventionTests\Handlers.cs" />
     <Compile Include="Description\ResourceConventionTests\Handlers.cs" />
+    <Compile Include="Specification\SpecificationService\EndpointTests\MimeTypeTests.cs" />
     <Compile Include="Specification\SpecificationService\MultiActionTests\Handlers.cs" />
     <Compile Include="Specification\SpecificationService\MultiActionTests\Tests.cs" />
     <Compile Include="Specification\OptionFactoryTests.cs" />
-    <Compile Include="Specification\DataDescriptionFactoryTests.cs" />
+    <Compile Include="Specification\BodyDescriptionFactoryTests.cs" />
     <Compile Include="Specification\TypeGraphFactoryTests.cs" />
     <Compile Include="TestExtensions.cs" />
     <Compile Include="Specification\OverrideTests\Handlers.cs" />

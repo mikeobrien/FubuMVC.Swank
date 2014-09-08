@@ -48,13 +48,14 @@ namespace Tests.Specification.SpecificationService.EndpointTests
                 memberConvention,
                 new StatusCodeConvention(),
                 new HeaderConvention(),
+                new MimeTypeConvention(),
                 new TypeGraphFactory(
                     configuration, 
                     typeCache,
                     new TypeConvention(configuration), 
                     memberConvention,
                     optionFactory), 
-                new DataDescriptionFactory(configuration), 
+                new BodyDescriptionFactory(configuration), 
                 new OptionFactory(configuration, new OptionConvention()));
             return specBuilder.Generate();
         }

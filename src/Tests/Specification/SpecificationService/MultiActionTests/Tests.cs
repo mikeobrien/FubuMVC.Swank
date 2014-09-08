@@ -28,8 +28,8 @@ namespace Tests.Specification.SpecificationService.MultiActionTests
             var spec = BuildSpec<PostHandler>(graph);
 
             var endpoint = spec.Modules[0].Resources[0].Endpoints[0];
-            _request = endpoint.Request.Description[0];
-            _response = endpoint.Response.Description[0];
+            _request = endpoint.Request.Body[0];
+            _response = endpoint.Response.Body[0];
         }
 
         [Test]

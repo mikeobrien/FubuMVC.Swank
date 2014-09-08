@@ -38,10 +38,10 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         [Test]
         public void should_set_the_name_for_output_types()
         {
-            Spec.GetEndpoint<OutputTypeDescriptions.GetHandler>().Response.Description[0].Name.ShouldEqual("GetResponse");
-            Spec.GetEndpoint<OutputTypeDescriptions.PostHandler>().Response.Description[0].Name.ShouldEqual("PostResponse");
-            Spec.GetEndpoint<OutputTypeDescriptions.PutHandler>().Response.Description[0].Name.ShouldEqual("PutResponse");
-            Spec.GetEndpoint<OutputTypeDescriptions.DeleteHandler>().Response.Description[0].Name.ShouldEqual("DeleteResponse");
+            Spec.GetEndpoint<OutputTypeDescriptions.GetHandler>().Response.Body[0].Name.ShouldEqual("GetResponse");
+            Spec.GetEndpoint<OutputTypeDescriptions.PostHandler>().Response.Body[0].Name.ShouldEqual("PostResponse");
+            Spec.GetEndpoint<OutputTypeDescriptions.PutHandler>().Response.Body[0].Name.ShouldEqual("PutResponse");
+            Spec.GetEndpoint<OutputTypeDescriptions.DeleteHandler>().Response.Body[0].Name.ShouldEqual("DeleteResponse");
         }
 
         [Test]
@@ -50,8 +50,8 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var response = Spec.GetEndpoint<OutputTypeDescriptions.CollectionPostHandler>().Response;
 
             response.Comments.ShouldBeNull();
-            response.Description[0].Name.ShouldEqual("ArrayOfResponseItem");
-            response.Description[0].IsArray.ShouldEqual(true);
+            response.Body[0].Name.ShouldEqual("ArrayOfResponseItem");
+            response.Body[0].IsArray.ShouldEqual(true);
         }
 
         [Test]
@@ -60,8 +60,8 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var response = Spec.GetEndpoint<OutputTypeDescriptions.InheritedCollectionPostHandler>().Response;
 
             response.Comments.ShouldBeNull();
-            response.Description[0].Name.ShouldEqual("ArrayOfResponseItem");
-            response.Description[0].IsArray.ShouldEqual(true);
+            response.Body[0].Name.ShouldEqual("ArrayOfResponseItem");
+            response.Body[0].IsArray.ShouldEqual(true);
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var response = Spec.GetEndpoint<OutputTypeDescriptions.OverridenRequestPostHandler>().Response;
 
             response.Comments.ShouldBeNull();
-            response.Description[0].Name.ShouldEqual("NewItemName");
+            response.Body[0].Name.ShouldEqual("NewItemName");
         }
 
         [Test]
@@ -79,8 +79,8 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var response = Spec.GetEndpoint<OutputTypeDescriptions.OverridenCollectionPostHandler>().Response;
 
             response.Comments.ShouldBeNull();
-            response.Description[0].Name.ShouldEqual("NewCollectionName");
-            response.Description[0].IsArray.ShouldEqual(true);
+            response.Body[0].Name.ShouldEqual("NewCollectionName");
+            response.Body[0].IsArray.ShouldEqual(true);
         }
     }
 }

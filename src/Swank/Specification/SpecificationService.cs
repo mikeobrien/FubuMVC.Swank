@@ -34,8 +34,9 @@ namespace FubuMVC.Swank.Specification
         private readonly IDescriptionConvention<PropertyInfo, MemberDescription> _memberConvention;
         private readonly IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>> _statusCodeConvention;
         private readonly IDescriptionConvention<BehaviorChain, List<HeaderDescription>> _headerConvention;
+        private readonly IDescriptionConvention<BehaviorChain, List<MimeTypeDescription>> _mimeTypeConvention;
         private readonly TypeGraphFactory _typeGraphFactory;
-        private readonly DataDescriptionFactory _dataDescriptionFactory;
+        private readonly BodyDescriptionFactory _bodyDescriptionFactory;
         private readonly OptionFactory _optionFactory;
 
         public SpecificationService(
@@ -48,8 +49,9 @@ namespace FubuMVC.Swank.Specification
             IDescriptionConvention<PropertyInfo, MemberDescription> memberConvention,
             IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>> statusCodeConvention,
             IDescriptionConvention<BehaviorChain, List<HeaderDescription>> headerConvention,
+            IDescriptionConvention<BehaviorChain, List<MimeTypeDescription>> mimeTypeConvention,
             TypeGraphFactory typeGraphFactory,
-            DataDescriptionFactory dataDescriptionFactory,
+            BodyDescriptionFactory bodyDescriptionFactory,
             OptionFactory optionFactory)
         {
             _configuration = configuration;
@@ -61,9 +63,10 @@ namespace FubuMVC.Swank.Specification
             _memberConvention = memberConvention;
             _statusCodeConvention = statusCodeConvention;
             _typeGraphFactory = typeGraphFactory;
-            _dataDescriptionFactory = dataDescriptionFactory;
+            _bodyDescriptionFactory = bodyDescriptionFactory;
             _optionFactory = optionFactory;
             _headerConvention = headerConvention;
+            _mimeTypeConvention = mimeTypeConvention;
         }
 
         public Specification Generate()
@@ -158,44 +161,50 @@ namespace FubuMVC.Swank.Specification
                     var endpoint = _endpointConvention.GetDescription(chain);
                     var route = chain.Route;
                     var querystring = chain.FirstCall().HasInput ? GetQuerystringParameters(chain) : null;
+                    var url = route.Pattern.EnusureStartsWith("/") + 
+                        querystring.Join(y => "{0}={{{0}}}".ToFormat(y.Name), "?", "&", "");
                     return _configuration.EndpointOverrides.Apply(chain, new Endpoint {
+                        Id = url.Hash(),
                         Name = endpoint.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = endpoint.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                        Url = route.Pattern.EnusureStartsWith("/") + querystring.Join(y => "{0}={{{0}}}".ToFormat(y.Name), "?", "&", ""),
+                        Url = url,
                         Method = route.AllowedHttpMethods.FirstOrDefault(),
                         UrlParameters = chain.FirstCall().HasInput ? GetUrlParameters(chain) : null,
                         QuerystringParameters = querystring,
                         StatusCodes = GetStatusCodes(chain),
-                        Headers = GetHeaders(chain),
-                        Request = GetRequestData(chain, endpoint),
-                        Response = GetResponseData(chain, endpoint)
+                        Request = GetRequest(chain, endpoint),
+                        Response = GetResponse(chain, endpoint)
                     });
                 }).OrderBy(x => x.Url.Split('?').First()).ThenBy(x => HttpVerbRank(x.Method)).ToList();
         }
 
-        private Data GetRequestData(BehaviorChain chain, EndpointDescription endpoint)
+        private Data GetRequest(BehaviorChain chain, EndpointDescription endpoint)
         {
             var firstCall = chain.FirstCall();
-
-            if (!firstCall.HasInput ||
-                chain.Route.AllowsGet() ||
-                chain.Route.AllowsDelete()) return null;
-
             return _configuration.RequestOverrides.Apply(chain, new Data
             {
                 Comments = endpoint.RequestComments,
-                Description = _dataDescriptionFactory.Create(_typeGraphFactory.BuildGraph(firstCall.InputType(), chain.FirstCall()))
+                Headers = GetHeaders(chain, HttpDirection.Request),
+                MimeTypes = GetMimeTypes(chain, HttpDirection.Request),
+                Body = firstCall.HasInput &&
+                    !chain.Route.AllowsGet() &&
+                    !chain.Route.AllowsDelete() ? 
+                    _bodyDescriptionFactory.Create(_typeGraphFactory
+                        .BuildGraph(firstCall.InputType(), chain.FirstCall())) : null
             });
         }
 
-        private Data GetResponseData(BehaviorChain chain, EndpointDescription endpoint)
+        private Data GetResponse(BehaviorChain chain, EndpointDescription endpoint)
         {
             var lastCall = chain.LastCall();
-            if (!lastCall.HasOutput) return null;
             return _configuration.ResponseOverrides.Apply(chain, new Data
             {
                 Comments = endpoint.ResponseComments,
-                Description = _dataDescriptionFactory.Create(_typeGraphFactory.BuildGraph(lastCall.OutputType()))
+                Headers = GetHeaders(chain, HttpDirection.Response),
+                MimeTypes = GetMimeTypes(chain, HttpDirection.Response),
+                Body = lastCall.HasOutput ? 
+                    _bodyDescriptionFactory.Create(_typeGraphFactory
+                        .BuildGraph(lastCall.OutputType())) : null
             });
         }
 
@@ -249,15 +258,30 @@ namespace FubuMVC.Swank.Specification
                 })).OrderBy(x => x.Code).ToList();
         }
 
-        private List<Header> GetHeaders(BehaviorChain chain)
+        private List<Header> GetHeaders(BehaviorChain chain, HttpDirection type)
         {
+            var overrides = type == HttpDirection.Request
+                ? _configuration.RequestHeaderOverrides
+                : _configuration.ResponseHeaderOverrides; 
             return _headerConvention.GetDescription(chain)
-                .Select(x => _configuration.HeaderOverrides.Apply(chain, new Header {
-                    Type = x.Type.ToString(),
+                .Where(x => x.Direction == type)
+                .Select(x => overrides.Apply(chain, new Header
+                {
                     Name = x.Name,
                     Comments = x.Comments,
-                    Optional = x.Optional
-                })).OrderBy(x => x.Type).ThenBy(x => x.Name).ToList();
+                    Optional = x.Optional,
+                    IsAccept = x.Name.Equals("accept", StringComparison.OrdinalIgnoreCase),
+                    IsContentType = x.Name.Equals("content-type", StringComparison.OrdinalIgnoreCase)
+                })).OrderBy(x => x.Name).ToList();
+        }
+
+        private List<string> GetMimeTypes(BehaviorChain chain, HttpDirection type)
+        {
+            return _mimeTypeConvention.GetDescription(chain)
+                .Where(x => x.Direction == type)
+                .OrderBy(x => x.Name)
+                .Select(x => x.Name)
+                .ToList();
         }
     }
 }

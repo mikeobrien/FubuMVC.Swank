@@ -6,10 +6,10 @@
     Handlebars.registerPartial("headers", $("#swank-headers-template").html());
     Handlebars.registerPartial("urlParameters", $("#swank-url-parameters-template").html());
     Handlebars.registerPartial("querystring", $("#swank-querystring-template").html());
-    Handlebars.registerPartial("jsonDataFormat", $("#swank-data-json-template").html().flatten());
-    Handlebars.registerPartial("xmlDataFormat", $("#swank-data-xml-template").html().flatten());
-    Handlebars.registerPartial("dataDescription", $("#swank-data-description-template").html());
-    Handlebars.registerPartial("data", $("#swank-data-template").html());
+    Handlebars.registerPartial("jsonBody", $("#swank-json-body-template").html().flatten());
+    Handlebars.registerPartial("xmlBody", $("#swank-xml-body-template").html().flatten());
+    Handlebars.registerPartial("bodyDescription", $("#swank-body-description-template").html());
+    Handlebars.registerPartial("requestResponse", $("#swank-request-response-template").html());
     Handlebars.registerPartial("codeExamples", $("#swank-code-examples-template").html());
     Handlebars.registerPartial("statusCodes", $("#swank-status-codes-template").html());
     Handlebars.registerPartial("options", $("#swank-options-template").html());
@@ -120,11 +120,16 @@
         return context.replace(/(\{.*?\})/g, '<span class="highlight-text"><b>$1</b></span>');
     });
 
-    Handlebars.registerHelper('either', function (value1, value2, options) {
-        if (value1 || value2) {
-            return options.fn(this);
+    Handlebars.registerHelper('either', function () {
+        var hasValue = function (value) { return value != null && value != false; }
+        var options = arguments[arguments.length - 1];
+        for (var index = 0; index < arguments.length - 2; index++) {            
+            if (hasValue(arguments[index])) {
+                return options.fn(this);
+            }
         }
         return options.inverse(this);
+
     });
 
     var initialize = function () {

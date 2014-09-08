@@ -112,15 +112,18 @@
     <Compile Include="Description\ArrayDescriptionAttribute.cs" />
     <Compile Include="Description\Assert.cs" />
     <Compile Include="Description\DictionaryDescriptionAttribute.cs" />
+    <Compile Include="Description\MimeTypeAttribute.cs" />
+    <Compile Include="Description\MimeTypeConvention.cs" />
     <Compile Include="Documentation\DataGetHandler.cs" />
     <Compile Include="Extensions\LazyCache.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="Extensions\Xml.cs" />
+    <Compile Include="Net\Mime.cs" />
     <Compile Include="Specification\BehaviorSource.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Specification\OptionFactory.cs" />
-    <Compile Include="Specification\DataDescriptionFactory.cs" />
+    <Compile Include="Specification\BodyDescriptionFactory.cs" />
     <Compile Include="Specification\IDescription.cs" />
     <Compile Include="Specification\OrphanedModuleActionException.cs" />
     <Compile Include="Specification\OrphanedResourceActionException.cs" />
@@ -132,7 +135,7 @@
     <Compile Include="Description\Descriptions.cs" />
     <Compile Include="Description\EndpointConvention.cs" />
     <Compile Include="Description\HeaderConvention.cs" />
-    <Compile Include="Description\HeaderDescriptionAttribute.cs" />
+    <Compile Include="Description\HeaderAttribute.cs" />
     <Compile Include="Description\HideAttribute.cs" />
     <Compile Include="Description\IDescriptionConvention.cs" />
     <Compile Include="Description\MarkerConvention.cs" />
@@ -145,7 +148,7 @@
     <Compile Include="Description\ResourceConvention.cs" />
     <Compile Include="Description\ResponseCommentsAttribute.cs" />
     <Compile Include="Description\StatusCodeConvention.cs" />
-    <Compile Include="Description\StatusCodeDescriptionAttribute.cs" />
+    <Compile Include="Description\StatusCodeAttribute.cs" />
     <Compile Include="Description\TypeConvention.cs" />
     <Compile Include="Extensions\FubuExtensions.cs" />
     <Compile Include="Extensions\Func.cs" />
@@ -215,4 +218,5 @@
   <ItemGroup>
     <EmbeddedResource Include="pak-WebContent.zip" />
   </ItemGroup>
+  <ItemGroup />
 </Project>

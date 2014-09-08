@@ -13,7 +13,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var request = Spec.GetEndpoint<InputTypeDescriptions.PostHandler>().Request;
 
             request.Comments.ShouldEqual("Some post request description");
-            request.Description[0].IsComplexType.ShouldEqual(true);
+            request.Body[0].IsComplexType.ShouldEqual(true);
         }
 
         [Test]
@@ -22,33 +22,33 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var request = Spec.GetEndpoint<InputTypeDescriptions.PutHandler>().Request;
 
             request.Comments.ShouldEqual("Some put request description");
-            request.Description[0].IsComplexType.ShouldEqual(true);
+            request.Body[0].IsComplexType.ShouldEqual(true);
         }
 
         [Test]
         public void should_set_the_datatype_for_post_input_post_types()
         {
             Spec.GetEndpoint<InputTypeDescriptions.PostHandler>()
-                .Request.Description[0].Name.ShouldEqual("PostRequest");
+                .Request.Body[0].Name.ShouldEqual("PostRequest");
         }
 
         [Test]
         public void should_set_the_datatype_for_post_input_put_types()
         {
             Spec.GetEndpoint<InputTypeDescriptions.PutHandler>()
-                .Request.Description[0].Name.ShouldEqual("PutRequest");
+                .Request.Body[0].Name.ShouldEqual("PutRequest");
         }
 
         [Test]
         public void should_not_set_input_type_for_get()
         {
-            Spec.GetEndpoint<InputTypeDescriptions.GetHandler>().Request.ShouldBeNull();
+            Spec.GetEndpoint<InputTypeDescriptions.GetHandler>().Request.Body.ShouldBeNull();
         }
 
         [Test]
         public void should_not_set_input_type_for_delete()
         {
-            Spec.GetEndpoint<InputTypeDescriptions.DeleteHandler>().Request.ShouldBeNull();
+            Spec.GetEndpoint<InputTypeDescriptions.DeleteHandler>().Request.Body.ShouldBeNull();
         }
 
         [Test]
@@ -57,8 +57,8 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var request = Spec.GetEndpoint<InputTypeDescriptions.CollectionPostHandler>().Request;
 
             request.Comments.ShouldBeNull();
-            request.Description[0].Name.ShouldEqual("ArrayOfRequestItem");
-            request.Description[0].IsArray.ShouldEqual(true);
+            request.Body[0].Name.ShouldEqual("ArrayOfRequestItem");
+            request.Body[0].IsArray.ShouldEqual(true);
         }
 
         [Test]
@@ -67,8 +67,8 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var request = Spec.GetEndpoint<InputTypeDescriptions.InheritedCollectionPostHandler>().Request;
 
             request.Comments.ShouldBeNull();
-            request.Description[0].Name.ShouldEqual("ArrayOfRequestItem");
-            request.Description[0].IsArray.ShouldEqual(true);
+            request.Body[0].Name.ShouldEqual("ArrayOfRequestItem");
+            request.Body[0].IsArray.ShouldEqual(true);
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var request = Spec.GetEndpoint<InputTypeDescriptions.OverridenRequestPostHandler>().Request;
 
             request.Comments.ShouldBeNull();
-            request.Description[0].Name.ShouldEqual("NewItemName");
+            request.Body[0].Name.ShouldEqual("NewItemName");
         }
 
         [Test]
@@ -86,7 +86,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var request = Spec.GetEndpoint<InputTypeDescriptions.OverridenCollectionPostHandler>().Request;
 
             request.Comments.ShouldBeNull();
-            request.Description[0].Name.ShouldEqual("NewCollectionName");
+            request.Body[0].Name.ShouldEqual("NewCollectionName");
         }
     }
 }

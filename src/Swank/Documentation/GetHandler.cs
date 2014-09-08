@@ -51,7 +51,7 @@ namespace FubuMVC.Swank.Documentation
                 Stylesheets = _configuration.Stylesheets,
                 CodeExamples = _configuration.CodeExamples.Select((x, i) => new Response.Example
                     {
-                        Id = i.ToString(),
+                        Id = x.Name.Hash(),
                         First = i == 0,
                         Name = x.Name,
                         Comments = x.Comments ?? _configuration.AppliesToAssemblies.FindTextResourceNamed("*" + x.Filename + ".md"),

@@ -4,6 +4,7 @@ using System.Reflection;
 using FubuMVC.Core;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Description;
+using FubuMVC.Swank.Net;
 
 namespace FubuMVC.Swank
 {
@@ -644,7 +645,8 @@ namespace FubuMVC.Swank
         /// </summary>
         public Swank OverrideHeaders(Action<BehaviorChain, Specification.Header> @override)
         {
-            _configuration.HeaderOverrides.Add(@override);
+            _configuration.RequestHeaderOverrides.Add(@override);
+            _configuration.ResponseHeaderOverrides.Add(@override);
             return this;
         }
 
@@ -654,7 +656,46 @@ namespace FubuMVC.Swank
         public Swank OverrideHeadersWhen(Action<BehaviorChain, Specification.Header> @override,
             Func<BehaviorChain, Specification.Header, bool> when)
         {
-            _configuration.HeaderOverrides.Add(OverrideWhen(@override, when));
+            _configuration.RequestHeaderOverrides.Add(OverrideWhen(@override, when));
+            _configuration.ResponseHeaderOverrides.Add(OverrideWhen(@override, when));
+            return this;
+        }
+
+        /// <summary>
+        /// Allows you to override request header values.
+        /// </summary>
+        public Swank OverrideRequestHeaders(Action<BehaviorChain, Specification.Header> @override)
+        {
+            _configuration.RequestHeaderOverrides.Add(@override);
+            return this;
+        }
+
+        /// <summary>
+        /// Allows you to override request header values when a condition is met.
+        /// </summary>
+        public Swank OverrideRequestHeadersWhen(Action<BehaviorChain, Specification.Header> @override,
+            Func<BehaviorChain, Specification.Header, bool> when)
+        {
+            _configuration.RequestHeaderOverrides.Add(OverrideWhen(@override, when));
+            return this;
+        }
+
+        /// <summary>
+        /// Allows you to override response header values.
+        /// </summary>
+        public Swank OverrideResponseHeaders(Action<BehaviorChain, Specification.Header> @override)
+        {
+            _configuration.ResponseHeaderOverrides.Add(@override);
+            return this;
+        }
+
+        /// <summary>
+        /// Allows you to override response header values when a condition is met.
+        /// </summary>
+        public Swank OverrideResponseHeadersWhen(Action<BehaviorChain, Specification.Header> @override,
+            Func<BehaviorChain, Specification.Header, bool> when)
+        {
+            _configuration.ResponseHeaderOverrides.Add(OverrideWhen(@override, when));
             return this;
         }
 

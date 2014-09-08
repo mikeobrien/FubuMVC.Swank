@@ -19,12 +19,12 @@ namespace Tests.Description
             _statusCodeConvention = new StatusCodeConvention();
         }
 
-        [StatusCodeDescription(HttpStatusCode.LengthRequired, "411 error on handler")]
-        [StatusCodeDescription(410, "410 error on handler", "410 error on action description")]
+        [StatusCode(HttpStatusCode.LengthRequired, "411 error on handler")]
+        [StatusCode(410, "410 error on handler", "410 error on action description")]
         public class StatusGetHandler
         {
-            [StatusCodeDescription(HttpStatusCode.RequestEntityTooLarge, "413 error on action")]
-            [StatusCodeDescription(412, "412 error on action", "412 error on action description")]
+            [StatusCode(HttpStatusCode.RequestEntityTooLarge, "413 error on action")]
+            [StatusCode(412, "412 error on action", "412 error on action description")]
             public object Execute_StatusCodes(object request) { return null; }
         }
 

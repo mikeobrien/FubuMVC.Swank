@@ -10,37 +10,45 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         {
             var endpoint = Spec.GetEndpoint<HeaderDescriptions.HeadersGetHandler>();
 
-            endpoint.Headers.Count.ShouldEqual(4);
+            endpoint.Request.Headers.Count.ShouldEqual(2);
 
-            var header = endpoint.Headers[0];
-            header.Type.ShouldEqual("Request");
+            var header = endpoint.Request.Headers[0];
             header.Name.ShouldEqual("accept");
             header.Comments.ShouldEqual("This is an endpoint description.");
             header.Optional.ShouldBeTrue();
+            header.IsAccept.ShouldBeTrue();
+            header.IsContentType.ShouldBeFalse();
 
-            header = endpoint.Headers[1];
-            header.Type.ShouldEqual("Request");
+            header = endpoint.Request.Headers[1];
             header.Name.ShouldEqual("api-key");
             header.Comments.ShouldEqual("This is a handler description.");
             header.Optional.ShouldBeTrue();
+            header.IsAccept.ShouldBeFalse();
+            header.IsContentType.ShouldBeFalse();
 
-            header = endpoint.Headers[2];
-            header.Type.ShouldEqual("Response");
+            endpoint.Response.Headers.Count.ShouldEqual(2);
+
+            header = endpoint.Response.Headers[0];
             header.Name.ShouldEqual("content-length");
             header.Comments.ShouldBeNull();
             header.Optional.ShouldBeFalse();
+            header.IsAccept.ShouldBeFalse();
+            header.IsContentType.ShouldBeFalse();
 
-            header = endpoint.Headers[3];
-            header.Type.ShouldEqual("Response");
+            header = endpoint.Response.Headers[1];
             header.Name.ShouldEqual("content-type");
             header.Comments.ShouldBeNull();
             header.Optional.ShouldBeFalse();
+            header.IsAccept.ShouldBeFalse();
+            header.IsContentType.ShouldBeTrue();
         }
 
         [Test]
         public void should_not_set_endpoint_headers_when_none_are_set_on_handlers_or_actions()
         {
-            Spec.GetEndpoint<HeaderDescriptions.NoHeadersGetHandler>().StatusCodes.Count.ShouldEqual(0);
+            var endpoint = Spec.GetEndpoint<HeaderDescriptions.NoHeadersGetHandler>();
+            endpoint.Request.Headers.Count.ShouldEqual(0);
+            endpoint.Response.Headers.Count.ShouldEqual(0);
         }
     }
 }

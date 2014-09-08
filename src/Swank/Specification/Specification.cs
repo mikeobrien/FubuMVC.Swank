@@ -27,6 +27,7 @@ namespace FubuMVC.Swank.Specification
 
     public class Endpoint : IDescription
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Comments { get; set; }
         public string Url { get; set; }
@@ -34,7 +35,6 @@ namespace FubuMVC.Swank.Specification
         public List<UrlParameter> UrlParameters { get; set; }
         public List<QuerystringParameter> QuerystringParameters { get; set; }
         public List<StatusCode> StatusCodes { get; set; }
-        public List<Header> Headers { get; set; }
         public Data Request { get; set; }
         public Data Response { get; set; }
     }
@@ -69,14 +69,17 @@ namespace FubuMVC.Swank.Specification
     {
         public string Name { get; set; }
         public string Comments { get; set; }
-        public string Type { get; set; }
         public bool Optional { get; set; }
+        public bool IsContentType { get; set; }
+        public bool IsAccept { get; set; }
     }
 
     public class Data
     {
         public string Comments { get; set; }
-        public List<DataDescription> Description { get; set; }
+        public List<Header> Headers { get; set; }
+        public List<string> MimeTypes { get; set; }
+        public List<DataDescription> Body { get; set; }
     }
 
     public class DataDescription

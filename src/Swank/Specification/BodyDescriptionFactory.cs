@@ -5,13 +5,13 @@ using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank.Specification
 {
-    public class DataDescriptionFactory
+    public class BodyDescriptionFactory
     {
         public const string Whitespace = "    ";
 
         private readonly Configuration _configuration;
 
-        public DataDescriptionFactory(Configuration configuration)
+        public BodyDescriptionFactory(Configuration configuration)
         {
             _configuration = configuration;
         }

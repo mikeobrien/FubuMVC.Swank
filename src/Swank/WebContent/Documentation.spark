@@ -86,10 +86,6 @@
             <div class="endpoint-body endpoint-well">
                 <p>{{{Comments}}}</p>
 
-                {{#if Headers}}
-                    {{> headers}}
-                {{/if}}
-
                 {{#if UrlParameters}}
                     {{> urlParameters}}
                 {{/if}}
@@ -99,13 +95,17 @@
                 {{/if}}
 
                 {{#Request}}
-                    <h4>Request</h4>
-                    {{> data}}
+                    {{#either Comments Headers Body}}
+                        <h4>Request</h4>
+                        {{> requestResponse}}
+                    {{/either}}
                 {{/Request}}
 
                 {{#Response}}
-                    <h4>Response</h4>
-                    {{> data}}
+                    {{#either Comments Headers Body}}
+                        <h4>Response</h4>
+                        {{> requestResponse}}
+                    {{/either}}
                 {{/Response}}
 
                 <if condition='Model.CodeExamples.Any()'>
@@ -119,32 +119,6 @@
             </div>
         </div>
         {{/Endpoints}}
-    </script>
-
-    <script type="text/html" id="swank-headers-template">
-        <h4>Headers</h4>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Name</th>
-                    <th>Comments</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#Headers}}
-                <tr>
-                  <td><strong>{{{Type}}}</strong></td>
-                  <td nowrap="nowrap"><code>{{{Name}}}</code></td>
-                  <td>
-                      {{#Optional}}<span class="label label-success">Optional</span>{{/Optional}}
-                      {{^Optional}}<span class="label label-important">Required</span>{{/Optional}}
-                      {{{Comments}}}
-                  </td>
-                </tr>
-                {{/Headers}}
-            </tbody>
-        </table>
     </script>
 
     <script type="text/html" id="swank-url-parameters-template">
@@ -209,7 +183,7 @@
         </table>
     </script>
 
-    <script type="text/html" id="swank-data-json-template">
+    <script type="text/html" id="swank-json-body-template">
         <span class="sample-code-whitespace">{{Whitespace}}</span>
         {{^IsClosing}}
             {{#IsMember}}
@@ -244,7 +218,7 @@
         {{/IsMember}}      
     </script>
 
-    <script type="text/html" id="swank-data-xml-template">
+    <script type="text/html" id="swank-xml-body-template">
         <span class="sample-code-whitespace">{{Whitespace}}</span>
         <span style="color: #0000FF">&lt;{{#IsClosing}}/{{/IsClosing}}</span><span style="color: #A31515;{{#IsDictionaryEntry}}font-style: italic{{/IsDictionaryEntry}}">{{#IsDictionaryEntry}}[{{Name}}]{{/IsDictionaryEntry}}{{^IsDictionaryEntry}}{{Name}}{{/IsDictionaryEntry}}</span><span style="color: #0000FF">&gt;</span>
         {{#IsSimpleType}}
@@ -253,7 +227,7 @@
         {{/IsSimpleType}}
     </script>
 
-    <script type="text/html" id="swank-data-description-template">
+    <script type="text/html" id="swank-body-description-template">
         {{^IsClosing}}
             {{^IsDictionaryEntry}}
                 {{#IsDictionary}}<span class="badge badge-info">Dictionary</span>{{/IsDictionary}}
@@ -302,9 +276,43 @@
         {{/IsClosing}}
     </script>
 
-    <script type="text/html" id="swank-data-template">
+    <script type="text/html" id="swank-headers-template">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Header</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#Headers}}
+                <tr>
+                  <td nowrap="nowrap"><code>{{{Name}}}</code></td>
+                  <td>
+                      {{#either IsAccept IsContentType}}
+                          {{#../../MimeTypes}}<span class="label label-default">{{this}}</span> {{/../../MimeTypes}}
+                      {{/either}}
+                      
+                      {{#Optional}}<span class="label label-success">Optional</span>{{/Optional}}
+                      {{^Optional}}<span class="label label-important">Required</span>{{/Optional}}
+                      
+                      {{{Comments}}}
+                  </td>
+                </tr>
+                {{/Headers}}
+            </tbody>
+        </table>
+    </script>
+
+    <script type="text/html" id="swank-request-response-template">
+ 
         <p>{{{Comments}}}</p>
-        {{#if Description}}
+     
+        {{#if Headers}}
+            {{> headers}}
+        {{/if}}
+
+        {{#if Body}}
             <table class="table table-bordered table-zebra table-last">
                 <thead>
                     <tr>
@@ -323,17 +331,17 @@
                     </tr>
                 </thead>
                 <tbody>  
-                    {{#Description}}
+                    {{#Body}}
                         <tr>
                             <td class="sample-code json" title="Click to copy json..." 
-                                style="display: none;?{!Model.ShowJsonFormat}">{{> jsonDataFormat}}</td>
+                                style="display: none;?{!Model.ShowJsonFormat}">{{> jsonBody}}</td>
                             <td class="sample-code xml" title="Click to copy xml..." 
-                                style="display: none;?{Model.ShowJsonFormat}">{{> xmlDataFormat}}</td>
+                                style="display: none;?{Model.ShowJsonFormat}">{{> xmlBody}}</td>
                             <td>
-                                {{> dataDescription}}
+                                {{> bodyDescription}}
                             </td>
                         </tr>
-                    {{/Description}}
+                    {{/Body}}
                 </tbody>
             </table>
       {{/if}}
@@ -344,14 +352,14 @@
       
         <ul class="nav nav-tabs" role="tablist">
           <for each="var example in Model.CodeExamples">
-          <li class="active?{example.First}"><a href="#code-example-!{example.Id}" role="tab" data-toggle="tab">!{example.Name}</a></li>
+          <li class="active?{example.First}"><a href="#code-example-{{Id}}-!{example.Id}" role="tab" data-toggle="tab">!{example.Name}</a></li>
           </for>
         </ul>
 
         <!-- Tab panes -->
         <div class="tab-content">
           <for each="var example in Model.CodeExamples">
-            <div class="tab-pane active?{example.First}" id="code-example-!{example.Id}">
+            <div class="tab-pane active?{example.First}" id="code-example-{{Id}}-!{example.Id}">
               <p>!{example.Comments}</p>
               <pre class="code-example" title="Click to copy example..."><code>!{example.Template}</code></pre>
             </div>

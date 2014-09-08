@@ -74,6 +74,7 @@ namespace FubuMVC.Swank
             OptionConvention = new Service<IDescriptionConvention<FieldInfo, OptionDescription>> { Type = typeof(OptionConvention) };
             StatusCodeConvention = new Service<IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>>> { Type = typeof(StatusCodeConvention) };
             HeaderConvention = new Service<IDescriptionConvention<BehaviorChain, List<HeaderDescription>>> { Type = typeof(HeaderConvention) };
+            MimeTypeConvention = new Service<IDescriptionConvention<BehaviorChain, List<MimeTypeDescription>>> { Type = typeof(MimeTypeConvention) };
             TypeConvention = new Service<IDescriptionConvention<Type, TypeDescription>> { Type = typeof(TypeConvention) };
 
             ModuleOverrides = new List<Action<Module>>();
@@ -82,7 +83,8 @@ namespace FubuMVC.Swank
             UrlParameterOverrides = new List<Action<BehaviorChain, PropertyInfo, UrlParameter>>();
             QuerystringOverrides = new List<Action<BehaviorChain, PropertyInfo, QuerystringParameter>>();
             StatusCodeOverrides = new List<Action<BehaviorChain, StatusCode>>();
-            HeaderOverrides = new List<Action<BehaviorChain, Header>>();
+            RequestHeaderOverrides = new List<Action<BehaviorChain, Header>>();
+            ResponseHeaderOverrides = new List<Action<BehaviorChain, Header>>();
             RequestOverrides = new List<Action<BehaviorChain, Data>>();
             ResponseOverrides = new List<Action<BehaviorChain, Data>>();
             TypeOverrides = new List<Action<Type, DataType>>();
@@ -111,7 +113,7 @@ namespace FubuMVC.Swank
 
         public EnumValue EnumValue { get; set; }
 
-        public List<Configuration.Example> CodeExamples { get; set; }
+        public List<Example> CodeExamples { get; set; }
 
         public string DefaultValueDateTimeFormat { get; set; }
         public string DefaultValueIntegerFormat { get; set; }
@@ -132,6 +134,7 @@ namespace FubuMVC.Swank
         public Service<IDescriptionConvention<BehaviorChain, EndpointDescription>> EndpointConvention { get; set; }
         public Service<IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>>> StatusCodeConvention { get; set; }
         public Service<IDescriptionConvention<BehaviorChain, List<HeaderDescription>>> HeaderConvention { get; set; }
+        public Service<IDescriptionConvention<BehaviorChain, List<MimeTypeDescription>>> MimeTypeConvention { get; set; }
         public Service<IDescriptionConvention<Type, TypeDescription>> TypeConvention { get; set; }
         public Service<IDescriptionConvention<PropertyInfo, MemberDescription>> MemberConvention { get; set; }
         public Service<IDescriptionConvention<FieldInfo, OptionDescription>> OptionConvention { get; set; }
@@ -142,7 +145,8 @@ namespace FubuMVC.Swank
         public List<Action<BehaviorChain, PropertyInfo, UrlParameter>> UrlParameterOverrides { get; set; }
         public List<Action<BehaviorChain, PropertyInfo, QuerystringParameter>> QuerystringOverrides { get; set; }
         public List<Action<BehaviorChain, StatusCode>> StatusCodeOverrides { get; set; }
-        public List<Action<BehaviorChain, Header>> HeaderOverrides { get; set; }
+        public List<Action<BehaviorChain, Header>> RequestHeaderOverrides { get; set; }
+        public List<Action<BehaviorChain, Header>> ResponseHeaderOverrides { get; set; }
         public List<Action<BehaviorChain, Data>> RequestOverrides { get; set; }
         public List<Action<BehaviorChain, Data>> ResponseOverrides { get; set; }
         public List<Action<Type, DataType>> TypeOverrides { get; set; }

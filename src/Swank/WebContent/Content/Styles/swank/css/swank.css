@@ -166,6 +166,10 @@ td .table {
     margin-top: 10px;
 }
 
+table:not(:last-child) {
+    margin-bottom: 10px;
+}
+
 .table > tbody > tr > td {
     line-height: 20px;
 }

@@ -49,11 +49,18 @@
         public bool Hidden { get; set; }
     }
 
-    public enum HttpHeaderType { Request, Response }
+    public enum HttpDirection { Request, Response }
+
     public class HeaderDescription : Description
     {
-        public HttpHeaderType Type { get; set; }
+        public HttpDirection Direction { get; set; }
         public bool Optional { get; set; }
+    }
+
+    public class MimeTypeDescription
+    {
+        public HttpDirection Direction { get; set; }
+        public string Name { get; set; }
     }
 
     public class StatusCodeDescription : Description

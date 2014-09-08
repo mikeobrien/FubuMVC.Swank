@@ -1,48 +1,55 @@
 ﻿curl <span style="color: #0000FF">-X</span> <span style="color: #A31515">{{Method}}</span> \<br />
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-u</span> <span style="color: #A31515">accountid\\username:password</span> \<br />
 {{#if Response}}
-&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-H</span> <span style="color: #A31515">"Accept: application/json"</span> \<br />
+	{{#MimeTypes}}
+		
+	{{/MimeTypes}}
+	{{#if Body}}
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-H</span> <span style="color: #A31515">"Accept: application/json"</span> \<br />
+	{{/if}}
 {{/if}}
 {{#Request}}
-	&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-H</span> <span style="color: #A31515">"Content-Type: application/json"</span> \<br />
-	&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-d</span>&nbsp;
-	{{#Description}}
-		{{^IsFirst}}
-		&nbsp;&nbsp;&nbsp;&nbsp;<span class="sample-code-whitespace">{{Whitespace}}</span>
-		{{/IsFirst}}
-		'
-		{{^IsClosing}}
-			{{#IsMember}}
+	{{#if Body}}
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-H</span> <span style="color: #A31515">"Content-Type: application/json"</span> \<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-d</span>&nbsp;
+		{{#Body}}
+			{{^IsFirst}}
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sample-code-whitespace">{{Whitespace}}</span>
+			{{/IsFirst}}
+			'
+			{{^IsClosing}}
+				{{#IsMember}}
 					<span style="color: #A31515">"{{Name}}"</span>:&nbsp;
-			{{/IsMember}}
-			{{#IsDictionaryEntry}}
-				<span style="color: #A31515;">"<span style="font-style: italic">[{{Name}}]</span>"</span>:&nbsp;
-			{{/IsDictionaryEntry}}
-		{{/IsClosing}}
-		{{#IsSimpleType}}
-			{{#IsString}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsString}}
-			{{#IsBoolean}}<span style="color: #0000FF">{{DefaultValue}}</span>{{/IsBoolean}}
-			{{#IsNumeric}}<span style="color: #0000FF">{{DefaultValue}}</span>{{/IsNumeric}}
-			{{#IsDateTime}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsDateTime}}
-			{{#IsDuration}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsDuration}}
-			{{#IsGuid}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsGuid}}
-		{{/IsSimpleType}}
-		{{#IsOpening}}
-			{{#IsArray}}[{{/IsArray}}
-			{{#IsComplexType}}&#123;{{/IsComplexType}}
-			{{#IsDictionary}}&#123;{{/IsDictionary}}
-		{{/IsOpening}}
-		{{#IsClosing}}
-			{{#IsArray}}]{{/IsArray}}
-			{{#IsComplexType}}&#125;{{/IsComplexType}}
-			{{#IsDictionary}}&#125;{{/IsDictionary}}
-		{{/IsClosing}}
-		{{#IsMember}}
-			{{^IsOpening}}
-				{{^IsLastMember}},{{/IsLastMember}}
+				{{/IsMember}}
+				{{#IsDictionaryEntry}}
+					<span style="color: #A31515;">"<span style="font-style: italic">[{{Name}}]</span>"</span>:&nbsp;
+				{{/IsDictionaryEntry}}
+			{{/IsClosing}}
+			{{#IsSimpleType}}
+				{{#IsString}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsString}}
+				{{#IsBoolean}}<span style="color: #0000FF">{{DefaultValue}}</span>{{/IsBoolean}}
+				{{#IsNumeric}}<span style="color: #0000FF">{{DefaultValue}}</span>{{/IsNumeric}}
+				{{#IsDateTime}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsDateTime}}
+				{{#IsDuration}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsDuration}}
+				{{#IsGuid}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsGuid}}
+			{{/IsSimpleType}}
+			{{#IsOpening}}
+				{{#IsArray}}[{{/IsArray}}
+				{{#IsComplexType}}&#123;{{/IsComplexType}}
+				{{#IsDictionary}}&#123;{{/IsDictionary}}
 			{{/IsOpening}}
-		{{/IsMember}}
-		' \<br />
-	{{/Description}}
+			{{#IsClosing}}
+				{{#IsArray}}]{{/IsArray}}
+				{{#IsComplexType}}&#125;{{/IsComplexType}}
+				{{#IsDictionary}}&#125;{{/IsDictionary}}
+			{{/IsClosing}}
+			{{#IsMember}}
+				{{^IsOpening}}
+					{{^IsLastMember}},{{/IsLastMember}}
+				{{/IsOpening}}
+			{{/IsMember}}
+			' \<br />
+		{{/Body}}
+	{{/if}}
 {{/Request}}
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">https://services.reachmail.net{{Url}}</span>

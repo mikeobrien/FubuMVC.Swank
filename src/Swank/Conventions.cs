@@ -5,7 +5,6 @@ using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Description;
 using FubuMVC.Swank.Documentation;
 using FubuMVC.Swank.Extensions;
-using FubuMVC.Swank.Specification;
 
 [assembly: FubuModule]
 
@@ -37,6 +36,7 @@ namespace FubuMVC.Swank
                  .AddService<IDescriptionConvention<FieldInfo, OptionDescription>>(configuration.OptionConvention.Type, configuration.OptionConvention.Config)
                  .AddService<IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>>>(configuration.StatusCodeConvention.Type, configuration.StatusCodeConvention.Config)
                  .AddService<IDescriptionConvention<BehaviorChain, List<HeaderDescription>>>(configuration.HeaderConvention.Type, configuration.HeaderConvention.Config)
+                 .AddService<IDescriptionConvention<BehaviorChain, List<MimeTypeDescription>>>(configuration.MimeTypeConvention.Type, configuration.MimeTypeConvention.Config)
                  .AddService<IDescriptionConvention<System.Type, TypeDescription>>(configuration.TypeConvention.Type, configuration.TypeConvention.Config);
             });
         }

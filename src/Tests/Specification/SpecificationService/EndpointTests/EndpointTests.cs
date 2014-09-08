@@ -1,10 +1,21 @@
-﻿using NUnit.Framework;
+﻿using FubuMVC.Swank.Extensions;
+using NUnit.Framework;
 using Should;
 
 namespace Tests.Specification.SpecificationService.EndpointTests
 {
     public class EndpointTests : TestBase
     {
+        [Test]
+        public void should_generate_id_based_on_the_url()
+        {
+            const string url = "/endpointdescriptions/nodescription";
+            var endpoint = Spec.GetEndpoint<EndpointDescriptions.NoDescriptionGetHandler>();
+
+            endpoint.Id.ShouldEqual(url.Hash());
+            endpoint.Url.ShouldEqual(url);
+        }
+
         [Test]
         public void should_not_set_handler_description_for_endpoint_with_no_description()
         {
