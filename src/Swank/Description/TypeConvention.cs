@@ -28,7 +28,7 @@ namespace FubuMVC.Swank.Description
                     type.GetCustomAttribute<DataContractAttribute>().WhenNotNull(x => x.Name).OtherwiseDefault() ??
                     type.GetCustomAttribute<CollectionDataContractAttribute>().WhenNotNull(x => x.Name).OtherwiseDefault() ??
                     description.WhenNotNull(x => x.Name).OtherwiseDefault() ??
-                    type.GetXmlName(_configuration.EnumValue == EnumValue.AsString),
+                    type.GetXmlName(_configuration.EnumFormat == EnumFormat.AsString),
                 Comments = type.GetCustomAttribute<CommentsAttribute>().WhenNotNull(x => x.Comments).OtherwiseDefault() ??
                     description.WhenNotNull(x => x.Comments).OtherwiseDefault(),
                 ArrayItem = new Description

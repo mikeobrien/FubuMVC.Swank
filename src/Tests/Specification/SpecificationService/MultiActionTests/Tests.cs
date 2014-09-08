@@ -10,8 +10,8 @@ namespace Tests.Specification.SpecificationService.MultiActionTests
 {
     public class Tests : InteractionContext
     {
-        private DataDescription _request;
-        private DataDescription _response;
+        private BodyDescription _request;
+        private BodyDescription _response;
 
         [SetUp]
         public void SetUp()

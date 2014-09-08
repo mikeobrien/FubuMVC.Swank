@@ -142,7 +142,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         [Test]
         public void should_indicate_querystring_default_value_with_custom_format()
         {
-            Spec = GetSpec(x => x.WithIntegerFormat("0.00"));
+            Spec = GetSpec(x => x.WithSampleIntegerFormat("0.00"));
             Spec.GetEndpoint<Querystrings.ImplicitGetHandler>()
                 .GetQuerystring<Querystrings.Request>(x => x.Revision).DefaultValue.ShouldEqual("5.00");
         }

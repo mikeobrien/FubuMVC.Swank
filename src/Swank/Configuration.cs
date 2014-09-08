@@ -7,12 +7,11 @@ using FubuMVC.Swank.Description;
 using FubuMVC.Swank.Extensions;
 using FubuMVC.Swank.Specification;
 using Module = FubuMVC.Swank.Specification.Module;
-using Type = System.Type;
 
 namespace FubuMVC.Swank
 {
     public enum OrphanedActions { Exclude, Fail, UseDefault }
-    public enum EnumValue { AsNumber, AsString }
+    public enum EnumFormat { AsNumber, AsString }
 
     public class Configuration
     {
@@ -49,15 +48,15 @@ namespace FubuMVC.Swank
 
             DefaultDictionaryKeyName = "key";
 
-            EnumValue = EnumValue.AsNumber;
+            EnumFormat = EnumFormat.AsNumber;
 
             CodeExamples = new List<Example>();
 
-            DefaultValueDateTimeFormat = "g";
-            DefaultValueIntegerFormat = "0";
-            DefaultValueRealFormat = "0.#####";
-            DefaultValueTimeSpanFormat = "g";
-            DefaultValueGuidFormat = "D";
+            SampleDateTimeFormat = "g";
+            SampleIntegerFormat = "0";
+            SampleRealFormat = "0.#####";
+            SampleTimeSpanFormat = "g";
+            SampleGuidFormat = "D";
 
             SampleStringValue = "";
             SampleBoolValue = false;
@@ -111,15 +110,15 @@ namespace FubuMVC.Swank
 
         public string DefaultDictionaryKeyName { get; set; }
 
-        public EnumValue EnumValue { get; set; }
+        public EnumFormat EnumFormat { get; set; }
 
         public List<Example> CodeExamples { get; set; }
 
-        public string DefaultValueDateTimeFormat { get; set; }
-        public string DefaultValueIntegerFormat { get; set; }
-        public string DefaultValueRealFormat { get; set; }
-        public string DefaultValueTimeSpanFormat { get; set; }
-        public string DefaultValueGuidFormat { get; set; }
+        public string SampleDateTimeFormat { get; set; }
+        public string SampleIntegerFormat { get; set; }
+        public string SampleRealFormat { get; set; }
+        public string SampleTimeSpanFormat { get; set; }
+        public string SampleGuidFormat { get; set; }
 
         public string SampleStringValue { get; set; }
         public bool SampleBoolValue { get; set; }

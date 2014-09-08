@@ -37,7 +37,7 @@ namespace FubuMVC.Swank.Specification
                         {
                             Name = x.Description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = x.Description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                            Value = _configuration.EnumValue == EnumValue.AsString ? x.Option.Name :
+                            Value = _configuration.EnumFormat == EnumFormat.AsString ? x.Option.Name :
                                         x.Option.GetRawConstantValue().ToString()
                         }))
                     .OrderBy(x => x.Name).ToList();

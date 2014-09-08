@@ -220,7 +220,7 @@ namespace FubuMVC.Swank.Specification
                     return _configuration.UrlParameterOverrides.Apply(chain, property, new UrlParameter {
                             Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                            Type = property.PropertyType.GetXmlName(_configuration.EnumValue == EnumValue.AsString),
+                            Type = property.PropertyType.GetXmlName(_configuration.EnumFormat == EnumFormat.AsString),
                             Options = _optionFactory.BuildOptions(property.PropertyType)
                         });
                 }).ToList();
@@ -239,7 +239,7 @@ namespace FubuMVC.Swank.Specification
                     return _configuration.QuerystringOverrides.Apply(chain, x.Value, new QuerystringParameter {
                         Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                        Type = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).GetXmlName(_configuration.EnumValue == EnumValue.AsString),
+                        Type = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).GetXmlName(_configuration.EnumFormat == EnumFormat.AsString),
                         Options = _optionFactory.BuildOptions(x.Value.PropertyType),
                         DefaultValue = description.DefaultValue.WhenNotNull(y => y.ToDefaultValueString(_configuration)).OtherwiseDefault(),
                         MultipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList(),

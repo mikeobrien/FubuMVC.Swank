@@ -34,7 +34,7 @@ namespace TestHarness
                 .WithCodeExample("Curl")
                 .WithCodeExample("CSharp", "C#")
                 .MergeThisSpecification("~/spec.json")
-                .WithEnumValueTypeOf(EnumValue.AsString)
+                .WithEnumFormat(EnumFormat.AsString)
                 .OverrideEndpoints((action, endpoint) => endpoint
                     .StatusCodes.Add(new StatusCode { Code = 404, Name = "Not Found", Comments = "The item was not found!" }))
                 .OverridePropertiesWhen((propertyinfo, property) => property.Comments = "This is the id of the user.",

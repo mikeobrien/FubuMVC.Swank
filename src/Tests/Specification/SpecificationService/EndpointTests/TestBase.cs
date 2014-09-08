@@ -32,7 +32,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
             var configuration = Swank.CreateConfig(x =>
                 {
-                    x.AppliesToThisAssembly().Where(ActionFilter).WithEnumValueTypeOf(EnumValue.AsString);
+                    x.AppliesToThisAssembly().Where(ActionFilter).WithEnumFormat(EnumFormat.AsString);
                     if (configure != null) configure(x);
                 });
             var typeCache = new TypeDescriptorCache();

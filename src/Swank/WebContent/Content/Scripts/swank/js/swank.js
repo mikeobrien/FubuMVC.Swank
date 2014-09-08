@@ -123,13 +123,23 @@
     Handlebars.registerHelper('either', function () {
         var hasValue = function (value) { return value != null && value != false; }
         var options = arguments[arguments.length - 1];
-        for (var index = 0; index < arguments.length - 2; index++) {            
+        for (var index = 0; index < arguments.length - 1; index++) {            
             if (hasValue(arguments[index])) {
                 return options.fn(this);
             }
         }
         return options.inverse(this);
+    });
 
+    Handlebars.registerHelper('contains', function () {
+        var source = arguments[0];
+        var options = arguments[arguments.length - 1];
+        for (var index = 1; index < arguments.length - 1; index++) {
+            if (source.indexOf(arguments[index]) > -1) {
+                return options.fn(this);
+            }
+        }
+        return options.inverse(this);
     });
 
     var initialize = function () {

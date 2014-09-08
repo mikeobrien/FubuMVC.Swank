@@ -162,7 +162,7 @@ namespace Tests.Specification
         public void should_create_simple_type_numeric_options(
             [Values(typeof(Options), typeof(Options?))]Type type)
         {
-            var dataType = CreateFactory(x => x.EnumValue = EnumValue.AsString).BuildGraph(type);
+            var dataType = CreateFactory(x => x.EnumFormat = EnumFormat.AsString).BuildGraph(type);
 
             dataType.Name.ShouldEqual("string");
             dataType.IsSimple.ShouldBeTrue();
@@ -381,6 +381,11 @@ namespace Tests.Specification
                 type: x => should_be_simple_type(x, "string"));
         }
 
+        public class DefaultValuePostHandler
+        {
+            public void Execute(ComplexTypeWithDefaultValue request) { }
+        }
+
         public class ComplexTypeWithDefaultValue
         {
             [DefaultValue(3.14159)]
@@ -388,26 +393,44 @@ namespace Tests.Specification
         }
 
         [Test]
-        public void should_return_complex_type_member_default_value()
+        public void should_not_return_complex_type_member_default_value_for_output_type()
         {
             var member = should_be_complex_type(CreateFactory().BuildGraph(
                 typeof(ComplexTypeWithDefaultValue)), 1)
                 .Members.Single();
 
             should_match_member(member, "Member",
+                defaultValue: null,
+                type: x => should_be_simple_type(x, "decimal"));
+        }
+
+        [Test]
+        public void should_return_complex_type_member_default_value_for_input_type()
+        {
+            var action = Behavior.BuildGraph().AddAndGetAction<DefaultValuePostHandler>();
+
+            var member = should_be_complex_type(CreateFactory().BuildGraph(
+                typeof(ComplexTypeWithDefaultValue), action), 1)
+                .Members.Single();
+
+            should_match_member(member, "Member",
                 defaultValue: "3.14159",
+                required: true,
                 type: x => should_be_simple_type(x, "decimal"));
         }
 
         [Test]
         public void should_return_complex_type_member_default_value_with_custom_format()
         {
-            var member = should_be_complex_type(CreateFactory(x => x.DefaultValueRealFormat = "0.0").BuildGraph(
-                typeof(ComplexTypeWithDefaultValue)), 1)
+            var action = Behavior.BuildGraph().AddAndGetAction<DefaultValuePostHandler>();
+
+            var member = should_be_complex_type(CreateFactory(x => x.SampleRealFormat = "0.0").BuildGraph(
+                typeof(ComplexTypeWithDefaultValue), action), 1)
                 .Members.Single();
 
             should_match_member(member, "Member",
                 defaultValue: "3.1",
+                required: true,
                 type: x => should_be_simple_type(x, "decimal"));
         }
 

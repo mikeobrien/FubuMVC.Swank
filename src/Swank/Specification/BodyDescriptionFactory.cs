@@ -16,16 +16,16 @@ namespace FubuMVC.Swank.Specification
             _configuration = configuration;
         }
 
-        public List<DataDescription> Create(DataType type)
+        public List<BodyDescription> Create(DataType type)
         {
-            var data = new List<DataDescription>();
+            var data = new List<BodyDescription>();
             WalkGraph(data, type, 0);
             return data;
         }
 
-        private void WalkGraph(List<DataDescription> data, DataType type, int level, 
-            Action<DataDescription> opening = null, 
-            Action<DataDescription> closing = null)
+        private void WalkGraph(List<BodyDescription> data, DataType type, int level, 
+            Action<BodyDescription> opening = null, 
+            Action<BodyDescription> closing = null)
         {
             if (type.IsSimple) WalkSimpleType(data, type, level, opening);
             else if (type.IsArray) WalkArray(data, type, level, opening, closing);
@@ -39,11 +39,11 @@ namespace FubuMVC.Swank.Specification
         }
 
         private void WalkSimpleType(
-            List<DataDescription> description, 
+            List<BodyDescription> description, 
             DataType type, int level,
-            Action<DataDescription> opening)
+            Action<BodyDescription> opening)
         {
-            var data = new DataDescription
+            var data = new BodyDescription
             {
                 Name = type.Name,
                 TypeName = type.Name,
@@ -63,37 +63,37 @@ namespace FubuMVC.Swank.Specification
                 case Xml.ByteType:
                 case Xml.UnsignedByteType:
                     data.IsNumeric = true;
-                    data.DefaultValue = _configuration.SampleIntegerValue.ToDefaultValueString(_configuration);
+                    data.SampleValue = _configuration.SampleIntegerValue.ToDefaultValueString(_configuration);
                     break;
                 case Xml.FloatType:
                 case Xml.DoubleType:
                 case Xml.DecimalType: 
                     data.IsNumeric = true;
-                    data.DefaultValue = _configuration.SampleRealValue.ToDefaultValueString(_configuration);
+                    data.SampleValue = _configuration.SampleRealValue.ToDefaultValueString(_configuration);
                     break;
                 case Xml.BooleanType: 
                     data.IsBoolean = true;
-                    data.DefaultValue = _configuration.SampleBoolValue.ToString().ToLower();
+                    data.SampleValue = _configuration.SampleBoolValue.ToString().ToLower();
                     break;
                 case Xml.DateTimeType: 
                     data.IsDateTime = true;
-                    data.DefaultValue = _configuration.SampleDateTimeValue.ToDefaultValueString(_configuration);
+                    data.SampleValue = _configuration.SampleDateTimeValue.ToDefaultValueString(_configuration);
                    break;
                 case Xml.DurationType: 
                     data.IsDuration = true;
-                    data.DefaultValue = _configuration.SampleTimeSpanValue.ToDefaultValueString(_configuration);
+                    data.SampleValue = _configuration.SampleTimeSpanValue.ToDefaultValueString(_configuration);
                     break;
                 case Xml.UuidType: 
                     data.IsGuid = true;
-                    data.DefaultValue = _configuration.SampleGuidValue.ToDefaultValueString(_configuration);
+                    data.SampleValue = _configuration.SampleGuidValue.ToDefaultValueString(_configuration);
                     break;
                 default: 
                     data.IsString = true;
-                    data.DefaultValue = _configuration.SampleStringValue; 
+                    data.SampleValue = _configuration.SampleStringValue; 
                     break;
             }
 
-            data.Options = WalkOptions(type, x => data.DefaultValue = x.First().Value);
+            data.Options = WalkOptions(type, x => data.SampleValue = x.First().Value);
 
             if (opening != null) opening(data);
             description.Add(data);
@@ -116,11 +116,11 @@ namespace FubuMVC.Swank.Specification
             return options;
         }
 
-        private void WalkArray(List<DataDescription> data, DataType type, int level,
-            Action<DataDescription> opening = null,
-            Action<DataDescription> closing = null)
+        private void WalkArray(List<BodyDescription> data, DataType type, int level,
+            Action<BodyDescription> opening = null,
+            Action<BodyDescription> closing = null)
         {
-            var arrayOpening = new DataDescription
+            var arrayOpening = new BodyDescription
             {
                 Name = type.Name,
                 Comments = type.Comments,
@@ -150,7 +150,7 @@ namespace FubuMVC.Swank.Specification
                             x.Name = type.ArrayItem.Name;
                 });
 
-            var arrayClosing = new DataDescription
+            var arrayClosing = new BodyDescription
             {
                 Name = type.Name,
                 Whitespace = Whitespace.Repeat(level),
@@ -163,11 +163,11 @@ namespace FubuMVC.Swank.Specification
             data.Add(arrayClosing);
         }
 
-        private void WalkDictionary(List<DataDescription> data, DataType type, int level,
-            Action<DataDescription> opening = null,
-            Action<DataDescription> closing = null)
+        private void WalkDictionary(List<BodyDescription> data, DataType type, int level,
+            Action<BodyDescription> opening = null,
+            Action<BodyDescription> closing = null)
         {
-            var dictionaryOpening = new DataDescription
+            var dictionaryOpening = new BodyDescription
             {
                 Name = type.Name,
                 Comments = type.Comments,
@@ -201,7 +201,7 @@ namespace FubuMVC.Swank.Specification
                     x.IsDictionaryEntry = true;
                 });
 
-            var dictionaryClosing = new DataDescription
+            var dictionaryClosing = new BodyDescription
             {
                 Name = type.Name,
                 Whitespace = Whitespace.Repeat(level),
@@ -214,11 +214,11 @@ namespace FubuMVC.Swank.Specification
             data.Add(dictionaryClosing);
         }
 
-        private void WalkComplexType(List<DataDescription> data, DataType type, int level,
-            Action<DataDescription> opening = null,
-            Action<DataDescription> closing = null)
+        private void WalkComplexType(List<BodyDescription> data, DataType type, int level,
+            Action<BodyDescription> opening = null,
+            Action<BodyDescription> closing = null)
         {
-            var complexOpening = new DataDescription
+            var complexOpening = new BodyDescription
             {
                 Name = type.Name,
                 Comments = type.Comments,
@@ -239,7 +239,7 @@ namespace FubuMVC.Swank.Specification
                     x => {
                         x.Name = member.Name;
                         x.Comments = member.Comments;
-                        x.DefaultValue = member.DefaultValue ?? x.DefaultValue;
+                        x.DefaultValue = member.DefaultValue;
                         x.IsMember = true;
                         if (lastMember) x.IsLastMember = true;
                         if (!member.Type.IsSimple) x.IsOpening = true;
@@ -259,7 +259,7 @@ namespace FubuMVC.Swank.Specification
                     });
             }
 
-            var complexClosing = new DataDescription
+            var complexClosing = new BodyDescription
             {
                 Name = type.Name,
                 Whitespace = Whitespace.Repeat(level),

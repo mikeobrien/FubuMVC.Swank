@@ -144,8 +144,8 @@ namespace FubuMVC.Swank.Specification
                 {
                     Name = x.Description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                     Comments = x.Description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
-                    DefaultValue = x.Description.WhenNotNull(y => y.DefaultValue)
-                        .WhenNotNull(z => z.ToDefaultValueString(_configuration)).OtherwiseDefault(),
+                    DefaultValue = inputGraph ? x.Description.WhenNotNull(y => y.DefaultValue)
+                        .WhenNotNull(z => z.ToDefaultValueString(_configuration)).OtherwiseDefault() : null,
                     Required = inputGraph && !x.Type.IsNullable() && x.Description.WhenNotNull(y => !y.Optional).OtherwiseDefault(),
                     Optional = inputGraph && (x.Type.IsNullable() || x.Description.WhenNotNull(y => y.Optional).OtherwiseDefault()),
                     Deprecated = x.Description.Deprecated,

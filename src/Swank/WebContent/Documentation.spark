@@ -194,12 +194,12 @@
             {{/IsDictionaryEntry}}
         {{/IsClosing}}
         {{#IsSimpleType}}
-            {{#IsString}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsString}}
-            {{#IsBoolean}}<span style="color: #0000FF">{{DefaultValue}}</span>{{/IsBoolean}}
-            {{#IsNumeric}}<span style="color: #0000FF">{{DefaultValue}}</span>{{/IsNumeric}}
-            {{#IsDateTime}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsDateTime}}
-            {{#IsDuration}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsDuration}}
-            {{#IsGuid}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsGuid}}
+            {{#IsString}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsString}}
+            {{#IsBoolean}}<span style="color: #0000FF">{{SampleValue}}</span>{{/IsBoolean}}
+            {{#IsNumeric}}<span style="color: #0000FF">{{SampleValue}}</span>{{/IsNumeric}}
+            {{#IsDateTime}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsDateTime}}
+            {{#IsDuration}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsDuration}}
+            {{#IsGuid}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsGuid}}
         {{/IsSimpleType}}
         {{#IsOpening}}
             {{#IsArray}}[{{/IsArray}}
@@ -222,7 +222,7 @@
         <span class="sample-code-whitespace">{{Whitespace}}</span>
         <span style="color: #0000FF">&lt;{{#IsClosing}}/{{/IsClosing}}</span><span style="color: #A31515;{{#IsDictionaryEntry}}font-style: italic{{/IsDictionaryEntry}}">{{#IsDictionaryEntry}}[{{Name}}]{{/IsDictionaryEntry}}{{^IsDictionaryEntry}}{{Name}}{{/IsDictionaryEntry}}</span><span style="color: #0000FF">&gt;</span>
         {{#IsSimpleType}}
-            {{DefaultValue}}
+            {{SampleValue}}
             <span style="color: #0000FF">&lt;/</span><span style="color: #A31515;{{#IsDictionaryEntry}}font-style: italic{{/IsDictionaryEntry}}">{{#IsDictionaryEntry}}[{{Name}}]{{/IsDictionaryEntry}}{{^IsDictionaryEntry}}{{Name}}{{/IsDictionaryEntry}}</span><span style="color: #0000FF">&gt;</span>
         {{/IsSimpleType}}
     </script>
@@ -239,7 +239,10 @@
                     {{#Required}}<span class="badge badge-important">Required</span>{{/Required}}
                     {{#Optional}}
                         <span class="badge badge-success">Optional</span>
-                    {{/Optional}}
+                    {{/Optional}}   
+                        {{#if DefaultValue}}
+                            <span class="badge badge-inverse">Default: {{{DefaultValue}}}</span>
+                        {{/if}}
                 {{/IsMember}}
                 {{{Comments}}}
                 {{#IsDeprecated}}
@@ -289,9 +292,12 @@
                 <tr>
                   <td nowrap="nowrap"><code>{{{Name}}}</code></td>
                   <td>
-                      {{#either IsAccept IsContentType}}
-                          {{#../../MimeTypes}}<span class="label label-default">{{this}}</span> {{/../../MimeTypes}}
-                      {{/either}}
+                      {{#if IsContentType}}
+                          {{#../../../Request/MimeTypes}}<span class="label label-default">{{this}}</span> {{/../../../Request/MimeTypes}}
+                      {{/if}}
+                      {{#if IsAccept}}
+                          {{#../../../Response/MimeTypes}}<span class="label label-default">{{this}}</span> {{/../../../Response/MimeTypes}}
+                      {{/if}}
                       
                       {{#Optional}}<span class="label label-success">Optional</span>{{/Optional}}
                       {{^Optional}}<span class="label label-important">Required</span>{{/Optional}}

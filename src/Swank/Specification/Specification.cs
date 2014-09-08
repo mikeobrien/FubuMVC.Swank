@@ -79,16 +79,17 @@ namespace FubuMVC.Swank.Specification
         public string Comments { get; set; }
         public List<Header> Headers { get; set; }
         public List<string> MimeTypes { get; set; }
-        public List<DataDescription> Body { get; set; }
+        public List<BodyDescription> Body { get; set; }
     }
 
-    public class DataDescription
+    public class BodyDescription
     {
         public string Name { get; set; }
         public string Comments { get; set; }
         public bool? IsFirst { get; set; }
         public bool? IsLast { get; set; }
         public string TypeName { get; set; }
+        public string SampleValue { get; set; }
         public string DefaultValue { get; set; }
         public bool? Required { get; set; }
         public bool? Optional { get; set; }

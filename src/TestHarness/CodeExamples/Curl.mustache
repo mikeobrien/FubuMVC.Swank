@@ -1,14 +1,14 @@
 ﻿curl <span style="color: #0000FF">-X</span> <span style="color: #A31515">{{Method}}</span> \<br />
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-u</span> <span style="color: #A31515">accountid\\username:password</span> \<br />
-{{#if Response}}
-	{{#MimeTypes}}
-		
-	{{/MimeTypes}}
+{{#Response}}
 	{{#if Body}}
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-H</span> <span style="color: #A31515">"Accept: application/json"</span> \<br />
 	{{/if}}
-{{/if}}
+{{/Response}}
 {{#Request}}
+	{{#contains MimeTypes 'application/binary' '*/*'}}
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">--data-ascii</span> <span style="color: #A31515">@/path/to/file</span>
+	{{/contains}}
 	{{#if Body}}
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-H</span> <span style="color: #A31515">"Content-Type: application/json"</span> \<br />
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-d</span>&nbsp;
@@ -53,3 +53,8 @@
 	{{/if}}
 {{/Request}}
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">https://services.reachmail.net{{Url}}</span>
+{{#Response}}
+	{{#contains MimeTypes 'application/binary' '*/*'}}
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF"> &gt; </span> <span style="color: #A31515">/path/to/file</span>
+	{{/contains}}
+{{/Response}}

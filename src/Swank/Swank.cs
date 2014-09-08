@@ -171,9 +171,9 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Indicates whether enum values are represented by a number or string.
         /// </summary>
-        public Swank WithEnumValueTypeOf(EnumValue type)
+        public Swank WithEnumFormat(EnumFormat type)
         {
-            _configuration.EnumValue = type;
+            _configuration.EnumFormat = type;
             return this;
         }
 
@@ -209,45 +209,45 @@ namespace FubuMVC.Swank
         /// <summary>
         /// This is the format of default and sample DateTime values displayed in the documentation.
         /// </summary>
-        public Swank WithDateTimeFormat(string format)
+        public Swank WithSampleDateTimeFormat(string format)
         {
-            _configuration.DefaultValueDateTimeFormat = format;
+            _configuration.SampleDateTimeFormat = format;
             return this;
         }
 
         /// <summary>
         /// This is the format of default and sample integer values displayed in the documentation.
         /// </summary>
-        public Swank WithIntegerFormat(string format)
+        public Swank WithSampleIntegerFormat(string format)
         {
-            _configuration.DefaultValueIntegerFormat = format;
+            _configuration.SampleIntegerFormat = format;
             return this;
         }
 
         /// <summary>
         /// This is the format of default and sample real values displayed in the documentation.
         /// </summary>
-        public Swank WithRealFormat(string format)
+        public Swank WithSampleRealFormat(string format)
         {
-            _configuration.DefaultValueRealFormat = format;
+            _configuration.SampleRealFormat = format;
             return this;
         }
 
         /// <summary>
         /// This is the format of default and sample TimeSpan values displayed in the documentation.
         /// </summary>
-        public Swank WithTimeSpanFormat(string format)
+        public Swank WithSampleTimeSpanFormat(string format)
         {
-            _configuration.DefaultValueTimeSpanFormat = format;
+            _configuration.SampleTimeSpanFormat = format;
             return this;
         }
 
         /// <summary>
         /// This is the format of default and sample Guid values displayed in the documentation.
         /// </summary>
-        public Swank WithGuidFormat(string format)
+        public Swank WithSampleGuidFormat(string format)
         {
-            _configuration.DefaultValueGuidFormat = format;
+            _configuration.SampleGuidFormat = format;
             return this;
         }
 

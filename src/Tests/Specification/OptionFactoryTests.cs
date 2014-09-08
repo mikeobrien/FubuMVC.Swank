@@ -97,11 +97,11 @@ namespace Tests.Specification
         }
 
         [Test]
-        [TestCase(EnumValue.AsNumber, "0")]
-        [TestCase(EnumValue.AsString, "Option")]
-        public void should_return_option_description(EnumValue enumMode, string value)
+        [TestCase(EnumFormat.AsNumber, "0")]
+        [TestCase(EnumFormat.AsString, "Option")]
+        public void should_return_option_description(EnumFormat enumMode, string value)
         {
-            var options = GetOptions<EnumDescription>(x => x.EnumValue = enumMode);
+            var options = GetOptions<EnumDescription>(x => x.EnumFormat = enumMode);
 
             var option = options.Single();
 
@@ -116,11 +116,11 @@ namespace Tests.Specification
         }
 
         [Test]
-        [TestCase(EnumValue.AsNumber, "0")]
-        [TestCase(EnumValue.AsString, "Option")]
-        public void should_return_option_without_description(EnumValue enumMode, string value)
+        [TestCase(EnumFormat.AsNumber, "0")]
+        [TestCase(EnumFormat.AsString, "Option")]
+        public void should_return_option_without_description(EnumFormat enumMode, string value)
         {
-            var options = GetOptions<EnumEmptyDescription>(x => x.EnumValue = enumMode);
+            var options = GetOptions<EnumEmptyDescription>(x => x.EnumFormat = enumMode);
 
             var option = options.Single();
 
