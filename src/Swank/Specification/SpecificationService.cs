@@ -171,6 +171,7 @@ namespace FubuMVC.Swank.Specification
                         Method = route.AllowedHttpMethods.FirstOrDefault(),
                         UrlParameters = chain.FirstCall().HasInput ? GetUrlParameters(chain) : null,
                         QuerystringParameters = querystring,
+                        Secure = endpoint.Secure,
                         StatusCodes = GetStatusCodes(chain),
                         Request = GetRequest(chain, endpoint),
                         Response = GetResponse(chain, endpoint)
@@ -269,7 +270,8 @@ namespace FubuMVC.Swank.Specification
                 {
                     Name = x.Name,
                     Comments = x.Comments,
-                    Optional = x.Optional,
+                    Optional = type == HttpDirection.Request && x.Optional,
+                    Required = type == HttpDirection.Request && !x.Optional,
                     IsAccept = x.Name.Equals("accept", StringComparison.OrdinalIgnoreCase),
                     IsContentType = x.Name.Equals("content-type", StringComparison.OrdinalIgnoreCase)
                 })).OrderBy(x => x.Name).ToList();

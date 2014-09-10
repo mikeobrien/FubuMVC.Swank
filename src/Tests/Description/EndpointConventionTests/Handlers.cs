@@ -68,6 +68,26 @@ namespace Tests.Description.EndpointConventionTests
                 public object Execute(object request) { return null; }
             }
         }
+
+        namespace SecureDescription
+        {
+            public class PublicGetHandler
+            {
+                public object Execute(object request) { return null; }
+            }
+
+            [Secure]
+            public class SecureGetHandler
+            {
+                public object Execute(object request) { return null; }
+            }
+
+            public class SecureActionGetHandler
+            {
+                [Secure]
+                public object Execute(object request) { return null; }
+            }
+        }
     }
 
     namespace ControllerResource

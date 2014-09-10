@@ -2,6 +2,9 @@
 {
     public enum MimeType
     {
+        /// Any type
+        Any,
+
         /// Atom feeds
         ApplicationAtomXml,
 
@@ -361,6 +364,9 @@
 
     public static class Mime
     {
+        /// Any type
+        public const string Any = "*/*";
+
         /// Atom feeds
         public const string ApplicationAtomXml = "application/atom+xml";
 
@@ -720,6 +726,7 @@
         {
             switch (mimeType)
             {
+                case MimeType.Any: return Any;
                 case MimeType.ApplicationAtomXml: return ApplicationAtomXml;
                 case MimeType.ApplicationDart: return ApplicationDart;
                 case MimeType.ApplicationEcmascript: return ApplicationEcmascript;

@@ -16,13 +16,15 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             header.Name.ShouldEqual("accept");
             header.Comments.ShouldEqual("This is an endpoint description.");
             header.Optional.ShouldBeTrue();
+            header.Required.ShouldBeFalse();
             header.IsAccept.ShouldBeTrue();
             header.IsContentType.ShouldBeFalse();
 
             header = endpoint.Request.Headers[1];
             header.Name.ShouldEqual("api-key");
             header.Comments.ShouldEqual("This is a handler description.");
-            header.Optional.ShouldBeTrue();
+            header.Optional.ShouldBeFalse();
+            header.Required.ShouldBeTrue();
             header.IsAccept.ShouldBeFalse();
             header.IsContentType.ShouldBeFalse();
 
@@ -32,6 +34,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             header.Name.ShouldEqual("content-length");
             header.Comments.ShouldBeNull();
             header.Optional.ShouldBeFalse();
+            header.Required.ShouldBeFalse();
             header.IsAccept.ShouldBeFalse();
             header.IsContentType.ShouldBeFalse();
 
@@ -39,6 +42,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             header.Name.ShouldEqual("content-type");
             header.Comments.ShouldBeNull();
             header.Optional.ShouldBeFalse();
+            header.Required.ShouldBeFalse();
             header.IsAccept.ShouldBeFalse();
             header.IsContentType.ShouldBeTrue();
         }

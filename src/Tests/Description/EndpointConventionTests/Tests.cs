@@ -140,5 +140,29 @@ namespace Tests.Description.EndpointConventionTests
             var description = _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.ResponseDescription.EmbeddedHandlerDescriptionGetHandler>().ParentChain());
             description.ResponseComments.ShouldEqual("<p><strong>An embedded handler response markdown description</strong></p>");
         }
+
+        [Test]
+        public void should_set_actions_to_unsecure_by_default()
+        {
+            _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.
+                SecureDescription.PublicGetHandler>().ParentChain())
+                .Secure.ShouldBeFalse();
+        }
+
+        [Test]
+        public void should_set_actions_to_secure_when_handler_flagged()
+        {
+            _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.
+                SecureDescription.SecureGetHandler>().ParentChain())
+                .Secure.ShouldBeTrue();
+        }
+
+        [Test]
+        public void should_set_actions_to_secure_when_action_flagged()
+        {
+            _endpointConvention.GetDescription(_graph.GetAction<EndpointDescriptions.
+                SecureDescription.SecureActionGetHandler>().ParentChain())
+                .Secure.ShouldBeTrue();
+        }
     }
 }

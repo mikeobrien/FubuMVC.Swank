@@ -158,5 +158,26 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         {
             Spec.GetEndpoint<HiddenEndpointAttributes.VisibleGetHandler>().ShouldNotBeNull();
         }
+
+        [Test]
+        public void should_set_actions_to_unsecure_by_default()
+        {
+            Spec.GetEndpoint<EndpointDescriptions.SecureDescription.PublicGetHandler>()
+                .Secure.ShouldBeFalse();
+        }
+
+        [Test]
+        public void should_set_actions_to_secure_when_handler_flagged()
+        {
+            Spec.GetEndpoint<EndpointDescriptions.SecureDescription.SecureGetHandler>()
+                .Secure.ShouldBeTrue();
+        }
+
+        [Test]
+        public void should_set_actions_to_secure_when_action_flagged()
+        {
+            Spec.GetEndpoint<EndpointDescriptions.SecureDescription.SecureActionGetHandler>()
+                .Secure.ShouldBeTrue();
+        }
     }
 }

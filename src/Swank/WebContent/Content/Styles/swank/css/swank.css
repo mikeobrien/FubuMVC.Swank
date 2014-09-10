@@ -13,6 +13,11 @@ body {
     font-size: 16px;
 }
 
+.secure {
+    top: 3px;
+    font-size: 13px;
+}
+
 .footer {
     padding: 30px 0;
     margin-top: 70px;
@@ -90,6 +95,22 @@ blockquote p {
 
 .label-inverse, .badge-inverse{
     background-color:#333
+}
+
+.label code {
+    padding: 0;
+    color: #FFF;
+    border: none;
+    background-color: transparent;
+    font-size: 100%;
+}
+
+.badge code {
+    padding: 0;
+    color: #FFF;
+    border: none;
+     background-color: transparent;
+    font-size: 100%;
 }
 
 .alert-warning {

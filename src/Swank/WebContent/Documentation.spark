@@ -77,7 +77,11 @@
 
             <div class="endpoint-header endpoint-well">
                 <div class="endpoint-method highlight-background">{{Method}}</div>
-                <div class="endpoint-url">{{{formatUrl Url}}}</div>
+                <div class="endpoint-url">{{{formatUrl Url}}}
+                    {{#if Secure}}
+                        <span class="secure glyphicon glyphicon-lock expand-toggle" alt="Secure"></span>
+                    {{/if}}
+                </div>
                 <div class="endpoint-toggle">
                   <span class="glyphicon glyphicon-chevron-left expand-toggle"></span></div>
                 <div class="endpoint-name highlight-text">{{{Name}}}</div>
@@ -163,12 +167,12 @@
                     <td><strong>{{{Name}}}</strong></td>
                     <td>
                         <code>{{{Type}}}</code>
-                        {{#Required}}<span class="label label-important">Required</span>{{/Required}}
-                        {{^Required}}<span class="label label-success">Optional</span>{{/Required}}
-                        {{#MultipleAllowed}}<span class="label label-info">Multiple Allowed</span>{{/MultipleAllowed}}
+                        {{#Required}}<span class="badge badge-important">Required</span>{{/Required}}
+                        {{^Required}}<span class="badge badge-success">Optional</span>{{/Required}}
+                        {{#MultipleAllowed}}<span class="badge badge-info">Multiple Allowed</span>{{/MultipleAllowed}}
                         {{^Required}}
                             {{#if DefaultValue}}
-                                <span class="badge badge-inverse">Default: {{{DefaultValue}}}</span>
+                                <span class="badge badge-inverse">Default: <code>{{{DefaultValue}}}</code></span>
                             {{/if}}
                         {{/Required}}
                         {{{Comments}}}
@@ -241,7 +245,7 @@
                         <span class="badge badge-success">Optional</span>
                     {{/Optional}}   
                         {{#if DefaultValue}}
-                            <span class="badge badge-inverse">Default: {{{DefaultValue}}}</span>
+                            <span class="badge badge-inverse">Default: <code>{{{DefaultValue}}}</code></span>
                         {{/if}}
                 {{/IsMember}}
                 {{{Comments}}}
@@ -292,15 +296,8 @@
                 <tr>
                   <td nowrap="nowrap"><code>{{{Name}}}</code></td>
                   <td>
-                      {{#if IsContentType}}
-                          {{#../../../Request/MimeTypes}}<span class="label label-default">{{this}}</span> {{/../../../Request/MimeTypes}}
-                      {{/if}}
-                      {{#if IsAccept}}
-                          {{#../../../Response/MimeTypes}}<span class="label label-default">{{this}}</span> {{/../../../Response/MimeTypes}}
-                      {{/if}}
-                      
-                      {{#Optional}}<span class="label label-success">Optional</span>{{/Optional}}
-                      {{^Optional}}<span class="label label-important">Required</span>{{/Optional}}
+                      {{#Optional}}<span class="badge badge-success">Optional</span>{{/Optional}}
+                      {{#Required}}<span class="badge badge-important">Required</span>{{/Required}}
                       
                       {{{Comments}}}
                   </td>
@@ -324,12 +321,8 @@
                     <tr>
                         <th class="sample-selector-header" style="width: 300px;">
                             <div class="btn-group sample-selector">
-                              <if condition='Model.ShowJsonFormat'>
-                                <button class="btn show-json active?{Model.ShowJsonFormat}" title="Json">{}</button>
-                              </if>
-                              <if condition='Model.ShowXmlFormat'>
-                                <button class="btn show-xml active?{!Model.ShowJsonFormat}" title="Xml">&lt;/&gt;</button>
-                              </if>
+                              <button class="btn show-json" title="Json">{}</button>
+                              <button class="btn show-xml" title="Xml">&lt;/&gt;</button>
                             </div>
                             <div class="sample-copy-hint">Click below to copy</div>
                         </th>
@@ -340,9 +333,9 @@
                     {{#Body}}
                         <tr>
                             <td class="sample-code json" title="Click to copy json..." 
-                                style="display: none;?{!Model.ShowJsonFormat}">{{> jsonBody}}</td>
+                                style="display: none;">{{> jsonBody}}</td>
                             <td class="sample-code xml" title="Click to copy xml..." 
-                                style="display: none;?{Model.ShowJsonFormat}">{{> xmlBody}}</td>
+                                style="display: none;">{{> xmlBody}}</td>
                             <td>
                                 {{> bodyDescription}}
                             </td>
@@ -424,9 +417,15 @@
 
       String.prototype.flatten = function() {
           return this.trim().split(/\r?\n/).map(function(x) { return x.trim(); }).join('');
-      }
+      };
       
-      window.Swank = !{Model.Specification.SerializeJson()};
+      window.Swank = { 
+          Config: { 
+              ShowJson: ${Model.ShowJsonFormat.ToString().ToLower()},
+              ShowXml: ${Model.ShowXmlFormat.ToString().ToLower()}
+          },
+          Spec: !{Model.Specification.SerializeJson()} 
+      };
       
     </script>
     

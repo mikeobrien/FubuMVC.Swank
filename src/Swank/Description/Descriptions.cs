@@ -22,6 +22,7 @@
 
     public class EndpointDescription : Description
     {
+        public bool Secure { get; set; }
         public string RequestComments { get; set; }
         public string ResponseComments { get; set; }
     }

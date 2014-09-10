@@ -19,10 +19,12 @@
         $('.nav').find('li').removeClass('active');
         
         var content = $('#content');
+        var spec = Swank.Spec;
+        var config = Swank.Config;
         content.empty();
         
         if (!id) {
-            content.html(Swank.Comments);
+            content.html(spec.Comments);
             return;
         }
         
@@ -30,15 +32,30 @@
         var moduleName = idParts[0];
         var resourceName = idParts[1];
 
-        var module = Swank.Modules.filter(function (x) { return x.Name === moduleName; })[0];
+        var module = spec.Modules.filter(function (x) { return x.Name === moduleName; })[0];
         var resource = module.Resources.filter(function (x) { return x.Name === resourceName; })[0];
 
         $('.nav').find("li[data-module='" + moduleName + "']").addClass('active');
         
-        if (module && !resource) {
+        if (module && !resource)
+        {
             content.html(moduleTemplate(module));
-        } else if (resource) {
+        }
+        else if (resource)
+        {
             content.html(resourceTemplate(resource));
+
+            if (!config.ShowXml) $('.show-xml').remove();
+            if (!config.ShowJson) $('.show-json').remove();
+
+            if (config.ShowJson && $.cookie('FormatPreference') !== 'xml') {
+                $('.btn.show-json').toggleClass('active');
+                $('.sample-code.json').show();
+            } else if (config.ShowXml && ($.cookie('FormatPreference') === 'xml' || !config.ShowJson)) {
+                $('.btn.show-xml').toggleClass('active');
+                $('.sample-code.xml').show();
+            }
+
             $('.endpoint-header').click(function () {
                 var header = $(this);
                 header.next(".endpoint-body").slideToggle(500);
@@ -99,7 +116,9 @@
                     this.offsetHeight,
                     $(this).text());
             });
-        } else {
+        }
+        else
+        {
             content.html('No module our resource specified.');
         }
     };
@@ -140,6 +159,12 @@
             }
         }
         return options.inverse(this);
+    });
+
+    Handlebars.registerHelper('yada', function (options) {
+        console.log(this);
+        console.log(options);
+        return options.fn(this);
     });
 
     var initialize = function () {

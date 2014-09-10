@@ -15,11 +15,12 @@ namespace TestHarness.Administration.Users
 
     public class AllGetHandler
     {
+        [Secure]
         [Description("Get User")]
         [MimeType(HttpDirection.Request, MimeType.ApplicationJson)]
         [MimeType(HttpDirection.Request, MimeType.ApplicationXml)]
         [MimeType(HttpDirection.Response, MimeType.ApplicationXml)]
-        [Header(HttpDirection.Request, "content-type", "This is the content type header.", true)]
+        [Header(HttpDirection.Request, "content-type", "This is the content type header. <span class=\"label label-default\"><code>*/*</code></span>", true)]
         [Header(HttpDirection.Request, "accept", "This is the accept header.", false)]
         [Header(HttpDirection.Response, "content-type", "This is the content type header.", true)]
         [Header(HttpDirection.Response, "accept", "This is the accept header.", false)]

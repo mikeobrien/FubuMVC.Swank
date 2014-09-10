@@ -19,6 +19,8 @@ namespace FubuMVC.Swank.Description
             return new EndpointDescription {
                     Name = attribute != null ? attribute.Name : null,
                     Comments = GetEndpointComments(chain),
+                    Secure = action.HasAttribute<SecureAttribute>() ||
+                             action.HandlerType.HasAttribute<SecureAttribute>(),
                     RequestComments = GetDataComments<RequestCommentsAttribute>(action, x => x.Comments, "Request"),
                     ResponseComments = GetDataComments<ResponseCommentsAttribute>(action, x => x.Comments, "Response")
                 };

@@ -34,6 +34,7 @@ namespace FubuMVC.Swank.Specification
         public string Method { get; set; }
         public List<UrlParameter> UrlParameters { get; set; }
         public List<QuerystringParameter> QuerystringParameters { get; set; }
+        public bool Secure { get; set; }
         public List<StatusCode> StatusCodes { get; set; }
         public Data Request { get; set; }
         public Data Response { get; set; }
@@ -70,6 +71,7 @@ namespace FubuMVC.Swank.Specification
         public string Name { get; set; }
         public string Comments { get; set; }
         public bool Optional { get; set; }
+        public bool Required { get; set; }
         public bool IsContentType { get; set; }
         public bool IsAccept { get; set; }
     }

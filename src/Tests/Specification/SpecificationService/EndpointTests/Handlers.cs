@@ -60,6 +60,26 @@ namespace Tests.Specification.SpecificationService.EndpointTests
                 public object Execute_Delete_Id(Request request) { return null; }
             }
         }
+
+        namespace SecureDescription
+        {
+            public class PublicGetHandler
+            {
+                public object ExecutePublic(object request) { return null; }
+            }
+
+            [Secure]
+            public class SecureGetHandler
+            {
+                public object ExecuteSecureHandler(object request) { return null; }
+            }
+
+            public class SecureActionGetHandler
+            {
+                [Secure]
+                public object ExecuteSecureAction(object request) { return null; }
+            }
+        }
     }
 
     namespace HiddenEndpointAttributes
@@ -173,8 +193,8 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
     namespace HeaderDescriptions
     {
-        [Header(HttpDirection.Response, "content-type")]
-        [Header(HttpDirection.Request, "api-key", "This is a handler description.", true)]
+        [Header(HttpDirection.Response, "content-type", optional: true)]
+        [Header(HttpDirection.Request, "api-key", "This is a handler description.")]
         public class HeadersGetHandler
         {
             [Header(HttpDirection.Request, "accept", "This is an endpoint description.", true)]

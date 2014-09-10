@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Conventions.cs" />
+    <Compile Include="Description\SecureAttribute.cs" />
     <Compile Include="Description\ArrayDescriptionAttribute.cs" />
     <Compile Include="Description\Assert.cs" />
     <Compile Include="Description\DictionaryDescriptionAttribute.cs" />
