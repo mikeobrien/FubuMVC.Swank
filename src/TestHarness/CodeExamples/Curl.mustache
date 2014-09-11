@@ -1,22 +1,23 @@
-﻿curl <span style="color: #0000FF">-X</span> <span style="color: #A31515">{{Method}}</span> \<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-u</span> <span style="color: #A31515">accountid\\username:password</span> \<br />
+﻿curl <span style="color: #0000FF">-X</span> <span style="color: #A31515">{{Method}}</span> <span style="color: #0000FF">-v</span> \<br />
+{{#Secure}}
+	&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-u</span> <span style="color: #A31515">accountid\\username:password</span> \<br />
+{{/Secure}}
 {{#Response}}
 	{{#if Body}}
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-H</span> <span style="color: #A31515">"Accept: application/json"</span> \<br />
 	{{/if}}
 {{/Response}}
 {{#Request}}
-	{{#contains MimeTypes 'application/binary' '*/*'}}
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">--data-ascii</span> <span style="color: #A31515">@/path/to/file</span>
+	{{#contains MimeTypes 'application/octet-stream' '*/*'}}
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">--data-binary</span> <span style="color: #A31515">@/path/to/file</span> \<br />
 	{{/contains}}
 	{{#if Body}}
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-H</span> <span style="color: #A31515">"Content-Type: application/json"</span> \<br />
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-d</span>&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">--data-binary</span> \<br />
 		{{#Body}}
-			{{^IsFirst}}
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sample-code-whitespace">{{Whitespace}}</span>
-			{{/IsFirst}}
-			'
+			{{#IsFirst}}'{{/IsFirst}}
+			{{#IsLast}}&nbsp;{{/IsLast}}
 			{{^IsClosing}}
 				{{#IsMember}}
 					<span style="color: #A31515">"{{Name}}"</span>:&nbsp;
@@ -26,12 +27,12 @@
 				{{/IsDictionaryEntry}}
 			{{/IsClosing}}
 			{{#IsSimpleType}}
-				{{#IsString}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsString}}
-				{{#IsBoolean}}<span style="color: #0000FF">{{DefaultValue}}</span>{{/IsBoolean}}
-				{{#IsNumeric}}<span style="color: #0000FF">{{DefaultValue}}</span>{{/IsNumeric}}
-				{{#IsDateTime}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsDateTime}}
-				{{#IsDuration}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsDuration}}
-				{{#IsGuid}}<span style="color: #A31515">"{{DefaultValue}}"</span>{{/IsGuid}}
+				{{#IsString}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsString}}
+				{{#IsBoolean}}<span style="color: #0000FF">{{SampleValue}}</span>{{/IsBoolean}}
+				{{#IsNumeric}}<span style="color: #0000FF">{{SampleValue}}</span>{{/IsNumeric}}
+				{{#IsDateTime}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsDateTime}}
+				{{#IsDuration}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsDuration}}
+				{{#IsGuid}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsGuid}}
 			{{/IsSimpleType}}
 			{{#IsOpening}}
 				{{#IsArray}}[{{/IsArray}}
@@ -48,13 +49,14 @@
 					{{^IsLastMember}},{{/IsLastMember}}
 				{{/IsOpening}}
 			{{/IsMember}}
-			' \<br />
+			{{#IsLast}}' &#92;{{/IsLast}}
+			<br />
 		{{/Body}}
 	{{/if}}
 {{/Request}}
-&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">https://services.reachmail.net{{Url}}</span>
 {{#Response}}
 	{{#contains MimeTypes 'application/binary' '*/*'}}
-		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF"> &gt; </span> <span style="color: #A31515">/path/to/file</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-o</span> <span style="color: #A31515">/path/to/file</span> \<br />
 	{{/contains}}
 {{/Response}}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">https://services.reachmail.net{{Url}}</span>
