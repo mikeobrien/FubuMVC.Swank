@@ -41,7 +41,7 @@ namespace Tests
         }
 
         [Test]
-        public void should_return_specification_data()
+        public void should_return_specification_spec()
         {
             var spec = _testWebsite.DownloadString("documentation/spec", "application/json")
                 .DeserializeJson<FubuMVC.Swank.Specification.Specification>();
