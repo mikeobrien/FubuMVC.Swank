@@ -54,9 +54,8 @@ namespace FubuMVC.Swank.Documentation
                         Id = x.Name.Hash(),
                         First = i == 0,
                         Name = x.Name,
-                        Comments = x.Comments ?? _configuration.AppliesToAssemblies.FindTextResourceNamed("*" + x.Filename + ".md"),
-                        Template = x.Template ?? _configuration.AppliesToAssemblies.FindTextResourceNamed("*" + x.Filename + ".mustache")
-                                                               .Flatten().ConvertNbspHtmlEntityToSpaces().ConvertBrHtmlTagsToLineBreaks()
+                        Comments = x.Comments,
+                        Template = x.Template
                     }).ToList(),
                     ShowXmlFormat = _configuration.DisplayXmlFormat,
                 ShowJsonFormat = _configuration.DisplayJsonFormat,

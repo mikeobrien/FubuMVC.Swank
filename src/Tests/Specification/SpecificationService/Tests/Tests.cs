@@ -12,13 +12,13 @@ namespace Tests.Specification.SpecificationService.Tests
     [TestFixture]
     public abstract class InteractionContext
     {
-        protected FubuMVC.Swank.Specification.Specification BuildSpec<TNamespace>(Action<Swank> configure = null, string specFile = null)
+        protected FubuMVC.Swank.Specification.Specification BuildSpec<TNamespace>(Action<Swank> configure = null)
         {
             var graph = Behavior.BuildGraph().AddActionsInNamespace(GetType());
-            return BuildSpec<TNamespace>(graph, configure, specFile);
+            return BuildSpec<TNamespace>(graph, configure);
         }
 
-        protected FubuMVC.Swank.Specification.Specification BuildSpec<TNamespace>(BehaviorGraph graph, Action<Swank> configure = null, string specFile = null)
+        protected FubuMVC.Swank.Specification.Specification BuildSpec<TNamespace>(BehaviorGraph graph, Action<Swank> configure = null)
         {
             var configuration = Swank.CreateConfig(x =>
                 {
@@ -26,11 +26,6 @@ namespace Tests.Specification.SpecificationService.Tests
 
                     x.AppliesToThisAssembly()
                      .Where(y => y.FirstCall().HandlerType.InNamespace<TNamespace>());
-
-                    if (specFile != null)
-                    {
-                        x.MergeThisSpecification(specFile);
-                    }
                 });
 
             var behaviorSource = new BehaviorSource(graph, configuration);

@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceptanceTests.cs" />
+    <Compile Include="Description\CodeExamples\CodeExampleTests.cs" />
     <Compile Include="Description\MimeTypeConventionTests.cs" />
     <Compile Include="Description\HeaderConventionTests.cs" />
     <Compile Include="EmbeddedCommentsTests.cs" />
@@ -149,6 +150,9 @@
     <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\RequestDescription\EmbeddedHandlerDescriptionGetHandler.Request.md" />
     <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\ResponseDescription\EmbeddedHandlerDescriptionGetHandler.Response.md" />
     <EmbeddedResource Include="Description\EndpointConventionTests\EndpointDescriptions\ResponseDescription\EmbeddedDescriptionGetHandler.Execute.Response.md" />
+    <EmbeddedResource Include="Description\CodeExamples\CodeExampleWithCommentsAndTemplate.mustache" />
+    <EmbeddedResource Include="Description\CodeExamples\CodeExampleWithNoTemplate.md" />
+    <EmbeddedResource Include="Description\CodeExamples\CodeExampleWithNoComments.mustache" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Specification\SpecificationService\EndpointTests\EndpointDescriptions\ActionDescription\EmbeddedDescriptionGetHandler.md" />
     <EmbeddedResource Include="ExtensionTests\EmbeddedMarkdownResource.md" />
@@ -198,7 +202,9 @@
       <Name>TestHarness</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Description\CodeExamples\CodeExampleWithCommentsAndTemplate.md" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

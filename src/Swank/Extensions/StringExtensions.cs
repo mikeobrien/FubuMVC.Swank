@@ -33,6 +33,11 @@ namespace FubuMVC.Swank.Extensions
             return value.StartsWith(prefix) ? value : prefix + value;
         }
 
+        public static string TransformIfMarkdownFile(this string text, string filename)
+        {
+            return filename.EndsWith(".md") ? text.TransformMarkdownBlock() : text;
+        }
+
         public static string TransformMarkdownBlock(this string markdown)
         {
             return string.IsNullOrEmpty(markdown) ? markdown : 

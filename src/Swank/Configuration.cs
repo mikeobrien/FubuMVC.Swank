@@ -15,14 +15,6 @@ namespace FubuMVC.Swank
 
     public class Configuration
     {
-        public class Example
-        {
-            public string Filename { get; set; }
-            public string Name { get; set; }
-            public string Comments { get; set; }
-            public string Template { get; set; }
-        }
-
         public class Service<T>
         {
             public Type Type { get; set; }
@@ -50,7 +42,7 @@ namespace FubuMVC.Swank
 
             EnumFormat = EnumFormat.AsNumber;
 
-            CodeExamples = new List<Example>();
+            CodeExamples = new List<CodeExample>();
 
             SampleDateTimeFormat = "g";
             SampleIntegerFormat = "0";
@@ -99,7 +91,6 @@ namespace FubuMVC.Swank
         public List<string> Stylesheets { get; set; }
         public bool DisplayJsonFormat { get; set; }
         public bool DisplayXmlFormat { get; set; }
-        public string MergeSpecificationPath { get; set; }
         public List<Assembly> AppliesToAssemblies { get; set; }
         public Func<BehaviorChain, bool> Filter { get; set; }
 
@@ -112,7 +103,7 @@ namespace FubuMVC.Swank
 
         public EnumFormat EnumFormat { get; set; }
 
-        public List<Example> CodeExamples { get; set; }
+        public List<CodeExample> CodeExamples { get; set; }
 
         public string SampleDateTimeFormat { get; set; }
         public string SampleIntegerFormat { get; set; }

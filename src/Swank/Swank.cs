@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Web;
+using System.Web.Hosting;
 using FubuMVC.Core;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Description;
-using FubuMVC.Swank.Net;
+using FubuMVC.Swank.Extensions;
 
 namespace FubuMVC.Swank
 {
@@ -23,16 +27,6 @@ namespace FubuMVC.Swank
         {
             registry.Import(new Conventions(_configuration), _configuration.Url);
         }        
-
-        /// <summary>
-        /// Path to a json formatted specification file that you want to merge with the spec that is generated.
-        /// You can use application relative paths a la ~/myspec.json.
-        /// </summary>
-        public Swank MergeThisSpecification(string path)
-        {
-            _configuration.MergeSpecificationPath = path;
-            return this;
-        }
 
         /// <summary>
         /// The spec should be generated from types in this assembly.
@@ -182,13 +176,22 @@ namespace FubuMVC.Swank
         /// These are named as [filename].[md] for comments and [filename].[mustache] 
         /// for templates. The name defaults to the filename if not specified.
         /// </summary>
-        public Swank WithCodeExample(string filename, string name = null)
+        public Swank WithCodeExampleResource(string filename, string name = null)
         {
-            _configuration.CodeExamples.Add(new Configuration.Example
-            {
-                Filename = filename,
-                Name = name ?? filename
-            });
+            _configuration.CodeExamples.Add(CodeExample.FromEmbeddedResource(
+                _configuration.AppliesToAssemblies, filename, name));
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a code examples to the documentation from a folder. 
+        /// These are named as [filename].[md] for comments and [filename].[mustache] 
+        /// for templates. The name defaults to the filename if not specified.
+        /// </summary>
+        public Swank WithCodeExampleFolder(string path)
+        {
+            _configuration.CodeExamples.AddRange(CodeExample.FromDirectory(HostingEnvironment.MapPath(
+                (!path.StartsWith("\\") && !path.StartsWith("\\") ? "~\\" : "") + path)));
             return this;
         }
 
@@ -197,7 +200,7 @@ namespace FubuMVC.Swank
         /// </summary>
         public Swank WithCodeExample(string name, string comments, string template)
         {
-            _configuration.CodeExamples.Add(new Configuration.Example
+            _configuration.CodeExamples.Add(new CodeExample
             {
                 Name = name,
                 Comments = comments,

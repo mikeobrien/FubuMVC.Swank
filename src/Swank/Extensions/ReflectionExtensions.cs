@@ -6,7 +6,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using FubuCore;
-using MarkdownSharp;
 
 namespace FubuMVC.Swank.Extensions
 {
@@ -155,7 +154,7 @@ namespace FubuMVC.Swank.Extensions
                         : y.Equals(x, StringComparison.OrdinalIgnoreCase)));
             if (resourceName == null) return null;
             var text = assembly.GetManifestResourceStream(resourceName).ReadToEnd();
-            return resourceName.EndsWith(".md") ? text.TransformMarkdownBlock() : text;
+            return text.TransformIfMarkdownFile(resourceName);
         }
 
         private static string ReadToEnd(this Stream stream)
