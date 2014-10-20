@@ -613,10 +613,18 @@ namespace Tests.Specification
         }
 
         [Test]
-        public void should_exclude_complex_type_autobound_members()
+        public void should_not_exclude_complex_type_autobound_members_by_default()
         {
             should_be_complex_type(CreateFactory()
-                .BuildGraph(typeof(Projection)), 1)
+                .BuildGraph(typeof(AutoboundModel)), 2)
+                .Members.Any(x => x.Name == "UserAgent").ShouldBeTrue();
+        }
+
+        [Test]
+        public void should_exclude_complex_type_autobound_members_when_configured()
+        {
+            should_be_complex_type(CreateFactory(x => x.ExcludeAutoBoundProperties = true)
+                .BuildGraph(typeof(AutoboundModel)), 1)
                 .Members.All(x => x.Name != "UserAgent").ShouldBeTrue();
         }
 

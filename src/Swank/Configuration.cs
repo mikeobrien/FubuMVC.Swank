@@ -93,6 +93,7 @@ namespace FubuMVC.Swank
         public bool DisplayXmlFormat { get; set; }
         public List<Assembly> AppliesToAssemblies { get; set; }
         public Func<BehaviorChain, bool> Filter { get; set; }
+        public bool ExcludeAutoBoundProperties { get; set; }
 
         public OrphanedActions OrphanedModuleActions { get; set; }
         public OrphanedActions OrphanedResourceActions { get; set; }

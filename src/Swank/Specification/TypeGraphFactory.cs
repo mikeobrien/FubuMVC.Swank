@@ -127,7 +127,7 @@ namespace FubuMVC.Swank.Specification
                    type.GetProjectionProperties() :
                    _typeCache.GetPropertiesFor(type).Select(x => x.Value))
                 .Where(x =>
-                    !x.IsAutoBound() &&
+                    (!_configuration.ExcludeAutoBoundProperties || !x.IsAutoBound()) &&
                     !x.IsQuerystring(action) &&
                     !x.IsUrlParameter(action))
                 .Select(x => new

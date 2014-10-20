@@ -151,6 +151,15 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
+        /// Excludes autobound properties from the request/response descriptions.
+        /// </summary>
+        public Swank ExcludeAutoBoundProperties()
+        {
+            _configuration.ExcludeAutoBoundProperties = true;
+            return this;
+        }
+
+        /// <summary>
         /// This is the default dictionary key name.
         /// </summary>
         public Swank WithDefaultDictionaryKeyName(string keyName)
