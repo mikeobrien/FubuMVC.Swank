@@ -117,7 +117,7 @@
     <Compile Include="Description\DictionaryDescriptionAttribute.cs" />
     <Compile Include="Description\MimeTypeAttribute.cs" />
     <Compile Include="Description\MimeTypeConvention.cs" />
-    <Compile Include="Documentation\DataGetHandler.cs" />
+    <Compile Include="Endpoints\DataGetHandler.cs" />
     <Compile Include="Extensions\LazyCache.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="Extensions\Xml.cs" />
@@ -159,7 +159,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Specification\Specification.cs" />
     <Compile Include="Specification\SpecificationService.cs" />
-    <Compile Include="Documentation\GetHandler.cs" />
+    <Compile Include="Endpoints\GetHandler.cs" />
     <Compile Include="Specification\TypeGraphFactory.cs" />
     <Compile Include="Swank.cs" />
   </ItemGroup>

@@ -16,16 +16,17 @@ namespace FubuMVC.Swank.Specification
             _configuration = configuration;
         }
 
-        public List<BodyDescription> Create(DataType type)
+        public List<BodyLineItem> Create(DataType type)
         {
-            var data = new List<BodyDescription>();
+            var data = new List<BodyLineItem>();
             WalkGraph(data, type, 0);
+            data.ForEach((x, i) => x.Index = i + 1);
             return data;
         }
 
-        private void WalkGraph(List<BodyDescription> data, DataType type, int level, 
-            Action<BodyDescription> opening = null, 
-            Action<BodyDescription> closing = null)
+        private void WalkGraph(List<BodyLineItem> data, DataType type, int level, 
+            Action<BodyLineItem> opening = null, 
+            Action<BodyLineItem> closing = null)
         {
             if (type.IsSimple) WalkSimpleType(data, type, level, opening);
             else if (type.IsArray) WalkArray(data, type, level, opening, closing);
@@ -39,11 +40,11 @@ namespace FubuMVC.Swank.Specification
         }
 
         private void WalkSimpleType(
-            List<BodyDescription> description, 
+            List<BodyLineItem> description, 
             DataType type, int level,
-            Action<BodyDescription> opening)
+            Action<BodyLineItem> opening)
         {
-            var data = new BodyDescription
+            var data = new BodyLineItem
             {
                 Name = type.Name,
                 TypeName = type.Name,
@@ -116,11 +117,11 @@ namespace FubuMVC.Swank.Specification
             return options;
         }
 
-        private void WalkArray(List<BodyDescription> data, DataType type, int level,
-            Action<BodyDescription> opening = null,
-            Action<BodyDescription> closing = null)
+        private void WalkArray(List<BodyLineItem> data, DataType type, int level,
+            Action<BodyLineItem> opening = null,
+            Action<BodyLineItem> closing = null)
         {
-            var arrayOpening = new BodyDescription
+            var arrayOpening = new BodyLineItem
             {
                 Name = type.Name,
                 Comments = type.Comments.TransformMarkdownInline(),
@@ -150,7 +151,7 @@ namespace FubuMVC.Swank.Specification
                             x.Name = type.ArrayItem.Name;
                 });
 
-            var arrayClosing = new BodyDescription
+            var arrayClosing = new BodyLineItem
             {
                 Name = type.Name,
                 Whitespace = Whitespace.Repeat(level),
@@ -163,11 +164,11 @@ namespace FubuMVC.Swank.Specification
             data.Add(arrayClosing);
         }
 
-        private void WalkDictionary(List<BodyDescription> data, DataType type, int level,
-            Action<BodyDescription> opening = null,
-            Action<BodyDescription> closing = null)
+        private void WalkDictionary(List<BodyLineItem> data, DataType type, int level,
+            Action<BodyLineItem> opening = null,
+            Action<BodyLineItem> closing = null)
         {
-            var dictionaryOpening = new BodyDescription
+            var dictionaryOpening = new BodyLineItem
             {
                 Name = type.Name,
                 Comments = type.Comments.TransformMarkdownInline(),
@@ -201,7 +202,7 @@ namespace FubuMVC.Swank.Specification
                     x.IsDictionaryEntry = true;
                 });
 
-            var dictionaryClosing = new BodyDescription
+            var dictionaryClosing = new BodyLineItem
             {
                 Name = type.Name,
                 Whitespace = Whitespace.Repeat(level),
@@ -214,11 +215,11 @@ namespace FubuMVC.Swank.Specification
             data.Add(dictionaryClosing);
         }
 
-        private void WalkComplexType(List<BodyDescription> data, DataType type, int level,
-            Action<BodyDescription> opening = null,
-            Action<BodyDescription> closing = null)
+        private void WalkComplexType(List<BodyLineItem> data, DataType type, int level,
+            Action<BodyLineItem> opening = null,
+            Action<BodyLineItem> closing = null)
         {
-            var complexOpening = new BodyDescription
+            var complexOpening = new BodyLineItem
             {
                 Name = type.Name,
                 Comments = type.Comments.TransformMarkdownInline(),
@@ -261,7 +262,7 @@ namespace FubuMVC.Swank.Specification
                     });
             }
 
-            var complexClosing = new BodyDescription
+            var complexClosing = new BodyLineItem
             {
                 Name = type.Name,
                 Whitespace = Whitespace.Repeat(level),

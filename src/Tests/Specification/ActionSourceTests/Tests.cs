@@ -4,6 +4,7 @@ using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank;
 using FubuMVC.Swank.Documentation;
+using FubuMVC.Swank.Endpoints;
 using FubuMVC.Swank.Specification;
 using NUnit.Framework;
 using Should;

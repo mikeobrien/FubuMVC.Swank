@@ -70,6 +70,19 @@ namespace FubuMVC.Swank.Extensions
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> source, T item)
         {
             return source != null ? new List<T>(source) { item } : new List<T> { item };
+        }
+
+        public static List<T> ForEach<T>(this List<T> source, Action<T, int> action)
+        {
+            var index = 0;
+            source.ForEach(x => action(x, index++));
+            return source;
+        }
+
+        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            foreach (var item in source) action(item);
+            return source;
         } 
     }
 }

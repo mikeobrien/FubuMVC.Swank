@@ -11,10 +11,10 @@
 	{{#contains MimeTypes 'application/octet-stream' '*/*'}}
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">--data-binary</span> <span style="color: #A31515">@/path/to/file</span> \<br />
 	{{/contains}}
-	{{#if Body}}
+	{{#Body}}
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">-H</span> <span style="color: #A31515">"Content-Type: application/json"</span> \<br />
 		&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000FF">--data-binary</span> \<br />
-		{{#Body}}
+		{{#Description}}
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sample-code-whitespace">{{Whitespace}}</span>
 			{{#IsFirst}}'{{/IsFirst}}
 			{{#IsLast}}&nbsp;{{/IsLast}}
@@ -51,8 +51,8 @@
 			{{/IsMember}}
 			{{#IsLast}}' &#92;{{/IsLast}}
 			<br />
-		{{/Body}}
-	{{/if}}
+		{{/Description}}
+	{{/Body}}
 {{/Request}}
 {{#Response}}
 	{{#contains MimeTypes 'application/binary' '*/*'}}

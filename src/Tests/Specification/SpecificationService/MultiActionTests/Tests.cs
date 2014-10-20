@@ -10,8 +10,8 @@ namespace Tests.Specification.SpecificationService.MultiActionTests
 {
     public class Tests : InteractionContext
     {
-        private BodyDescription _request;
-        private BodyDescription _response;
+        private BodyLineItem _request;
+        private BodyLineItem _response;
 
         [SetUp]
         public void SetUp()
@@ -28,8 +28,8 @@ namespace Tests.Specification.SpecificationService.MultiActionTests
             var spec = BuildSpec<PostHandler>(graph);
 
             var endpoint = spec.Modules[0].Resources[0].Endpoints[0];
-            _request = endpoint.Request.Body[0];
-            _response = endpoint.Response.Body[0];
+            _request = endpoint.Request.Body.Description[0];
+            _response = endpoint.Response.Body.Description[0];
         }
 
         [Test]

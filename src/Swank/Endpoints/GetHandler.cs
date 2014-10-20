@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using FubuMVC.Swank.Documentation;
 using FubuMVC.Swank.Extensions;
 using FubuMVC.Swank.Specification;
 
-namespace FubuMVC.Swank.Documentation
+namespace FubuMVC.Swank.Endpoints
 {
     public class Response
     {

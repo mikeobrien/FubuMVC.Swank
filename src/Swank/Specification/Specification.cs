@@ -81,11 +81,74 @@ namespace FubuMVC.Swank.Specification
         public string Comments { get; set; }
         public List<Header> Headers { get; set; }
         public List<string> MimeTypes { get; set; }
-        public List<BodyDescription> Body { get; set; }
+        public Body Body { get; set; }
     }
 
-    public class BodyDescription
+    public class Body
     {
+        public DataType Type { get; set; }
+        public List<BodyLineItem> Description { get; set; }
+    }
+
+    public class DataType : IDescription
+    {
+        public string Name { get; set; }
+        public string Comments { get; set; }
+
+        public bool IsSimple { get; set; }
+        public List<EnumOption> Options { get; set; }
+
+        public bool IsComplex { get; set; }
+        public List<Member> Members { get; set; }
+
+        public bool IsArray { get; set; }
+        public ArrayItem ArrayItem { get; set; }
+
+        public bool IsDictionary { get; set; }
+        public DictionaryEntry DictionaryEntry { get; set; }
+    }
+
+    public class ArrayItem : IDescription
+    {
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public DataType Type { get; set; }
+    }
+
+    public class DictionaryEntry
+    {
+        public string KeyName { get; set; }
+        public DataType KeyType { get; set; }
+        public string KeyComments { get; set; }
+
+        public DataType ValueType { get; set; }
+        public string ValueComments { get; set; }
+    }
+
+    public class EnumOption
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+        public string Comments { get; set; }
+    }
+
+    public class Member : IDescription
+    {
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public bool Required { get; set; }
+        public bool Optional { get; set; }
+        public string DefaultValue { get; set; }
+        public string SampleValue { get; set; }
+        public bool Deprecated { get; set; }
+        public string DeprecationMessage { get; set; }
+        public DataType Type { get; set; }
+    }
+
+
+    public class BodyLineItem
+    {
+        public int Index { get; set; }
         public string Name { get; set; }
         public string Comments { get; set; }
         public bool? IsFirst { get; set; }
@@ -128,54 +191,6 @@ namespace FubuMVC.Swank.Specification
         public string Comments { get; set; }
         public string TypeName { get; set; }
         public List<Option> Options { get; set; }
-    }
-
-    public class DataType : IDescription
-    {
-        public string Name { get; set; }
-        public string Comments { get; set; }
-
-        public bool IsSimple { get; set; }
-        public List<Option> Options { get; set; }
-
-        public bool IsComplex { get; set; }
-        public List<Member> Members { get; set; }
-
-        public bool IsArray { get; set; }
-        public ArrayItem ArrayItem { get; set; }
-
-        public bool IsDictionary { get; set; }
-        public DictionaryEntry DictionaryEntry { get; set; }
-    }
-
-    public class ArrayItem : IDescription
-    {
-        public string Name { get; set; }
-        public string Comments { get; set; }
-        public DataType Type { get; set; }
-    }
-
-    public class DictionaryEntry
-    {
-        public string KeyName { get; set; }
-        public DataType KeyType { get; set; }
-        public string KeyComments { get; set; }
-
-        public DataType ValueType { get; set; }
-        public string ValueComments { get; set; }
-    }
-
-    public class Member : IDescription
-    {
-        public string Name { get; set; }
-        public string Comments { get; set; }
-        public bool Required { get; set; }
-        public bool Optional { get; set; }
-        public string DefaultValue { get; set; }
-        public string SampleValue { get; set; }
-        public bool Deprecated { get; set; }
-        public string DeprecationMessage { get; set; }
-        public DataType Type { get; set; }
     }
 
     public class Option

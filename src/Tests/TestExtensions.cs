@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using FubuCore;
 using FubuMVC.Core.Registration;
@@ -31,6 +30,12 @@ namespace Tests
 
     public static class TestExtensions
     {
+        public static IEnumerable<T> ShouldTotal<T>(this IEnumerable<T> source, int total)
+        {
+            source.Count().ShouldEqual(total);
+            return source;
+        }
+
         public static ActionCall GetAction<T>(this BehaviorGraph graph)
         {
             if (graph.Actions().All(x => x.HandlerType != typeof(T)))

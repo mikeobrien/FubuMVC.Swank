@@ -12,12 +12,12 @@ namespace Tests.Specification
     [TestFixture]
     public class OptionFactoryTests
     {
-        public List<Option> GetOptions<T>(Action<Configuration> configure = null)
+        public List<EnumOption> GetOptions<T>(Action<Configuration> configure = null)
         {
             return GetOptions(typeof (T), configure);
         }
 
-        public List<Option> GetOptions(Type type, Action<Configuration> configure = null)
+        public List<EnumOption> GetOptions(Type type, Action<Configuration> configure = null)
         {
             var configuration = new Configuration();
             if (configure != null) configure(configuration);

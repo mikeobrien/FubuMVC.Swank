@@ -80,7 +80,7 @@ namespace FubuMVC.Swank
             ResponseOverrides = new List<Action<BehaviorChain, Data>>();
             TypeOverrides = new List<Action<Type, DataType>>();
             MemberOverrides = new List<Action<PropertyInfo, Member>>();
-            OptionOverrides = new List<Action<FieldInfo, Option>>();
+            OptionOverrides = new List<Action<FieldInfo, EnumOption>>();
         }
 
         public string Url { get; set; }
@@ -141,6 +141,6 @@ namespace FubuMVC.Swank
         public List<Action<BehaviorChain, Data>> ResponseOverrides { get; set; }
         public List<Action<Type, DataType>> TypeOverrides { get; set; }
         public List<Action<PropertyInfo, Member>> MemberOverrides { get; set; }
-        public List<Action<FieldInfo, Option>> OptionOverrides { get; set; }
+        public List<Action<FieldInfo, EnumOption>> OptionOverrides { get; set; }
     }
 }

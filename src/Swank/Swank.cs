@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Web;
 using System.Web.Hosting;
 using FubuMVC.Core;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Description;
-using FubuMVC.Swank.Extensions;
+using FubuMVC.Swank.Specification;
 
 namespace FubuMVC.Swank
 {
@@ -798,7 +795,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override option values.
         /// </summary>
-        public Swank OverrideOptions(Action<FieldInfo, Specification.Option> @override)
+        public Swank OverrideOptions(Action<FieldInfo, EnumOption> @override)
         {
             _configuration.OptionOverrides.Add(@override);
             return this;
@@ -807,8 +804,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override option values when a condition is met.
         /// </summary>
-        public Swank OverrideOptionsWhen(Action<FieldInfo, Specification.Option> @override,
-            Func<FieldInfo, Specification.Option, bool> when)
+        public Swank OverrideOptionsWhen(Action<FieldInfo, EnumOption> @override,
+            Func<FieldInfo, EnumOption, bool> when)
         {
             _configuration.OptionOverrides.Add(OverrideWhen(@override, when));
             return this;

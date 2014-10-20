@@ -1,6 +1,6 @@
 ﻿<use namespace="System.Web" />
 <use namespace="FubuMVC.Swank.Extensions" />
-<viewdata model="FubuMVC.Swank.Documentation.Response" />
+<viewdata model="FubuMVC.Swank.Endpoints.Response" />
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -315,7 +315,7 @@
             {{> headers}}
         {{/if}}
 
-        {{#if Body}}
+        {{#Body}}
             <table class="table table-bordered table-zebra table-last">
                 <thead>
                     <tr>
@@ -330,7 +330,7 @@
                     </tr>
                 </thead>
                 <tbody>  
-                    {{#Body}}
+                    {{#Description}}
                         <tr>
                             <td class="sample-code json" title="Click to copy json..." 
                                 style="display: none;">{{> jsonBody}}</td>
@@ -340,10 +340,10 @@
                                 {{> bodyDescription}}
                             </td>
                         </tr>
-                    {{/Body}}
+                    {{/Description}}
                 </tbody>
             </table>
-      {{/if}}
+      {{/Body}}
     </script>
     
     <script type="text/html" id="swank-code-examples-template">

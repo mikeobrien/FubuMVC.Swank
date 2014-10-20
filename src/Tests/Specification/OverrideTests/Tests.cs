@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Should;
 using Tests.Specification.SpecificationService.Tests;
 
@@ -56,7 +55,7 @@ namespace Tests.Specification.OverrideTests
                 .OverrideTypesWhen((y, z) => z.Comments = z.Comments + "3", (y, z) => z.Comments.EndsWith("2"))
                 .OverrideTypesWhen((y, z) => z.Comments = z.Comments + "4", (y, z) => z.Comments.EndsWith("2")));
 
-            var request = spec.Modules[0].Resources[0].Endpoints[0].Request.Body[0];
+            var request = spec.Modules[0].Resources[0].Endpoints[0].Request.Body.Description[0];
             request.Name.ShouldEqual("Data1");
             request.Comments.ShouldEqual("Some comments23");
         }
@@ -70,7 +69,7 @@ namespace Tests.Specification.OverrideTests
                 .OverrideMembersWhen((y, z) => z.Comments = z.Comments + "3", (y, z) => z.Comments.EndsWith("2"))
                 .OverrideMembersWhen((y, z) => z.Comments = z.Comments + "4", (y, z) => z.Comments.EndsWith("2")));
             
-            var request = spec.Modules[0].Resources[0].Endpoints[0].Request.Body[1];
+            var request = spec.Modules[0].Resources[0].Endpoints[0].Request.Body.Description[1];
             request.Name.ShouldEqual("Id1");
             request.Comments.ShouldEqual("Some comments23");
         }
@@ -85,7 +84,7 @@ namespace Tests.Specification.OverrideTests
                 .OverrideOptionsWhen((y, z) => z.Comments = z.Comments + "4", (y, z) => z.Comments.EndsWith("2")));
 
 
-            var request = spec.Modules[0].Resources[0].Endpoints[0].Request.Body[1];
+            var request = spec.Modules[0].Resources[0].Endpoints[0].Request.Body.Description[1];
             request.Options[0].Name.ShouldEqual("SomeName1");
             request.Options[0].Comments.ShouldEqual("Some comments23");
         }

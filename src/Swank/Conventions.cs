@@ -4,6 +4,7 @@ using FubuMVC.Core;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank.Description;
 using FubuMVC.Swank.Documentation;
+using FubuMVC.Swank.Endpoints;
 using FubuMVC.Swank.Extensions;
 
 [assembly: FubuModule]

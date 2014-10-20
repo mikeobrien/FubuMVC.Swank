@@ -16,7 +16,7 @@ namespace Tests.Specification
     [TestFixture]
     public class BodyDescriptionFactoryTests
     {
-        public List<BodyDescription> BuildDescription(Type type,
+        public List<BodyLineItem> BuildDescription(Type type,
             Action<Configuration> configure = null, ActionCall action = null)
         {
             var configuration = new Configuration();
@@ -29,7 +29,7 @@ namespace Tests.Specification
                 new OptionFactory(configuration, new OptionConvention())).BuildGraph(type, action));
         }
 
-        public List<BodyDescription> BuildDescription<T>(
+        public List<BodyLineItem> BuildDescription<T>(
             Action<Configuration> configure = null, ActionCall action = null)
         {
             return BuildDescription(typeof(T), configure, action);
@@ -45,7 +45,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<ComplexTypeWithNoMembers>();
 
-            description.Count.ShouldEqual(2);
+            description.ShouldBeIndexed().ShouldTotal(2);
 
             description[0].ShouldBeComplexType("ComplexTypeWithNoMembers", 0,
                 x => x.First().Opening().Comments("Complex type comments"));
@@ -68,7 +68,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<ComplexTypeWithSimpleMembers>();
 
-            description.Count.ShouldEqual(8);
+            description.ShouldBeIndexed().ShouldTotal(8);
 
             description[0].ShouldBeComplexType("ComplexTypeWithSimpleMembers", 0, x => x.First().Opening());
 
@@ -99,7 +99,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<ComplexTypeWithSimpleOptionMember>();
 
-            description.Count.ShouldEqual(3);
+            description.ShouldBeIndexed().ShouldTotal(3);
 
             description[0].ShouldBeComplexType("ComplexTypeWithSimpleOptionMember", 0, x => x.First().Opening());
 
@@ -119,7 +119,7 @@ namespace Tests.Specification
             var description = BuildDescription<ComplexTypeWithSimpleOptionMember>(
                 x => x.EnumFormat = EnumFormat.AsString);
 
-            description.Count.ShouldEqual(3);
+            description.ShouldBeIndexed().ShouldTotal(3);
 
             description[0].ShouldBeComplexType("ComplexTypeWithSimpleOptionMember", 0, x => x.First().Opening());
 
@@ -152,7 +152,7 @@ namespace Tests.Specification
 
             var description = BuildDescription<ComplexTypeWithOptionalMember>(action: action);
 
-            description.Count.ShouldEqual(4);
+            description.ShouldBeIndexed().ShouldTotal(4);
 
             description[0].ShouldBeComplexType("ComplexTypeWithOptionalMember", 0, x => x.First().Opening());
 
@@ -176,7 +176,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<ComplexTypeWithDeprecatedMember>();
 
-            description.Count.ShouldEqual(3);
+            description.ShouldBeIndexed().ShouldTotal(3);
 
             description[0].ShouldBeComplexType("ComplexTypeWithDeprecatedMember", 0, x => x.First().Opening());
 
@@ -204,7 +204,7 @@ namespace Tests.Specification
 
             var description = BuildDescription<ComplexTypeWithDefaultValueMember>(action: action);
 
-            description.Count.ShouldEqual(3);
+            description.ShouldBeIndexed().ShouldTotal(3);
 
             description[0].ShouldBeComplexType("ComplexTypeWithDefaultValueMember", 0, x => x.First().Opening());
 
@@ -225,7 +225,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<ComplexTypeWithSampleValueMember>();
 
-            description.Count.ShouldEqual(3);
+            description.ShouldBeIndexed().ShouldTotal(3);
 
             description[0].ShouldBeComplexType("ComplexTypeWithSampleValueMember", 0, x => x.First().Opening());
 
@@ -254,7 +254,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription(type);
 
-            description.Count.ShouldEqual(5);
+            description.ShouldBeIndexed().ShouldTotal(5);
             description[0].ShouldBeComplexType(type.Name, 0, x => x.First().Opening());
 
             description[1].ShouldBeArrayMember("ArrayMember", 1, x => x.Opening(), x => x.IsLastMember());
@@ -279,7 +279,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<ComplexTypeWithDictionaryMember>();
 
-            description.Count.ShouldEqual(5);
+            description.ShouldBeIndexed().ShouldTotal(5);
 
             description[0].ShouldBeComplexType("ComplexTypeWithDictionaryMember", 0, x => x.First().Opening());
 
@@ -306,7 +306,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<ArrayType>();
 
-            description.Count.ShouldEqual(3);
+            description.ShouldBeIndexed().ShouldTotal(3);
 
             description[0].ShouldBeArray("Items", 0, x => x
                 .Comments("This is an array").First().Opening());
@@ -324,7 +324,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<List<ArrayOptions>>();
 
-            description.Count.ShouldEqual(3);
+            description.ShouldBeIndexed().ShouldTotal(3);
 
             description[0].ShouldBeArray("ArrayOfInt", 0, x => x.First().Opening());
 
@@ -341,7 +341,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<List<ArrayOptions>>(x => x.EnumFormat = EnumFormat.AsString);
 
-            description.Count.ShouldEqual(3);
+            description.ShouldBeIndexed().ShouldTotal(3);
 
             description[0].ShouldBeArray("ArrayOfString", 0, x => x.First().Opening());
 
@@ -360,7 +360,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<List<ArrayComplexType>>();
 
-            description.Count.ShouldEqual(5);
+            description.ShouldBeIndexed().ShouldTotal(5);
 
             description[0].ShouldBeArray("ArrayOfArrayComplexType", 0, x => x.First().Opening());
 
@@ -379,7 +379,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<List<List<string>>>();
 
-            description.Count.ShouldEqual(5);
+            description.ShouldBeIndexed().ShouldTotal(5);
 
             description[0].ShouldBeArray("ArrayOfArrayOfString", 0, x => x.First().Opening());
 
@@ -397,7 +397,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<List<Dictionary<string, int>>>();
 
-            description.Count.ShouldEqual(5);
+            description.ShouldBeIndexed().ShouldTotal(5);
 
             description[0].ShouldBeArray("ArrayOfDictionaryOfInt", 0, x => x.First().Opening());
 
@@ -423,7 +423,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<DictionaryType>();
 
-            description.Count.ShouldEqual(3);
+            description.ShouldBeIndexed().ShouldTotal(3);
 
             description[0].ShouldBeDictionary("Entries", 0, x => x
                 .Comments("This is a dictionary.").First().Opening());
@@ -443,7 +443,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<Dictionary<DictionaryKeyOptions, DictionaryValueOptions>>();
 
-            description.Count.ShouldEqual(3);
+            description.ShouldBeIndexed().ShouldTotal(3);
 
             description[0].ShouldBeDictionary("DictionaryOfInt", 0, x => x.First().Opening());
 
@@ -464,7 +464,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<Dictionary<DictionaryKeyOptions, DictionaryValueOptions>>(x => x.EnumFormat = EnumFormat.AsString);
 
-            description.Count.ShouldEqual(3);
+            description.ShouldBeIndexed().ShouldTotal(3);
 
             description[0].ShouldBeDictionary("DictionaryOfString", 0, x => x.First().Opening());
 
@@ -486,7 +486,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<Dictionary<string, DictionaryComplexType>>();
 
-            description.Count.ShouldEqual(5);
+            description.ShouldBeIndexed().ShouldTotal(5);
 
             description[0].ShouldBeDictionary("DictionaryOfDictionaryComplexType", 0, x => x.First().Opening());
 
@@ -505,7 +505,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<Dictionary<string, List<int>>>();
 
-            description.Count.ShouldEqual(5);
+            description.ShouldBeIndexed().ShouldTotal(5);
 
             description[0].ShouldBeDictionary("DictionaryOfArrayOfInt", 0, x => x.First().Opening());
 
@@ -523,7 +523,7 @@ namespace Tests.Specification
         {
             var description = BuildDescription<Dictionary<string, Dictionary<string, int>>>();
 
-            description.Count.ShouldEqual(5);
+            description.ShouldBeIndexed().ShouldTotal(5);
 
             description[0].ShouldBeDictionary("DictionaryOfDictionaryOfInt", 0, x => x.First().Opening());
 
@@ -542,7 +542,7 @@ namespace Tests.Specification
     {
         // Simple type assertions
 
-        public static void ShouldBeSimpleType(this BodyDescription source,
+        public static void ShouldBeSimpleType(this BodyLineItem source,
             string name, string typeName, int level, string sampleValue,
             Action<SimpleTypeDsl> simpleTypeProperties)
         {
@@ -550,7 +550,7 @@ namespace Tests.Specification
                 level, sampleValue, simpleTypeProperties));
         }
 
-        public static void ShouldBeSimpleTypeMember(this BodyDescription source,
+        public static void ShouldBeSimpleTypeMember(this BodyLineItem source,
             string name, string typeName, int level, string sampleValue,
             Action<SimpleTypeDsl> simpleTypeProperties,
             Action<MemberDsl> memberProperties = null)
@@ -562,7 +562,7 @@ namespace Tests.Specification
             source.ShouldMatchData(compare);
         }
 
-        public static void ShouldBeSimpleTypeDictionaryEntry(this BodyDescription source,
+        public static void ShouldBeSimpleTypeDictionaryEntry(this BodyLineItem source,
             string name, string keyTypeName, string valueTypeName, int level, string sampleValue,
             Action<SimpleTypeDsl> simpleTypeProperties,
             Action<DictionaryKeyDsl> dictionaryEntryProperties = null)
@@ -576,11 +576,11 @@ namespace Tests.Specification
             source.ShouldMatchData(compare);
         }
 
-        private static BodyDescription CreateSimpleType(
+        private static BodyLineItem CreateSimpleType(
             string name, string typeName, int level, string sampleValue,
             Action<SimpleTypeDsl> simpleTypeProperties)
         {
-            var simpleType = new BodyDescription
+            var simpleType = new BodyLineItem
             {
                 Name = name,
                 TypeName = typeName,
@@ -594,8 +594,8 @@ namespace Tests.Specification
 
         public class SimpleTypeDsl
         {
-            private readonly BodyDescription _body;
-            public SimpleTypeDsl(BodyDescription body) { _body = body; }
+            private readonly BodyLineItem _body;
+            public SimpleTypeDsl(BodyLineItem body) { _body = body; }
             public SimpleTypeDsl Comments(string comments) { _body.Comments = comments; return this; }
             public SimpleTypeDsl IsString() { _body.IsString = true; return this; }
             public SimpleTypeDsl IsBoolean() { _body.IsBoolean = true; return this; }
@@ -613,14 +613,14 @@ namespace Tests.Specification
         // Array assertions
 
         public static void ShouldBeArray(
-            this BodyDescription source, string name, int level,
+            this BodyLineItem source, string name, int level,
             Action<ArrayDsl> properties)
         {
             source.ShouldMatchData(CreateArray(name, level, properties));
         }
 
         public static void ShouldBeArrayMember(
-            this BodyDescription source, string name, int level,
+            this BodyLineItem source, string name, int level,
             Action<ArrayDsl> arrayProperties,
             Action<MemberDsl> memberProperties = null)
         {
@@ -631,7 +631,7 @@ namespace Tests.Specification
         }
 
         public static void ShouldBeOpeningArrayDictionaryEntry(
-            this BodyDescription source, string name, string keyTypeName, int level,
+            this BodyLineItem source, string name, string keyTypeName, int level,
             Action<ArrayDsl> arrayProperties = null,
             Action<DictionaryKeyDsl> dictionaryKeyProperties = null)
         {
@@ -645,7 +645,7 @@ namespace Tests.Specification
         }
 
         public static void ShouldBeClosingArrayDictionaryEntry(
-            this BodyDescription source, string name, int level,
+            this BodyLineItem source, string name, int level,
             Action<ArrayDsl> arrayProperties = null)
         {
             var compare = CreateArray(name, level, arrayProperties);
@@ -654,10 +654,10 @@ namespace Tests.Specification
             source.ShouldMatchData(compare);
         }
 
-        private static BodyDescription CreateArray(
+        private static BodyLineItem CreateArray(
             string name, int level, Action<ArrayDsl> properties)
         {
-            var arrayType = new BodyDescription
+            var arrayType = new BodyLineItem
             {
                 Name = name,
                 IsArray = true,
@@ -669,8 +669,8 @@ namespace Tests.Specification
 
         public class ArrayDsl
         {
-            private readonly BodyDescription _body;
-            public ArrayDsl(BodyDescription body) { _body = body; }
+            private readonly BodyLineItem _body;
+            public ArrayDsl(BodyLineItem body) { _body = body; }
             public ArrayDsl Comments(string comments) { _body.Comments = comments; return this; }
             public ArrayDsl Opening() { _body.IsOpening = true; return this; }
             public ArrayDsl Closing() { _body.IsClosing = true; return this; }
@@ -681,14 +681,14 @@ namespace Tests.Specification
         // Dictionary assertions
 
         public static void ShouldBeDictionary(
-            this BodyDescription source, string name, int level,
+            this BodyLineItem source, string name, int level,
             Action<DictionaryDsl> properties)
         {
             source.ShouldMatchData(CreateDictionary(name, level, properties));
         }
 
         public static void ShouldBeDictionaryMember(
-            this BodyDescription source, string name, int level,
+            this BodyLineItem source, string name, int level,
             Action<DictionaryDsl> dictionaryProperties,
             Action<MemberDsl> memberProperties = null)
         {
@@ -699,7 +699,7 @@ namespace Tests.Specification
         }
 
         public static void ShouldBeDictionaryDictionaryEntry(
-            this BodyDescription source, string name, string keyTypeName, int level,
+            this BodyLineItem source, string name, string keyTypeName, int level,
             Action<DictionaryDsl> dictionaryProperties,
             Action<DictionaryKeyDsl> dictionaryKeyProperties = null)
         {
@@ -712,7 +712,7 @@ namespace Tests.Specification
         }
 
         public static void ShouldBeOpeningDictionaryDictionaryEntry(
-            this BodyDescription source, string name, string keyTypeName, int level,
+            this BodyLineItem source, string name, string keyTypeName, int level,
             Action<DictionaryDsl> dictionaryProperties = null,
             Action<DictionaryKeyDsl> dictionaryKeyProperties = null)
         {
@@ -726,7 +726,7 @@ namespace Tests.Specification
         }
 
         public static void ShouldBeClosingDictionaryDictionaryEntry(
-            this BodyDescription source, string name, int level,
+            this BodyLineItem source, string name, int level,
             Action<DictionaryDsl> dictionaryKeyProperties = null)
         {
             var compare = CreateDictionary(name, level, dictionaryKeyProperties);
@@ -735,10 +735,10 @@ namespace Tests.Specification
             source.ShouldMatchData(compare);
         }
 
-        private static BodyDescription CreateDictionary(
+        private static BodyLineItem CreateDictionary(
             string name, int level, Action<DictionaryDsl> properties)
         {
-            var dictionaryType = new BodyDescription
+            var dictionaryType = new BodyLineItem
             {
                 Name = name,
                 IsDictionary = true,
@@ -750,8 +750,8 @@ namespace Tests.Specification
 
         public class DictionaryDsl
         {
-            private readonly BodyDescription _body;
-            public DictionaryDsl(BodyDescription body) { _body = body; }
+            private readonly BodyLineItem _body;
+            public DictionaryDsl(BodyLineItem body) { _body = body; }
             public DictionaryDsl Comments(string comments) { _body.Comments = comments; return this; }
             public DictionaryDsl Opening() { _body.IsOpening = true; return this; }
             public DictionaryDsl Closing() { _body.IsClosing = true; return this; }
@@ -761,14 +761,14 @@ namespace Tests.Specification
 
         // Complex type assertions
 
-        public static void ShouldBeComplexType(this BodyDescription source,
+        public static void ShouldBeComplexType(this BodyLineItem source,
             string name, int level, Action<ComplexTypeDsl> properties)
         {
             source.ShouldMatchData(CreateComplexType(name, level, properties));
         }
 
         public static void ShouldBeComplexTypeMember(
-            this BodyDescription source, string name, int level,
+            this BodyLineItem source, string name, int level,
             Action<ComplexTypeDsl> complexTypeProperties = null,
             Action<MemberDsl> memberProperties = null)
         {
@@ -779,7 +779,7 @@ namespace Tests.Specification
         }
 
         public static void ShouldBeOpeningComplexTypeDictionaryEntry(
-            this BodyDescription source, string name, string keyTypeName, int level,
+            this BodyLineItem source, string name, string keyTypeName, int level,
             Action<ComplexTypeDsl> complexTypeProperties = null,
             Action<DictionaryKeyDsl> dictionaryKeyProperties = null)
         {
@@ -793,7 +793,7 @@ namespace Tests.Specification
         }
 
         public static void ShouldBeClosingComplexTypeDictionaryEntry(
-            this BodyDescription source, string name, int level,
+            this BodyLineItem source, string name, int level,
             Action<ComplexTypeDsl> complexTypeProperties = null)
         {
             var compare = CreateComplexType(name, level, complexTypeProperties);
@@ -802,10 +802,10 @@ namespace Tests.Specification
             source.ShouldMatchData(compare);
         }
 
-        private static BodyDescription CreateComplexType(
+        private static BodyLineItem CreateComplexType(
             string name, int level, Action<ComplexTypeDsl> properties = null)
         {
-            var complexType = new BodyDescription
+            var complexType = new BodyLineItem
             {
                 Name = name,
                 IsComplexType = true,
@@ -817,8 +817,8 @@ namespace Tests.Specification
 
         public class ComplexTypeDsl
         {
-            private readonly BodyDescription _body;
-            public ComplexTypeDsl(BodyDescription body) { _body = body; }
+            private readonly BodyLineItem _body;
+            public ComplexTypeDsl(BodyLineItem body) { _body = body; }
             public ComplexTypeDsl Comments(string comments) { _body.Comments = comments; return this; }
             public ComplexTypeDsl Opening() { _body.IsOpening = true; return this; }
             public ComplexTypeDsl Closing() { _body.IsClosing = true; return this; }
@@ -831,7 +831,7 @@ namespace Tests.Specification
         public class DictionaryKeyDsl
         {
             private readonly Key _key;
-            public DictionaryKeyDsl(BodyDescription body) { _key = body.DictionaryKey; }
+            public DictionaryKeyDsl(BodyLineItem body) { _key = body.DictionaryKey; }
             public DictionaryKeyDsl KeyComments(string comments) { _key.Comments = comments; return this; }
 
             public OptionDsl KeyOptions
@@ -842,8 +842,8 @@ namespace Tests.Specification
 
         public class MemberDsl
         {
-            private readonly BodyDescription _body;
-            public MemberDsl(BodyDescription body) { _body = body; }
+            private readonly BodyLineItem _body;
+            public MemberDsl(BodyLineItem body) { _body = body; }
             public MemberDsl Comments(string comments) { _body.Comments = comments; return this; }
             public MemberDsl Default(string value) { _body.DefaultValue = value; return this; }
             public MemberDsl Required() { _body.Required = true; return this; }
@@ -891,7 +891,13 @@ namespace Tests.Specification
 
         // Common assertions
 
-        private static void ShouldMatchData(this BodyDescription source, BodyDescription compare)
+        public static List<BodyLineItem> ShouldBeIndexed(this List<BodyLineItem> source)
+        {
+            Enumerable.Range(0, source.Count).ForEach(x => source[x].Index.ShouldEqual(x + 1));
+            return source;
+        }
+
+        private static void ShouldMatchData(this BodyLineItem source, BodyLineItem compare)
         {
             source.Name.ShouldEqual(compare.Name);
             source.Comments.ShouldEqual(compare.Comments);
@@ -942,7 +948,7 @@ namespace Tests.Specification
             if (compare == null) source.ShouldBeNull();
             else
             {
-                source.Count.ShouldEqual(compare.Count);
+                source.ShouldTotal(compare.Count);
                 foreach (var option in source.Zip(compare,
                     (s, c) => new { Source = s, Compare = c }))
                 {

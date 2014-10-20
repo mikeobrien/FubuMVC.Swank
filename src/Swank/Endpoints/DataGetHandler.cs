@@ -1,6 +1,7 @@
-﻿using FubuMVC.Swank.Specification;
+﻿using FubuMVC.Swank.Documentation;
+using FubuMVC.Swank.Specification;
 
-namespace FubuMVC.Swank.Documentation
+namespace FubuMVC.Swank.Endpoints
 {
     public class DataGetHandler
     {

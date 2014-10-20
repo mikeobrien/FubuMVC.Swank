@@ -1,6 +1,4 @@
-﻿using System;
-using FubuMVC.Swank.Extensions;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Should;
 
 namespace Tests.Specification.SpecificationService.EndpointTests
@@ -38,10 +36,10 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         [Test]
         public void should_set_the_name_for_output_types()
         {
-            Spec.GetEndpoint<OutputTypeDescriptions.GetHandler>().Response.Body[0].Name.ShouldEqual("GetResponse");
-            Spec.GetEndpoint<OutputTypeDescriptions.PostHandler>().Response.Body[0].Name.ShouldEqual("PostResponse");
-            Spec.GetEndpoint<OutputTypeDescriptions.PutHandler>().Response.Body[0].Name.ShouldEqual("PutResponse");
-            Spec.GetEndpoint<OutputTypeDescriptions.DeleteHandler>().Response.Body[0].Name.ShouldEqual("DeleteResponse");
+            Spec.GetEndpoint<OutputTypeDescriptions.GetHandler>().Response.Body.Description[0].Name.ShouldEqual("GetResponse");
+            Spec.GetEndpoint<OutputTypeDescriptions.PostHandler>().Response.Body.Description[0].Name.ShouldEqual("PostResponse");
+            Spec.GetEndpoint<OutputTypeDescriptions.PutHandler>().Response.Body.Description[0].Name.ShouldEqual("PutResponse");
+            Spec.GetEndpoint<OutputTypeDescriptions.DeleteHandler>().Response.Body.Description[0].Name.ShouldEqual("DeleteResponse");
         }
 
         [Test]
@@ -50,8 +48,8 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var response = Spec.GetEndpoint<OutputTypeDescriptions.CollectionPostHandler>().Response;
 
             response.Comments.ShouldBeNull();
-            response.Body[0].Name.ShouldEqual("ArrayOfResponseItem");
-            response.Body[0].IsArray.ShouldEqual(true);
+            response.Body.Description[0].Name.ShouldEqual("ArrayOfResponseItem");
+            response.Body.Description[0].IsArray.ShouldEqual(true);
         }
 
         [Test]
@@ -60,8 +58,8 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var response = Spec.GetEndpoint<OutputTypeDescriptions.InheritedCollectionPostHandler>().Response;
 
             response.Comments.ShouldBeNull();
-            response.Body[0].Name.ShouldEqual("ArrayOfResponseItem");
-            response.Body[0].IsArray.ShouldEqual(true);
+            response.Body.Description[0].Name.ShouldEqual("ArrayOfResponseItem");
+            response.Body.Description[0].IsArray.ShouldEqual(true);
         }
 
         [Test]
@@ -70,7 +68,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var response = Spec.GetEndpoint<OutputTypeDescriptions.OverridenRequestPostHandler>().Response;
 
             response.Comments.ShouldBeNull();
-            response.Body[0].Name.ShouldEqual("NewItemName");
+            response.Body.Description[0].Name.ShouldEqual("NewItemName");
         }
 
         [Test]
@@ -79,8 +77,8 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var response = Spec.GetEndpoint<OutputTypeDescriptions.OverridenCollectionPostHandler>().Response;
 
             response.Comments.ShouldBeNull();
-            response.Body[0].Name.ShouldEqual("NewCollectionName");
-            response.Body[0].IsArray.ShouldEqual(true);
+            response.Body.Description[0].Name.ShouldEqual("NewCollectionName");
+            response.Body.Description[0].IsArray.ShouldEqual(true);
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FubuCore;
 using FubuMVC.Swank.Description;
 using FubuMVC.Swank.Extensions;
 
@@ -21,10 +20,10 @@ namespace FubuMVC.Swank.Specification
             _optionConvention = optionConvention;
         }
 
-        public List<Option> BuildOptions(Type type)
+        public List<EnumOption> BuildOptions(Type type)
         {
             type = type.GetNullableUnderlyingType();
-            return !type.IsEnum ? new List<Option>() :
+            return !type.IsEnum ? new List<EnumOption>() :
                 type.GetEnumOptions()
                     .Select(x => new
                     {
@@ -33,7 +32,7 @@ namespace FubuMVC.Swank.Specification
                     })
                     .Where(x => !x.Description.Hidden)
                     .Select(x =>
-                        _configuration.OptionOverrides.Apply(x.Option, new Option
+                        _configuration.OptionOverrides.Apply(x.Option, new EnumOption
                         {
                             Name = x.Description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = x.Description.WhenNotNull(y => y.Comments).OtherwiseDefault(),

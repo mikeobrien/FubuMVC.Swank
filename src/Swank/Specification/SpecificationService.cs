@@ -182,30 +182,44 @@ namespace FubuMVC.Swank.Specification
         private Data GetRequest(BehaviorChain chain, EndpointDescription endpoint)
         {
             var firstCall = chain.FirstCall();
+            DataType type = null;
+            List<BodyLineItem> description = null;
+
+            if (firstCall.HasInput &&
+                !chain.Route.AllowsGet() &&
+                !chain.Route.AllowsDelete())
+            {
+                type = _typeGraphFactory.BuildGraph(firstCall.InputType(), chain.FirstCall());
+                description = _bodyDescriptionFactory.Create(type);
+            }
+
             return _configuration.RequestOverrides.Apply(chain, new Data
             {
                 Comments = endpoint.RequestComments,
                 Headers = GetHeaders(chain, HttpDirection.Request),
                 MimeTypes = GetMimeTypes(chain, HttpDirection.Request),
-                Body = firstCall.HasInput &&
-                    !chain.Route.AllowsGet() &&
-                    !chain.Route.AllowsDelete() ? 
-                    _bodyDescriptionFactory.Create(_typeGraphFactory
-                        .BuildGraph(firstCall.InputType(), chain.FirstCall())) : null
+                Body = new Body { Type = type, Description = description }
             });
         }
 
         private Data GetResponse(BehaviorChain chain, EndpointDescription endpoint)
         {
             var lastCall = chain.LastCall();
+            DataType type = null;
+            List<BodyLineItem> description = null;
+
+            if (lastCall.HasOutput)
+            {
+                type = _typeGraphFactory.BuildGraph(lastCall.OutputType());
+                description = _bodyDescriptionFactory.Create(type);
+            }
+
             return _configuration.ResponseOverrides.Apply(chain, new Data
             {
                 Comments = endpoint.ResponseComments,
                 Headers = GetHeaders(chain, HttpDirection.Response),
                 MimeTypes = GetMimeTypes(chain, HttpDirection.Response),
-                Body = lastCall.HasOutput ? 
-                    _bodyDescriptionFactory.Create(_typeGraphFactory
-                        .BuildGraph(lastCall.OutputType())) : null
+                Body = new Body { Type = type, Description = description }
             });
         }
 
@@ -222,7 +236,7 @@ namespace FubuMVC.Swank.Specification
                             Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                             Type = property.PropertyType.GetXmlName(_configuration.EnumFormat == EnumFormat.AsString),
-                            Options = _optionFactory.BuildOptions(property.PropertyType)
+                            Options = GetOptions(property.PropertyType)
                         });
                 }).ToList();
         }
@@ -241,7 +255,7 @@ namespace FubuMVC.Swank.Specification
                         Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                         Type = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).GetXmlName(_configuration.EnumFormat == EnumFormat.AsString),
-                        Options = _optionFactory.BuildOptions(x.Value.PropertyType),
+                        Options = GetOptions(x.Value.PropertyType),
                         DefaultValue = description.DefaultValue.WhenNotNull(y => y.ToSampleValueString(_configuration)).OtherwiseDefault(),
                         MultipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList(),
                         Required = !description.Optional
@@ -277,12 +291,24 @@ namespace FubuMVC.Swank.Specification
                 })).OrderBy(x => x.Name).ToList();
         }
 
-        private List<string> GetMimeTypes(BehaviorChain chain, HttpDirection type)
+        private List<string> GetMimeTypes(BehaviorChain chain, HttpDirection direction)
         {
             return _mimeTypeConvention.GetDescription(chain)
-                .Where(x => x.Direction == type)
+                .Where(x => x.Direction == direction)
                 .OrderBy(x => x.Name)
                 .Select(x => x.Name)
+                .ToList();
+        }
+
+        private List<Option> GetOptions(Type type)
+        {
+            return _optionFactory.BuildOptions(type)
+                .Select(x => new Option
+                {
+                    Name = x.Name,
+                    Value = x.Value,
+                    Comments = x.Comments
+                })
                 .ToList();
         }
     }

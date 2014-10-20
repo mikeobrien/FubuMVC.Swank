@@ -161,12 +161,6 @@
         return options.inverse(this);
     });
 
-    Handlebars.registerHelper('yada', function (options) {
-        console.log(this);
-        console.log(options);
-        return options.fn(this);
-    });
-
     var initialize = function () {
 
         var getHash = function() { return window.location.hash.replace(/^#/, ''); };
