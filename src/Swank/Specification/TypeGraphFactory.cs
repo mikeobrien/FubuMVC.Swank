@@ -42,14 +42,14 @@ namespace FubuMVC.Swank.Specification
             bool inputGraph,
             IEnumerable<Type> ancestors = null, 
             MemberDescription memberDescription = null,
-            ActionCall action = null,
-            string name = null)
+            ActionCall action = null)
         {
             var description = _typeConvention.GetDescription(type);
 
             var dataType = new DataType
             {
-                Name = !type.IsSimpleType() && name.IsNotEmpty() ? name : description.Name,
+                Name = !type.IsSimpleType() && memberDescription != null ? 
+                            memberDescription.Name : description.Name,
                 Comments = description.Comments
             };
 
@@ -153,8 +153,7 @@ namespace FubuMVC.Swank.Specification
                     Optional = inputGraph && (x.Type.IsNullable() || x.Description.WhenNotNull(y => y.Optional).OtherwiseDefault()),
                     Deprecated = x.Description.Deprecated,
                     DeprecationMessage = x.Description.DeprecationMessage,
-                    Type = BuildGraph(x.Type, inputGraph, ancestors, x.Description,
-                        name: dataType.Name + x.Description.WhenNotNull(y => y.Name).OtherwiseDefault())
+                    Type = BuildGraph(x.Type, inputGraph, ancestors, x.Description)
                 })).ToList();
         }
     }

@@ -226,7 +226,7 @@ namespace Tests.Specification
         {
             should_be_array_type(CreateFactory().BuildGraph(typeof(ArrayMember))
                 .Members.Single(x => x.Name == "MemberWithoutComments").Type,
-                "ArrayMemberMemberWithoutComments");
+                "MemberWithoutComments");
         }
 
         [Test]
@@ -234,7 +234,7 @@ namespace Tests.Specification
         {
             should_be_array_type(CreateFactory().BuildGraph(typeof(ArrayMember))
                 .Members.Single(x => x.Name == "ArrayName").Type,
-                "ArrayMemberArrayName", "This is an array comment.",
+                "ArrayName", "This is an array comment.",
                 "ItemName", "This is an item comment.");
         }
 
@@ -307,8 +307,8 @@ namespace Tests.Specification
         public void should_create_dictionary_member_without_comments()
         {
             should_be_dictionary_type(CreateFactory().BuildGraph(typeof(DictionaryMember))
-                .Members.Single(x => x.Name == "MemberWithoutComments").Type, 
-                "DictionaryMemberMemberWithoutComments");
+                .Members.Single(x => x.Name == "MemberWithoutComments").Type,
+                "MemberWithoutComments");
         }
 
         [Test]
@@ -316,7 +316,7 @@ namespace Tests.Specification
         {
             should_be_dictionary_type(CreateFactory().BuildGraph(typeof(DictionaryMember))
                 .Members.Single(x => x.Name == "DictionaryName").Type,
-                "DictionaryMemberDictionaryName",
+                "DictionaryName",
                 "This is a dictionary.",
                 "KeyName",
                 "This is a dictionary key.", 
