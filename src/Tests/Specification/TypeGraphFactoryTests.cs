@@ -209,8 +209,8 @@ namespace Tests.Specification
         public void should_create_array_with_array_description()
         {
             should_be_array_type(CreateFactory().BuildGraph(typeof(ListWithArrayDescription)),
-                name: "ArrayName", comments: "This is an array comment.",
-                itemName: "ItemName", itemComments: "This is an item comment.");
+                "ArrayName", "This is an array comment.",
+                "ItemName", "This is an item comment.");
         }
 
         public class ArrayMember
@@ -225,7 +225,8 @@ namespace Tests.Specification
         public void should_create_array_member_without_description()
         {
             should_be_array_type(CreateFactory().BuildGraph(typeof(ArrayMember))
-                .Members.Single(x => x.Name == "MemberWithoutComments").Type);
+                .Members.Single(x => x.Name == "MemberWithoutComments").Type,
+                "ArrayMemberMemberWithoutComments");
         }
 
         [Test]
@@ -233,8 +234,8 @@ namespace Tests.Specification
         {
             should_be_array_type(CreateFactory().BuildGraph(typeof(ArrayMember))
                 .Members.Single(x => x.Name == "ArrayName").Type,
-                comments: "This is an array comment.",
-                itemName: "ItemName", itemComments: "This is an item comment.");
+                "ArrayMemberArrayName", "This is an array comment.",
+                "ItemName", "This is an item comment.");
         }
 
         public void should_be_array_type(DataType type, string name = null, string comments = null, 
@@ -266,7 +267,7 @@ namespace Tests.Specification
         [TestCase(typeof(Dictionary<string, int>))]
         public void should_create_dictionary(Type type)
         {
-            should_be_dictionary_type(CreateFactory().BuildGraph(type));
+            should_be_dictionary_type(CreateFactory().BuildGraph(type), "DictionaryOfInt");
         }
 
         [Comments("This is a dictionary.")]
@@ -276,7 +277,7 @@ namespace Tests.Specification
         public void should_create_dictionary_with_comments()
         {
             should_be_dictionary_type(CreateFactory().BuildGraph(typeof(DictionaryWithComments)),
-                comments: "This is a dictionary.");
+                "DictionaryOfInt", "This is a dictionary.");
         }
 
         [DictionaryDescription("DictionaryName", "This is an dictionary.", 
@@ -306,7 +307,8 @@ namespace Tests.Specification
         public void should_create_dictionary_member_without_comments()
         {
             should_be_dictionary_type(CreateFactory().BuildGraph(typeof(DictionaryMember))
-                .Members.Single(x => x.Name == "MemberWithoutComments").Type);
+                .Members.Single(x => x.Name == "MemberWithoutComments").Type, 
+                "DictionaryMemberMemberWithoutComments");
         }
 
         [Test]
@@ -314,16 +316,17 @@ namespace Tests.Specification
         {
             should_be_dictionary_type(CreateFactory().BuildGraph(typeof(DictionaryMember))
                 .Members.Single(x => x.Name == "DictionaryName").Type,
-                comments: "This is a dictionary.",
-                keyName: "KeyName",
-                keyComments: "This is a dictionary key.", 
-                valueComments: "This is a dictionary value.");
+                "DictionaryMemberDictionaryName",
+                "This is a dictionary.",
+                "KeyName",
+                "This is a dictionary key.", 
+                "This is a dictionary value.");
         }
 
         public void should_be_dictionary_type(DataType type, string name = null, string comments = null,
             string keyName = null, string keyComments = null, string valueComments = null)
         {
-            type.Name.ShouldEqual(name ?? "DictionaryOfInt");
+            type.Name.ShouldEqual(name);
             type.Comments.ShouldEqual(comments);
 
             type.IsArray.ShouldBeFalse();
