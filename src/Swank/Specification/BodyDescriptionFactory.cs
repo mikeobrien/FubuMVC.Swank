@@ -124,6 +124,8 @@ namespace FubuMVC.Swank.Specification
             var arrayOpening = new BodyLineItem
             {
                 Name = type.Name,
+                LongNamespace = type.LongNamespace,
+                ShortNamespace = type.ShortNamespace,
                 Comments = type.Comments.TransformMarkdownInline(),
                 Whitespace = Whitespace.Repeat(level),
                 IsOpening = true,
@@ -171,6 +173,8 @@ namespace FubuMVC.Swank.Specification
             var dictionaryOpening = new BodyLineItem
             {
                 Name = type.Name,
+                LongNamespace = type.LongNamespace,
+                ShortNamespace = type.ShortNamespace,
                 Comments = type.Comments.TransformMarkdownInline(),
                 Whitespace = Whitespace.Repeat(level),
                 IsOpening = true,
@@ -222,6 +226,8 @@ namespace FubuMVC.Swank.Specification
             var complexOpening = new BodyLineItem
             {
                 Name = type.Name,
+                LongNamespace = type.LongNamespace,
+                ShortNamespace = type.ShortNamespace,
                 Comments = type.Comments.TransformMarkdownInline(),
                 Whitespace = Whitespace.Repeat(level),
                 IsOpening = true,

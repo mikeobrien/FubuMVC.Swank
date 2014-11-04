@@ -9,7 +9,12 @@ namespace FubuMVC.Swank.Extensions
         public static string Join<TItem, TResult>(
             this IEnumerable<TItem> source, Func<TItem, TResult> result, string delimiter)
         {
-            return string.Join(delimiter, source.Select(result).ToArray());
+            return String.Join(delimiter, source.Select(result).ToArray());
+        }
+
+        public static IEnumerable<T> NullOrEmpty<T>(this IEnumerable<T> source)
+        {
+            return source ?? Enumerable.Empty<T>();
         } 
 
         public static IEnumerable<TResult> SelectDistinct<TItem, TResult>(
@@ -49,6 +54,14 @@ namespace FubuMVC.Swank.Extensions
             }
         }
 
+        public static IEnumerable<T> TraverseMany<T>(this T source,
+            Func<T, IEnumerable<T>> results)
+            where T : class
+        {
+            var nodes = results(source).ToList();
+            return nodes.Concat(nodes.SelectMany(x => x.TraverseMany(results))).ToList();
+        }
+
         public static TValue Map<T, TValue>(this T source, Func<T, TValue> map)
         {
             return map(source);
@@ -60,11 +73,11 @@ namespace FubuMVC.Swank.Extensions
             return (source ?? Enumerable.Empty<T>()).Select(map);
         }
 
-        public static TResult MapOrEmpty<T, TResult>(this T source, Func<T, TResult> map)
+        public static TResult MapOrEmpty<T, TResult>(this T source, Func<T, TResult> map, TResult @default = null)
             where T : class 
             where TResult : class 
         {
-            return source != null ? map(source) : null;
+            return source != null ? map(source) : @default;
         }
 
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> source, T item)
@@ -83,6 +96,40 @@ namespace FubuMVC.Swank.Extensions
         {
             foreach (var item in source) action(item);
             return source;
-        } 
+        }
+
+        public static void ShrinkMultipartKeyRight<T, TKeyPart>(
+            this IEnumerable<T> source,
+            Func<T, IEnumerable<TKeyPart>> key,
+            Action<T, List<TKeyPart>> setKey)
+        {
+            var keys = source.Select(x => new
+            {
+                Source = x,
+                ShortKey = new Stack<TKeyPart>(),
+                FullKey = new Stack<TKeyPart>(key(x).ToList())
+            }).ToList();
+            while (true)
+            {
+                var multiplicates = keys.Where(x => x.FullKey.Any())
+                    .Multiplicates(x => x.ShortKey.GetItemsHashCode()).ToList();
+                if (multiplicates.Count == 0) break;
+                multiplicates.ForEach(x => x.ShortKey.Push(x.FullKey.Pop()));
+            }
+            keys.ForEach(x => setKey(x.Source, x.ShortKey.ToList()));
+        }
+
+        public static IEnumerable<T> Multiplicates<T, TKey>(this IEnumerable<T> source, Func<T, TKey> key)
+        {
+            return source.Select(x => new { Context = x, Key = key(x) })
+                .GroupBy(x => x.Key)
+                .Where(x => x.Count() > 1)
+                .SelectMany(x => x.Select(y => y.Context));
+        }
+
+        public static int GetItemsHashCode<T>(this IEnumerable<T> source)
+        {
+            return source == null || !source.Any() ? 0 : source.Select(x => x.GetHashCode()).Aggregate((a, i) => a | i);
+        }
     }
 }
