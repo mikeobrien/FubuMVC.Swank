@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.UI.WebControls;
+using System.Xml.Serialization;
 using FubuCore.Reflection;
 using FubuMVC.Core;
+using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Media.Projections;
 using FubuMVC.Swank;
 using FubuMVC.Swank.Description;
+using FubuMVC.Swank.Extensions;
 using FubuMVC.Swank.Specification;
 using NUnit.Framework;
 using Should;
@@ -59,7 +64,7 @@ namespace Tests.Specification
             {
                 d.Name += t.Name;
                 d.Comments += t.Name;
-            })).BuildGraph(typeof(TypeWithComments));
+            })).BuildGraph<TypeWithComments>();
 
             type.Name.ShouldEqual("TypeWithCommentsTypeWithComments");
             type.Comments.ShouldEqual("This is a type.TypeWithComments");
@@ -78,7 +83,7 @@ namespace Tests.Specification
             {
                 m.Name += p.Name;
                 m.Comments += p.Name;
-            })).BuildGraph(typeof(TypeWithOverridedMember));
+            })).BuildGraph<TypeWithOverridedMember>();
 
             var member = type.Members.Single();
             member.Name.ShouldEqual("MemberMember");
@@ -197,7 +202,7 @@ namespace Tests.Specification
         [Test]
         public void should_create_array_with_comments()
         {
-            should_be_array_type(CreateFactory().BuildGraph(typeof(ListWithComments)),
+            should_be_array_type(CreateFactory().BuildGraph<ListWithComments>(),
                 comments: "This is an array.");
         }
 
@@ -208,7 +213,7 @@ namespace Tests.Specification
         [Test]
         public void should_create_array_with_array_description()
         {
-            should_be_array_type(CreateFactory().BuildGraph(typeof(ListWithArrayDescription)),
+            should_be_array_type(CreateFactory().BuildGraph<ListWithArrayDescription>(),
                 "ArrayName", "This is an array comment.",
                 "ItemName", "This is an item comment.");
         }
@@ -224,7 +229,7 @@ namespace Tests.Specification
         [Test]
         public void should_create_array_member_without_description()
         {
-            should_be_array_type(CreateFactory().BuildGraph(typeof(ArrayMember))
+            should_be_array_type(CreateFactory().BuildGraph<ArrayMember>()
                 .Members.Single(x => x.Name == "MemberWithoutComments").Type,
                 "MemberWithoutComments");
         }
@@ -232,7 +237,7 @@ namespace Tests.Specification
         [Test]
         public void should_create_array_member_with_description()
         {
-            should_be_array_type(CreateFactory().BuildGraph(typeof(ArrayMember))
+            should_be_array_type(CreateFactory().BuildGraph<ArrayMember>()
                 .Members.Single(x => x.Name == "ArrayName").Type,
                 "ArrayName", "This is an array comment.",
                 "ItemName", "This is an item comment.");
@@ -276,7 +281,7 @@ namespace Tests.Specification
         [Test]
         public void should_create_dictionary_with_comments()
         {
-            should_be_dictionary_type(CreateFactory().BuildGraph(typeof(DictionaryWithComments)),
+            should_be_dictionary_type(CreateFactory().BuildGraph<DictionaryWithComments>(),
                 "DictionaryOfInt", "This is a dictionary.");
         }
 
@@ -287,7 +292,7 @@ namespace Tests.Specification
         [Test]
         public void should_create_dictionary_with_dictionary_comments()
         {
-            should_be_dictionary_type(CreateFactory().BuildGraph(typeof(DictionaryWithDictionaryComments)),
+            should_be_dictionary_type(CreateFactory().BuildGraph<DictionaryWithDictionaryComments>(),
                 name: "DictionaryName",
                 comments: "This is an dictionary.",
                 keyName: "KeyName",
@@ -306,7 +311,7 @@ namespace Tests.Specification
         [Test]
         public void should_create_dictionary_member_without_comments()
         {
-            should_be_dictionary_type(CreateFactory().BuildGraph(typeof(DictionaryMember))
+            should_be_dictionary_type(CreateFactory().BuildGraph<DictionaryMember>()
                 .Members.Single(x => x.Name == "MemberWithoutComments").Type,
                 "MemberWithoutComments");
         }
@@ -314,7 +319,7 @@ namespace Tests.Specification
         [Test]
         public void should_create_dictionary_member_with_description()
         {
-            should_be_dictionary_type(CreateFactory().BuildGraph(typeof(DictionaryMember))
+            should_be_dictionary_type(CreateFactory().BuildGraph<DictionaryMember>()
                 .Members.Single(x => x.Name == "DictionaryName").Type,
                 "DictionaryName",
                 "This is a dictionary.",
@@ -604,7 +609,7 @@ namespace Tests.Specification
         public void should_create_complex_type_with_projection_properties()
         {
             var projection = should_be_complex_type(CreateFactory()
-                .BuildGraph(typeof(Projection)), 1);
+                .BuildGraph<Projection>(), 1);
 
             projection.Members[0].Name.ShouldEqual("Id");
         }
@@ -619,7 +624,7 @@ namespace Tests.Specification
         public void should_not_exclude_complex_type_autobound_members_by_default()
         {
             should_be_complex_type(CreateFactory()
-                .BuildGraph(typeof(AutoboundModel)), 2)
+                .BuildGraph<AutoboundModel>(), 2)
                 .Members.Any(x => x.Name == "UserAgent").ShouldBeTrue();
         }
 
@@ -627,7 +632,7 @@ namespace Tests.Specification
         public void should_exclude_complex_type_autobound_members_when_configured()
         {
             should_be_complex_type(CreateFactory(x => x.ExcludeAutoBoundProperties = true)
-                .BuildGraph(typeof(AutoboundModel)), 1)
+                .BuildGraph<AutoboundModel>(), 1)
                 .Members.All(x => x.Name != "UserAgent").ShouldBeTrue();
         }
 
@@ -682,7 +687,7 @@ namespace Tests.Specification
         public void should_exclude_complex_type_cyclic_members()
         {
             should_be_complex_type(CreateFactory()
-                .BuildGraph(typeof(CyclicModel)), 1)
+                .BuildGraph<CyclicModel>(), 1)
                 .Members.Single().Name.ShouldEqual("Member");
         }
 
@@ -696,7 +701,7 @@ namespace Tests.Specification
         public void should_exclude_complex_type_cyclic_array_members()
         {
             should_be_complex_type(CreateFactory()
-                .BuildGraph(typeof(CyclicArrayModel)), 1)
+                .BuildGraph<CyclicArrayModel>(), 1)
                 .Members.Single().Name.ShouldEqual("Member");
         }
 
@@ -710,7 +715,7 @@ namespace Tests.Specification
         public void should_exclude_complex_type_cyclic_dictionary_members()
         {
             should_be_complex_type(CreateFactory()
-                .BuildGraph(typeof(CyclicDictionaryModel)), 1)
+                .BuildGraph<CyclicDictionaryModel>(), 1)
                 .Members.Single().Name.ShouldEqual("Member");
         }
 
@@ -814,6 +819,108 @@ namespace Tests.Specification
             type.DictionaryEntry.ShouldBeNull();
 
             return type;
+        }
+
+        // Namespaces
+
+        public class NamespacedRoot
+        {
+            public NamespacedChild Child { get; set; }
+            public List<NamespacedChild> ChildList { get; set; }
+            public Dictionary<string, NamespacedChild> ChildHash { get; set; }
+        }
+
+        public class NamespacedChild { }
+
+        [Test]
+        public void should_have_complex_type_member_namespace()
+        {
+            var type = CreateFactory().BuildGraph<NamespacedRoot>();
+            type.LongNamespace.ShouldBeEmpty();
+            type.Members.Member("Child").Type.LongNamespace.ToArray()
+                .ShouldEqual(new List<string> { "NamespacedRoot" }.ToArray());
+        }
+
+        [Test]
+        public void should_have_list_member_namespace()
+        {
+            var type = CreateFactory().BuildGraph<NamespacedRoot>();
+            type.LongNamespace.ShouldBeEmpty();
+            var member = type.Members.Member("ChildList");
+            
+            member.Type.LongNamespace.ToArray()
+                .ShouldEqual(new List<string> { "NamespacedRoot" }.ToArray());
+
+            member.Type.ArrayItem.Type.LongNamespace.ToArray()
+                .ShouldEqual(new List<string> { "NamespacedRoot", "ChildList" }.ToArray());
+        }
+
+        [Test]
+        public void should_have_dictionary_member_namespace()
+        {
+            var type = CreateFactory().BuildGraph<NamespacedRoot>();
+            type.LongNamespace.ShouldBeEmpty();
+            var member = type.Members.Member("ChildHash");
+
+            member.Type.LongNamespace.ToArray()
+                .ShouldEqual(new List<string> { "NamespacedRoot" }.ToArray());
+
+            member.Type.DictionaryEntry.ValueType.LongNamespace.ToArray()
+                .ShouldEqual(new List<string> { "NamespacedRoot", "ChildHash" }.ToArray());
+        }
+
+        public class ShortNamespaceRoot
+        {
+            public ShortNamespaceComplexType Conflict { get; set; }
+            public string SimpleType { get; set; }
+        }
+
+        public class ShortNamespaceComplexType
+        {
+            public ShortNamespaceList Conflict { get; set; }
+        }
+
+        public class ShortNamespaceList : List<string> { }
+
+        [Test]
+        public void should_not_create_short_namespace_on_simple_types()
+        {
+            var type = CreateFactory().BuildGraph<ShortNamespaceRoot>();
+            type.ShortNamespace.ShouldBeEmpty();
+            var member = type.Members.Member("SimpleType");
+
+            member.Type.LongNamespace.ShouldBeEmpty();
+            member.Type.ShortNamespace.ShouldBeEmpty();
+        }
+
+        [Test]
+        public void should_create_unique_short_namespace()
+        {
+            var type = CreateFactory().BuildGraph<ShortNamespaceRoot>();
+            type.ShortNamespace.ShouldBeEmpty();
+            var member = type.Members.Member("Conflict");
+
+            member.Type.ShortNamespace.ToArray()
+                .ShouldEqual(new List<string> { "ShortNamespaceRoot" }.ToArray());
+
+            member = member.Type.Members.Member("Conflict");
+
+            member.Type.ShortNamespace.ToArray()
+                .ShouldEqual(new List<string> { "Conflict" }.ToArray());
+        }
+    }
+
+    public static class Extensions
+    {
+        public static DataType BuildGraph<T>(this TypeGraphFactory factory, 
+            ActionCall action = null)
+        {
+            return factory.BuildGraph(typeof (T), action);
+        }
+
+        public static Member Member(this List<Member> members, string name)
+        {
+            return members.First(x => x.Name == name);
         }
     }
 }

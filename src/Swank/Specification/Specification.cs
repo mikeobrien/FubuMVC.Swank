@@ -93,6 +93,8 @@ namespace FubuMVC.Swank.Specification
     public class DataType : IDescription
     {
         public string Name { get; set; }
+        public List<string> LongNamespace { get; set; }
+        public List<string> ShortNamespace { get; set; }
         public string Comments { get; set; }
 
         public bool IsSimple { get; set; }
@@ -145,11 +147,12 @@ namespace FubuMVC.Swank.Specification
         public DataType Type { get; set; }
     }
 
-
     public class BodyLineItem
     {
         public int Index { get; set; }
         public string Name { get; set; }
+        public List<string> LongNamespace { get; set; }
+        public List<string> ShortNamespace { get; set; }
         public string Comments { get; set; }
         public bool? IsFirst { get; set; }
         public bool? IsLast { get; set; }

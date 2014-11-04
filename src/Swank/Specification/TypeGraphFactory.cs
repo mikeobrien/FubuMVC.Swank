@@ -34,13 +34,16 @@ namespace FubuMVC.Swank.Specification
 
         public DataType BuildGraph(Type type, ActionCall action = null)
         {
-            return BuildGraph(type, action != null, null, null, action);
+            var dataType = BuildGraph(null, type, action != null, null, null, action);
+            GenerateShortNamespaces(dataType);
+            return dataType;
         }
 
         private DataType BuildGraph(
+            DataType parent,
             Type type, 
             bool inputGraph,
-            IEnumerable<Type> ancestors = null, 
+            IEnumerable<Type> ancestors, 
             MemberDescription memberDescription = null,
             ActionCall action = null)
         {
@@ -49,7 +52,9 @@ namespace FubuMVC.Swank.Specification
             var dataType = new DataType
             {
                 Name = !type.IsSimpleType() && memberDescription != null ? 
-                            memberDescription.Name : description.Name,
+                    memberDescription.Name : description.Name,
+                LongNamespace = parent.MapOrEmpty(x => x.LongNamespace.Concat(x.Name).ToList(), new List<string>()),
+                ShortNamespace = new List<string>(),
                 Comments = description.Comments
             };
 
@@ -64,8 +69,8 @@ namespace FubuMVC.Swank.Specification
         }
 
         private void BuildDictionary(
-            DataType dataType, 
-            Type type, 
+            DataType dataType,
+            Type type,
             TypeDescription typeDescription,
             bool inputGraph,
             IEnumerable<Type> ancestors, 
@@ -80,10 +85,10 @@ namespace FubuMVC.Swank.Specification
                           typeDescription.WhenNotNull(x => x.DictionaryEntry.KeyName).OtherwiseDefault(),
                 KeyComments = memberDescription.WhenNotNull(x => x.DictionaryEntry.KeyComments).OtherwiseDefault() ??
                               typeDescription.WhenNotNull(x => x.DictionaryEntry.KeyComments).OtherwiseDefault(),
-                KeyType = BuildGraph(types.Key, inputGraph, ancestors),
+                KeyType = BuildGraph(dataType, types.Key, inputGraph, ancestors),
                 ValueComments = memberDescription.WhenNotNull(x => x.DictionaryEntry.ValueComments).OtherwiseDefault() ??
                                 typeDescription.WhenNotNull(x => x.DictionaryEntry.ValueComments).OtherwiseDefault(),
-                ValueType = BuildGraph(types.Value, inputGraph, ancestors)
+                ValueType = BuildGraph(dataType, types.Value, inputGraph, ancestors)
             };
         }
 
@@ -97,7 +102,7 @@ namespace FubuMVC.Swank.Specification
         {
             dataType.IsArray = true;
             dataType.Comments = memberDescription.WhenNotNull(x => x.Comments).OtherwiseDefault() ?? dataType.Comments;
-            var itemType = BuildGraph(type.GetListElementType(), inputGraph, ancestors);
+            var itemType = BuildGraph(dataType, type.GetListElementType(), inputGraph, ancestors);
             dataType.ArrayItem = new ArrayItem
             {
                 Name = memberDescription.WhenNotNull(x => x.ArrayItem.Name).OtherwiseDefault() ??
@@ -111,6 +116,8 @@ namespace FubuMVC.Swank.Specification
         private void BuildSimpleType(DataType dataType, Type type)
         {
             dataType.IsSimple = true;
+            dataType.LongNamespace.Clear();
+            dataType.ShortNamespace.Clear();
             if (type.GetNullableUnderlyingType().IsEnum) 
                 dataType.Options = _optionFactory.BuildOptions(type);
         }
@@ -153,8 +160,28 @@ namespace FubuMVC.Swank.Specification
                     Optional = inputGraph && (x.Type.IsNullable() || x.Description.WhenNotNull(y => y.Optional).OtherwiseDefault()),
                     Deprecated = x.Description.Deprecated,
                     DeprecationMessage = x.Description.DeprecationMessage,
-                    Type = BuildGraph(x.Type, inputGraph, ancestors, x.Description)
+                    Type = BuildGraph(dataType, x.Type, inputGraph, x.Ancestors, x.Description)
                 })).ToList();
         }
+
+        private static void GenerateShortNamespaces(DataType type)
+        {
+            type.TraverseMany(GetTypeChildTypes)
+                .GroupBy(x => x.Name)
+                .Where(x => x.Count() > 1)
+                .ForEach(x => x.ShrinkMultipartKeyRight(y => y.LongNamespace, (t, k) => t.ShortNamespace = k));
+        }
+
+        private static IEnumerable<DataType> GetTypeChildTypes(DataType type)
+        {
+            if (type.Members != null)
+                foreach (var childType in type.Members.Select(y => y.Type)) yield return childType;
+            if (type.ArrayItem != null) yield return type.ArrayItem.Type;
+            if (type.DictionaryEntry != null)
+            {
+                yield return type.DictionaryEntry.KeyType;
+                yield return type.DictionaryEntry.ValueType;
+            }
+        } 
     }
 }
