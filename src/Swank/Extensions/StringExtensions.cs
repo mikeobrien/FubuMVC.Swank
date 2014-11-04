@@ -54,6 +54,16 @@ namespace FubuMVC.Swank.Extensions
             return items != null && items.Any() ? initialValue + items.Select(item).Aggregate((a, i) => a + seperator + i) : @default;
         }
 
+        public static string Join<T>(this IEnumerable<T> items, Func<T, string> item)
+        {
+            return items != null && items.Any() ? items.Select(item).Aggregate((a, i) => a + i) : "";
+        }
+
+        public static string Join(this IEnumerable<string> items)
+        {
+            return items.Join(x => x);
+        }
+
         public static string Repeat(this string value, int count)
         {
             if (string.IsNullOrEmpty(value)) return value;
