@@ -236,7 +236,7 @@ namespace FubuMVC.Swank.Specification
                             Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                             Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                             Type = property.PropertyType.GetXmlName(_configuration.EnumFormat == EnumFormat.AsString),
-                            Options = GetOptions(property.PropertyType)
+                            Options = _optionFactory.BuildOptions(property.PropertyType)
                         });
                 }).ToList();
         }
@@ -255,7 +255,7 @@ namespace FubuMVC.Swank.Specification
                         Name = description.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = description.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                         Type = (x.Value.PropertyType.GetListElementType() ?? x.Value.PropertyType).GetXmlName(_configuration.EnumFormat == EnumFormat.AsString),
-                        Options = GetOptions(x.Value.PropertyType),
+                        Options = _optionFactory.BuildOptions(x.Value.PropertyType),
                         DefaultValue = description.DefaultValue.WhenNotNull(y => y.ToSampleValueString(_configuration)).OtherwiseDefault(),
                         MultipleAllowed = x.Value.PropertyType.IsArray || x.Value.PropertyType.IsList(),
                         Required = !description.Optional
@@ -297,18 +297,6 @@ namespace FubuMVC.Swank.Specification
                 .Where(x => x.Direction == direction)
                 .OrderBy(x => x.Name)
                 .Select(x => x.Name)
-                .ToList();
-        }
-
-        private List<Option> GetOptions(Type type)
-        {
-            return _optionFactory.BuildOptions(type)
-                .Select(x => new Option
-                {
-                    Name = x.Name,
-                    Value = x.Value,
-                    Comments = x.Comments
-                })
                 .ToList();
         }
     }

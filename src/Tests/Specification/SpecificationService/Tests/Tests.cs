@@ -33,7 +33,8 @@ namespace Tests.Specification.SpecificationService.Tests
             var moduleConvention = new ModuleConvention(new MarkerConvention<ModuleDescription>());
             var typeCache = new TypeDescriptorCache();
             var memberConvention = new MemberConvention();
-            var optionFactory = new OptionFactory(configuration, new OptionConvention());
+            var optionFactory = new OptionFactory(configuration,
+                new EnumConvention(), new OptionConvention());
             return new FubuMVC.Swank.Specification.SpecificationService(
                 configuration,
                 new BehaviorSource(graph, configuration),
@@ -51,8 +52,10 @@ namespace Tests.Specification.SpecificationService.Tests
                     new TypeConvention(configuration),
                     memberConvention,
                     optionFactory),
-                new BodyDescriptionFactory(configuration), 
-                new OptionFactory(configuration, new OptionConvention())).Generate();
+                new BodyDescriptionFactory(configuration),
+                new OptionFactory(configuration,
+                    new EnumConvention(), 
+                    new OptionConvention())).Generate();
         }
     }
 

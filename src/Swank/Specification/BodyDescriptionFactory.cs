@@ -94,27 +94,29 @@ namespace FubuMVC.Swank.Specification
                     break;
             }
 
-            data.Options = WalkOptions(type, x => data.SampleValue = x.First().Value);
+            data.Options = WalkOptions(type, x => data.SampleValue = x.Options.First().Value);
 
             if (opening != null) opening(data);
             description.Add(data);
         }
 
-        private List<Option> WalkOptions(DataType type, 
-            Action<List<Option>> whenOptions = null)
+        private static Enumeration WalkOptions(DataType type, 
+            Action<Enumeration> whenOptions = null)
         {
-            List<Option> options = null;
-            if (type.Options != null && type.Options.Any())
+            if (type.Options == null) return null;
+            var enumeration = new Enumeration
             {
-                options = new List<Option>(type.Options.Select(x => new Option
+                Name = type.Options.Name,
+                Comments = type.Options.Comments,
+                Options = new List<Option>(type.Options.Options.Select(x => new Option
                 {
                     Name = x.Name == x.Value ? null : x.Name,
                     Value = x.Value,
                     Comments = x.Comments.TransformMarkdownInline()
-                }));
-                if (whenOptions != null) whenOptions(options);
-            }
-            return options;
+                }))
+            };
+            if (whenOptions != null) whenOptions(enumeration);
+            return enumeration;
         }
 
         private void WalkArray(List<BodyLineItem> data, DataType type, int level,

@@ -46,7 +46,9 @@
         public string ValueComments { get; set; }
     }
 
-    public class OptionDescription : Description
+    public class EnumDescription : Description { }
+
+    public class EnumOptionDescription : Description
     {
         public bool Hidden { get; set; }
     }

@@ -79,7 +79,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
             parameter.Name.ShouldEqual("Revisions");
             parameter.Comments.ShouldEqual("These are the revision numbers.");
-            parameter.Options.ShouldBeEmpty();
+            parameter.Options.ShouldBeNull();
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
 
             parameter.Name.ShouldEqual("Sort");
             parameter.Comments.ShouldBeNull();
-            parameter.Options.ShouldBeEmpty();
+            parameter.Options.ShouldBeNull();
         }
 
         [Test]
@@ -153,15 +153,15 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var options = Spec.GetEndpoint<Querystrings.OptionGetHandler>()
                 .GetQuerystring<Querystrings.OptionRequest>(x => x.Options).Options;
 
-            options[0].Value.ShouldEqual("Option1");
-            options[1].Value.ShouldEqual("Option3");
+            options.Options[0].Value.ShouldEqual("Option1");
+            options.Options[1].Value.ShouldEqual("Option3");
         }
 
         [Test]
         public void should_get_querystring_option_description()
         {
             var option = Spec.GetEndpoint<Querystrings.OptionGetHandler>()
-                .GetQuerystring<Querystrings.OptionRequest>(x => x.Options).Options[0];
+                .GetQuerystring<Querystrings.OptionRequest>(x => x.Options).Options.Options[0];
 
             option.Name.ShouldEqual("Option 1");
             option.Value.ShouldEqual("Option1");
@@ -172,7 +172,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         public void should_set_querystring_option_description_to_default_when_not_specified()
         {
             var option = Spec.GetEndpoint<Querystrings.OptionGetHandler>()
-                .GetQuerystring<Querystrings.OptionRequest>(x => x.Options).Options[1];
+                .GetQuerystring<Querystrings.OptionRequest>(x => x.Options).Options.Options[1];
 
             option.Name.ShouldEqual("Option3");
             option.Value.ShouldEqual("Option3");
@@ -183,7 +183,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         public void should_hide_querystring_options_marked_with_the_hide_attribute()
         {
             Spec.GetEndpoint<Querystrings.OptionGetHandler>()
-                .GetQuerystring<Querystrings.OptionRequest>(x => x.Options).Options.Any(x => x.Value == "Option2").ShouldBeFalse();
+                .GetQuerystring<Querystrings.OptionRequest>(x => x.Options).Options.Options.Any(x => x.Value == "Option2").ShouldBeFalse();
         }
     }
 }

@@ -1,35 +1,57 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using FubuMVC.Swank;
 using FubuMVC.Swank.Description;
 using FubuMVC.Swank.Specification;
 using NUnit.Framework;
 using Should;
+using DescriptionAttribute = FubuMVC.Swank.Description.DescriptionAttribute;
 
 namespace Tests.Specification
 {
     [TestFixture]
     public class OptionFactoryTests
     {
-        public List<EnumOption> GetOptions<T>(Action<Configuration> configure = null)
+        public Enumeration GetOptions<T>(Action<Configuration> configure = null)
         {
             return GetOptions(typeof (T), configure);
         }
 
-        public List<EnumOption> GetOptions(Type type, Action<Configuration> configure = null)
+        public Enumeration GetOptions(Type type, Action<Configuration> configure = null)
         {
             var configuration = new Configuration();
             if (configure != null) configure(configuration);
             return new OptionFactory(configuration, 
+                new EnumConvention(), 
                 new OptionConvention()).BuildOptions(type);
+        }
+
+        public enum EnumWithoutComments { }
+
+        [Test]
+        public void should_return_default_name_and_comments()
+        {
+            var options = GetOptions(typeof(EnumWithoutComments));
+            options.Name.ShouldEqual("EnumWithoutComments");
+            options.Comments.ShouldBeNull();
+        }
+
+        [Description("SomeName", "Some comments")]
+        public enum EnumWithComments { }
+
+        [Test]
+        public void should_return_name_and_comments()
+        {
+            var options = GetOptions(typeof(EnumWithComments));
+            options.Name.ShouldEqual("SomeName");
+            options.Comments.ShouldEqual("Some comments");
         }
 
         [Test]
         public void should_return_empty_when_not_an_enum(
             [Values(typeof(int), typeof(int?))] Type type)
         {
-            GetOptions(type).ShouldBeEmpty();
+            GetOptions(type).ShouldBeNull();
         }
 
         public enum EnumOrder
@@ -41,7 +63,7 @@ namespace Tests.Specification
         public void should_return_options_in_alphanumeric_order(
             [Values(typeof(EnumOrder), typeof(EnumOrder?))]Type type)
         {
-            var options = GetOptions(type);
+            var options = GetOptions(type).Options;
 
             options.Count.ShouldEqual(3);
 
@@ -58,7 +80,7 @@ namespace Tests.Specification
         [Test]
         public void should_not_return_hidden_enum_options()
         {
-            var options = GetOptions<HiddenEnum>();
+            var options = GetOptions<HiddenEnum>().Options;
 
             options.Count.ShouldEqual(2);
 
@@ -81,7 +103,7 @@ namespace Tests.Specification
                         o.Name += f.Name;
                         o.Value += f.Name;
                         o.Comments += f.Name;
-                    }));
+                    })).Options;
 
             var option = options.Single();
 
@@ -101,7 +123,7 @@ namespace Tests.Specification
         [TestCase(EnumFormat.AsString, "Option")]
         public void should_return_option_description(EnumFormat enumMode, string value)
         {
-            var options = GetOptions<EnumDescription>(x => x.EnumFormat = enumMode);
+            var options = GetOptions<EnumDescription>(x => x.EnumFormat = enumMode).Options;
 
             var option = options.Single();
 
@@ -120,7 +142,7 @@ namespace Tests.Specification
         [TestCase(EnumFormat.AsString, "Option")]
         public void should_return_option_without_description(EnumFormat enumMode, string value)
         {
-            var options = GetOptions<EnumEmptyDescription>(x => x.EnumFormat = enumMode);
+            var options = GetOptions<EnumEmptyDescription>(x => x.EnumFormat = enumMode).Options;
 
             var option = options.Single();
 

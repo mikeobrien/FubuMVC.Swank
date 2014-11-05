@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.UI.WebControls;
-using System.Xml.Serialization;
 using FubuCore.Reflection;
 using FubuMVC.Core;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Media.Projections;
 using FubuMVC.Swank;
 using FubuMVC.Swank.Description;
-using FubuMVC.Swank.Extensions;
 using FubuMVC.Swank.Specification;
 using NUnit.Framework;
 using Should;
@@ -28,8 +24,10 @@ namespace Tests.Specification
                 configuration, 
                 new TypeDescriptorCache(), 
                 new TypeConvention(configuration), 
-                new MemberConvention(), 
-                new OptionFactory(configuration, new OptionConvention()));
+                new MemberConvention(),
+                new OptionFactory(configuration,
+                    new EnumConvention(), 
+                    new OptionConvention()));
         }
 
         public class TypeWithoutComments { }
@@ -150,14 +148,14 @@ namespace Tests.Specification
 
             dataType.Name.ShouldEqual("int");
             dataType.IsSimple.ShouldBeTrue();
-            dataType.Options.Count.ShouldEqual(2);
+            dataType.Options.Options.Count.ShouldEqual(2);
 
-            var option = dataType.Options[0];
+            var option = dataType.Options.Options[0];
             option.Name.ShouldEqual("Option");
             option.Value.ShouldEqual("0");
             option.Comments.ShouldBeNull();
-            
-            option = dataType.Options[1];
+
+            option = dataType.Options.Options[1];
             option.Name.ShouldEqual("OptionWithComments");
             option.Value.ShouldEqual("1");
             option.Comments.ShouldEqual("This is an option.");
@@ -171,14 +169,14 @@ namespace Tests.Specification
 
             dataType.Name.ShouldEqual("string");
             dataType.IsSimple.ShouldBeTrue();
-            dataType.Options.Count.ShouldEqual(2);
+            dataType.Options.Options.Count.ShouldEqual(2);
 
-            var option = dataType.Options[0];
+            var option = dataType.Options.Options[0];
             option.Name.ShouldEqual("Option");
             option.Value.ShouldEqual("Option");
             option.Comments.ShouldBeNull();
 
-            option = dataType.Options[1];
+            option = dataType.Options.Options[1];
             option.Name.ShouldEqual("OptionWithComments");
             option.Value.ShouldEqual("OptionWithComments");
             option.Comments.ShouldEqual("This is an option.");

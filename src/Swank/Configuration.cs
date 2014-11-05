@@ -62,7 +62,8 @@ namespace FubuMVC.Swank
             ResourceConvention = new Service<IDescriptionConvention<BehaviorChain, ResourceDescription>> { Type = typeof(ResourceConvention) };
             EndpointConvention = new Service<IDescriptionConvention<BehaviorChain, EndpointDescription>> { Type = typeof(EndpointConvention) };
             MemberConvention = new Service<IDescriptionConvention<PropertyInfo, MemberDescription>> { Type = typeof(MemberConvention) };
-            OptionConvention = new Service<IDescriptionConvention<FieldInfo, OptionDescription>> { Type = typeof(OptionConvention) };
+            EnumConvention = new Service<IDescriptionConvention<Type, EnumDescription>> { Type = typeof(EnumConvention) };
+            EnumOptionConvention = new Service<IDescriptionConvention<FieldInfo, EnumOptionDescription>> { Type = typeof(OptionConvention) };
             StatusCodeConvention = new Service<IDescriptionConvention<BehaviorChain, List<StatusCodeDescription>>> { Type = typeof(StatusCodeConvention) };
             HeaderConvention = new Service<IDescriptionConvention<BehaviorChain, List<HeaderDescription>>> { Type = typeof(HeaderConvention) };
             MimeTypeConvention = new Service<IDescriptionConvention<BehaviorChain, List<MimeTypeDescription>>> { Type = typeof(MimeTypeConvention) };
@@ -80,7 +81,7 @@ namespace FubuMVC.Swank
             ResponseOverrides = new List<Action<BehaviorChain, Data>>();
             TypeOverrides = new List<Action<Type, DataType>>();
             MemberOverrides = new List<Action<PropertyInfo, Member>>();
-            OptionOverrides = new List<Action<FieldInfo, EnumOption>>();
+            OptionOverrides = new List<Action<FieldInfo, Option>>();
         }
 
         public string Url { get; set; }
@@ -128,7 +129,8 @@ namespace FubuMVC.Swank
         public Service<IDescriptionConvention<BehaviorChain, List<MimeTypeDescription>>> MimeTypeConvention { get; set; }
         public Service<IDescriptionConvention<Type, TypeDescription>> TypeConvention { get; set; }
         public Service<IDescriptionConvention<PropertyInfo, MemberDescription>> MemberConvention { get; set; }
-        public Service<IDescriptionConvention<FieldInfo, OptionDescription>> OptionConvention { get; set; }
+        public Service<IDescriptionConvention<Type, EnumDescription>> EnumConvention { get; set; }
+        public Service<IDescriptionConvention<FieldInfo, EnumOptionDescription>> EnumOptionConvention { get; set; }
 
         public List<Action<Module>> ModuleOverrides { get; set; }
         public List<Action<Resource>> ResourceOverrides { get; set; }
@@ -142,6 +144,6 @@ namespace FubuMVC.Swank
         public List<Action<BehaviorChain, Data>> ResponseOverrides { get; set; }
         public List<Action<Type, DataType>> TypeOverrides { get; set; }
         public List<Action<PropertyInfo, Member>> MemberOverrides { get; set; }
-        public List<Action<FieldInfo, EnumOption>> OptionOverrides { get; set; }
+        public List<Action<FieldInfo, Option>> OptionOverrides { get; set; }
     }
 }

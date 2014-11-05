@@ -117,6 +117,7 @@
     <Compile Include="Description\DictionaryDescriptionAttribute.cs" />
     <Compile Include="Description\MimeTypeAttribute.cs" />
     <Compile Include="Description\MimeTypeConvention.cs" />
+    <Compile Include="Description\EnumConvention.cs" />
     <Compile Include="Endpoints\DataGetHandler.cs" />
     <Compile Include="Extensions\LazyCache.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />

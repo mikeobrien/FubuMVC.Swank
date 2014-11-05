@@ -141,10 +141,10 @@
                     <td>
                         <code>{{{Type}}}</code>
                         {{{Comments}}}
-                        {{#if Options}}
+                        {{#Options}}
                             <h5>Possible Values</h5>
                             {{> options}}
-                        {{/if}}
+                        {{/Options}}
                     </td>
                 </tr>
                 {{/UrlParameters}}
@@ -176,10 +176,10 @@
                             {{/if}}
                         {{/Required}}
                         {{{Comments}}}
-                        {{#if Options}}
+                        {{#Options}}
                             <h5>Possible Values</h5>
                             {{> options}}
-                        {{/if}}
+                        {{/Options}}
                     </td>
                 </tr>
                 {{/QuerystringParameters}}
@@ -252,7 +252,7 @@
                 {{#IsDeprecated}}
                     <div class="alert alert-warning deprecated" role="alert">{{{DeprecationMessage}}}</div>
                 {{/IsDeprecated}}
-                {{#if Options}}{{> options}}{{/if}}
+                {{#Options}}{{> options}}{{/Options}}
             {{/IsDictionaryEntry}}
             {{#IsDictionaryEntry}}
                 <div class="panel panel-default">
@@ -262,7 +262,7 @@
                             <strong><code>{{{TypeName}}}</code></strong>
                             {{{Comments}}}
                         </div>
-                        {{#if Options}}{{> options}}{{/if}}
+                        {{#Options}}{{> options}}{{/Options}}
                     {{/with}}
                 </div>
                 {{#either TypeName Comments}}
@@ -276,7 +276,7 @@
                             {{/IsSimpleType}}
                             {{{Comments}}}
                         </div>
-                        {{#if Options}}{{> options}}{{/if}}
+                        {{#Options}}{{> options}}{{/Options}}
                     </div>
                 {{/either}}
             {{/IsDictionaryEntry}}

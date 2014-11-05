@@ -26,7 +26,8 @@ namespace Tests.Specification
                 new TypeDescriptorCache(),
                 new TypeConvention(configuration),
                 new MemberConvention(),
-                new OptionFactory(configuration, new OptionConvention())).BuildGraph(type, action));
+                new OptionFactory(configuration, new EnumConvention(), 
+                    new OptionConvention())).BuildGraph(type, action));
         }
 
         public List<BodyLineItem> BuildDescription<T>(
@@ -115,7 +116,7 @@ namespace Tests.Specification
 
             description[1].ShouldBeSimpleTypeMember("OptionMember", "int", 1, "0", 
                 x => x.IsNumeric()
-                    .Options
+                    .Options("Options")
                         .WithOption("Option", "0")
                         .WithOptionAndComments("OptionWithComments", "1", "This is an option."), 
                 x => x.IsLastMember());
@@ -137,7 +138,7 @@ namespace Tests.Specification
 
             description[1].ShouldBeSimpleTypeMember("OptionMember", "string", 1, "Option",
                 x => x.IsString()
-                    .Options
+                    .Options("Options")
                         .WithOption("Option")
                         .WithOptionAndComments("OptionWithComments", "This is an option."),
                 x => x.IsLastMember());
@@ -367,7 +368,7 @@ namespace Tests.Specification
 
             description[1].ShouldBeSimpleType("int", "int", 1, "0", 
                 x => x.IsNumeric()
-                    .Options
+                    .Options("ArrayOptions")
                         .WithOption("Option1", "0")
                         .WithOption("Option2", "1")); 
 
@@ -388,7 +389,7 @@ namespace Tests.Specification
 
             description[1].ShouldBeSimpleType("string", "string", 1, "Option1", 
                 x => x.IsString()
-                    .Options
+                    .Options("ArrayOptions")
                         .WithOption("Option1")
                         .WithOption("Option2"));
 
@@ -500,10 +501,10 @@ namespace Tests.Specification
 
             description[1].ShouldBeSimpleTypeDictionaryEntry("key", "int", "int", 1, "0",
                 x => x.IsNumeric()
-                    .Options
+                    .Options("DictionaryValueOptions")
                         .WithOption("ValueOption1", "0")
                         .WithOption("ValueOption2", "1"),
-                x => x.KeyOptions
+                x => x.KeyOptions("DictionaryKeyOptions")
                     .WithOption("KeyOption1", "0")
                     .WithOption("KeyOption2", "1"));
 
@@ -522,10 +523,10 @@ namespace Tests.Specification
 
             description[1].ShouldBeSimpleTypeDictionaryEntry("key", "string", "string", 1, "ValueOption1",
                 x => x.IsString()
-                    .Options
+                    .Options("DictionaryValueOptions")
                         .WithOption("ValueOption1")
                         .WithOption("ValueOption2"),
-                x => x.KeyOptions
+                x => x.KeyOptions("DictionaryKeyOptions")
                     .WithOption("KeyOption1")
                     .WithOption("KeyOption2"));
 
@@ -596,7 +597,7 @@ namespace Tests.Specification
         }
     }
 
-    public static class DataDescriptionAssertions
+    public static class LineItemDescriptionAssertions
     {
         // Simple type assertions
 
@@ -662,9 +663,11 @@ namespace Tests.Specification
             public SimpleTypeDsl IsDuration() { _body.IsDuration = true; return this; }
             public SimpleTypeDsl IsGuid() { _body.IsGuid = true; return this; }
 
-            public OptionDsl Options
+            public OptionDsl Options(string name)
             {
-                get { return new OptionDsl(_body.Options = _body.Options ?? new List<Option>()); }
+                _body.Options = _body.Options ?? new Enumeration();
+                _body.Options.Name = name;
+                return new OptionDsl(_body.Options);
             }
         }
 
@@ -937,9 +940,11 @@ namespace Tests.Specification
             public DictionaryKeyDsl(BodyLineItem body) { _key = body.DictionaryKey; }
             public DictionaryKeyDsl KeyComments(string comments) { _key.Comments = comments; return this; }
 
-            public OptionDsl KeyOptions
+            public OptionDsl KeyOptions(string name)
             {
-                get { return new OptionDsl(_key.Options = _key.Options ?? new List<Option>()); }
+                _key.Options = _key.Options ?? new Enumeration();
+                _key.Options.Name = name;
+                return new OptionDsl(_key.Options);
             }
         }
 
@@ -963,8 +968,8 @@ namespace Tests.Specification
 
         public class OptionDsl
         {
-            private readonly List<Option> _options;
-            public OptionDsl(List<Option> options) { _options = options; }
+            private readonly Enumeration _options;
+            public OptionDsl(Enumeration options) { _options = options; }
 
             public OptionDsl WithOption(string value)
             {
@@ -988,7 +993,8 @@ namespace Tests.Specification
 
             private OptionDsl WithOption(Option option)
             {
-                _options.Add(option); return this;
+                if (_options.Options == null) _options.Options = new List<Option>();
+                _options.Options.Add(option); return this;
             }
         }
 
@@ -1030,7 +1036,7 @@ namespace Tests.Specification
             source.IsDateTime.ShouldEqual(compare.IsDateTime);
             source.IsDuration.ShouldEqual(compare.IsDuration);
             source.IsGuid.ShouldEqual(compare.IsGuid);
-            compare.Options.ShouldEqualOptions(source.Options);
+            source.Options.ShouldEqualOptions(compare.Options);
 
             source.IsComplexType.ShouldEqual(compare.IsComplexType);
 
@@ -1048,13 +1054,15 @@ namespace Tests.Specification
             }
         }
 
-        private static void ShouldEqualOptions(this List<Option> source, List<Option> compare)
+        private static void ShouldEqualOptions(this Enumeration source, Enumeration compare)
         {
             if (compare == null) source.ShouldBeNull();
             else
             {
-                source.ShouldTotal(compare.Count);
-                foreach (var option in source.Zip(compare,
+                source.Name.ShouldEqual(compare.Name);
+                source.Comments.ShouldEqual(compare.Comments);
+                source.Options.ShouldTotal(compare.Options.Count);
+                foreach (var option in source.Options.Zip(compare.Options,
                     (s, c) => new { Source = s, Compare = c }))
                 {
                     option.Source.Name.ShouldEqual(option.Compare.Name);

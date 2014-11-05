@@ -25,7 +25,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             parameter.Name.ShouldEqual("WidgetId");
             parameter.Type.ShouldEqual("uuid");
             parameter.Comments.ShouldBeNull();
-            parameter.Options.ShouldBeEmpty();
+            parameter.Options.ShouldBeNull();
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             parameter.Name.ShouldEqual("Revision");
             parameter.Type.ShouldEqual("int");
             parameter.Comments.ShouldEqual("This the revision number.");
-            parameter.Options.ShouldBeEmpty();
+            parameter.Options.ShouldBeNull();
         }
 
         [Test]
@@ -46,15 +46,15 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             var options = Spec.GetEndpoint<UrlParameters.OptionGetHandler>()
                 .GetUrlParameter<UrlParameters.OptionRequest>(x => x.Options).Options;
 
-            options[0].Value.ShouldEqual("Option1");
-            options[1].Value.ShouldEqual("Option3");
+            options.Options[0].Value.ShouldEqual("Option1");
+            options.Options[1].Value.ShouldEqual("Option3");
         }
 
         [Test]
         public void should_get_url_paramaters_option_description()
         {
             var option = Spec.GetEndpoint<UrlParameters.OptionGetHandler>()
-                .GetUrlParameter<UrlParameters.OptionRequest>(x => x.Options).Options[0];
+                .GetUrlParameter<UrlParameters.OptionRequest>(x => x.Options).Options.Options[0];
 
             option.Name.ShouldEqual("Option 1");
             option.Value.ShouldEqual("Option1");
@@ -65,7 +65,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         public void should_set_url_paramaters_option_description_to_default_when_not_specified()
         {
             var option = Spec.GetEndpoint<UrlParameters.OptionGetHandler>()
-                .GetUrlParameter<UrlParameters.OptionRequest>(x => x.Options).Options[1];
+                .GetUrlParameter<UrlParameters.OptionRequest>(x => x.Options).Options.Options[1];
 
             option.Name.ShouldEqual("Option3");
             option.Value.ShouldEqual("Option3");
@@ -77,7 +77,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
         {
             Spec.GetEndpoint<UrlParameters.OptionGetHandler>()
                 .GetUrlParameter<UrlParameters.OptionRequest>(x => x.Options)
-                .Options.Any(x => x.Value == "Option2").ShouldBeFalse();
+                .Options.Options.Any(x => x.Value == "Option2").ShouldBeFalse();
         }
     }
 }

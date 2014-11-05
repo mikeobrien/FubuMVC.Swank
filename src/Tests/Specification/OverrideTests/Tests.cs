@@ -85,8 +85,8 @@ namespace Tests.Specification.OverrideTests
 
 
             var request = spec.Modules[0].Resources[0].Endpoints[0].Request.Body.Description[1];
-            request.Options[0].Name.ShouldEqual("SomeName1");
-            request.Options[0].Comments.ShouldEqual("Some comments23");
+            request.Options.Options[0].Name.ShouldEqual("SomeName1");
+            request.Options.Options[0].Comments.ShouldEqual("Some comments23");
         }
 
         [Test]

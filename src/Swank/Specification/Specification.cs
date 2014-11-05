@@ -45,7 +45,7 @@ namespace FubuMVC.Swank.Specification
         public string Name { get; set; }
         public string Comments { get; set; }
         public string Type { get; set; }
-        public List<Option> Options { get; set; }
+        public Enumeration Options { get; set; }
     }
 
     public class QuerystringParameter : IDescription
@@ -56,7 +56,7 @@ namespace FubuMVC.Swank.Specification
         public string DefaultValue { get; set; }
         public bool MultipleAllowed { get; set; }
         public bool Required { get; set; }
-        public List<Option> Options { get; set; }
+        public Enumeration Options { get; set; }
     }
 
     public class StatusCode : IDescription
@@ -98,7 +98,7 @@ namespace FubuMVC.Swank.Specification
         public string Comments { get; set; }
 
         public bool IsSimple { get; set; }
-        public List<EnumOption> Options { get; set; }
+        public Enumeration Options { get; set; }
 
         public bool IsComplex { get; set; }
         public List<Member> Members { get; set; }
@@ -125,13 +125,6 @@ namespace FubuMVC.Swank.Specification
 
         public DataType ValueType { get; set; }
         public string ValueComments { get; set; }
-    }
-
-    public class EnumOption
-    {
-        public string Name { get; set; }
-        public string Value { get; set; }
-        public string Comments { get; set; }
     }
 
     public class Member : IDescription
@@ -178,7 +171,7 @@ namespace FubuMVC.Swank.Specification
         public bool? IsDateTime { get; set; }
         public bool? IsDuration { get; set; }
         public bool? IsGuid { get; set; }
-        public List<Option> Options { get; set; }
+        public Enumeration Options { get; set; }
 
         public bool? IsComplexType { get; set; }
 
@@ -193,6 +186,13 @@ namespace FubuMVC.Swank.Specification
     {
         public string Comments { get; set; }
         public string TypeName { get; set; }
+        public Enumeration Options { get; set; }
+    }
+
+    public class Enumeration
+    {
+        public string Name { get; set; }
+        public string Comments { get; set; }
         public List<Option> Options { get; set; }
     }
 

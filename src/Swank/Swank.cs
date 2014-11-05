@@ -404,22 +404,44 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// This allows you to set the option convention.
+        /// This allows you to set the enum convention.
         /// </summary>
-        public Swank WithOptionConvention<T>() where T : IDescriptionConvention<FieldInfo, OptionDescription>
+        public Swank WithEnumConvention<T>() where T : 
+            IDescriptionConvention<Type, EnumDescription>
         {
-            return WithOptionConvention<T, object>(null);
+            return WithEnumConvention<T, object>(null);
         }
 
         /// <summary>
-        /// This allows you to set the option convention as well as pass in configuration.
+        /// This allows you to set the enum convention as well as pass in configuration.
         /// </summary>
-        public Swank WithOptionConvention<T, TConfig>(Action<TConfig> configure)
-            where T : IDescriptionConvention<FieldInfo, OptionDescription>
+        public Swank WithEnumConvention<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionConvention<Type, EnumDescription>
             where TConfig : class, new()
         {
-            _configuration.OptionConvention.Type = typeof(T);
-            _configuration.OptionConvention.Config = CreateConfig(configure);
+            _configuration.EnumConvention.Type = typeof(T);
+            _configuration.EnumConvention.Config = CreateConfig(configure);
+            return this;
+        }
+
+        /// <summary>
+        /// This allows you to set the enum option convention.
+        /// </summary>
+        public Swank WithEnumOptionConvention<T>() where T : 
+            IDescriptionConvention<FieldInfo, EnumOptionDescription>
+        {
+            return WithEnumOptionConvention<T, object>(null);
+        }
+
+        /// <summary>
+        /// This allows you to set the enum option convention as well as pass in configuration.
+        /// </summary>
+        public Swank WithEnumOptionConvention<T, TConfig>(Action<TConfig> configure)
+            where T : IDescriptionConvention<FieldInfo, EnumOptionDescription>
+            where TConfig : class, new()
+        {
+            _configuration.EnumOptionConvention.Type = typeof(T);
+            _configuration.EnumOptionConvention.Config = CreateConfig(configure);
             return this;
         }
 
@@ -804,7 +826,7 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override option values.
         /// </summary>
-        public Swank OverrideOptions(Action<FieldInfo, EnumOption> @override)
+        public Swank OverrideOptions(Action<FieldInfo, Option> @override)
         {
             _configuration.OptionOverrides.Add(@override);
             return this;
@@ -813,8 +835,8 @@ namespace FubuMVC.Swank
         /// <summary>
         /// Allows you to override option values when a condition is met.
         /// </summary>
-        public Swank OverrideOptionsWhen(Action<FieldInfo, EnumOption> @override,
-            Func<FieldInfo, EnumOption, bool> when)
+        public Swank OverrideOptionsWhen(Action<FieldInfo, Option> @override,
+            Func<FieldInfo, Option, bool> when)
         {
             _configuration.OptionOverrides.Add(OverrideWhen(@override, when));
             return this;
