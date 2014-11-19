@@ -1,6 +1,8 @@
 FubuMVC Swank
 =============
 
+[![Nuget](http://img.shields.io/nuget/v/FubuMVC.Swank.svg)](http://www.nuget.org/packages/FubuMVC.Swank/) [![Nuget downloads](http://img.shields.io/nuget/dt/FubuMVC.Swank.svg)](http://www.nuget.org/packages/FubuMVC.Swank/)
+
 Swank is a [FubuMVC](http://mvc.fubu-project.org/) [plugin](http://bottles.fubu-project.org/what-is-bottles/) that allows you to describe and publish documentation for RESTful services. Take a look at the [sample documentation](http://www.mikeobrien.net/FubuMVC.Swank) and read the talking points to find out more:
 
 - Option to set a custom url for the documentation. 
