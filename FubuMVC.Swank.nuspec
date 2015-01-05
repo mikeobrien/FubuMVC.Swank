@@ -23,7 +23,4 @@
          <dependency id="MarkdownSharp" version="1.0.0.0" />
       </dependencies>
    </metadata>
-   <files>
-      <file src="src\Swank\bin\FubuMVC.Swank.*" target="lib" />
-   </files>
 </package>
