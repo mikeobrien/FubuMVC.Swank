@@ -4,7 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Management;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using FubuCore;
 using FubuMVC.Core.Registration;
@@ -25,12 +28,26 @@ namespace Tests
 
     public static class Paths
     {
-        public static string TestHarness => @"\\psf\data\Development\FubuMVC.Swank\src\TestHarness";
-        //public static string TestHarness => Path.GetFullPath(Environment.CurrentDirectory + @"\..\..\..\TestHarness");
+        public static string TestHarness => Path.GetFullPath(Environment.CurrentDirectory + 
+            @"\..\..\..\TestHarness").NormalizeToUnc();
     }
 
     public static class TestExtensions
     {
+        [DllImport("mpr.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern int WNetGetConnection(
+            [MarshalAs(UnmanagedType.LPTStr)] string localName,
+            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder remoteName, ref int length);
+
+        public static string NormalizeToUnc(this string path)
+        {
+            if (path.StartsWith(@"\\")) return path;
+            var share = new StringBuilder(512);
+            var length = share.Capacity;
+            WNetGetConnection(path.Substring(0, 2), share, ref length);
+            return share.ToString().TrimEnd() + path.Substring(2);
+        }
+
         public static IEnumerable<T> ShouldTotal<T>(this IEnumerable<T> source, int total)
         {
             source.Count().ShouldEqual(total);
