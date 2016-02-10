@@ -25,7 +25,8 @@ namespace Tests
 
     public static class Paths
     {
-        public static string TestHarness { get { return Path.GetFullPath(Environment.CurrentDirectory + @"\..\..\..\TestHarness");}}
+        public static string TestHarness => @"\\psf\data\Development\FubuMVC.Swank\src\TestHarness";
+        //public static string TestHarness => Path.GetFullPath(Environment.CurrentDirectory + @"\..\..\..\TestHarness");
     }
 
     public static class TestExtensions
