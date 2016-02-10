@@ -15,6 +15,7 @@ namespace Tests
 
         public void Create(string name, string path)
         {
+            Console.WriteLine($"Creating website at: {path}");
             _port = Random.Next(30000, 40000);
             using (var manager = new ServerManager())
             {

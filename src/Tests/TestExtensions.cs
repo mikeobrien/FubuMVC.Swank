@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -28,8 +27,8 @@ namespace Tests
 
     public static class Paths
     {
-        public static string TestHarness => Path.GetFullPath(Environment.CurrentDirectory + 
-            @"\..\..\..\TestHarness").NormalizeToUnc();
+        public static string TestHarness => Path.GetFullPath(Environment
+            .CurrentDirectory + @"\..\..\..\TestHarness").NormalizeToUnc();
     }
 
     public static class TestExtensions
@@ -44,8 +43,10 @@ namespace Tests
             if (path.StartsWith(@"\\")) return path;
             var share = new StringBuilder(512);
             var length = share.Capacity;
-            WNetGetConnection(path.Substring(0, 2), share, ref length);
-            return share.ToString().TrimEnd() + path.Substring(2);
+            var result = WNetGetConnection(path.Substring(0, 2), share, ref length);
+            var normalizedPath = result == 0 ? share.ToString().TrimEnd() + path.Substring(2) : path;
+            Console.WriteLine($"Normalizing '{path}' to '{normalizedPath}'");
+            return normalizedPath;
         }
 
         public static IEnumerable<T> ShouldTotal<T>(this IEnumerable<T> source, int total)

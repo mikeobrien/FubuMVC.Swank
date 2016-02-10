@@ -1,9 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 using FubuMVC.Core.Registration;
-using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Swank;
-using FubuMVC.Swank.Documentation;
 using FubuMVC.Swank.Endpoints;
 using FubuMVC.Swank.Specification;
 using NUnit.Framework;
@@ -38,7 +36,7 @@ namespace Tests.Specification.ActionSourceTests
         {
             _graph.AddAction<GetHandler>("GET");
 
-            var configuration = Swank.CreateConfig(x => x.AppliesToThisAssembly());
+            var configuration = Swank.CreateConfig(x => x.AppliesTo<Tests>());
             var chains = new BehaviorSource(_graph, configuration).GetChains();
 
             chains.Count.ShouldEqual(4);
