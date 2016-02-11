@@ -53,6 +53,27 @@ blockquote p {
     padding-left: 10px;
 }
 
+.navbar-brand {
+    padding: 0;
+}
+
+.navbar-brand table {
+    height: 50px;
+}
+
+.navbar-brand img {
+    padding-top: 3px;
+    padding-right: 10px;
+}
+
+.navbar-brand .logo {
+    line-height: 0;
+}
+
+.navbar-brand table {
+    white-space: nowrap;
+}
+
 .tab-content {
     background-color: white;
     padding: 1px 10px 1px 10px;

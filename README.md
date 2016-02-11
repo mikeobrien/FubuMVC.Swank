@@ -79,6 +79,10 @@ The following are all the basic configuration options. Advanced options are disc
     <td>The name of the specification. Shows up in the documentation page title and nav bar.</td>
   </tr>
   <tr>
+    <td><code>WithLogo(string url)</code></td>
+    <td>Url of the logo image. Shows up in the documentation page title and nav bar.</td>
+  </tr>
+  <tr>
     <td><code>WithComments(string name)</code></td>
     <td>The name of the embedded resource that contains the copy that is displayed on the home page. The extension is not required. Defaults to <code>Comments.[md|html|txt]</code>. </td>
   </tr>

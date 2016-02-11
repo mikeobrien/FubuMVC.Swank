@@ -73,11 +73,20 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// The name of the specification. Shows up in the documentaion page title and nav bar.
+        /// The name of the specification. Shows up in the documentation page title and nav bar.
         /// </summary>
         public Swank Named(string title)
         {
             _configuration.Name = title;
+            return this;
+        }
+
+        /// <summary>
+        /// Url of the logo image. Shows up in the documentation page title and nav bar.
+        /// </summary>
+        public Swank WithLogo(string url)
+        {
+            _configuration.LogoUrl = url;
             return this;
         }
 

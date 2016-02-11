@@ -24,7 +24,6 @@ namespace FubuMVC.Swank
         public Configuration()
         {
             Url = "";
-            Name = "API";
             Comments = "Comments";
             Copyright = "Copyright &copy; {0}".ToFormat(DateTime.Now.Year);
             Scripts = new List<string>();
@@ -86,6 +85,7 @@ namespace FubuMVC.Swank
 
         public string Url { get; set; }
         public string Name { get; set; }
+        public string LogoUrl { get; set; }
         public string Comments { get; set; }
         public string Copyright { get; set; }
         public List<string> Scripts { get; set; }

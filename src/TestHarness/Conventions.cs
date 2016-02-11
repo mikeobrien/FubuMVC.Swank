@@ -28,6 +28,7 @@ namespace TestHarness
                 .AppliesToThisAssembly()
                 .AtUrl("documentation")
                 .Named("Test Harness API")
+                .WithLogo("/img/logo.png")
                 .WithCopyright("Copyright &copy; {year} Test Harness")
                 .WithStylesheets("~/styles/style.css")
                 .WithScripts("~/scripts/script.js")

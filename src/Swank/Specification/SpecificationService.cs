@@ -84,10 +84,11 @@ namespace FubuMVC.Swank.Specification
             });
 
             var specification = new Specification {
-                    Name = _configuration.Name,
-                    Comments = _configuration.AppliesToAssemblies.FindTextResourceNamed("*" + _configuration.Comments),
-                    Modules = modules
-                };
+                Name = _configuration.Name,
+                LogoUrl = _configuration.LogoUrl,
+                Comments = _configuration.AppliesToAssemblies.FindTextResourceNamed("*" + _configuration.Comments),
+                Modules = modules
+            };
             return specification;
         }
 
