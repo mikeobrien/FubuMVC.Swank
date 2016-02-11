@@ -37,7 +37,7 @@ namespace Tests
         public void should_return_specification_page()
         {
             _testWebsite.DownloadString("documentation", "text/html")
-                .ShouldContain("<title>Test Harness API</title>");
+                .ShouldContain("<title>API Home</title>");
         }
 
         [Test]

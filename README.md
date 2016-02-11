@@ -75,8 +75,12 @@ The following are all the basic configuration options. Advanced options are disc
     <td>This defines the url of the specification endpoint. The default is <code>/specification</code>.</td>
   </tr>
   <tr>
-    <td><code>Named(string title)</code></td>
-    <td>The name of the specification. Shows up in the documentation page title and nav bar.</td>
+    <td><code>WithTitle(string title)</code></td>
+    <td>The title of the documentation page. Defaults to the name if not set.</td>
+  </tr>
+  <tr>
+    <td><code>Named(string name)</code></td>
+    <td>The name of the specification displayed in the header.</td>
   </tr>
   <tr>
     <td><code>WithLogo(string url)</code></td>

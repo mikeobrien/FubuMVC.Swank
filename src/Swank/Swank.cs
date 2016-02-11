@@ -73,11 +73,20 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
-        /// The name of the specification. Shows up in the documentation page title and nav bar.
+        /// The title of the documentation page. Defaults to the name if not set.
         /// </summary>
-        public Swank Named(string title)
+        public Swank WithTitle(string title)
         {
-            _configuration.Name = title;
+            _configuration.Title = title;
+            return this;
+        }
+
+        /// <summary>
+        /// The name of the specification displayed in the header.
+        /// </summary>
+        public Swank Named(string name)
+        {
+            _configuration.Name = name;
             return this;
         }
 

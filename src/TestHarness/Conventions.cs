@@ -27,6 +27,7 @@ namespace TestHarness
             Import<Swank>(x => x
                 .AppliesToThisAssembly()
                 .AtUrl("documentation")
+                .WithTitle("API Home")
                 .Named("Test Harness API")
                 .WithLogo("/img/logo.png")
                 .WithCopyright("Copyright &copy; {year} Test Harness")

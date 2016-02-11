@@ -84,6 +84,7 @@ namespace FubuMVC.Swank.Specification
             });
 
             var specification = new Specification {
+                Title = _configuration.Title ?? _configuration.Name,
                 Name = _configuration.Name,
                 LogoUrl = _configuration.LogoUrl,
                 Comments = _configuration.AppliesToAssemblies.FindTextResourceNamed("*" + _configuration.Comments),

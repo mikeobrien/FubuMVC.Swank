@@ -4,6 +4,7 @@ namespace FubuMVC.Swank.Specification
 {
     public class Specification : IDescription
     {
+        public string Title { get; set; }
         public string Name { get; set; }
         public string LogoUrl { get; set; }
         public string Comments { get; set; }

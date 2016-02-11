@@ -66,10 +66,12 @@ namespace Tests.Specification.SpecificationService.Tests
         public void should_set_description_to_default_when_none_is_specified()
         {
             var spec = BuildSpec<Tests>(x => x
+                .WithTitle("Some title")
                 .Named("Some API")
                 .WithLogo("logo.png")
                 .WithCopyright("Copyright Now"));
 
+            spec.Title.ShouldEqual("Some title");
             spec.Name.ShouldEqual("Some API");
             spec.LogoUrl.ShouldEqual("logo.png");
             spec.Comments.ShouldEqual("<p><strong>Some markdown comments</strong></p>");
