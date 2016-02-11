@@ -1,0 +1,86 @@
+<span style="color: #0000FF">var</span> https = require(<span style="color: #A31515">"https"</span>);
+<br /><br />
+<span style="color: #0000FF">var</span> token = <span style="color: #A31515">"&lt;API Token&gt;"</span>;
+<br /><br />
+<span style="color: #0000FF">var</span> requestHeaders = {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Accept: <span style="color: #A31515">"application/json"</span>,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Content-Type: <span style="color: #A31515">"application/json"</span>,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Authorization: <span style="color: #A31515">"Token "</span> + token<br />
+};<br /><br />
+<span style="color: #0000FF">var</span> options = {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;hostname: <span style="color: #A31515">backoffice.sentrichr.com</span>,</br \>
+&nbsp;&nbsp;&nbsp;&nbsp;port: <span style="color: #A31515">443</span>,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;path: <span style="color: #A31515">"{{Url}}"</span>,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;method: <span style="color: #A31515">"{{Method}}"</span>,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;headers: requestHeaders<br />
+};<br /><br />
+
+{{#Request}}
+	{{#Body}}
+	{{#if Description}}
+	<span style="color: #0000FF">var</span> postData =
+	{{#Description}}
+	<span class="sample-code-whitespace">{{Whitespace}}</span>
+		{{#IsFirst}} {{/IsFirst}}
+		{{#IsLast}}&nbsp;{{/IsLast}}
+		{{^IsClosing}}
+			{{#IsMember}}
+				 <span style="color: #A31515">"{{Name}}"</span>:&nbsp;
+			{{/IsMember}}
+			{{#IsDictionaryEntry}}
+				 <span style="color: #A31515;">"<span style="font-style: italic">[{{Name}}]</span>"</span>:&nbsp;
+			{{/IsDictionaryEntry}}
+		{{/IsClosing}}
+		{{#IsSimpleType}}
+			 {{#IsString}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsString}}
+			 {{#IsBoolean}}<span style="color: #0000FF">{{SampleValue}}</span>{{/IsBoolean}}
+			 {{#IsNumeric}}<span style="color: #0000FF">{{SampleValue}}</span>{{/IsNumeric}}
+			 {{#IsDateTime}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsDateTime}}
+			 {{#IsDuration}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsDuration}}
+			 {{#IsGuid}}<span style="color: #A31515">"{{SampleValue}}"</span>{{/IsGuid}}
+		{{/IsSimpleType}}
+		{{#IsOpening}}
+			 {{#IsArray}}[{{/IsArray}}
+			 {{#IsComplexType}}&#123;{{/IsComplexType}}
+			 {{#IsDictionary}}&#123;{{/IsDictionary}}
+		{{/IsOpening}}
+		{{#IsClosing}}
+			 {{#IsArray}}]{{/IsArray}}
+			 {{#IsComplexType}}&#125;{{/IsComplexType}}
+			 {{#IsDictionary}}&#125;{{/IsDictionary}}
+		{{/IsClosing}}
+		{{#IsMember}}
+			{{^IsOpening}}
+				{{^IsLastMember}},{{/IsLastMember}}
+			{{/IsOpening}}
+		{{/IsMember}}
+		{{#IsLast}};{{/IsLast}}
+		 <br />
+		{{/Description}}
+		<br />
+<span style="color: #0000FF">var</span> requestBody = JSON.stringify (postData);<br />
+options.headers[<span style="color: #A31515">"Content-Length"</span>] = requestBody.length;<br />
+	{{/if}}
+	{{/Body}}
+ {{/Request}}
+<br /><span style="color: #0000FF">var</span> request = https.request (options, <span style="color: #A31515">function</span> (res) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;console.log (<span style="color: #A31515">"statusCode: "</span>, res.statusCode);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;console.log (<span style="color: #A31515">"headers: "</span>, res.headers);
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;res.on (<span style="color: #A31515">"data"</span>, <span style="color: #A31515">function</span> (d) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;process.stdout.write (d);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;});<br />
+});<br />
+<br />
+{{#Response}}
+	{{#Body}}
+    {{#if Description}}
+        request.write (requestBody);<br />
+    {{/if}}
+	{{/Body}}
+{{/Response}}
+request.end ();<br />
+<br />
+request.on (<span style="color: #A31515">"error", function (e)</span> {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;console.error (e);<br />
+});

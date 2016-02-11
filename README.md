@@ -75,6 +75,10 @@ The following are all the basic configuration options. Advanced options are disc
     <td>This defines the url of the specification endpoint. The default is <code>/specification</code>.</td>
   </tr>
   <tr>
+    <td><code>WithFavIcon(string url)</code></td>
+    <td>Url of the favicon.</td>
+  </tr>
+  <tr>
     <td><code>WithTitle(string title)</code></td>
     <td>The title of the documentation page. Defaults to the name if not set.</td>
   </tr>

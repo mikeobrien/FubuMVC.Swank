@@ -5,6 +5,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <if condition='!string.IsNullOrEmpty(Model.Specification.FavIconUrl)'>
+    <link rel="shortcut icon" href="!{Model.Specification.FavIconUrl}"/>
+    </if>
+
     <title>!{Model.Specification.Title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="${Model.Specification.Name}">

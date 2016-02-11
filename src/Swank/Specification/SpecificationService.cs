@@ -84,6 +84,7 @@ namespace FubuMVC.Swank.Specification
             });
 
             var specification = new Specification {
+                FavIconUrl = _configuration.FavIconUrl,
                 Title = _configuration.Title ?? _configuration.Name,
                 Name = _configuration.Name,
                 LogoUrl = _configuration.LogoUrl,

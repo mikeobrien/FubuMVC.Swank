@@ -73,6 +73,15 @@ namespace FubuMVC.Swank
         }
 
         /// <summary>
+        /// Url of the favicon.
+        /// </summary>
+        public Swank WithFavIcon(string url)
+        {
+            _configuration.FavIconUrl = url;
+            return this;
+        }
+
+        /// <summary>
         /// The title of the documentation page. Defaults to the name if not set.
         /// </summary>
         public Swank WithTitle(string title)

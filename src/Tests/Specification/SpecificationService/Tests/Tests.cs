@@ -66,11 +66,13 @@ namespace Tests.Specification.SpecificationService.Tests
         public void should_set_description_to_default_when_none_is_specified()
         {
             var spec = BuildSpec<Tests>(x => x
+            .WithFavIcon("Some favicon")
                 .WithTitle("Some title")
                 .Named("Some API")
                 .WithLogo("logo.png")
                 .WithCopyright("Copyright Now"));
 
+            spec.FavIconUrl.ShouldEqual("Some favicon");
             spec.Title.ShouldEqual("Some title");
             spec.Name.ShouldEqual("Some API");
             spec.LogoUrl.ShouldEqual("logo.png");
