@@ -314,10 +314,10 @@
                 <tr>
                   <td nowrap="nowrap"><code>{{{Name}}}</code></td>
                   <td>
+                      {{{Comments}}}
+
                       {{#Optional}}<span class="badge badge-success">Optional</span>{{/Optional}}
                       {{#Required}}<span class="badge badge-important">Required</span>{{/Required}}
-
-                      {{{Comments}}}
                   </td>
                 </tr>
                 {{/Headers}}
