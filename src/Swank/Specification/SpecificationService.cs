@@ -165,12 +165,13 @@ namespace FubuMVC.Swank.Specification
                     var querystring = chain.FirstCall().HasInput ? GetQuerystringParameters(chain) : null;
                     var url = route.Pattern.EnusureStartsWith("/") + 
                         querystring.Join(y => "{0}={{{0}}}".ToFormat(y.Name), "?", "&", "");
+                    var method = route.AllowedHttpMethods.FirstOrDefault();
                     return _configuration.EndpointOverrides.Apply(chain, new Endpoint {
-                        Id = url.Hash(),
+                        Id = $"{url}:{method}".Hash(),
                         Name = endpoint.WhenNotNull(y => y.Name).OtherwiseDefault(),
                         Comments = endpoint.WhenNotNull(y => y.Comments).OtherwiseDefault(),
                         Url = url,
-                        Method = route.AllowedHttpMethods.FirstOrDefault(),
+                        Method = method,
                         UrlParameters = chain.FirstCall().HasInput ? GetUrlParameters(chain) : null,
                         QuerystringParameters = querystring,
                         Secure = endpoint.Secure,

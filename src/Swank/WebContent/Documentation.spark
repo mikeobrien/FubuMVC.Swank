@@ -15,7 +15,7 @@
     <for each="var stylesheet in Model.Stylesheets">
       <link href="${VirtualPathUtility.ToAbsolute(stylesheet)}" rel="stylesheet">
     </for>
-      
+
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="~/_content/swank/html5shiv.js"></script>
@@ -76,12 +76,12 @@
     </footer>
 
     <!-- ~~~~~~~~~~~~~~~~ Templates ~~~~~~~~~~~~~~~~ -->
-    
+
     <script type="text/html" id="swank-module-template">
         <h3>{{{Name}}}</h3>
         <div>{{{Comments}}}</div>
     </script>
-      
+
     <script type="text/html" id="swank-resource-template">
         <h3>{{{Name}}}</h3>
         <div>{{{Comments}}}</div>
@@ -113,14 +113,14 @@
                 {{/if}}
 
                 {{#Request}}
-                    {{#either Comments Headers Body}}
+                    {{#either Comments Headers Body.Description}}
                         <h4>Request</h4>
                         {{> requestResponse}}
                     {{/either}}
                 {{/Request}}
 
                 {{#Response}}
-                    {{#either Comments Headers Body}}
+                    {{#either Comments Headers Body.Description}}
                         <h4>Response</h4>
                         {{> requestResponse}}
                     {{/either}}
@@ -175,7 +175,7 @@
                     <th>Comments</th>
                 </tr>
             </thead>
-            <tbody>              
+            <tbody>
                 {{#QuerystringParameters}}
                 <tr>
                     <td><strong>{{{Name}}}</strong></td>
@@ -233,7 +233,7 @@
             {{^IsOpening}}
                 {{^IsLastMember}},{{/IsLastMember}}
             {{/IsOpening}}
-        {{/IsMember}}      
+        {{/IsMember}}
     </script>
 
     <script type="text/html" id="swank-xml-body-template">
@@ -257,7 +257,7 @@
                     {{#Required}}<span class="badge badge-important">Required</span>{{/Required}}
                     {{#Optional}}
                         <span class="badge badge-success">Optional</span>
-                    {{/Optional}}   
+                    {{/Optional}}
                         {{#if DefaultValue}}
                             <span class="badge badge-inverse">Default: <code>{{{DefaultValue}}}</code></span>
                         {{/if}}
@@ -312,7 +312,7 @@
                   <td>
                       {{#Optional}}<span class="badge badge-success">Optional</span>{{/Optional}}
                       {{#Required}}<span class="badge badge-important">Required</span>{{/Required}}
-                      
+
                       {{{Comments}}}
                   </td>
                 </tr>
@@ -322,14 +322,13 @@
     </script>
 
     <script type="text/html" id="swank-request-response-template">
- 
+
         <p>{{{Comments}}}</p>
-     
+
         {{#if Headers}}
             {{> headers}}
         {{/if}}
-
-        {{#Body}}
+        {{#if Body.Description}}
             <table class="table table-bordered table-zebra table-last">
                 <thead>
                     <tr>
@@ -343,26 +342,26 @@
                         <th>Comments</th>
                     </tr>
                 </thead>
-                <tbody>  
-                    {{#Description}}
+                <tbody>
+                    {{#Body.Description}}
                         <tr>
-                            <td class="sample-code json" title="Click to copy json..." 
+                            <td class="sample-code json" title="Click to copy json..."
                                 style="display: none;">{{> jsonBody}}</td>
-                            <td class="sample-code xml" title="Click to copy xml..." 
+                            <td class="sample-code xml" title="Click to copy xml..."
                                 style="display: none;">{{> xmlBody}}</td>
                             <td>
                                 {{> bodyDescription}}
                             </td>
                         </tr>
-                    {{/Description}}
+                    {{/Body.Description}}
                 </tbody>
             </table>
-      {{/Body}}
+      {{/if}}
     </script>
-    
+
     <script type="text/html" id="swank-code-examples-template">
         <h4>Examples</h4>
-      
+
         <ul class="nav nav-tabs" role="tablist">
           <for each="var example in Model.CodeExamples">
           <li class="active?{example.First}"><a href="#code-example-{{Id}}-!{example.Id}" role="tab" data-toggle="tab">!{example.Name}</a></li>
@@ -399,7 +398,7 @@
                 </tr>
                 {{/StatusCodes}}
             </tbody>
-        </table>      
+        </table>
     </script>
 
     <script type="text/html" id="swank-options-template">
@@ -416,9 +415,9 @@
                   </tr>
               {{/Options}}
           </tbody>
-          </table>  
+          </table>
     </script>
-   
+
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
     <script src="~/_content/swank/js/es5-shim.js" type="text/javascript"></script>
@@ -432,19 +431,19 @@
       String.prototype.flatten = function() {
           return this.trim().split(/\r?\n/).map(function(x) { return x.trim(); }).join('');
       };
-      
-      window.Swank = { 
-          Config: { 
+
+      window.Swank = {
+          Config: {
               ShowJson: ${Model.ShowJsonFormat.ToString().ToLower()},
               ShowXml: ${Model.ShowXmlFormat.ToString().ToLower()}
           },
-          Spec: !{Model.Specification.SerializeJson()} 
+          Spec: !{Model.Specification.SerializeJson()}
       };
-      
+
     </script>
-    
+
     <script src="~/_content/swank/js/swank.js" type="text/javascript"></script>
-    
+
     <for each="var script in Model.Scripts">
     <script src="${VirtualPathUtility.ToAbsolute(script)}" type="text/javascript"></script>
     </for>

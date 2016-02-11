@@ -12,7 +12,7 @@ namespace Tests.Specification.SpecificationService.EndpointTests
             const string url = "/endpointdescriptions/nodescription";
             var endpoint = Spec.GetEndpoint<EndpointDescriptions.NoDescriptionGetHandler>();
 
-            endpoint.Id.ShouldEqual(url.Hash());
+            endpoint.Id.ShouldEqual($"{url}:GET".Hash());
             endpoint.Url.ShouldEqual(url);
         }
 

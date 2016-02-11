@@ -96,5 +96,10 @@ namespace FubuMVC.Swank.Extensions
                 .Where(x => !string.IsNullOrEmpty(x))
                 .Aggregate((a, i) => a + i);
         }
+
+        public static string NormalizeLineBreaks(this string value)
+        {
+            return value.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n");
+        }
     }
 }

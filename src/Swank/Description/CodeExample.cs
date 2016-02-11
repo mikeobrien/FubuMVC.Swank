@@ -44,7 +44,7 @@ namespace FubuMVC.Swank.Description
                     Comments = x.CommentsPath != null ? File.ReadAllText(x.CommentsPath)
                         .TransformIfMarkdownFile(x.CommentsPath) : null,
                     Template = x.TemplatePath != null ? PreProcessTemplate(
-                        File.ReadAllText(x.TemplatePath)) : null
+                        File.ReadAllText(x.TemplatePath).NormalizeLineBreaks()) : null
                 });
         }
 
