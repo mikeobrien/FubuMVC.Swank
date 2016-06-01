@@ -1,7 +1,7 @@
 FubuMVC Swank
 =============
 
-[![Nuget](http://img.shields.io/nuget/v/FubuMVC.Swank.svg?style=flat)](http://www.nuget.org/packages/FubuMVC.Swank/) [![Nuget downloads](http://img.shields.io/nuget/dt/FubuMVC.Swank.svg?style=flat)](http://www.nuget.org/packages/FubuMVC.Swank/) [![TeamCity Build Status](https://img.shields.io/teamcity/http/build.mikeobrien.net/s/fubumvcswank.svg?style=flat)](http://build.mikeobrien.net/viewType.html?buildTypeId=fubumvcswank&guest=1)
+[![Nuget](http://img.shields.io/nuget/v/FubuMVC.Swank.svg?style=flat)](http://www.nuget.org/packages/FubuMVC.Swank/) [![TeamCity Build Status](https://img.shields.io/teamcity/http/build.mikeobrien.net/s/fubumvcswank.svg?style=flat)](http://build.mikeobrien.net/viewType.html?buildTypeId=fubumvcswank&guest=1)
 
 Swank is a [FubuMVC](http://mvc.fubu-project.org/) [plugin](http://bottles.fubu-project.org/what-is-bottles/) that allows you to describe and publish documentation for RESTful services. Take a look at the [sample documentation](http://www.mikeobrien.net/FubuMVC.Swank) and read the talking points to find out more:
 
