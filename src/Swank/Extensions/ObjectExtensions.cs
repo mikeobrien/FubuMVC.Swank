@@ -45,7 +45,10 @@ namespace FubuMVC.Swank.Extensions
 
         public static string SerializeJson<T>(this T source)
         {
-            return new JavaScriptSerializer().Serialize(source);
+            return new JavaScriptSerializer
+            {
+                MaxJsonLength = int.MaxValue
+            }.Serialize(source);
         }
 
         public static string ToSampleValueString(this object value, Configuration configuration)
